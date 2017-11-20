@@ -1,0 +1,389 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="IE=Edge, Chrome=1">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
+    <title>数据录入</title>
+    <link rel="stylesheet" href="vendor/offline/theme.css">
+    <link rel="stylesheet" href="vendor/pace/theme.css">
+    <link rel="stylesheet" href="vendor/jvectormap/jquery-jvectormap-1.2.2.css">
+    <link rel="stylesheet" href="vendor/bxslider/jquery.bxslider.css">
+    <link rel="stylesheet" href="vendor/bootstrap-select/bootstrap-select.css">
+    <link rel="stylesheet" href="vendor/bootstrap-datepicker/datepicker.css">
+
+    <link rel="stylesheet" href="../asset/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/animate.min.css">
+
+    <link rel="stylesheet" href="css/panel.css">
+
+    <link rel="stylesheet" href="css/skins/palette.1.css" id="skin">
+    <link rel="stylesheet" href="css/fonts/style.1.css" id="font">
+    <link rel="stylesheet" href="css/main.css">
+
+
+    <!--[if lt IE 9]>
+    <script src="js/html5shiv.js"></script>
+    <script src="js/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+<div class="app" data-sidebar="locked" id="client">
+    <navbar :user="user" :message="message"></navbar>
+    <section class="layout">
+        <sidebar :links="sidebarLinks"></sidebar>
+        <section class="main-content">
+            <div class="content-wrap">
+                <div class="row mg-b">
+                    <div class="col-xs-12">
+                        <h3 class="no-margin">数据录入</h3>
+                        <small>手工往数据库内录入数据</small>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <section class="panel">
+                            <header class="panel-heading">
+                                <form class="form form-inline">
+                                    <div class="form-group">
+                                        <label class="control-label">每页显示</label>
+                                        <select v-model="table.numberPerPage" class="form-control" data-style="btn-primary">
+                                            <option value="5">5</option>
+                                            <option value="10">10</option>
+                                            <option value="15">15</option>
+                                            <option value="20">20</option>
+                                            <option value="25">25</option>
+                                        </select>
+                                        <label class="control-label">页</label>
+                                    </div>
+                                </form>
+                            </header>
+                            <div class="panel-body padding">
+                                <form class="form-horizontal" role="form">
+                                    <div class="form-group">
+                                        <label class="col-sm-1 control-label">TITLE</label>
+                                        <div class="col-sm-11">
+                                            <input type="text" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-1 control-label">LOCUS</label>
+                                        <div class="col-sm-3">
+                                            <input type="text" class="form-control">
+                                        </div>
+                                        <label class="col-sm-1 control-label">PDBID</label>
+                                        <div class="col-sm-3">
+                                            <input type="text" class="form-control">
+                                        </div>
+                                        <label class="col-sm-1 control-label">DATE</label>
+                                        <div class="col-sm-3">
+                                            <input type="text" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-1 control-label">DBSOURCE</label>
+                                        <div class="col-sm-11">
+                                            <input type="text" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-1 control-label">SOURCE</label>
+                                        <div class="col-sm-11">
+                                            <input type="text" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-1 control-label">ORGANISM</label>
+                                        <div class="col-sm-11">
+                                            <input type="text" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-1 control-label">MICROBE</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control">
+                                        </div>
+                                        <label class="col-sm-1 control-label">COUNTRY</label>
+                                        <div class="col-sm-2">
+                                            <input type="text" class="form-control">
+                                        </div>
+                                    </div>
+                                    <h4 class="mg">REFERENCE 1：</h4>
+                                    <div class="form-group">
+                                        <label class="col-sm-1 control-label">TITLE</label>
+                                        <div class="col-sm-11">
+                                            <input type="text" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-1 control-label">AUTHOR</label>
+                                        <div class="col-sm-5">
+                                            <input type="text" class="form-control">
+                                        </div>
+                                        <label class="col-sm-1 control-label">JOURNAL</label>
+                                        <div class="col-sm-2">
+                                            <input type="text" class="form-control">
+                                        </div>
+                                        <label class="col-sm-1 control-label">PUBMED</label>
+                                        <div class="col-sm-2">
+                                            <input type="text" class="form-control">
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-default center-block mg-b">新增引用</button>
+                                    <div class="form-group">
+                                        <label class="col-sm-1 control-label">ORIGIN</label>
+                                        <div class="col-sm-11">
+                                            <textarea class="form-control" rows="5"></textarea>
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-default center-block">提交数据</button>
+                                </form>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div id="panelCreate" class="panel panel-color sr-only panel-custom">
+            <div class="panel-heading">
+                新建角色
+                <small class="pull-right text-white">
+                    <a class="fa fa-chevron-down panel-collapsible pd-r-xs" href="javascript:;"></a>
+                    <a class="fa fa-times panel-remove" href="javascript:easyDialog.close();"></a>
+                </small>
+            </div>
+            <div class="panel-body">
+                <form class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">角色名称</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">拥有权限</label>
+                        <div class="col-sm-10">
+                            <select multiple="" class="form-control selectpicker">
+                                <option value="1">用户管理</option>
+                                <option value="2">数据管理</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-default center-block">创建用户</button>
+                </form>
+            </div>
+        </div>
+        <div id="panelView" class="panel panel-color sr-only panel-custom">
+            <div class="panel-heading">
+                查看角色详情
+                <small class="pull-right text-white">
+                    <a class="fa fa-chevron-down panel-collapsible pd-r-xs" href="javascript:;" @click="hidePanelBody($event)"></a>
+                    <a class="fa fa-times panel-remove" href="javascript:easyDialog.close();"></a>
+                </small>
+            </div>
+            <div class="panel-body">
+                <form class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <div class="col-sm-2">角色名称：</div>
+                        <div class="col-sm-10">系统管理员</div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-2">拥有权限：</div>
+                        <ul class="col-sm-10">
+                            <li class="row mg-b-sm">
+                                <div class="col-sm-3">用户管理</div>
+                                <div class="col-sm-9">创建、删除用户已经修改用户权限</div>
+                            </li>
+                            <li class="row mg-b-sm">
+                                <div class="col-sm-3">用户管理</div>
+                                <div class="col-sm-9">创建、删除用户已经修改用户权限</div>
+                            </li>
+                            <li class="row mg-b-sm">
+                                <div class="col-sm-3">用户管理</div>
+                                <div class="col-sm-9">创建、删除用户已经修改用户权限</div>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+</div>
+<script src="../asset/js/frame/jquery-1.11.1.min.js"></script>
+<script src="bootstrap/js/bootstrap.js"></script>
+<script src="../asset/js/frame/vue.js"></script>
+<script src="vendor/bootstrap-select/bootstrap-select.js"></script>
+<script src="vendor/bootstrap-datepicker/bootstrap-datepicker.js"></script>
+<script src="../asset/easyDialog/js/easydialog.min.js"></script>
+<script src="js/components/header.js"></script>
+<script src="js/components/sidebar.js"></script>
+<script src="config/config.js"></script>
+<script>
+    var Links = {
+        methods: {},
+        connect: function (data) {
+            var method = data.method;
+            try {
+                if (!method) {
+                    throw new Error("");
+                }
+                Links.methods[method].run(data.param);
+            } catch (error) {
+                console.warn(error);
+            }
+        }
+    };
+    Links.methods.get = {
+        run: function (param) {
+            $.ajax({
+                type: "GET",
+                url: param.url,
+                data: param.data,
+                success: param.successFn,
+                error: param.errorFn
+            });
+        }
+    };
+    Links.methods.post = {
+        run: function (param) {
+            $.ajax({
+                type: "POST",
+                url: param.url,
+                data: param.data,
+                success: param.successFn,
+                error: param.errorFn
+            });
+        }
+    };
+    var Client = new Vue({
+        el: "#client",
+        data: {
+            user: {
+                name: "陈煦"
+            },
+            message: [
+                { username: "陈煦", operation: "修改了系统管理员身份"}
+            ],
+            sidebarLinks: [],
+            user: {
+                userAccount: "",
+                time: ""
+            },
+            table: {
+                // 分页部分
+                recordNumber: 0,    // 数据数目
+                numberPerPage: 10,  // 每页显示数据数
+                pageNumber: 0,      // 总页数
+                currentPage: 1,     // 当前页码
+                inputPage: 1,       // 输入框页码
+                // 检索部分
+                searchType : 1,
+                searchParam: "",
+                startDate: "",
+                endDate: ""
+            },
+            record: {
+                title: "",
+                locus: "",
+                pdbId: "",
+                dbsource: "",
+                source: "",
+                organism: "",
+                date: "",
+                country: "",
+                origin: "",
+                author1: "",
+                title1: "",
+                journal1: "",
+                pubmed1: "",
+                abstract1: "",
+                author2: "",
+                title2: "",
+                journal2: "",
+                pubmed2: "",
+                abstract2: "",
+                author3: "",
+                title3: "",
+                journal3: "",
+                pubmed3: "",
+                abstract3: "",
+                author4: "",
+                title4: "",
+                journal4: "",
+                pubmed4: "",
+                abstract4: ""
+            }
+        },
+        components: {
+            "navbar": header,
+            "sidebar": sidebar
+        },
+        mounted: function () {
+            this.$nextTick(function () {
+                $("#startDate").datepicker({"format": "yyyy-mm-dd"});
+                $("#endDate").datepicker({"format": "yyyy-mm-dd"});
+                $(".selectpicker").selectpicker();
+                this.getSidebar();
+                this.getroleList();
+            })
+        },
+        methods: {
+            hidePanelBody: function(event) {
+                $(event.target).parent().parent().next().slideToggle("slow");
+            },
+            getSidebar: function () {
+                var data = {
+                    method: "get",
+                    param: {
+                        url: Service.getUrl(1),
+                        data: {},
+                        successFn: Client.getSidebarCallback,
+                        errorFn: Client.errorCallback
+                    }
+                };
+                Links.connect(data);
+            },
+            getroleList: function () {
+                var data = {
+                    method: "get",
+                    param: {
+                        url: Service.getUrl(3),
+                        data: {},
+                        successFn: Client.getRoleCallback,
+                        errorFn: Client.errorCallback
+                    }
+                };
+                Links.connect(data);
+            },
+            insertData: function () {
+
+            },
+            getSidebarCallback: function (msg) {
+                var msg = JSON.parse(msg);
+                if (Number(msg.code) === 1) {
+                    this.sidebarLinks = msg.data;
+                } else {
+                    console.log("返回数据失败！");
+                }
+            },
+            getRoleCallback: function (msg) {
+                var msg = JSON.parse(msg);
+                if (Number(msg.code) === 1) {
+                    this.roleList = msg.data;
+                    this.roleListAfterSearch = msg.data;
+                } else {
+                    console.log("返回数据失败！");
+                }
+            },
+            errorCallback: function (status) {
+                console.error(status);
+            }
+        }
+    });
+</script>
+</body>
+</html>

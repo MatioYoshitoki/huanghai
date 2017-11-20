@@ -1,0 +1,639 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="IE=Edge, Chrome=1">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
+    <title>用户管理</title>
+    <link rel="stylesheet" href="vendor/bootstrap-select/bootstrap-select.css">
+    <link rel="stylesheet" href="vendor/bootstrap-datepicker/datepicker.css">
+    <link rel="stylesheet" href="../asset/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/animate.min.css">
+    <link rel="stylesheet" href="../asset/easyDialog/css/easydialog.css">
+
+    <link rel="stylesheet" href="css/main.css">
+    <!--[if lt IE 9]>
+        <script src="js/html5shiv.js"></script>
+        <script src="js/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+<div class="app" data-sidebar="locked" id="client">
+    <navbar :user="user" :message="message"></navbar>
+    <section class="layout">
+        <sidebar :links="sidebarLinks"></sidebar>
+        <section class="main-content">
+            <div class="content-wrap">
+                <div class="row mg-b">
+                    <div class="col-xs-12">
+                        <h3 class="no-margin">用户管理</h3>
+                        <small>新增、删除用户，修改用户信息</small>
+                        <div @click="openPanel('panelCreate')" class="btn btn-info pull-right">新建用户</div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <section class="panel">
+                            <header class="panel-heading">
+                                <form class="form form-inline">
+                                    <div class="form-group">
+                                        <label class="control-label">每页显示</label>
+                                        <select v-model="table.numberPerPage" class="form-control" data-style="btn-primary">
+                                            <option value="5">5</option>
+                                            <option value="10">10</option>
+                                            <option value="15">15</option>
+                                            <option value="20">20</option>
+                                            <option value="25">25</option>
+                                        </select>
+                                        <label class="control-label">页</label>
+                                    </div>
+                                    <div class="form-group pull-right">
+                                        <label class="control-label">检索条件：</label>
+                                        <select v-model="table.searchType" class="form-control" data-style="btn-primary">
+                                            <option value="1">用户账号</option>
+                                            <option value="2">用户姓名</option>
+                                            <option value="3">分配角色</option>
+                                            <option value="4">创建日期</option>
+                                            <option value="5">修改日期</option>
+                                        </select>
+                                        <input v-model="table.searchParam" v-show="table.searchType < 4" class="form-control" type="text" />
+                                        <div v-show="table.searchType >= 4" class="input-group input-append date datepicker">
+                                            <input v-model="table.startDate" type="text" class="form-control" id="startDate" style="width: 100px;">
+                                            <input v-model="table.endDate" type="text" class="form-control" id="endDate" style="width: 100px;">
+                                            <span class="input-group-btn">
+                                                <button @click="searchUserByDate()" class="btn btn-white" type="button">
+                                                    <i class="fa fa-calendar"></i>
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </form>
+                            </header>
+                            <div class="panel-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered responsive" data-sortable>
+                                        <thead>
+                                        <tr>
+                                            <th class="text-center">用户账号</th>
+                                            <th class="text-center">用户姓名</th>
+                                            <th class="text-center">用户性别</th>
+                                            <th class="text-center">分配角色</th>
+                                            <th class="text-center">创建日期</th>
+                                            <th class="text-center">修改日期</th>
+                                            <th class="text-center">相关操作</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr v-for="item in userListAfterSearch">
+                                            <td v-text="item.userAccount"></td>
+                                            <td v-text="item.userName"></td>
+                                            <td class="text-center">
+                                                <span v-if="Number(item.userGender) === 0">男</span>
+                                                <span v-else-if="Number(item.userGender) === 1">女</span>
+                                            </td>
+                                            <td v-text="item.userRoleName"></td>
+                                            <td class="text-center" v-text="item.userCreate"></td>
+                                            <td class="text-center" v-text="item.userModify"></td>
+                                            <td class="text-center">
+                                                <button @click="openPanel('panelModify', item)" class="btn btn-default">
+                                                    <i class="fa fa-money"></i>修改
+                                                </button>
+                                                <button @click="openPanel('panelDelete', item)" class="btn btn-default mg-l">
+                                                    <i class="fa fa-money"></i>删除
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="page-container">
+                                    <div class="pull-left">
+                                        共 <span v-text="table.recordNumber"></span> 条数据，
+                                        共 <span v-text="table.pageNumber"></span> 页
+                                    </div>
+                                    <ul class="pagination no-margin pull-right">
+                                        <li>
+                                            <a v-if="table.currentPage == 1" href="javascript:;" style="background-color: #ccc; color: #fff;">上一页</a>
+                                            <a v-else @click="skipPage(1)" href="javascript:;">上一页</a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:;" class="no-padding">
+                                                <input type="text" v-model="table.inputPage" class="text-center" style="width: 50px; padding: 4px;" />
+                                            </a>
+                                        </li>
+                                        <li><a @click="skipPage(2)" href="javascript:;">跳页</a></li>
+                                        <li>
+                                            <a v-if="table.currentPage == table.pageNumber" href="javascript:;" style="background-color: #ccc; color: #fff;">下一页</a>
+                                            <a v-else @click="skipPage(3)" href="javascript:;">下一页</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div id="panelCreate" class="panel panel-color sr-only panel-custom">
+            <div class="panel-heading">
+                新建用户
+                <small class="pull-right text-white">
+                    <a class="fa fa-chevron-down panel-collapsible pd-r-xs" href="javascript:;" @click="hidePanelBody($event)"></a>
+                    <a class="fa fa-times panel-remove" href="javascript:easyDialog.close();"></a>
+                </small>
+            </div>
+            <div class="panel-body">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">用户账号</label>
+                        <div class="col-sm-10">
+                            <input v-model="create.userAccount" type="text" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">用户姓名</label>
+                        <div class="col-sm-10">
+                            <input v-model="create.userName" type="text" class="form-control">
+                            <p class="help-block">Example block-level help text here.</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">用户性别</label>
+                        <div class="col-sm-10">
+                            <div class="radio pull-left">
+                                <label><input v-model="create.userGender" type="radio" name="gender" value="0" checked>男</label>
+                            </div>
+                            <div class="radio pull-left mg-l">
+                                <label><input v-model="create.userGender" type="radio" name="gender" value="1">女</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">用户权限</label>
+                        <div class="col-sm-10">
+                            <select v-model="create.userRole" class="form-control selectpicker" data-style="btn-primary">
+                                <option value="1">系统管理员</option>
+                                <option value="2">系统使用人员</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+                <button @click="request('create')" class="btn btn-default center-block">创建用户</button>
+            </div>
+        </div>
+        <div id="panelModify" class="panel panel-color sr-only panel-custom">
+            <div class="panel-heading">
+                修改用户
+                <small class="pull-right text-white">
+                    <a class="fa fa-chevron-down panel-collapsible pd-r-xs" href="javascript:;" @click="hidePanelBody($event)"></a>
+                    <a class="fa fa-times panel-remove" href="javascript:easyDialog.close();"></a>
+                </small>
+            </div>
+            <div class="panel-body">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">用户姓名</label>
+                        <div class="col-sm-10">
+                            <input v-model="modify.userName" type="text" class="form-control">
+                            <p class="help-block">Example block-level help text here.</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">用户性别</label>
+                        <div class="col-sm-10">
+                            <div class="radio pull-left">
+                                <label><input v-model="modify.userGender" type="radio" name="gender" value="0" checked>男</label>
+                            </div>
+                            <div class="radio pull-left mg-l">
+                                <label><input v-model="modify.userGender" type="radio" name="gender" value="1">女</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">用户权限</label>
+                        <div class="col-sm-10">
+                            <select v-model="modify.userRole" class="form-control selectpicker" data-style="btn-primary">
+                                <option value="1">系统管理员</option>
+                                <option value="2">系统使用人员</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+                <button @click="request('modify')" class="btn btn-default center-block">修改用户</button>
+            </div>
+        </div>
+        <div id="panelDelete" class="panel panel-color sr-only panel-custom">
+            <div class="panel-heading">
+                删除用户
+                <small class="pull-right text-white">
+                    <a class="fa fa-chevron-down panel-collapsible pd-r-xs" href="javascript:;" @click="hidePanelBody($event)"></a>
+                    <a class="fa fa-times panel-remove" href="javascript:easyDialog.close();"></a>
+                </small>
+            </div>
+            <div class="panel-body">
+                确定删除<strong class="text-info" v-text="del.userName"></strong>该用户吗？
+                <button @click="request('delete')" class="btn btn-default center-block">确定删除</button>
+            </div>
+        </div>
+    </section>
+</div>
+<script src="../asset/js/frame/jquery-1.11.1.min.js"></script>
+<script src="bootstrap/js/bootstrap.js"></script>
+<script src="../asset/js/frame/vue.js"></script>
+<script src="vendor/bootstrap-select/bootstrap-select.js"></script>
+<script src="vendor/bootstrap-datepicker/bootstrap-datepicker.js"></script>
+<script src="../asset/easyDialog/js/easydialog.min.js"></script>
+<script src="config/config.js"></script>
+<script src="js/components/header.js"></script>
+<script src="js/components/sidebar.js"></script>
+<script src="js/base.js"></script>
+<script>
+    var Client = new Vue({
+        el: "#client",
+        data: {
+            user: {
+                name: ""
+            },
+            message: [
+                { username: "陈煦", operation: "修改了系统管理员身份"}
+            ],
+            sidebarLinks: [],
+            userList: [],
+            userListAfterSearch: [],
+            table: {
+                // 分页部分
+                recordNumber: 0,    // 数据数目
+                numberPerPage: 10,  // 每页显示数据数
+                pageNumber: 0,      // 总页数
+                currentPage: 1,     // 当前页码
+                inputPage: 1,       // 输入框页码
+                // 检索部分
+                searchType : 1,
+                searchParam: "",
+                startDate: "",
+                endDate: ""
+            },
+            create: {
+                userAccount: "",
+                userName: "",
+                userGender: "",
+                userRole: "",
+                userCreate: ""
+            },
+            modify: {
+                userId: "",
+                userName: "",
+                userGender: "",
+                userRole: "",
+                userModify: ""
+            },
+            del: {
+                userId: "",
+                userName: ""
+            }
+        },
+        watch: {
+            "userList": function() {
+                var table = this.table;
+
+                // 修改总页数和记录数
+                this.table.recordNumber = this.userList.length;
+                this.table.pageNumber = Math.ceil(this.table.recordNumber / table.numberPerPage);
+                // 判断当前页是否大于总页数，若是则减一
+                if(table.currentPage > this.table.pageNumber) {
+                    this.table.currentPage--;
+                }
+            },
+            "table.numberPerPage": function() {
+                var table = this.table,
+                    startPos = table.numberPerPage * (table.currentPage - 1);
+                // 修改总页数
+                this.table.pageNumber = Math.ceil(table.recordNumber / table.numberPerPage);
+                // 修改页面显示的用户列表
+                this.userListAfterSearch = this.userList.slice(startPos, startPos + table.numberPerPage);
+            },
+            "table.currentPage": function() {
+                this.paging();
+            },
+            "table.searchParam": function() {
+                var type = Number(this.table.searchType),
+                    table = this.table,
+                    startPos = table.numberPerPage * (table.currentPage - 1),
+                    userList = this.userList,
+                    afterList = [],
+                    item = null,
+                    search = this.table.searchParam,
+                    length = userList.length,
+                    loop = 0;
+
+                switch(type) {
+                    case 1: {
+                        for(loop = 0; loop < length; loop++) {
+                            item = userList[loop];
+                            if(item.userAccount.indexOf(search) !== -1) {
+                                afterList.push(item);
+                            }
+                        }
+                        break;
+                    }
+                    case 2: {
+                        for(loop = 0; loop < length; loop++) {
+                            item = userList[loop];
+                            if(item.userName.indexOf(search) !== -1) {
+                                afterList.push(item);
+                            }
+                        }
+                        break;
+                    }
+                    case 3: {
+                        for(loop = 0; loop < length; loop++) {
+                            item = userList[loop];
+                            if(item.userRoleName.indexOf(search) !== -1) {
+                                afterList.push(item);
+                            }
+                        }
+                        break;
+                    }
+                }
+                this.userListAfterSearch = afterList.slice(startPos, startPos + table.numberPerPage);
+                // 修改总页数和总记录数
+                this.table.pageNumber = Math.ceil(afterList.length / table.numberPerPage);
+                this.table.recordNumber = afterList.length;
+            }
+        },
+        components: {
+            "navbar": header,
+            "sidebar": sidebar
+        },
+        mounted: function () {
+            this.$nextTick(function () {
+                init(Client, function() {
+                    $("#startDate").datepicker({"format": "yyyy-mm-dd"});
+                    $("#endDate").datepicker({"format": "yyyy-mm-dd"});
+                    $(".selectpicker").selectpicker();
+                    Client.request("getUserList");
+                });
+            })
+        },
+        methods: {
+            /**
+             * 打开弹窗（面板）
+             * @param panel 弹窗（面板）的 ID
+             * @param item  传递给弹窗（面板）的数据
+             */
+            openPanel: function(panel, item) {
+                $("#" + panel).removeClass("sr-only");
+                easyDialog.open({
+                    "container": panel
+                });
+                if(panel === "panelModify") {
+                    this.modify = item;
+                } else if(panel === "panelDelete") {
+                    this.del = item;
+                }
+            },
+            /**
+             * 隐藏弹窗（面板）的主体部分
+             * @param obj 隐藏按钮对象
+             */
+            hidePanelBody: function(obj) {
+                $(obj.target).parent().parent().next().slideToggle("slow");
+            },
+            /**
+             * 向后台发起请求
+             * @param type 请求的类型
+             */
+            request: function(type) {
+                var data = null,
+                    url = null,
+                    successFn = null,
+                    errorFn = null,
+                    item = null;
+
+                if(type === "getUserList") {
+                    data = {};
+                    url = Service.getUrl(2);
+                    successFn = Client.getUserCallback;
+                } else if(type === "create") {
+                    item = this.create;
+                    url = Service.getUrl(99);
+                    data = {
+                        userName: item.userName,
+                        userGender: item.userGender,
+                        userRole: item.userRole,
+                        userAccount: item.userAccount,
+                        operator: this.user.name
+                    };
+                    successFn = Client.createUserCallback;
+                } else if(type === "modify") {
+                    item = this.modify;
+                    url = Service.getUrl(99);
+                    data = {
+                        userId: item.userId,
+                        userName: item.userName,
+                        userGender: item.userGender,
+                        userRole: item.userRole,
+                        operator: this.user.name
+                    };
+                    successFn = Client.modifyUserCallback;
+                } else if(type === "delete") {
+                    item = this.del;
+                    url = Service.getUrl(99);
+                    data = {
+                        userId: item.userId
+                    };
+                    successFn = Client.deleteUserCallback;
+                }
+                Links.connect({
+                    method: "post",
+                    param: {
+                        url: url,
+                        data: data,
+                        successFn: successFn,
+                        errorFn: errorFn
+                    }
+                });
+            },
+            searchUserByDate: function() {
+                var type = Number(this.table.searchType),
+                    startDate = $("#startDate").val(),
+                    endDate = $("#endDate").val(),
+                    table = this.table,
+                    startPos = table.numberPerPage * (table.currentPage - 1),
+                    date = new Date(),
+                    userList = this.userList,
+                    afterList = [],
+                    item = null,
+                    length = userList.length,
+                    loop = 0;
+
+                if(startDate === "") {
+                    startDate = "1970-01-01 00:00:00";
+                } else {
+                    startDate += " 00:00:00";
+                }
+                if(endDate === "") {
+                    endDate = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " 23:59:59";
+                } else {
+                    endDate += " 23:59:59";
+                }
+                console.log(startDate);
+                console.log(endDate);
+                if(type === 4) {
+                    for(loop = 0; loop < length; loop++) {
+                        item = userList[loop];
+                        if(item.userCreate >= startDate && item.userCreate <= endDate) {
+                            afterList.push(item);
+                        }
+                    }
+                } else if(type === 5) {
+                    for(loop = 0; loop < length; loop++) {
+                        item = userList[loop];
+                        if(item.userModify >= startDate && item.userModify <= endDate) {
+                            afterList.push(item);
+                        }
+                    }
+                }
+
+                this.userListAfterSearch = afterList.slice(startPos, startPos + table.numberPerPage);
+                // 修改总页数和总记录数
+                this.table.pageNumber = Math.ceil(afterList.length / table.numberPerPage);
+                this.table.recordNumber = afterList.length;
+            },
+            /**
+             * 根据用户号找到相应数据在列表中的下标
+             * @param userId 用户号
+             */
+            searchUser: function(userId) {
+                var userList = this.userList,
+                    item = null,
+                    length = 0,
+                    loop = 0;
+
+                for(loop = 0, length = userList.length; loop < length; loop++) {
+                    item = userList[loop];
+                    if(item.userId === userId) {
+                        return loop;
+                    }
+                }
+                return -1;
+            },
+            /**
+             * 跳页操作
+             * @param type 跳页操作类型 1：上一页 2：跳页 3：下一页
+             */
+            skipPage: function(type) {
+                var type = Number(type),
+                    skipPage = Number(this.table.currentPage),
+                    validator = new Validator();
+
+                switch(Number(type)) {
+                    case 1: { skipPage--; break; }
+                    case 2: { skipPage = this.table.inputPage; break; }
+                    case 3: { skipPage++; break; }
+                }
+                // 判断跳往页数是否合法（上一页和下一页已经通过页面进行限制，因此该条件判断只针对跳页）
+                if(validator.pages(skipPage, this.table.pageNumber)) {
+                    this.table.currentPage = skipPage;
+                } else {
+                    Dialog.tip("请输入正确的页码");
+                    this.table.inputPage = this.table.currentPage;
+                }
+            },
+            /**
+             * 分页操作
+             */
+            paging: function() {
+                var table = this.table,
+                    startPos = table.numberPerPage * (table.currentPage - 1);
+                // 修改总页数
+                this.table.pageNumber = Math.ceil(table.recordNumber / table.numberPerPage);
+                // 修改页面显示的用户列表
+                this.userListAfterSearch = this.userList.slice(startPos, startPos + table.numberPerPage);
+            },
+            /**
+             * 执行获取用户列表操作的回调函数
+             * @param msg 服务器返回的 JSON 对象
+             */
+            getUserCallback: function (msg) {
+                var msg = JSON.parse(msg);
+                if (Number(msg.code) === 1) {
+                    this.userList = msg.data;
+                    this.userListAfterSearch = this.userList;
+                } else {
+                    Dialog.warn(msg.msg);
+                }
+            },
+            /**
+             * 创建用户回调函数
+             * @param msg 服务器返回的对象
+             */
+            createUserCallback: function(msg) {
+                var msg = JSON.parse(msg);
+
+                // 若回调函数执行成功，则将相应的数据添加到列表中
+                if (Number(msg.code) === 1) {
+                    this.create.userCreate = getDate();
+                    this.userList.push(this.create);
+                    this.paging();
+                    Dialog.tip(msg.msg);
+                } else {
+                    Dialog.warn(msg.msg);
+                }
+            },
+            /**
+             * 修改用户回调函数
+             * @param msg 服务器返回的对象
+             */
+            modifyUserCallback: function(msg) {
+                var msg = JSON.parse(msg),
+                    index = null,
+                    modifyObj = this.modify;
+
+                // 若回调函数执行成功，则将相应的数据进行修改
+                if (Number(msg.code) === 1) {
+                    index = this.searchUser(modifyObj.roleId);
+                    if(index !== -1) {
+                        modifyObj.userModify = getDate();
+                        this.userList[index] = modifyObj;
+                        this.userList.push();
+                    }
+                    Dialog.tip(msg.msg);
+                } else {
+                    Dialog.warn(msg.msg);
+                }
+            },
+            /**
+             * 删除用户回调函数
+             * @param msg 服务器返回的对象
+             */
+            deleteUserCallback: function(msg) {
+                var msg = JSON.parse(msg),
+                    index = null,
+                    deleteObj = this.del,
+                    userList = this.userList,
+                    length = 0,
+                    loop = 0;
+
+                // 若回调函数执行成功，则将相应的数据从列表中删除
+                if (Number(msg.code) === 1) {
+                    index = this.searchUser(deleteObj.userId);
+                    if(index !== -1) {
+                        for(loop = index + 1, length = userList.length; loop < length; loop++) {
+                            userList[loop - 1] = userList[loop];
+                        }
+                        userList.pop();
+                        this.userList = userList;
+                        this.paging();
+                    }
+                    Dialog.tip(msg.msg);
+                } else {
+                    Dialog.warn(msg.msg);
+                }
+            }
+        }
+    });
+</script>
+</body>
+</html>

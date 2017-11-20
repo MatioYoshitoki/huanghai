@@ -1,0 +1,100 @@
+<!doctype html>
+<html class="lockscreen no-js">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="IE=Edge, Chrome=1">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
+    <title>锁屏页面</title>
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="../asset/easyDialog/css/easydialog.css">
+
+    <link rel="stylesheet" href="css/main.css">
+    <!--[if lt IE 9]>
+        <script src="js/html5shiv.js"></script>
+        <script src="js/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body class="bg-primary center-wrapper">
+    <div class="center-content">
+        <div class="user-container">
+            <div class="text-center">
+                <img class="img-circle bd-b bd-r" src="img/avatar.jpg" alt="user">
+                <span id="userName" class="center-block pd-t-md"></span>
+                <small id="userRoleName"></small>
+            </div>
+            <div class="center-block lockcode mg-t">
+                <div>
+                    <div class="input-group mb15 mt25">
+                        <input id="password" type="password" class="form-control lock-input" id="password" placeholder="输入用户密码">
+                        <span class="input-group-btn">
+                            <button id="reloginBtn" class="btn btn-white">
+                                <i class="fa fa-arrow-circle-o-right"></i>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="../asset/js/frame/jquery-1.11.1.min.js"></script>
+<script src="../asset/easyDialog/js/easydialog.min.js"></script>
+<script src="config/config.js"></script>
+<script src="js/base.js"></script>
+<script>
+    $(document).ready(function() {
+        var user = JSON.parse(sessionStorage.getItem("user"));
+
+        if(!user) {
+            Dialog.custom(
+                "提示",
+                "抱歉，您还没有登录，请登录后再进入该页面",
+                function() {
+                    location.href = "signin.html";
+                }
+            )
+        } else {
+            $("#userName").text(user.userName);
+            $("#userRoleName").text(user.roleName);
+            $("#reloginBtn").on("click", function () {
+                var account = user.userAccount,
+                    password = $("#password").val();
+
+                if (password === "") {
+                    Dialog.warn("输入的密码不能为空");
+                    return;
+                }
+                Links.connect({
+                    method: "post",
+                    param: {
+                        url: Service.getUrl(1),
+                        data: {
+                            account: account,
+                            password: password
+                        },
+                        successFn: reloginCallback,
+                        errorFn: errorCallback
+                    }
+                });
+            });
+        }
+
+        /**
+         * 重新登录回调函数
+         * @param msg 服务器返回对象
+         */
+        function reloginCallback(msg) {
+            var msg = JSON.parse(msg),
+                data = JSON.stringify(msg.data);
+
+            if(Number(msg.code) === 1) {
+                sessionStorage.setItem("isLogin", "true");
+                history.back();
+            } else {
+                Dialog.warn(msg.msg);
+            }
+        }
+    })
+</script>
+</html>
