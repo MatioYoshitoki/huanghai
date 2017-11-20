@@ -65,4 +65,16 @@ public class Keys {
     public static final String JOURNAL4 = "journal4";
     public static final String PUBMED4 = "pubmed4";
     public static final String ABSTRACT4 = "abstract4";
+    public static final String MICROBE = "microbe";
+    public static final String EC2 = "ec2";
+    public static final String MODIFIER = "modifier";
+    public static final String OPERATEDATE = "operateDate";
+    public static final String MODIFYDATE = "modifyDate";
+
+    public static final String TYPE = "type";
+    public static final String STARTDATE = "startDate";
+    public static final String ENDDATE = "endDate";
+    public static final String NUMBERPERPAGE = "numberPerPage";
+    public static final String STARTPOS = "startPos";
+    public static final String PARAM = "param";
 }

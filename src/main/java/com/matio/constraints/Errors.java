@@ -29,7 +29,9 @@ public class Errors {
 	//data
 	public static final String MIFAILD = "数据录入失败！";
 	public static final String MIFSUCCESS = "数据录入成功！";
-
+	public static final String GETDATEFAILD = "获取数据列表失败！";
+	public static final String DELETEDATA_FAILD = "删除数据失败！";
+	public static final String DELETEDATA_SUCCESS = "删除数据成功！";
 
 	//session
 	public static final String SESSION_DEAD = "登录过期";

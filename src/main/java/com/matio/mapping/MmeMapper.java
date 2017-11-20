@@ -1,6 +1,9 @@
 package com.matio.mapping;
 
 import com.matio.pojo.Mme;
+import com.matio.pojo.MmeCondition;
+
+import java.util.List;
 
 public interface MmeMapper {
     int deleteByPrimaryKey(Integer id);
@@ -8,6 +11,8 @@ public interface MmeMapper {
     int insert(Mme record);
 
     int insertSelective(Mme record);
+
+    List<Mme> selectByCondition(MmeCondition condition);
 
     Mme selectByPrimaryKey(Integer id);
 
