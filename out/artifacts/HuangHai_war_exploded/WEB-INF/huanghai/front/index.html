@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="x-ua-compatible" content="IE=Edge, Chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Index</title>
+    <link href="../asset/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    <link href="../asset/css/style.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div class="header">
+    <div class="nav">
+        <div class="logo">
+            <img src="../asset/img/logo.png"/>
+        </div>
+        <ul class="nav-list">
+            <li class="nav-item">
+                <a href="index.html">Home</a>
+            </li>
+            <li class="nav-item">
+                <a href="browse.html">Browse</a>
+            </li>
+            <li class="nav-item">
+                <a href="#">Search</a>
+            </li>
+            <li class="nav-item">
+                <a href="#">About Us</a>
+            </li>
+        </ul>
+        <div class="header-title">EMBL-EBL&nbsp;&nbsp;Hinxton</div>
+    </div>
+</div>
+<div class="breadcrumb">
+    <div class="bread-con">
+        <h3>MMAP</h3>
+        <div class="mmap"><strong>The marine microorganism active</br>product database</strong></br>Releas 1.0</div>
+        <div class="mme">
+            <div class="back"></div>
+            <div>Marine Microorganism Enzyme(MME)&nbsp;&nbsp;&gt;</div>
+        </div>
+    </div>
+</div>
+<div class="index body">
+    <div class="intro-con">
+        <h1 class="intro-title">
+            MMAP(Information database of Marine Microorganism Active Product)
+        </h1>
+        <div class="intro-content">
+            The Information database of MMAP is an information resource for marine
+            microorganism active products. It gives us the basic experimental and
+            theoretical data for the active products that originate from marine microorganism,
+            including the sub database of marine microorganism, marine enzyme and the
+            resources from deep sea.Please use the Menu in the bottom to the sub database.<br/>
+            nav-item The MMAP team is the Marine product resources and Enzyme Engineering Laboratory
+            at the Yellow Sea Fisheries Research Institute of Chinese Academy of Fishery
+            Sciences, NO.106, Nanjing Road, Qingdao, Shandong, China(jixf@ysri.ac.cn)<strong></strong>
+        </div>
+    </div>
+    <div class="detail-con">
+        <div class="row">
+            <div class="detail-chart col-md-6">
+                <div id="chart" class="chart"></div>
+            </div>
+            <div class="detail-scroll col-md-6">
+                <div class="swiper-container col-md-6">
+                    <!-- swiper -->
+                </div>
+                <div class="detail-explain col-md-6">
+                    <h2 class="explain-title">Microorganism</h2>
+                    <ul class="detail-list">
+                        <li class="detail-item">Research Institute of Chinese</li>
+                        <li class="detail-item">The Information database</li>
+                        <li class="detail-item">Fishery Sciences, N0.106</li>
+                        <li class="detail-item">The MMAP team is the</li>
+                        <li class="detail-item">Nanjing Road, Qingdao</li>
+                        <li class="detail-item">Enzyme Engineering</li>
+                        <li class="detail-item">MMAP is an information</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="detail-nav">
+            <ul class="nav-list row">
+                <li class="nav-item col-md-4">
+                    > Marine Microorganism
+                </li>
+                <li class="nav-item col-md-5">
+                    > Marine Microorganism Enzyme
+                </li>
+                <li class="nav-item col-md-3">
+                    > Enzyme Inhibitor
+                </li>
+            </ul>
+            <ul class="nav-list row">
+                <li class="nav-item col-md-4">
+                    > Functional fragments
+                </li>
+                <li class="nav-item col-md-4">
+                    > Evolutionary analysis
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="footer">
+    <div class="footer-con">
+        <div class="footer-links">
+            links: www.ysfri.ac.cn
+        </div>
+        <div class="footer-logo">
+            <img src="../asset/img/logo.png"/>
+        </div>
+        <div class="footer-info">
+            Address:Nanjing Road, Qingdao City, 106, Post Code:266071 Tel: 0532 85800117 Fax: 0532 85811514<br/>
+            All rights reserved: Yellow Sea Fisheries Research Institute<br/>
+            Network Operation and Management: Yellow Sea Fisheries Research Institute Information Center Lu<br/>
+            ICP: 05024434 Lu public network equipment 37020202000458
+        </div>
+    </div>
+</div>
+<script src="../asset/js/frame/jquery-1.11.1.min.js"></script>
+<script src="../asset/js/frame/echarts.js"></script>
+<script>
+    $(document).ready(function() {
+        var chart = echarts.init(document.getElementById("chart")),
+            option = {
+                title: {
+                    text: "Data ratio",
+                    x: "center"
+                },
+                tooltip: {
+                    trigger: "item",
+                    formatter: "{a} <br/> {b} : {c} ({d}%)"
+                },
+                legend: {
+                    orient: 'vertical',
+                    left: 'left',
+                    data: ['marine','sea','ocean','south pole','north pole', "antarctinc", "arctic"]
+                },
+                series : [
+                    {
+                        name: 'Data ratio',
+                        type: 'pie',
+                        radius : '80%',
+                        center: ['55%', '55%'],
+                        data:[
+                            {value:335, name:'marine'},
+                            {value:310, name:'sea'},
+                            {value:234, name:'ocean'},
+                            {value:135, name:'south pole'},
+                            {value:1548, name:'north pole'},
+                            {value:1548, name:'antarctinc'},
+                            {value:1548, name:'arctic'}
+                        ],
+                        itemStyle: {
+                            emphasis: {
+                                shadowBlur: 10,
+                                shadowOffsetX: 0,
+                                shadowColor: 'rgba(0, 0, 0, 0.5)'
+                            }
+                        }
+                    }
+                ]
+            };
+        chart.setOption(option);
+    })
+</script>
+</body>
+</html>

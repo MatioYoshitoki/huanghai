@@ -47,10 +47,40 @@
     journal4, pubmed4, abstract4, operator, operateDate, modifyDate, modifier
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
+    select
     <include refid="Base_Column_List" />
     from mme
     where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByCondition" resultMap="BaseResultMap" parameterType="com.matio.pojo.MmeCondition" >
+    select
+    <include refid="Base_Column_List" />
+    from mme
+    where
+    <if test="pdbId != null">
+      pdbId = #{pdbId} AND
+    </if>
+    <if test="type != null">
+      type = #{type} AND
+    </if>
+    <if test="ec2 != null">
+      ec2 = #{ec2} AND
+    </if>
+    <if test="operator != null">
+      operator = #{operator} AND
+    </if>
+    <if test="modifier != null">
+      modifier = #{modifier} AND
+    </if>
+    <if test="startDate_op != null">
+      operateDate > #{startDate_op} AND
+      operateDate &lt; #{endDate_op} AND
+    </if>
+    <if test="startDate_md != null">
+      modifyDate > #{startDate_md} AND
+      modifyDate &lt; #{endDate_md} AND
+    </if>
+    1=1 limit #{startSize},#{endSize}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from mme

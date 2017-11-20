@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="x-ua-compatible" content="IE=Edge, Chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>detail</title>
+    <link href="../asset/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="../asset/easyDialog/css/easydialog.css" rel="stylesheet" type="text/css" />
+    <link href="../asset/css/style.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <div class="header">
+    <div class="nav">
+        <div class="logo">
+            <img src="../asset/img/logo.png" />
+        </div>
+        <ul class="nav-list">
+            <li class="nav-item">
+                <a href="index.html">Home</a>
+            </li>
+            <li class="nav-item">
+                <a href="browse.html">Browse</a>
+            </li>
+            <li class="nav-item">
+                <a href="#">Search</a>
+            </li>
+            <li class="nav-item">
+                <a href="#">About Us</a>
+            </li>
+        </ul>
+        <div class="header-title">EMBL-EBL&nbsp;&nbsp;Hinxton</div>
+    </div>
+</div>
+    <div class="detail body">
+        <div class="detail-con">
+            <div class="detail-header">
+                <div class="header-icon"></div>
+                <div class="header-title">MARINE ALIKALINE METALLOPPROTEASE</div>
+            </div>
+            <div class="detail-body">
+                 <ul class="tab-list">
+                     <li class="tab-item active" data-tablink="basic">
+                         <div class="tab-back tab1"></div>
+                     </li>
+                     <li class="tab-item tab2" data-tablink="characteristics">
+                         <div class="tab-back tab2"></div>
+                     </li>
+                     <li class="tab-item tab3" data-tablink="structure">
+                         <div class="tab-back tab3"></div>
+                     </li>
+                     <li class="tab-item tab4" data-tablink="reference">
+                         <div class="tab-back tab4"></div>
+                     </li>
+                 </ul>
+                <hr>
+                <div class="tab-panel active" id="basic">
+                    <div class="panel-row panel-row-bottom row">
+                        <div class="panel-title col-md-3">Title</div>
+                        <div class="panel-content col-md-8 col-md-offset-1" id="title"></div>
+                    </div>
+                    <div class="panel-row panel-row-bottom row">
+                        <div class="panel-title col-md-3">LOCUS</div>
+                        <div class="panel-content col-md-4 col-md-offset-1" id="locusSeq"></div>
+                        <div class="panel-content col-md-4" id="locus"></div>
+                    </div>
+                    <div class="panel-row panel-row-bottom row">
+                        <div class="panel-title col-md-3">DBSOURCE</div>
+                        <div class="panel-content col-md-8 col-md-offset-1" id="dbsource"></div>
+                    </div>
+                    <div class="panel-row panel-row-bottom row">
+                        <div class="panel-title col-md-3">SOURCE</div>
+                        <div class="panel-content col-md-8 col-md-offset-1" id="source"></div>
+                    </div>
+                    <div class="panel-row panel-row-bottom row">
+                        <div class="panel-title col-md-3">ORGANISM</div>
+                        <div class="panel-content col-md-8 col-md-offset-1" id="organism"></div>
+                    </div>
+                    <div class="panel-row panel-row-bottom row">
+                        <div class="panel-title col-md-3">DATE</div>
+                        <div class="panel-content col-md-8 col-md-offset-1" id="date"></div>
+                    </div>
+                    <div class="panel-row panel-row-bottom row">
+                        <div class="panel-title col-md-3">COUNTRY</div>
+                        <div class="panel-content col-md-8 col-md-offset-1" id="country"></div>
+                    </div>
+                </div>
+                <div class="tab-panel" id="characteristics">
+                    <div class="panel-row panel-row-bottom row">
+                        <div class="panel-title col-md-3">EC1</div>
+                        <div class="panel-content col-md-8 col-md-offset-1" id="ec1"></div>
+                    </div>
+                    <div class="panel-row row">
+                        <div class="panel-title col-md-3">EC2</div>
+                        <div class="panel-content col-md-8 col-md-offset-1" id="ec2"></div>
+                    </div>
+                    <div class="panel-row panel-row-bottom panel-row-gap row"></div>
+                    <div class="panel-row panel-row-bottom row">
+                        <div class="panel-title col-md-3">Deep sea</div>
+                        <div class="panel-content col-md-8 col-md-offset-1" id="deepSea"></div>
+                    </div>
+                    <div class="panel-row panel-row-bottom row">
+                        <div class="panel-title col-md-3">Zone</div>
+                        <div class="panel-content col-md-8 col-md-offset-1" id="zone"></div>
+                    </div>
+                    <div class="panel-row panel-row-bottom panel-row-bottom row">
+                        <div class="panel-title col-md-3">adaptive temperature</div>
+                        <div class="panel-content col-md-8 col-md-offset-1" id="temp"></div>
+                    </div>
+                    <div class="panel-row panel-row-bottom panel-row-bottom row">
+                        <div class="panel-title col-md-3">pH</div>
+                        <div class="panel-content col-md-8 col-md-offset-1" id="ph"></div>
+                    </div>
+                </div>
+                <div class="tab-panel" id="structure">
+                    <div class="panel-row panel-row-bottom row">
+                        <div class="panel-title col-md-3">primary sequence</div>
+                        <div class="panel-content col-md-8 col-md-offset-1" id="primSeq"></div>
+                    </div>
+                    <div class="panel-row panel-row-bottom row">
+                        <div class="panel-title col-md-3">Tertiary structure</div>
+                        <div class="panel-content col-md-8 col-md-offset-1">
+                            <a href="#" id="terStru"></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-panel" id="reference">
+                    <div class="panel-section" id="reference1">
+                        <h3>REFERENCE 1</h3>
+                        <div class="panel-row panel-row-bottom row">
+                            <div class="panel-title col-md-3">AUTHOR</div>
+                            <div class="panel-content col-md-8 col-md-offset-1" id="author1"></div>
+                        </div>
+                        <div class="panel-row panel-row-bottom row">
+                            <div class="panel-title col-md-3">TITLE</div>
+                            <div class="panel-content col-md-8 col-md-offset-1" id="title1"></div>
+                        </div>
+                        <div class="panel-row panel-row-bottom row">
+                            <div class="panel-title col-md-3">JOURNAL</div>
+                            <div class="panel-content col-md-8 col-md-offset-1" id="journal1"></div>
+                        </div>
+                        <div class="panel-row panel-row-bottom row">
+                            <div class="panel-title col-md-3">PUBMED</div>
+                            <div class="panel-content col-md-8 col-md-offset-1" id="pubmed1"></div>
+                        </div>
+                        <div class="panel-row panel-row-bottom row">
+                            <div class="panel-title col-md-3">ABSTRACT</div>
+                            <div class="panel-content col-md-8 col-md-offset-1" id="abstract1"></div>
+                        </div>
+                    </div>
+                    <div class="panel-section" id="reference2">
+                        <h3>REFERENCE 2</h3>
+                        <div class="panel-row panel-row-bottom row">
+                            <div class="panel-title col-md-3">AUTHOR</div>
+                            <div class="panel-content col-md-8 col-md-offset-1" id="author2"></div>
+                        </div>
+                        <div class="panel-row panel-row-bottom row">
+                            <div class="panel-title col-md-3">TITLE</div>
+                            <div class="panel-content col-md-8 col-md-offset-1" id="title2"></div>
+                        </div>
+                        <div class="panel-row panel-row-bottom row">
+                            <div class="panel-title col-md-3">JOURNAL</div>
+                            <div class="panel-content col-md-8 col-md-offset-1" id="journal2"></div>
+                        </div>
+                        <div class="panel-row panel-row-bottom row">
+                            <div class="panel-title col-md-3">PUBMED</div>
+                            <div class="panel-content col-md-8 col-md-offset-1" id="pubmed2"></div>
+                        </div>
+                        <div class="panel-row panel-row-bottom row">
+                            <div class="panel-title col-md-3">ABSTRACT</div>
+                            <div class="panel-content col-md-8 col-md-offset-1" id="abstract2"></div>
+                        </div>
+                    </div>
+                    <div class="panel-section" id="reference3">
+                        <h3>REFERENCE 3</h3>
+                        <div class="panel-row panel-row-bottom row">
+                            <div class="panel-title col-md-3">AUTHOR</div>
+                            <div class="panel-content col-md-8 col-md-offset-1" id="author3"></div>
+                        </div>
+                        <div class="panel-row panel-row-bottom row">
+                            <div class="panel-title col-md-3">TITLE</div>
+                            <div class="panel-content col-md-8 col-md-offset-1" id="title3"></div>
+                        </div>
+                        <div class="panel-row panel-row-bottom row">
+                            <div class="panel-title col-md-3">JOURNAL</div>
+                            <div class="panel-content col-md-8 col-md-offset-1" id="journal3"></div>
+                        </div>
+                        <div class="panel-row panel-row-bottom row">
+                            <div class="panel-title col-md-3">PUBMED</div>
+                            <div class="panel-content col-md-8 col-md-offset-1" id="pubmed3"></div>
+                        </div>
+                        <div class="panel-row panel-row-bottom row">
+                            <div class="panel-title col-md-3">ABSTRACT</div>
+                            <div class="panel-content col-md-8 col-md-offset-1" id="abstract3"></div>
+                        </div>
+                    </div>
+                    <div class="panel-section" id="reference4">
+                        <h3>REFERENCE 4</h3>
+                        <div class="panel-row panel-row-bottom row">
+                            <div class="panel-title col-md-3">AUTHOR</div>
+                            <div class="panel-content col-md-8 col-md-offset-1" id="author4"></div>
+                        </div>
+                        <div class="panel-row panel-row-bottom row">
+                            <div class="panel-title col-md-3">TITLE</div>
+                            <div class="panel-content col-md-8 col-md-offset-1" id="title4"></div>
+                        </div>
+                        <div class="panel-row panel-row-bottom row">
+                            <div class="panel-title col-md-3">JOURNAL</div>
+                            <div class="panel-content col-md-8 col-md-offset-1" id="journal4"></div>
+                        </div>
+                        <div class="panel-row panel-row-bottom row">
+                            <div class="panel-title col-md-3">PUBMED</div>
+                            <div class="panel-content col-md-8 col-md-offset-1" id="pubmed4"></div>
+                        </div>
+                        <div class="panel-row panel-row-bottom row">
+                            <div class="panel-title col-md-3">ABSTRACT</div>
+                            <div class="panel-content col-md-8 col-md-offset-1" id="abstract4"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+        <div class="footer-con">
+            <div class="footer-links">
+                links: www.ysfri.ac.cn
+            </div>
+            <div class="footer-logo">
+                <img src="../asset/img/logo.png" />
+            </div>
+            <div class="footer-info">
+                Address:Nanjing Road, Qingdao City, 106, Post Code:266071 Tel: 0532 85800117 Fax: 0532 85811514<br/>
+                All rights reserved: Yellow Sea Fisheries Research Institute<br/>
+                Network Operation and Management: Yellow Sea Fisheries Research Institute Information Center Lu<br/>
+                ICP: 05024434 Lu public network equipment 37020202000458
+            </div>
+        </div>
+    </div>
+    <script src="../asset/js/frame/jquery-1.11.1.min.js"></script>
+    <script src="../asset/easyDialog/js/easydialog.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            request();
+            $(".tab-item").on("click", function() {
+                $(".tab-list").find(".active").removeClass("active");
+                $(this).addClass("active");
+                $(".tab-panel").removeClass("active");
+                $("#" + $(this).attr("data-tablink")).addClass("active");
+            });
+
+            function request() {
+                $.ajax({
+                    type: "post",
+                    url: "data/data.json",
+                    data: {},
+                    success: function(msg) {
+                        repaintData(msg);
+                    },
+                    error: function(status) {
+                        console.log(status);
+                    }
+                })
+            }
+
+            function repaintData(msg) {
+                var data = msg.data;
+
+                if(Number(msg.code) === 1) {
+                    console.log("haha");
+                    $("#title").text(data.title);
+                    $("#locusSeq").text(data.locusSeq);
+                    $("#locus").text(data.locus);
+                    $("#dbsource").html(data.dbsource);
+                    $("#source").html(data.source);
+                    $("#organism").html(data.organism);
+                    $("#date").text(data.date);
+                    $("#country").text(data.country);
+                    $("#ec1").text(data.ec1);
+                    $("#ec2").text(data.ec2);
+                    $("#deepSea").text(data.deepSea);
+                    $("#zone").text(data.zone);
+                    $("#temp").text(data.temp);
+                    $("#ph").text(data.ph);
+                    $("#primSeq").html(data.origin);
+                    $("#terStru").text(data.terStru);
+                    if(data.author1 !== "") {
+                        $("#reference1").css("display", "block");
+                        $("#author1").text(data.author1);
+                        $("#title1").text(data.title1);
+                        $("#journal1").text(data.journal1);
+                        $("#pubmed1").text(data.pubmed1);
+                        $("#abstract1").text(data.abstract1);
+                    }
+                    if(data.author2 !== "") {
+                        $("#reference2").css("display", "block");
+                        $("#author2").text(data.author2);
+                        $("#title2").text(data.title2);
+                        $("#journal2").text(data.journal2);
+                        $("#pubmed2").text(data.pubmed2);
+                        $("#abstract2").text(data.abstract2);
+                    }
+                    if(data.author3 !== "") {
+                        $("#reference3").css("display", "block");
+                        $("#author3").text(data.author3);
+                        $("#title3").text(data.title3);
+                        $("#journal3").text(data.journal3);
+                        $("#pubmed3").text(data.pubmed3);
+                        $("#abstract3").text(data.abstract3);
+                    }
+                    if(data.author4 !== "") {
+                        $("#reference4").css("display", "block");
+                        $("#author4").text(data.author4);
+                        $("#title4").text(data.title4);
+                        $("#journal4").text(data.journal4);
+                        $("#pubmed4").text(data.pubmed4);
+                        $("#abstract4").text(data.abstract4);
+                    }
+                } else {
+                    Dialog.warn(msg.msg);
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,89 @@
+{
+  "code": "1",
+  "msg": "",
+  "data": [
+    {
+      "userId": "100001",
+      "userName": "陈煦",
+      "userAccount": "Clvsit",
+      "userGender": "0",
+      "userRole": "1",
+      "userRoleName": "系统管理员",
+      "userCreate": "2017-11-15 14:00:00",
+      "userModify": "2017-11-16 15:00:00"
+    }, {
+      "userId": "100002",
+      "userName": "大菠萝",
+      "userAccount": "CleverSpirit",
+      "userGender": "1",
+      "userRole": "2",
+      "userRoleName": "系统使用人员",
+      "userCreate": "2017-11-15 15:00:00",
+      "userModify": "2017-11-16 16:00:00"
+    }, {
+      "userId": "100001",
+      "userName": "陈煦",
+      "userAccount": "Clvsit",
+      "userGender": "0",
+      "userRoleName": "系统管理员",
+      "userCreate": "2017-11-15 14:00:00",
+      "userModify": "2017-11-16 15:00:00"
+    }, {
+      "userId": "100002",
+      "userName": "大菠萝",
+      "userAccount": "CleverSpirit",
+      "userGender": "1",
+      "userRoleName": "系统使用人员",
+      "userCreate": "2017-11-15 15:00:00",
+      "userModify": "2017-11-16 16:00:00"
+    }, {
+      "userId": "100001",
+      "userName": "陈煦",
+      "userAccount": "Clvsit",
+      "userGender": "0",
+      "userRoleName": "系统管理员",
+      "userCreate": "2017-11-15 14:00:00",
+      "userModify": "2017-11-16 15:00:00"
+    }, {
+      "userId": "100002",
+      "userName": "大菠萝",
+      "userAccount": "CleverSpirit",
+      "userGender": "1",
+      "userRoleName": "系统使用人员",
+      "userCreate": "2017-11-15 15:00:00",
+      "userModify": "2017-11-16 16:00:00"
+    }, {
+      "userId": "100001",
+      "userName": "陈煦",
+      "userAccount": "Clvsit",
+      "userGender": "0",
+      "userRoleName": "系统管理员",
+      "userCreate": "2017-11-15 14:00:00",
+      "userModify": "2017-11-16 15:00:00"
+    }, {
+      "userId": "100002",
+      "userName": "大菠萝",
+      "userAccount": "CleverSpirit",
+      "userGender": "1",
+      "userRoleName": "系统使用人员",
+      "userCreate": "2017-11-15 15:00:00",
+      "userModify": "2017-11-16 16:00:00"
+    }, {
+      "userId": "100001",
+      "userName": "陈煦",
+      "userAccount": "Clvsit",
+      "userGender": "0",
+      "userRoleName": "系统管理员",
+      "userCreate": "2017-11-15 14:00:00",
+      "userModify": "2017-11-16 15:00:00"
+    }, {
+      "userId": "100002",
+      "userName": "大菠萝",
+      "userAccount": "CleverSpirit",
+      "userGender": "1",
+      "userRoleName": "系统使用人员",
+      "userCreate": "2017-11-15 15:00:00",
+      "userModify": "2017-11-16 16:00:00"
+    }
+  ]
+}

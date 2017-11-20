@@ -1,0 +1,523 @@
+ul, li {
+  list-style-type: none;
+}
+
+a, a:hover {
+  text-decoration: none;
+}
+
+// 通用头部样式设置
+.header {
+  width: 100%;
+  height: 90px;
+  background-color: #00488E;
+
+  .nav {
+    width: 1000px;
+    height: 90px;
+    margin: 0 auto;
+    position: relative;
+
+    .logo {
+      width: 200px;
+      height: 90px;
+      float: left;
+
+      img {
+        width: 90px;
+        height: 90px;
+      }
+    }
+    .nav-list {
+      width: 600px;
+      height: 90px;
+      margin-bottom: 0;
+      padding-left: 0;
+      float: left;
+
+      .nav-item {
+        width: 140px;
+        height: 90px;
+        float: left;
+        text-align: center;
+        transition: background 0.25s linear;
+
+        a {
+          display: block;
+          padding-top: 50px;
+          font-size: 20px;
+          color: #fff;
+        }
+      }
+      .nav-item:hover {
+        background-color: #003985;
+      }
+    }
+    .header-title {
+      position: relative;
+      top: 25px;
+      left: 50px;
+      color: #fff;
+      font-size: 14px;
+    }
+  }
+}
+// 通用主体部分样式设置
+.body {
+  width: 1000px;
+  height: 100%;
+  margin: 0 auto;
+  overflow: hidden;
+}
+// 通用页面底部样式
+.footer {
+  width: 100%;
+  height: 300px;
+  background: url("../img/footer.png") center no-repeat;
+  position: relative;
+
+  .footer-con {
+    width: 1000px;
+    height: 280px;
+    margin: 0 auto;
+    position: relative;
+    top: 20px;
+
+    .footer-links {
+      width: 100%;
+      height: 30px;
+      text-align: right;
+      font-size: 20px;
+      line-height: 30px;
+      color: #c5c5c5;
+    }
+    .footer-logo {
+      text-align: center;
+      padding-bottom: 15px;
+    }
+    .footer-info {
+      font-size: 18px;
+      color: #9c9999;
+      text-align: center;
+    }
+  }
+}
+
+// 巨幕样式设置
+.breadcrumb {
+  width: 100%;
+  height: 650px;
+  background: url("../img/background.jpg") center no-repeat;
+  border-radius: 0;
+
+  .bread-con {
+    width: 1000px;
+    height: 650px;
+    margin: 0 auto;
+    position: relative;
+
+    h3 {
+      width: 200px;
+      position: relative;
+      top: 170px;
+      left: 200px;
+      font-size: 48px;
+      font-weight: bold;
+      color: #00488E;
+    }
+    div.mmap {
+      position: relative;
+      top: 180px;
+      left: 70px;
+      color: #00488E;
+      font-size: 30px;
+
+      strong {
+        font-size: 24px;
+      }
+    }
+    div.mme {
+      position: relative;
+      top: 300px;
+      left: 70px;
+      width: 480px;
+      height: 55px;
+      padding: 0 20px;
+
+      .back {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 55px;
+        background-color: #003985;
+        opacity: 0.5;
+        z-index: 0;
+      }
+      div {
+        position: relative;
+        z-index: 1;
+        line-height: 55px;
+        font-size: 24px;
+        color: #fff;
+      }
+    }
+  }
+}
+.banner {
+  width: 100%;
+  height: 200px;
+  background: url("../img/header_browse.png") center no-repeat;
+  border-radius: 0;
+}
+
+// 首页主体部分样式设置
+.index {
+  .intro-con {
+    width: 100%;
+    height: auto;
+
+    .intro-title {
+      width: 100%;
+      height: 50px;
+      font-size: 29px;
+      font-weight: bold;
+      text-align: center;
+      border-bottom: 2px solid #c8c8c8;
+    }
+    .intro-content {
+      padding: 10px 5px;
+      font-size: 16px;
+      line-height: 28px;
+      color: #8c8c8c;
+    }
+  }
+  .detail-con {
+    width: 100%;
+    height: auto;
+    margin-top: 50px;
+
+    .detail-chart {
+      height: 305px;
+      //background: url("../img/cover1.png") center no-repeat;
+
+      .chart {
+        width: 100%;
+        height: 305px;
+      }
+    }
+    .detail-scroll {
+      height: 305px;
+
+      .swiper-container {
+        height: 305px;
+        background-color: #cccccc;
+      }
+      .detail-explain {
+        height: 305px;
+
+        .explain-title {
+          margin-top: 5px;
+          text-align: center;
+          font-weight: bold;
+        }
+        .detail-list {
+          height: 260px;
+          margin-bottom: 0;
+          padding-left: 24px;
+          overflow: auto;
+
+          .detail-item {
+            color: #8c8c8c;
+            line-height: 30px;
+            list-style-type: disc;
+          }
+        }
+      }
+    }
+    .detail-nav {
+      margin-top: 30px;
+      margin-bottom: 50px;
+
+      .nav-list {
+        height: 50px;
+        margin-bottom: 5px;
+        padding-left: 0;
+        background-color: #00488e;
+
+        .nav-item {
+          padding-left: 50px;
+          font-size: 20px;
+          line-height: 50px;
+          color: #fff;
+          transition: background 0.25s linear;
+          cursor: pointer;
+        }
+        .nav-item:hover {
+          background-color: #003985;
+        }
+      }
+    }
+  }
+}
+
+// 浏览页主体部分样式设置
+.browse {
+  margin: 50px auto;
+
+  .nav-list {
+    width: 205px;
+    height: auto;
+    //padding-top: 20px;
+    padding-left: 0;
+    float: left;
+
+    .nav-item {
+      width: 100%;
+      height: 50px;
+      margin-bottom: 5px;
+      padding-left: 25px;
+      border-radius: 10px;
+      font-size: 18px;
+      line-height: 50px;
+      color: #fff;
+      background-color: #00afec;
+      cursor: pointer;
+      transition: background 0.25s linear;
+    }
+    .nav-item:hover {
+      background-color: rgba(34,66,255,0.99);
+    }
+    .nav-item-top {
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+    }
+    .nav-item-bottom {
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+  }
+  .tab-content {
+    margin-left: 255px;
+
+    .tab-pane {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+
+      // pane-1
+      .intro-con {
+        width: 495px;
+        height: auto;
+        float: left;
+
+        .intro-title {
+          width: 100%;
+          height: 50px;
+          margin-top: 0;
+          font-size: 24px;
+          font-weight: bold;
+          text-align: center;
+          border-bottom: 2px solid #c8c8c8;
+        }
+        .intro-content {
+          padding: 10px 5px;
+          font-size: 14px;
+          line-height: 28px;
+          color: #8c8c8c;
+        }
+      }
+      .pane-pic {
+        width: 250px;
+        height: 346px;
+        float: right;
+        background: url("../img/browse_pic.png") center no-repeat;
+      }
+
+      // panel-2
+      .catalog-con {
+        width: 100%;
+        height: auto;
+        padding: 20px;
+        background-color: #fff8ef;
+
+        .catalog-title {
+          width: 100%;
+          height: 40px;
+          margin-top: 0;
+          line-height: 40px;
+          font-weight: bold;
+          text-align: center;
+          color: #00b9ef;
+        }
+        .catalog-index {
+          text-align: center;
+
+          .catalog-links {
+            color: #49b9ef;
+            font-size: 18px;
+            font-weight: bold;
+            display: inline-block;
+            width: 20px;
+            text-align: center;
+            text-decoration: underline;
+            cursor: pointer;
+          }
+        }
+        .catalog-table {
+          margin-top: 20px;
+
+          th {
+            text-align: center;
+            background-color: #ccccef;
+          }
+          th, td {
+            color: #5eb9ef !important;
+            border: 1px solid #b7b9ef !important;
+          }
+        }
+      }
+    }
+
+  }
+}
+
+// 详情页主体部分样式设置
+.detail {
+  // 消除 body 1000px
+  width: 100%;
+  height: 100%;
+  background-color: #ddeff9;
+
+  .detail-con {
+    width: 1000px;
+    height: 100%;
+    margin: 0 auto 50px;
+
+    .detail-header {
+      height: 165px;
+      margin-top: 75px;
+
+      .header-icon {
+        width: 40px;
+        height: 40px;
+        background: url("../img/detail_logo.png") center no-repeat;
+      }
+      .header-title {
+        width: 100%;
+        height: 105px;
+        margin-top: 20px;
+        font-size: 40px;
+        line-height: 105px;
+        color: #fff;
+        text-align: center;
+        background: url("../img/header.png") center no-repeat;
+      }
+    }
+    .detail-body {
+      width: 100%;
+      height: 100%;
+      margin-top: 65px;
+      overflow: hidden;
+
+      .tab-list {
+        width: 850px;
+        height: 35px;
+        margin: auto;
+        padding-left: 0;
+
+        .tab-item {
+          float: left;
+          height: 35px;
+          cursor: pointer;
+
+          .tab-back {
+            height: 35px;
+          }
+          .tab1 {
+            width: 220px;
+            background: url("../img/tab1_white.png") center no-repeat;
+          }
+          .tab2 {
+            width: 195px;
+            background: url("../img/tab2_white.png") center no-repeat;
+          }
+          .tab3 {
+            width: 265px;
+            background: url("../img/tab3_white.png") center no-repeat;
+          }
+          .tab4 {
+            width: 155px;
+            background: url("../img/tab4_white.png") center no-repeat;
+          }
+        }
+        .active {
+          .tab1 {
+            background: url("../img/tab1_blue.png") center no-repeat;
+          }
+          .tab2 {
+            width: 195px;
+            background: url("../img/tab2_blue.png") center no-repeat;
+          }
+          .tab3 {
+            width: 265px;
+            background: url("../img/tab3_blue.png") center no-repeat;
+          }
+          .tab4 {
+            width: 155px;
+            background: url("../img/tab4_blue.png") center no-repeat;
+          }
+        }
+      }
+      hr {
+        height: 1px;
+        margin: 0;
+        background-color: #fff;
+      }
+      .tab-panel {
+        width: 850px;
+        height: 100%;
+        margin: 40px auto 0;
+        overflow: hidden;
+        display: none;
+
+        .panel-section {
+          display: none;
+
+          h3 {
+            margin: 20px 0;
+            padding-left: 50px;
+            color: #00a7ea;
+          }
+        }
+        .panel-row {
+          height: 100%;
+          line-height: 30px;
+          overflow: hidden;
+
+          .panel-title {
+            text-align: right;
+            font-weight: bold;
+            color: #505960;
+          }
+          .panel-content {
+            color: #6c777e;
+          }
+        }
+        .panel-row-bottom {
+          border-bottom: 1px solid #fff;
+        }
+        .panel-row-gap {
+          height: 90px;
+        }
+      }
+      #reference .panel-row{
+        height: 100% !important;
+        overflow: hidden;
+      }
+      .active {
+        display: block;
+      }
+    }
+  }
+}
