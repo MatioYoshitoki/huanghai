@@ -70,6 +70,7 @@ public class Keys {
     public static final String MODIFIER = "modifier";
     public static final String OPERATEDATE = "operateDate";
     public static final String MODIFYDATE = "modifyDate";
+    public static final String MMEID = "mmeId";
 
     public static final String TYPE = "type";
     public static final String STARTDATE = "startDate";

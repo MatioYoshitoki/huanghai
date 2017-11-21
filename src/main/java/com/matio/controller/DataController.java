@@ -237,6 +237,7 @@ public class DataController {
 
     @RequestMapping(value = "/modifyInput", method = RequestMethod.POST , produces="text/json;charset=UTF-8")
     public String modifyInput(
+            @RequestParam(Keys.MMEID) String mmeId,
             @RequestParam(Keys.TITLE) String title,
             @RequestParam(Keys.TITLE1) String title1,
             @RequestParam(Keys.TITLE2) String title2,
@@ -272,6 +273,7 @@ public class DataController {
         JSONObject result;
         Date now = new Date();
         Mme mme = new Mme();
+        mme.setId(Integer.valueOf(mmeId));
         mme.setAbstract1(abstract1);
         mme.setAbstract2(abstract2);
         mme.setAbstract3(abstract3);
@@ -305,7 +307,17 @@ public class DataController {
         mme.setModifier(operator);
         mme.setModifydate(simpleDateFormat.format(now));
 
-        return "";
+        if (mmeMapper.updateByPrimaryKey(mme) > 0){
+            result = JsonUtil.fromErrors(Errors.SUCCESS);
+            result.put(Keys.MSG,Errors.MODIFY_DATA_SUCCESS);
+            result.put(Keys.DATA,new JSONObject());
+        }else {
+            result = JsonUtil.fromErrors(Errors.FAILD);
+            result.put(Keys.MSG,Errors.MODIFY_DATA_FAILD);
+            result.put(Keys.DATA,new JSONObject());
+        }
+
+        return result.toJSONString();
     }
 
 }

@@ -32,6 +32,19 @@ public class Errors {
 	public static final String GETDATEFAILD = "获取数据列表失败！";
 	public static final String DELETEDATA_FAILD = "删除数据失败！";
 	public static final String DELETEDATA_SUCCESS = "删除数据成功！";
+	public static final String MODIFY_DATA_FAILD = "修改数据失败！";
+	public static final String MODIFY_DATA_SUCCESS = "修改数据成功！";
+
+	//type
+	public static final String GETTYPEFAILD = "获取数据类型失败！";
+	public static final String ADDTYPEFAILD = "新增数据类型失败！";
+	public static final String ADDTYPESUCCESS = "新增数据类型成功！";
+	public static final String DELETETYPEFAILD = "删除数据类型成功！";
+	public static final String DELETETYPESUCCESS = "删除数据类型失败！";
+
+	//type&ec2
+	public static final String GETTYPEANDEC2_FAILD = "获取检索参数成功！";
+	public static final String GETTYPEANDEC2_SUCCESS = "获取检索参数失败！";
 
 	//session
 	public static final String SESSION_DEAD = "登录过期";
