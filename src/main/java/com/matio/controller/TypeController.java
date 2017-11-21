@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -108,13 +109,15 @@ public class TypeController {
         }else {
             result = JsonUtil.fromErrors(Errors.SUCCESS);
         }
-        JSONArray data = new JSONArray();
+        JSONObject data = new JSONObject();
+        List<String> types = new ArrayList<>();
+        List<String> ec2 = new ArrayList<>();
         for (View_param view_param:view_params){
-            JSONObject tmp = new JSONObject();
-            tmp.put(Keys.TYPE,view_param.getType());
-            tmp.put(Keys.EC2,view_param.getEc2());
-            data.add(tmp);
+            types.add(view_param.getType());
+            ec2.add(view_param.getEc2());
         }
+        data.put(Keys.TYPE,types);
+        data.put(Keys.EC2,ec2);
         result.put(Keys.MSG,"");
         result.put(Keys.DATA,data);
         return result.toJSONString();
