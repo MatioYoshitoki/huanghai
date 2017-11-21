@@ -2,7 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.matio.mapping.UserMapper" >
   <resultMap id="BaseResultMap" type="com.matio.pojo.User" >
-    <id column="userId" property="userid" jdbcType="INTEGER" />
     <result column="userName" property="username" jdbcType="VARCHAR" />
     <result column="userAccount" property="useraccount" jdbcType="VARCHAR" />
     <result column="userRole" property="userrole" jdbcType="INTEGER" />
@@ -13,15 +12,8 @@
     <result column="operator" property="operator" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    userId, userName, userAccount, userRole, password, userGender, userCreate, userModify, 
-    operator
+    userName, userAccount, userRole, password, userGender, userCreate, userModify, operator
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
-    <include refid="Base_Column_List" />
-    from user
-    where userId = #{userid,jdbcType=INTEGER}
-  </select>
   <select id="selectAll" resultMap="BaseResultMap" >
     select
     <include refid="Base_Column_List" />
@@ -33,16 +25,16 @@
     from user
     where userAccount = #{account,jdbcType=VARCHAR}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+  <delete id="deleteByAccount" parameterType="java.lang.String" >
     delete from user
-    where userId = #{userid,jdbcType=INTEGER}
+    where userAccount = #{account,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.matio.pojo.User" >
-    insert into user (userId, userName, userAccount, 
+    insert into user (userName, userAccount,
       userRole, password, userGender, 
       userCreate, userModify, operator
       )
-    values (#{userid,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{useraccount,jdbcType=VARCHAR}, 
+    values (#{username,jdbcType=VARCHAR}, #{useraccount,jdbcType=VARCHAR},
       #{userrole,jdbcType=INTEGER}, #{password,jdbcType=VARCHAR}, #{usergender,jdbcType=CHAR}, 
       #{usercreate,jdbcType=CHAR}, #{usermodify,jdbcType=CHAR}, #{operator,jdbcType=VARCHAR}
       )
@@ -50,9 +42,6 @@
   <insert id="insertSelective" parameterType="com.matio.pojo.User" >
     insert into user
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="userid != null" >
-        userId,
-      </if>
       <if test="username != null" >
         userName,
       </if>
@@ -79,9 +68,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="userid != null" >
-        #{userid,jdbcType=INTEGER},
-      </if>
       <if test="username != null" >
         #{username,jdbcType=VARCHAR},
       </if>
@@ -108,46 +94,13 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.matio.pojo.User" >
-    update user
-    <set >
-      <if test="username != null" >
-        userName = #{username,jdbcType=VARCHAR},
-      </if>
-      <if test="useraccount != null" >
-        userAccount = #{useraccount,jdbcType=VARCHAR},
-      </if>
-      <if test="userrole != null" >
-        userRole = #{userrole,jdbcType=INTEGER},
-      </if>
-      <if test="password != null" >
-        password = #{password,jdbcType=VARCHAR},
-      </if>
-      <if test="usergender != null" >
-        userGender = #{usergender,jdbcType=CHAR},
-      </if>
-      <if test="usercreate != null" >
-        userCreate = #{usercreate,jdbcType=CHAR},
-      </if>
-      <if test="usermodify != null" >
-        userModify = #{usermodify,jdbcType=CHAR},
-      </if>
-      <if test="operator != null" >
-        operator = #{operator,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where userId = #{userid,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.matio.pojo.User" >
+  <update id="updateByAccount" parameterType="com.matio.pojo.User" >
     update user
     set userName = #{username,jdbcType=VARCHAR},
-      userAccount = #{useraccount,jdbcType=VARCHAR},
       userRole = #{userrole,jdbcType=INTEGER},
-      password = #{password,jdbcType=VARCHAR},
       userGender = #{usergender,jdbcType=CHAR},
-      userCreate = #{usercreate,jdbcType=CHAR},
       userModify = #{usermodify,jdbcType=CHAR},
       operator = #{operator,jdbcType=VARCHAR}
-    where userId = #{userid,jdbcType=INTEGER}
+    where userAccount = #{useraccount,jdbcType=VARCHAR}
   </update>
 </mapper>

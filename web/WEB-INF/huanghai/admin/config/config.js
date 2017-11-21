@@ -49,15 +49,29 @@ var Config = {
 var Service = {
     getUrl: function (type) {
         if (Config.isBug) {
-            switch (Number(type)) {
-                case 1:
-                    return "data/me";
-                case 2:
-                    return "data/user";
-                case 3:
-                    return "data/role";
-                case 4:
-                    return "data/mme";
+            switch (type) {
+                case "login":
+                    return "/login";
+                case "createUser":
+                    return "/register";
+                case "modifyUser":
+                    return "/modify";
+                case "deleteUser":
+                    return "/deleteUser";
+                case "getUser":
+                    return "/getUserList";
+                case "createRole":
+                    return "/createRole";
+                case "modifyRole":
+                    return "/modifyRole";
+                case "deleteRole":
+                    return "/deleteRole";
+                case "getRole":
+                    return "/getRoleList";
+                case "getRoleSelect":
+                    return "/getRoleSelect";
+                case "getParam":
+                    return "/getParam";
                 case 99:
                     return "data/successTest";
 

@@ -365,7 +365,7 @@
 
                 if(type === "getRoleList") {
                     data = {};
-                    url = Service.getUrl(3);
+                    url = Service.getUrl("getRole");
                     successFn = Client.getRoleCallback;
                 } else if(type === "create") {
                     var roleAuth = $("#selectForCreate").selectpicker("val");
@@ -374,11 +374,11 @@
                         return;
                     }
                     item = this.create;
-                    url = Service.getUrl(99);
+                    url = Service.getUrl("createRole");
                     data = {
                         roleName: item.roleName,
                         roleAuth: roleAuth.join("|"),
-                        operator: this.user.name
+                        operator: this.user.userName
                     };
                     successFn = this.createRoleCallback;
                     this.create.roleAuth = roleAuth.join("|");
@@ -390,18 +390,18 @@
                         return;
                     }
                     item = this.modify;
-                    url = Service.getUrl(99);
+                    url = Service.getUrl("modifyRole");
                     data = {
-                        id: item.roleId,
-                        name: item.roleName,
-                        auth: roleAuth.join("|"),
-                        operator: this.user.name
+                        roleId: item.roleId,
+                        roleName: item.roleName,
+                        roleAuth: roleAuth.join("|"),
+                        operator: this.user.userName
                     };
                     successFn = this.modifyRoleCallback;
                     this.modify.roleAuth = roleAuth.join("|");
                 } else if(type === "delete") {
                     item = this.del;
-                    url = Service.getUrl(99);
+                    url = Service.getUrl("deleteRole");
                     data = {
                         id: item.roleId
                     };
@@ -474,7 +474,6 @@
              * @param msg 服务器返回的对象
              */
             getRoleCallback: function (msg) {
-                var msg = JSON.parse(msg);
                 if (Number(msg.code) === 1) {
                     this.roleList = msg.data;
                     this.roleListAfterSearch = this.roleList;
@@ -487,12 +486,9 @@
              * @param msg 服务器返回的对象
              */
             createRoleCallback: function(msg) {
-                var msg = JSON.parse(msg);
-
                 // 若回调函数执行成功，则将相应的数据添加到列表中
                 if (Number(msg.code) === 1) {
-                    this.roleList.push(this.create);
-                    this.paging();
+                    this.request("getRoleList");
                     Dialog.tip(msg.msg);
                 } else {
                     Dialog.warn(msg.msg);
@@ -503,8 +499,7 @@
              * @param msg 服务器返回的对象
              */
             modifyRoleCallback: function(msg) {
-                var msg = JSON.parse(msg),
-                    index = null,
+                var index = null,
                     modifyObj = this.modify;
 
                 // 若回调函数执行成功，则将相应的数据进行修改
@@ -526,8 +521,7 @@
              * @param msg 服务器返回的对象
              */
             deleteRoleCallback: function(msg) {
-                var msg = JSON.parse(msg),
-                    index = null,
+                var index = null,
                     deleteObj = this.del,
                     roleList = this.roleList,
                     length = 0,

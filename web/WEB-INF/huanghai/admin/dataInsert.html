@@ -5,27 +5,16 @@
     <meta http-equiv="x-ua-compatible" content="IE=Edge, Chrome=1">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
     <title>数据录入</title>
-    <link rel="stylesheet" href="vendor/offline/theme.css">
-    <link rel="stylesheet" href="vendor/pace/theme.css">
-    <link rel="stylesheet" href="vendor/jvectormap/jquery-jvectormap-1.2.2.css">
-    <link rel="stylesheet" href="vendor/bxslider/jquery.bxslider.css">
     <link rel="stylesheet" href="vendor/bootstrap-select/bootstrap-select.css">
     <link rel="stylesheet" href="vendor/bootstrap-datepicker/datepicker.css">
-
     <link rel="stylesheet" href="../asset/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/font-awesome.min.css">
     <link rel="stylesheet" href="css/animate.min.css">
 
-    <link rel="stylesheet" href="css/panel.css">
-
-    <link rel="stylesheet" href="css/skins/palette.1.css" id="skin">
-    <link rel="stylesheet" href="css/fonts/style.1.css" id="font">
     <link rel="stylesheet" href="css/main.css">
-
-
     <!--[if lt IE 9]>
-    <script src="js/html5shiv.js"></script>
-    <script src="js/respond.min.js"></script>
+        <script src="js/html5shiv.js"></script>
+        <script src="js/respond.min.js"></script>
     <![endif]-->
 </head>
 <body>
@@ -44,27 +33,22 @@
                 <div class="row">
                     <div class="col-md-12">
                         <section class="panel">
-                            <header class="panel-heading">
-                                <form class="form form-inline">
-                                    <div class="form-group">
-                                        <label class="control-label">每页显示</label>
-                                        <select v-model="table.numberPerPage" class="form-control" data-style="btn-primary">
-                                            <option value="5">5</option>
-                                            <option value="10">10</option>
-                                            <option value="15">15</option>
-                                            <option value="20">20</option>
-                                            <option value="25">25</option>
-                                        </select>
-                                        <label class="control-label">页</label>
-                                    </div>
-                                </form>
-                            </header>
                             <div class="panel-body padding">
-                                <form class="form-horizontal" role="form">
+                                <form class="form-horizontal">
                                     <div class="form-group">
                                         <label class="col-sm-1 control-label">TITLE</label>
                                         <div class="col-sm-11">
                                             <input type="text" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-1 control-label">分类</label>
+                                        <div class="col-sm-5">
+                                            <select id="selectForType" class="form-control selectpicker" data-style="btn-primary"></select>
+                                        </div>
+                                        <label class="col-sm-1 control-label">EC2</label>
+                                        <div class="col-sm-5">
+                                            <select id="selectForEC2" class="form-control selectpicker" data-style="btn-primary"></select>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -130,14 +114,14 @@
                                             <input type="text" class="form-control">
                                         </div>
                                     </div>
-                                    <button class="btn btn-default center-block mg-b">新增引用</button>
+                                    <div class="btn btn-default center-block mg-b">新增引用</div>
                                     <div class="form-group">
                                         <label class="col-sm-1 control-label">ORIGIN</label>
                                         <div class="col-sm-11">
                                             <textarea class="form-control" rows="5"></textarea>
                                         </div>
                                     </div>
-                                    <button class="btn btn-default center-block">提交数据</button>
+                                    <div class="btn btn-default center-block">提交数据</div>
                                 </form>
                             </div>
                         </section>
@@ -145,72 +129,6 @@
                 </div>
             </div>
         </section>
-        <div id="panelCreate" class="panel panel-color sr-only panel-custom">
-            <div class="panel-heading">
-                新建角色
-                <small class="pull-right text-white">
-                    <a class="fa fa-chevron-down panel-collapsible pd-r-xs" href="javascript:;"></a>
-                    <a class="fa fa-times panel-remove" href="javascript:easyDialog.close();"></a>
-                </small>
-            </div>
-            <div class="panel-body">
-                <form class="form-horizontal" role="form">
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">角色名称</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">拥有权限</label>
-                        <div class="col-sm-10">
-                            <select multiple="" class="form-control selectpicker">
-                                <option value="1">用户管理</option>
-                                <option value="2">数据管理</option>
-                                <option>3</option>
-                                <option>4</option>
-                                <option>5</option>
-                            </select>
-                        </div>
-                    </div>
-                    <button type="submit" class="btn btn-default center-block">创建用户</button>
-                </form>
-            </div>
-        </div>
-        <div id="panelView" class="panel panel-color sr-only panel-custom">
-            <div class="panel-heading">
-                查看角色详情
-                <small class="pull-right text-white">
-                    <a class="fa fa-chevron-down panel-collapsible pd-r-xs" href="javascript:;" @click="hidePanelBody($event)"></a>
-                    <a class="fa fa-times panel-remove" href="javascript:easyDialog.close();"></a>
-                </small>
-            </div>
-            <div class="panel-body">
-                <form class="form-horizontal" role="form">
-                    <div class="form-group">
-                        <div class="col-sm-2">角色名称：</div>
-                        <div class="col-sm-10">系统管理员</div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-sm-2">拥有权限：</div>
-                        <ul class="col-sm-10">
-                            <li class="row mg-b-sm">
-                                <div class="col-sm-3">用户管理</div>
-                                <div class="col-sm-9">创建、删除用户已经修改用户权限</div>
-                            </li>
-                            <li class="row mg-b-sm">
-                                <div class="col-sm-3">用户管理</div>
-                                <div class="col-sm-9">创建、删除用户已经修改用户权限</div>
-                            </li>
-                            <li class="row mg-b-sm">
-                                <div class="col-sm-3">用户管理</div>
-                                <div class="col-sm-9">创建、删除用户已经修改用户权限</div>
-                            </li>
-                        </ul>
-                    </div>
-                </form>
-            </div>
-        </div>
     </section>
 </div>
 <script src="../asset/js/frame/jquery-1.11.1.min.js"></script>
@@ -221,6 +139,7 @@
 <script src="../asset/easyDialog/js/easydialog.min.js"></script>
 <script src="js/components/header.js"></script>
 <script src="js/components/sidebar.js"></script>
+<script src="js/base.js"></script>
 <script src="config/config.js"></script>
 <script>
     var Links = {
@@ -262,32 +181,15 @@
     var Client = new Vue({
         el: "#client",
         data: {
-            user: {
-                name: "陈煦"
-            },
+            user: {},
             message: [
                 { username: "陈煦", operation: "修改了系统管理员身份"}
             ],
-            sidebarLinks: [],
-            user: {
-                userAccount: "",
-                time: ""
-            },
-            table: {
-                // 分页部分
-                recordNumber: 0,    // 数据数目
-                numberPerPage: 10,  // 每页显示数据数
-                pageNumber: 0,      // 总页数
-                currentPage: 1,     // 当前页码
-                inputPage: 1,       // 输入框页码
-                // 检索部分
-                searchType : 1,
-                searchParam: "",
-                startDate: "",
-                endDate: ""
-            },
+            sidebarLinks: Config.sidebar,
             record: {
                 title: "",
+                type: "",
+                ec2: "",
                 locus: "",
                 pdbId: "",
                 dbsource: "",
@@ -324,63 +226,45 @@
         },
         mounted: function () {
             this.$nextTick(function () {
-                $("#startDate").datepicker({"format": "yyyy-mm-dd"});
-                $("#endDate").datepicker({"format": "yyyy-mm-dd"});
-                $(".selectpicker").selectpicker();
-                this.getSidebar();
-                this.getroleList();
+                init(Client, function() {
+                    Client.request("getParam");
+                })
             })
         },
         methods: {
             hidePanelBody: function(event) {
                 $(event.target).parent().parent().next().slideToggle("slow");
             },
-            getSidebar: function () {
-                var data = {
-                    method: "get",
-                    param: {
-                        url: Service.getUrl(1),
-                        data: {},
-                        successFn: Client.getSidebarCallback,
-                        errorFn: Client.errorCallback
-                    }
-                };
-                Links.connect(data);
-            },
-            getroleList: function () {
-                var data = {
-                    method: "get",
-                    param: {
-                        url: Service.getUrl(3),
-                        data: {},
-                        successFn: Client.getRoleCallback,
-                        errorFn: Client.errorCallback
-                    }
-                };
-                Links.connect(data);
-            },
-            insertData: function () {
+            /**
+             * 向后台发起请求
+             * @param type 请求的类型
+             */
+            request: function(type) {
+                var data = null,
+                    url = null,
+                    successFn = null,
+                    errorFn = null,
+                    item = null;
 
-            },
-            getSidebarCallback: function (msg) {
-                var msg = JSON.parse(msg);
-                if (Number(msg.code) === 1) {
-                    this.sidebarLinks = msg.data;
-                } else {
-                    console.log("返回数据失败！");
+                if(type === "getParam") {
+                    data = {};
+                    url = Service.getUrl("getParam");
+                    successFn = Client.getParamCallback;
                 }
+                Links.connect({
+                    method: "post",
+                    param: {
+                        url: url,
+                        data: data,
+                        successFn: successFn,
+                        errorFn: errorCallback
+                    }
+                });
             },
-            getRoleCallback: function (msg) {
-                var msg = JSON.parse(msg);
-                if (Number(msg.code) === 1) {
-                    this.roleList = msg.data;
-                    this.roleListAfterSearch = msg.data;
-                } else {
-                    console.log("返回数据失败！");
+            getParamCallback: function(msg) {
+                if(Number(msg.code) === 1) {
+                    console.log(msg.data);
                 }
-            },
-            errorCallback: function (status) {
-                console.error(status);
             }
         }
     });

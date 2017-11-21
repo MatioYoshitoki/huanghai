@@ -92,7 +92,7 @@
                                                 <span v-if="Number(item.userGender) === 0">男</span>
                                                 <span v-else-if="Number(item.userGender) === 1">女</span>
                                             </td>
-                                            <td v-text="item.userRoleName"></td>
+                                            <td v-text="item.roleName"></td>
                                             <td class="text-center" v-text="item.userCreate"></td>
                                             <td class="text-center" v-text="item.userModify"></td>
                                             <td class="text-center">
@@ -172,9 +172,8 @@
                     <div class="form-group">
                         <label class="col-sm-2 control-label">用户权限</label>
                         <div class="col-sm-10">
-                            <select v-model="create.userRole" class="form-control selectpicker" data-style="btn-primary">
-                                <option value="1">系统管理员</option>
-                                <option value="2">系统使用人员</option>
+                            <select id="createRole" class="form-control selectpicker" data-style="btn-primary">
+                                <option v-for="item in role" :value="item.roleId" v-text="item.roleName"></option>
                             </select>
                         </div>
                     </div>
@@ -213,10 +212,7 @@
                     <div class="form-group">
                         <label class="col-sm-2 control-label">用户权限</label>
                         <div class="col-sm-10">
-                            <select v-model="modify.userRole" class="form-control selectpicker" data-style="btn-primary">
-                                <option value="1">系统管理员</option>
-                                <option value="2">系统使用人员</option>
-                            </select>
+                            <select id="modifyRole" class="form-control selectpicker" data-style="btn-primary"></select>
                         </div>
                     </div>
                 </form>
@@ -282,16 +278,17 @@
                 userCreate: ""
             },
             modify: {
-                userId: "",
+                userAccount: "",
                 userName: "",
                 userGender: "",
                 userRole: "",
                 userModify: ""
             },
             del: {
-                userId: "",
+                userAccount: "",
                 userName: ""
-            }
+            },
+            role: []
         },
         watch: {
             "userList": function() {
@@ -349,7 +346,7 @@
                     case 3: {
                         for(loop = 0; loop < length; loop++) {
                             item = userList[loop];
-                            if(item.userRoleName.indexOf(search) !== -1) {
+                            if(item.roleName.indexOf(search) !== -1) {
                                 afterList.push(item);
                             }
                         }
@@ -371,8 +368,8 @@
                 init(Client, function() {
                     $("#startDate").datepicker({"format": "yyyy-mm-dd"});
                     $("#endDate").datepicker({"format": "yyyy-mm-dd"});
-                    $(".selectpicker").selectpicker();
                     Client.request("getUserList");
+                    Client.request("getRoleSelect");
                 });
             })
         },
@@ -413,37 +410,41 @@
 
                 if(type === "getUserList") {
                     data = {};
-                    url = Service.getUrl(2);
+                    url = Service.getUrl("getUser");
                     successFn = Client.getUserCallback;
                 } else if(type === "create") {
                     item = this.create;
-                    url = Service.getUrl(99);
+                    url = Service.getUrl("createUser");
                     data = {
                         userName: item.userName,
                         userGender: item.userGender,
-                        userRole: item.userRole,
+                        userRole: $("#createRole").selectpicker("val"),
                         userAccount: item.userAccount,
-                        operator: this.user.name
+                        operator: this.user.userName
                     };
                     successFn = Client.createUserCallback;
                 } else if(type === "modify") {
                     item = this.modify;
-                    url = Service.getUrl(99);
+                    url = Service.getUrl("modifyUser");
                     data = {
-                        userId: item.userId,
+                        userAccount: item.userAccount,
                         userName: item.userName,
                         userGender: item.userGender,
-                        userRole: item.userRole,
-                        operator: this.user.name
+                        userRole: $("#modifyRole").selectpicker("val"),
+                        operator: this.user.userName
                     };
                     successFn = Client.modifyUserCallback;
                 } else if(type === "delete") {
                     item = this.del;
-                    url = Service.getUrl(99);
+                    url = Service.getUrl("deleteUser");
                     data = {
-                        userId: item.userId
+                        userAccount: item.userAccount
                     };
                     successFn = Client.deleteUserCallback;
+                } else if(type === "getRoleSelect") {
+                    url = Service.getUrl("getRoleSelect");
+                    data = {};
+                    successFn = Client.getRoleSelectCallback;
                 }
                 Links.connect({
                     method: "post",
@@ -502,10 +503,10 @@
                 this.table.recordNumber = afterList.length;
             },
             /**
-             * 根据用户号找到相应数据在列表中的下标
-             * @param userId 用户号
+             * 根据用户账号找到相应数据在列表中的下标
+             * @param userAccount 用户号
              */
-            searchUser: function(userId) {
+            searchUser: function(userAccount) {
                 var userList = this.userList,
                     item = null,
                     length = 0,
@@ -513,7 +514,7 @@
 
                 for(loop = 0, length = userList.length; loop < length; loop++) {
                     item = userList[loop];
-                    if(item.userId === userId) {
+                    if(item.userAccount === userAccount) {
                         return loop;
                     }
                 }
@@ -557,7 +558,6 @@
              * @param msg 服务器返回的 JSON 对象
              */
             getUserCallback: function (msg) {
-                var msg = JSON.parse(msg);
                 if (Number(msg.code) === 1) {
                     this.userList = msg.data;
                     this.userListAfterSearch = this.userList;
@@ -570,13 +570,9 @@
              * @param msg 服务器返回的对象
              */
             createUserCallback: function(msg) {
-                var msg = JSON.parse(msg);
-
                 // 若回调函数执行成功，则将相应的数据添加到列表中
                 if (Number(msg.code) === 1) {
-                    this.create.userCreate = getDate();
-                    this.userList.push(this.create);
-                    this.paging();
+                    this.request("getUserList");
                     Dialog.tip(msg.msg);
                 } else {
                     Dialog.warn(msg.msg);
@@ -587,8 +583,7 @@
              * @param msg 服务器返回的对象
              */
             modifyUserCallback: function(msg) {
-                var msg = JSON.parse(msg),
-                    index = null,
+                var index = null,
                     modifyObj = this.modify;
 
                 // 若回调函数执行成功，则将相应的数据进行修改
@@ -609,8 +604,7 @@
              * @param msg 服务器返回的对象
              */
             deleteUserCallback: function(msg) {
-                var msg = JSON.parse(msg),
-                    index = null,
+                var index = null,
                     deleteObj = this.del,
                     userList = this.userList,
                     length = 0,
@@ -618,7 +612,7 @@
 
                 // 若回调函数执行成功，则将相应的数据从列表中删除
                 if (Number(msg.code) === 1) {
-                    index = this.searchUser(deleteObj.userId);
+                    index = this.searchUser(deleteObj.userAccount);
                     if(index !== -1) {
                         for(loop = index + 1, length = userList.length; loop < length; loop++) {
                             userList[loop - 1] = userList[loop];
@@ -628,6 +622,24 @@
                         this.paging();
                     }
                     Dialog.tip(msg.msg);
+                } else {
+                    Dialog.warn(msg.msg);
+                }
+            },
+            /**
+             * 获取角色下拉框内容
+             * @param msg 服务器返回的对象
+             */
+            getRoleSelectCallback: function(msg) {
+                var loop = 0, length = 0, item = null;
+
+                if(Number(msg.code) === 1) {
+                    for(loop = 0, length = msg.data.length; loop < length; loop++) {
+                        item = msg.data[loop];
+                        $data = "<option value='" + item.roleId + "'>" + item.roleName + "</option>";
+                        $(".selectpicker").append($data);
+                    }
+                    $(".selectpicker").selectpicker();
                 } else {
                     Dialog.warn(msg.msg);
                 }
