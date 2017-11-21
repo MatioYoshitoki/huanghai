@@ -133,7 +133,6 @@ public class AccountController {
 
         Date now = new Date();
         User modify_user = new User();
-        modify_user.setUserid(user.getUserid());
         modify_user.setOperator(operator);
         modify_user.setUseraccount(userAccount);
         modify_user.setUsername(userName);
@@ -141,7 +140,7 @@ public class AccountController {
         modify_user.setUserrole(Integer.valueOf(userRole));
 
         modify_user.setUsermodify(simpleDateFormat.format(now));
-        userMapper.updateByPrimaryKey(modify_user);
+        userMapper.updateByAccount(modify_user);
 
         result = JsonUtil.fromErrors(Errors.SUCCESS);
         result.put(Keys.MSG,Errors.MODIFY_SUCCESS);
@@ -152,9 +151,9 @@ public class AccountController {
 
     @RequestMapping(value = "/deleteUser", method = RequestMethod.POST , produces="text/json;charset=UTF-8")
     public String deleteUser(
-            @RequestParam(Keys.USERID) String userId
+            @RequestParam(Keys.USERACCOUNT) String account
     ){
-        User user = userMapper.selectByPrimaryKey(Integer.valueOf(userId));
+        User user = userMapper.selectByAccount(account);
         JSONObject result ;
         if (user == null){
             result = JsonUtil.fromErrors(Errors.FAILD);
@@ -162,7 +161,7 @@ public class AccountController {
             result.put(Keys.DATA,new JSONObject());
             return result.toJSONString();
         }
-        userMapper.deleteByPrimaryKey(Integer.valueOf(userId));
+        userMapper.deleteByAccount(account);
         result = JsonUtil.fromErrors(Errors.SUCCESS);
         result.put(Keys.MSG,Errors.DELETE_SUCCESS);
         result.put(Keys.DATA,new JSONObject());
@@ -176,7 +175,7 @@ public class AccountController {
         JSONArray data = new JSONArray();
         for (User user:users){
             JSONObject every_user = new JSONObject();
-            every_user.put(Keys.USERID,user.getUserid());
+            every_user.put(Keys.USERACCOUNT,user.getUseraccount());
             every_user.put(Keys.USERNAME,user.getUsername());
             every_user.put(Keys.USERGENDER,user.getUsergender());
             Role role = roleMapper.selectByPrimaryKey(user.getUserrole());
@@ -203,7 +202,7 @@ public class AccountController {
     ){
         Role role = roleMapper.selectByRoleName(roleName);
         JSONObject result;
-        if (role == null){
+        if (role != null){
             result = JsonUtil.fromErrors(Errors.FAILD);
             result.put(Keys.MSG,Errors.NEW_ROLE_FAILD);
             result.put(Keys.DATA,new JSONObject());
@@ -227,13 +226,14 @@ public class AccountController {
 
     @RequestMapping(value = "/modifyRole", method = RequestMethod.POST , produces="text/json;charset=UTF-8")
     public String modifyRole(
+            @RequestParam(Keys.ROLEID) String roleId,
             @RequestParam(Keys.ROLENAME) String roleName,
             @RequestParam(Keys.ROLEAUTH) String roleAuth,
             @RequestParam(Keys.OPERATOR) String operator
     ){
-        Role role = roleMapper.selectByRoleName(roleName);
+        Role role = roleMapper.selectByPrimaryKey(Integer.parseInt(roleId));
         JSONObject result;
-        if (role != null){
+        if (role == null){
             result = JsonUtil.fromErrors(Errors.FAILD);
             result.put(Keys.MSG,Errors.MODIFY_ROLE_FAILD);
             result.put(Keys.DATA,new JSONObject());
@@ -242,14 +242,12 @@ public class AccountController {
         Role new_role = new Role();
         Date now = new Date();
 
-        new_role.setRoleid(role.getRoleid());
+        new_role.setRoleid(Integer.parseInt(roleId));
         new_role.setOperator(operator);
         new_role.setRoleauth(roleAuth);
         new_role.setRolename(roleName);
-
         new_role.setRolemodify(simpleDateFormat.format(now));
         roleMapper.updateByPrimaryKey(new_role);
-
 
         result = JsonUtil.fromErrors(Errors.SUCCESS);
         result.put(Keys.MSG,Errors.MODIFY_ROLE_SUCCESS);
@@ -283,7 +281,7 @@ public class AccountController {
         JSONArray data = new JSONArray();
         for (Role role:roles){
             JSONObject every_role = new JSONObject();
-            every_role.put(Keys.ROLENAME,role.getRoleauth());
+            every_role.put(Keys.ROLENAME,role.getRolename());
             every_role.put(Keys.ROLEAUTH,role.getRoleauth());
             every_role.put(Keys.ROLEID,role.getRoleid());
             every_role.put(Keys.ROLECREATE, role.getRolecreate());
@@ -296,4 +294,19 @@ public class AccountController {
         return result.toJSONString();
     }
 
+    @RequestMapping(value = "/getRoleSelect", method = RequestMethod.POST , produces="text/json;charset=UTF-8")
+    public String getRoleSelect(){
+        List<Role> roles = roleMapper.selectRole();
+        JSONObject result = JsonUtil.fromErrors(Errors.SUCCESS);
+        JSONArray data = new JSONArray();
+        for (Role role:roles){
+            JSONObject every_role = new JSONObject();
+            every_role.put(Keys.ROLENAME,role.getRolename());
+            every_role.put(Keys.ROLEID,role.getRoleid());
+            data.add(every_role);
+        }
+        result.put(Keys.MSG,"");
+        result.put(Keys.DATA,data);
+        return result.toJSONString();
+    }
 }

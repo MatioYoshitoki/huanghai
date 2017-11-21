@@ -57,26 +57,35 @@
         } else {
             $("#userName").text(user.userName);
             $("#userRoleName").text(user.roleName);
-            $("#reloginBtn").on("click", function () {
-                var account = user.userAccount,
-                    password = $("#password").val();
-
-                if (password === "") {
-                    Dialog.warn("输入的密码不能为空");
-                    return;
+            // 绑定回车键
+            $(document).on("keydown", function(e) {
+                if(Number(e.keyCode) === 13) {
+                    relogin();
                 }
-                Links.connect({
-                    method: "post",
-                    param: {
-                        url: Service.getUrl(1),
-                        data: {
-                            account: account,
-                            password: password
-                        },
-                        successFn: reloginCallback,
-                        errorFn: errorCallback
-                    }
-                });
+            });
+            // 绑定登录按钮
+            $("#reloginBtn").on("click", relogin);
+        }
+
+        function relogin() {
+            var account = user.userAccount,
+                password = $("#password").val();
+
+            if (password === "") {
+                Dialog.warn("输入的密码不能为空");
+                return;
+            }
+            Links.connect({
+                method: "post",
+                param: {
+                    url: Service.getUrl("login"),
+                    data: {
+                        account: account,
+                        password: password
+                    },
+                    successFn: reloginCallback,
+                    errorFn: errorCallback
+                }
             });
         }
 
@@ -85,8 +94,7 @@
          * @param msg 服务器返回对象
          */
         function reloginCallback(msg) {
-            var msg = JSON.parse(msg),
-                data = JSON.stringify(msg.data);
+            var data = JSON.stringify(msg.data);
 
             if(Number(msg.code) === 1) {
                 sessionStorage.setItem("isLogin", "true");
