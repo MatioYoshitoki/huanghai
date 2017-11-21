@@ -235,4 +235,77 @@ public class DataController {
         return result.toJSONString();
     }
 
+    @RequestMapping(value = "/modifyInput", method = RequestMethod.POST , produces="text/json;charset=UTF-8")
+    public String modifyInput(
+            @RequestParam(Keys.TITLE) String title,
+            @RequestParam(Keys.TITLE1) String title1,
+            @RequestParam(Keys.TITLE2) String title2,
+            @RequestParam(Keys.TITLE3) String title3,
+            @RequestParam(Keys.TITLE4) String title4,
+            @RequestParam(Keys.AUTHOR1) String author1,
+            @RequestParam(Keys.AUTHOR2) String author2,
+            @RequestParam(Keys.AUTHOR3) String author3,
+            @RequestParam(Keys.AUTHOR4) String author4,
+            @RequestParam(Keys.ABSTRACT1) String abstract1,
+            @RequestParam(Keys.ABSTRACT2) String abstract2,
+            @RequestParam(Keys.ABSTRACT3) String abstract3,
+            @RequestParam(Keys.ABSTRACT4) String abstract4,
+            @RequestParam(Keys.JOURNAL1) String journal1,
+            @RequestParam(Keys.JOURNAL2) String journal2,
+            @RequestParam(Keys.JOURNAL3) String journal3,
+            @RequestParam(Keys.JOURNAL4) String journal4,
+            @RequestParam(Keys.PUBMED1) String pubmed1,
+            @RequestParam(Keys.PUBMED2) String pubmed2,
+            @RequestParam(Keys.PUBMED3) String pubmed3,
+            @RequestParam(Keys.PUBMED4) String pubmed4,
+            @RequestParam(Keys.LOCUS) String locus,
+            @RequestParam(Keys.PDBID) String pdbid,
+            @RequestParam(Keys.DBSOURCE) String dbsource,
+            @RequestParam(Keys.SOURCE) String source,
+            @RequestParam(Keys.ORGANISM) String organsim,
+            @RequestParam(Keys.DATE) String date,
+            @RequestParam(Keys.COUNTRY) String country,
+            @RequestParam(Keys.ORIGIN) String origin,
+            @RequestParam(Keys.OPERATOR) String operator
+
+    ) {
+        JSONObject result;
+        Date now = new Date();
+        Mme mme = new Mme();
+        mme.setAbstract1(abstract1);
+        mme.setAbstract2(abstract2);
+        mme.setAbstract3(abstract3);
+        mme.setAbstract4(abstract4);
+        mme.setTitle(title);
+        mme.setTitle1(title1);
+        mme.setTitle2(title2);
+        mme.setTitle3(title3);
+        mme.setTitle4(title4);
+        mme.setJournal1(journal1);
+        mme.setJournal2(journal2);
+        mme.setJournal3(journal3);
+        mme.setJournal4(journal4);
+        mme.setPubmed1(pubmed1);
+        mme.setPubmed2(pubmed2);
+        mme.setPubmed3(pubmed3);
+        mme.setPubmed4(pubmed4);
+        mme.setAuthor1(author1);
+        mme.setAuthor2(author2);
+        mme.setAuthor3(author3);
+        mme.setAuthor4(author4);
+        mme.setLocus(locus);
+        mme.setOrganism(organsim);
+        mme.setOrigin(origin);
+        mme.setPdbid(pdbid);
+        mme.setDate(date);
+        mme.setDbsource(dbsource);
+        mme.setSource(source);
+        mme.setCountry(country);
+
+        mme.setModifier(operator);
+        mme.setModifydate(simpleDateFormat.format(now));
+
+        return "";
+    }
+
 }
