@@ -98,7 +98,7 @@
       journal3, pubmed3, abstract3, 
       author4, title4, journal4, 
       pubmed4, abstract4, operator, 
-      operateDate, modifyDate, modifier
+      operateDate, modifyDate
       )
     values (#{id,jdbcType=INTEGER}, #{type,jdbcType=VARCHAR}, #{ec2,jdbcType=VARCHAR}, 
       #{title,jdbcType=VARCHAR}, #{locus,jdbcType=VARCHAR}, #{pdbid,jdbcType=CHAR}, #{dbsource,jdbcType=VARCHAR}, 
@@ -111,7 +111,7 @@
       #{journal3,jdbcType=VARCHAR}, #{pubmed3,jdbcType=VARCHAR}, #{abstract3,jdbcType=VARCHAR}, 
       #{author4,jdbcType=VARCHAR}, #{title4,jdbcType=VARCHAR}, #{journal4,jdbcType=VARCHAR}, 
       #{pubmed4,jdbcType=VARCHAR}, #{abstract4,jdbcType=VARCHAR}, #{operator,jdbcType=VARCHAR}, 
-      #{operatedate,jdbcType=CHAR}, #{modifydate,jdbcType=CHAR}, #{modifier,jdbcType=VARCHAR}
+      #{operatedate,jdbcType=CHAR}, #{modifydate,jdbcType=CHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.matio.pojo.Mme" >
@@ -219,14 +219,8 @@
       <if test="operator != null" >
         operator,
       </if>
-      <if test="operatedate != null" >
-        operateDate,
-      </if>
       <if test="modifydate != null" >
         modifyDate,
-      </if>
-      <if test="modifier != null" >
-        modifier,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -332,14 +326,8 @@
       <if test="operator != null" >
         #{operator,jdbcType=VARCHAR},
       </if>
-      <if test="operatedate != null" >
-        #{operatedate,jdbcType=CHAR},
-      </if>
       <if test="modifydate != null" >
         #{modifydate,jdbcType=CHAR},
-      </if>
-      <if test="modifier != null" >
-        #{modifier,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -442,12 +430,6 @@
       <if test="abstract4 != null" >
         abstract4 = #{abstract4,jdbcType=VARCHAR},
       </if>
-      <if test="operator != null" >
-        operator = #{operator,jdbcType=VARCHAR},
-      </if>
-      <if test="operatedate != null" >
-        operateDate = #{operatedate,jdbcType=CHAR},
-      </if>
       <if test="modifydate != null" >
         modifyDate = #{modifydate,jdbcType=CHAR},
       </if>
@@ -491,8 +473,6 @@
       journal4 = #{journal4,jdbcType=VARCHAR},
       pubmed4 = #{pubmed4,jdbcType=VARCHAR},
       abstract4 = #{abstract4,jdbcType=VARCHAR},
-      operator = #{operator,jdbcType=VARCHAR},
-      operateDate = #{operatedate,jdbcType=CHAR},
       modifyDate = #{modifydate,jdbcType=CHAR},
       modifier = #{modifier,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}

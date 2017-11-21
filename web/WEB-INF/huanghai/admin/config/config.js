@@ -71,7 +71,15 @@ var Service = {
                 case "getRoleSelect":
                     return "/getRoleSelect";
                 case "getParam":
-                    return "/getParam";
+                    return "/getTypeAndEC2";
+                case "createData":
+                    return "/manualInput";
+                case "modifyData":
+                    return "/modifyInput";
+                case "deleteData":
+                    return "/deleteData";
+                case "getDataList":
+                    return "/getData";
                 case 99:
                     return "data/successTest";
 

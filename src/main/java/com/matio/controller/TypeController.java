@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.swing.text.View;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -99,9 +100,10 @@ public class TypeController {
 
     @RequestMapping(value = "/getTypeAndEC2", method = RequestMethod.POST , produces="text/json;charset=UTF-8")
     public String getTypeAndEC2(){
-        List<View_param> view_params = view_paramMapper.selectAll();
+        List<View_param> dataType = view_paramMapper.selectType();
+        List<View_param> dataEc2 = view_paramMapper.selectEc2();
         JSONObject result ;
-        if (view_params == null){
+        if (dataType == null && dataEc2 == null){
             result = JsonUtil.fromErrors(Errors.FAILD);
             result.put(Keys.MSG,Errors.GETTYPEANDEC2_FAILD);
             result.put(Keys.DATA,new JSONObject());
@@ -112,9 +114,11 @@ public class TypeController {
         JSONObject data = new JSONObject();
         List<String> types = new ArrayList<>();
         List<String> ec2 = new ArrayList<>();
-        for (View_param view_param:view_params){
-            types.add(view_param.getType());
-            ec2.add(view_param.getEc2());
+        for (View_param item:dataType){
+            types.add(item.getType());
+        }
+        for(View_param item:dataEc2) {
+            ec2.add(item.getEc2());
         }
         data.put(Keys.TYPE,types);
         data.put(Keys.EC2,ec2);

@@ -32,7 +32,7 @@ public class DataController {
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     @RequestMapping(value = "/manualInput", method = RequestMethod.POST , produces="text/json;charset=UTF-8")
-    public String deleteRole(
+    public String manualInput(
             @RequestParam(Keys.TITLE) String title,
             @RequestParam(Keys.TITLE1) String title1,
             @RequestParam(Keys.TITLE2) String title2,
@@ -62,8 +62,9 @@ public class DataController {
             @RequestParam(Keys.DATE) String date,
             @RequestParam(Keys.COUNTRY) String country,
             @RequestParam(Keys.ORIGIN) String origin,
-            @RequestParam(Keys.OPERATOR) String operator
-
+            @RequestParam(Keys.OPERATOR) String operator,
+            @RequestParam(Keys.TYPE) String type,
+            @RequestParam(Keys.EC2) String ec2
     ){
         JSONObject result ;
         Date now = new Date();
@@ -97,9 +98,11 @@ public class DataController {
         mme.setDbsource(dbsource);
         mme.setSource(source);
         mme.setCountry(country);
+        mme.setType(type);
+        mme.setEc2(ec2);
 
         mme.setOperator(operator);
-        mme.setModifier(operator);
+//        mme.setModifier(operator);
         mme.setOperatedate(simpleDateFormat.format(now));
         mme.setModifydate(simpleDateFormat.format(now));
         if (mmeMapper.insert(mme) > 0){
@@ -131,6 +134,8 @@ public class DataController {
         condition.setStartSize(startSize);;
         condition.setEndSize(endSize);
         switch (type){
+            case "0":
+                break;
             case "1":
                 condition.setPdbId(param);
                 break;
@@ -172,6 +177,7 @@ public class DataController {
         }
         for (Mme mme:mmes){
             JSONObject buff = new JSONObject();
+            buff.put(Keys.MMEID, mme.getId());
             buff.put(Keys.TITLE,mme.getTitle());
             buff.put(Keys.TITLE1,mme.getTitle1());
             buff.put(Keys.TITLE2,mme.getTitle2());
@@ -208,6 +214,7 @@ public class DataController {
             buff.put(Keys.OPERATEDATE,mme.getOperatedate());
             buff.put(Keys.MODIFYDATE,mme.getModifydate());
             buff.put(Keys.PDBID,mme.getPdbid());
+            buff.put(Keys.TYPE,mme.getType());
             data.add(buff);
 
         }
@@ -218,9 +225,9 @@ public class DataController {
 
     @RequestMapping(value = "/deleteData", method = RequestMethod.POST , produces="text/json;charset=UTF-8")
     public String deleteData(
-            @RequestParam(Keys.USERID) String userId
+            @RequestParam(Keys.ID) String id
     ){
-        Mme mme = mmeMapper.selectByPrimaryKey(Integer.valueOf(userId));
+        Mme mme = mmeMapper.selectByPrimaryKey(Integer.valueOf(id));
         JSONObject result ;
         if (mme == null){
             result = JsonUtil.fromErrors(Errors.FAILD);
@@ -228,7 +235,7 @@ public class DataController {
             result.put(Keys.DATA,new JSONObject());
             return result.toJSONString();
         }
-        mmeMapper.deleteByPrimaryKey(Integer.valueOf(userId));
+        mmeMapper.deleteByPrimaryKey(Integer.valueOf(id));
         result = JsonUtil.fromErrors(Errors.SUCCESS);
         result.put(Keys.MSG,Errors.DELETEDATA_SUCCESS);
         result.put(Keys.DATA,new JSONObject());
@@ -267,7 +274,9 @@ public class DataController {
             @RequestParam(Keys.DATE) String date,
             @RequestParam(Keys.COUNTRY) String country,
             @RequestParam(Keys.ORIGIN) String origin,
-            @RequestParam(Keys.OPERATOR) String operator
+            @RequestParam(Keys.OPERATOR) String operator,
+            @RequestParam(Keys.TYPE) String type,
+            @RequestParam(Keys.EC2) String ec2
 
     ) {
         JSONObject result;
@@ -303,6 +312,8 @@ public class DataController {
         mme.setDbsource(dbsource);
         mme.setSource(source);
         mme.setCountry(country);
+        mme.setType(type);
+        mme.setEc2(ec2);
 
         mme.setModifier(operator);
         mme.setModifydate(simpleDateFormat.format(now));
