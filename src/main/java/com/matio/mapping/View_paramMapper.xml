@@ -9,6 +9,18 @@
     insert into view_param (type, ec2)
     values (#{type,jdbcType=VARCHAR}, #{ec2,jdbcType=VARCHAR})
   </insert>
+  <select id="selectEc2" resultMap="BaseResultMap">
+    SELECT
+    DISTINCT ec2
+    FROM
+    view_param
+  </select>
+  <select id="selectType" resultMap="BaseResultMap">
+    SELECT
+    DISTINCT type
+    FROM
+    view_param
+  </select>
   <select id="selectAll" resultMap="BaseResultMap">
     SELECT
     *
