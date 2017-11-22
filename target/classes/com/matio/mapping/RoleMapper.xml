@@ -23,6 +23,11 @@
     <include refid="Base_Column_List" />
     from role
   </select>
+  <select id="selectRole" resultMap="BaseResultMap" >
+    select
+    roleId, roleName
+    from role
+  </select>
   <select id="selectByRoleName" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select
     <include refid="Base_Column_List" />
@@ -109,7 +114,6 @@
     update role
     set roleName = #{rolename,jdbcType=VARCHAR},
       roleAuth = #{roleauth,jdbcType=VARCHAR},
-      roleCreate = #{rolecreate,jdbcType=CHAR},
       roleModify = #{rolemodify,jdbcType=CHAR},
       operator = #{operator,jdbcType=VARCHAR}
     where roleId = #{roleid,jdbcType=INTEGER}

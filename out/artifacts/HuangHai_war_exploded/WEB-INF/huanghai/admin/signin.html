@@ -7,7 +7,6 @@
     <title>后台管理系统登录界面</title>
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/font-awesome.min.css">
-    <link rel="stylesheet" href="css/skins/palette.1.css" id="skin">
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="../asset/easyDialog/css/easydialog.css">
     <!--[if lt IE 9]>
@@ -44,10 +43,24 @@
         sessionStorage.removeItem("user");
         sessionStorage.removeItem("isLogin");
 
-        $("#loginBtn").on("click", function() {
+        // 绑定回车键
+        $(document).on("keydown", function(e) {
+            if(Number(e.keyCode) === 13) {
+                login();
+            }
+        });
+
+        // 绑定登录按钮
+        $("#loginBtn").on("click", login);
+
+        /**
+         * 登录操作
+         */
+        function login() {
             var account = $("#userAccount").val(),
                 password = $("#password").val(),
-                validator = new Validator();
+                validator = new Validator(),
+                timer = null;
 
             if(!validator.account(account) || account === "") {
                 Dialog.warn("输入的账号不能为空，或格式有误");
@@ -57,27 +70,31 @@
                 Dialog.warn("输入的密码不能为空");
                 return;
             }
-            Links.connect({
-                method: "post",
-                param: {
-                    url: Service.getUrl(1),
-                    data: {
-                        account: account,
-                        password: password
-                    },
-                    successFn: loginCallback,
-                    errorFn: errorCallback
-                }
-            })
-        });
+            Dialog.info("正在登录，请稍候");
+            timer = setTimeout(function() {
+                Links.connect({
+                    method: "post",
+                    param: {
+                        url: Service.getUrl("login"),
+                        data: {
+                            account: account,
+                            password: password
+                        },
+                        successFn: loginCallback,
+                        errorFn: errorCallback
+                    }
+                });
+                easyDialog.close();
+                clearTimeout(timer);
+            }, 1000);
+        }
 
         /**
          * 登录操作执行后的回调函数
          * @param msg 服务器返回的对象
          */
         function loginCallback(msg) {
-            var msg = JSON.parse(msg),
-                data = JSON.stringify(msg.data);
+            var data = JSON.stringify(msg.data);
 
             if(Number(msg.code) === 1) {
                 sessionStorage.setItem("user", data);

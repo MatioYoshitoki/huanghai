@@ -69,6 +69,7 @@ public class Keys {
     public static final String ABSTRACT4 = "abstract4";
     public static final String MICROBE = "microbe";
     public static final String EC2 = "ec2";
+    public static final String EC1 = "ec1";
     public static final String MODIFIER = "modifier";
     public static final String OPERATEDATE = "operateDate";
     public static final String MODIFYDATE = "modifyDate";

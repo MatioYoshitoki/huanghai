@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.matio.mapping.View_frontMapper" >
+  <resultMap id="BaseResultMap" type="com.matio.pojo.View_front" >
+    <result column="id" property="id" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="ec2" property="ec2" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="locus" property="locus" jdbcType="VARCHAR" />
+    <result column="pdbId" property="pdbid" jdbcType="CHAR" />
+    <result column="dbsource" property="dbsource" jdbcType="VARCHAR" />
+    <result column="microbe" property="microbe" jdbcType="VARCHAR" />
+    <result column="source" property="source" jdbcType="VARCHAR" />
+    <result column="organism" property="organism" jdbcType="VARCHAR" />
+    <result column="date" property="date" jdbcType="CHAR" />
+    <result column="country" property="country" jdbcType="VARCHAR" />
+    <result column="origin" property="origin" jdbcType="VARCHAR" />
+    <result column="author1" property="author1" jdbcType="VARCHAR" />
+    <result column="title1" property="title1" jdbcType="VARCHAR" />
+    <result column="journal1" property="journal1" jdbcType="VARCHAR" />
+    <result column="pubmed1" property="pubmed1" jdbcType="VARCHAR" />
+    <result column="abstract1" property="abstract1" jdbcType="VARCHAR" />
+    <result column="author2" property="author2" jdbcType="VARCHAR" />
+    <result column="title2" property="title2" jdbcType="VARCHAR" />
+    <result column="journal2" property="journal2" jdbcType="VARCHAR" />
+    <result column="pubmed2" property="pubmed2" jdbcType="VARCHAR" />
+    <result column="abstract2" property="abstract2" jdbcType="VARCHAR" />
+    <result column="author3" property="author3" jdbcType="VARCHAR" />
+    <result column="title3" property="title3" jdbcType="VARCHAR" />
+    <result column="journal3" property="journal3" jdbcType="VARCHAR" />
+    <result column="pubmed3" property="pubmed3" jdbcType="VARCHAR" />
+    <result column="abstract3" property="abstract3" jdbcType="VARCHAR" />
+    <result column="author4" property="author4" jdbcType="VARCHAR" />
+    <result column="title4" property="title4" jdbcType="VARCHAR" />
+    <result column="journal4" property="journal4" jdbcType="VARCHAR" />
+    <result column="pubmed4" property="pubmed4" jdbcType="VARCHAR" />
+    <result column="abstract4" property="abstract4" jdbcType="VARCHAR" />
+    <result column="operator" property="operator" jdbcType="VARCHAR" />
+    <result column="operateDate" property="operatedate" jdbcType="CHAR" />
+    <result column="modifyDate" property="modifydate" jdbcType="CHAR" />
+    <result column="modifier" property="modifier" jdbcType="VARCHAR" />
+    <result column="ec1" property="ec1" jdbcType="VARCHAR" />
+  </resultMap>
+  <insert id="insert" parameterType="com.matio.pojo.View_front" >
+    insert into view_front (id, type, ec2, 
+      title, locus, pdbId, dbsource, 
+      microbe, source, organism, 
+      date, country, origin, 
+      author1, title1, journal1, 
+      pubmed1, abstract1, author2, 
+      title2, journal2, pubmed2, 
+      abstract2, author3, title3, 
+      journal3, pubmed3, abstract3, 
+      author4, title4, journal4, 
+      pubmed4, abstract4, operator, 
+      operateDate, modifyDate, modifier, 
+      ec1)
+    values (#{id,jdbcType=INTEGER}, #{type,jdbcType=VARCHAR}, #{ec2,jdbcType=VARCHAR}, 
+      #{title,jdbcType=VARCHAR}, #{locus,jdbcType=VARCHAR}, #{pdbid,jdbcType=CHAR}, #{dbsource,jdbcType=VARCHAR}, 
+      #{microbe,jdbcType=VARCHAR}, #{source,jdbcType=VARCHAR}, #{organism,jdbcType=VARCHAR}, 
+      #{date,jdbcType=CHAR}, #{country,jdbcType=VARCHAR}, #{origin,jdbcType=VARCHAR}, 
+      #{author1,jdbcType=VARCHAR}, #{title1,jdbcType=VARCHAR}, #{journal1,jdbcType=VARCHAR}, 
+      #{pubmed1,jdbcType=VARCHAR}, #{abstract1,jdbcType=VARCHAR}, #{author2,jdbcType=VARCHAR}, 
+      #{title2,jdbcType=VARCHAR}, #{journal2,jdbcType=VARCHAR}, #{pubmed2,jdbcType=VARCHAR}, 
+      #{abstract2,jdbcType=VARCHAR}, #{author3,jdbcType=VARCHAR}, #{title3,jdbcType=VARCHAR}, 
+      #{journal3,jdbcType=VARCHAR}, #{pubmed3,jdbcType=VARCHAR}, #{abstract3,jdbcType=VARCHAR}, 
+      #{author4,jdbcType=VARCHAR}, #{title4,jdbcType=VARCHAR}, #{journal4,jdbcType=VARCHAR}, 
+      #{pubmed4,jdbcType=VARCHAR}, #{abstract4,jdbcType=VARCHAR}, #{operator,jdbcType=VARCHAR}, 
+      #{operatedate,jdbcType=CHAR}, #{modifydate,jdbcType=CHAR}, #{modifier,jdbcType=VARCHAR}, 
+      #{ec1,jdbcType=VARCHAR})
+  </insert>
+  <select id="selectByFuzzyEC2" resultMap="BaseResultMap">
+    SELECT * FROM view_front WHERE ec1 = #{ec1} AND ec2 like CONCAT(#{ec2},"%")
+  </select>
+  <insert id="insertSelective" parameterType="com.matio.pojo.View_front" >
+    insert into view_front
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="ec2 != null" >
+        ec2,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="locus != null" >
+        locus,
+      </if>
+      <if test="pdbid != null" >
+        pdbId,
+      </if>
+      <if test="dbsource != null" >
+        dbsource,
+      </if>
+      <if test="microbe != null" >
+        microbe,
+      </if>
+      <if test="source != null" >
+        source,
+      </if>
+      <if test="organism != null" >
+        organism,
+      </if>
+      <if test="date != null" >
+        date,
+      </if>
+      <if test="country != null" >
+        country,
+      </if>
+      <if test="origin != null" >
+        origin,
+      </if>
+      <if test="author1 != null" >
+        author1,
+      </if>
+      <if test="title1 != null" >
+        title1,
+      </if>
+      <if test="journal1 != null" >
+        journal1,
+      </if>
+      <if test="pubmed1 != null" >
+        pubmed1,
+      </if>
+      <if test="abstract1 != null" >
+        abstract1,
+      </if>
+      <if test="author2 != null" >
+        author2,
+      </if>
+      <if test="title2 != null" >
+        title2,
+      </if>
+      <if test="journal2 != null" >
+        journal2,
+      </if>
+      <if test="pubmed2 != null" >
+        pubmed2,
+      </if>
+      <if test="abstract2 != null" >
+        abstract2,
+      </if>
+      <if test="author3 != null" >
+        author3,
+      </if>
+      <if test="title3 != null" >
+        title3,
+      </if>
+      <if test="journal3 != null" >
+        journal3,
+      </if>
+      <if test="pubmed3 != null" >
+        pubmed3,
+      </if>
+      <if test="abstract3 != null" >
+        abstract3,
+      </if>
+      <if test="author4 != null" >
+        author4,
+      </if>
+      <if test="title4 != null" >
+        title4,
+      </if>
+      <if test="journal4 != null" >
+        journal4,
+      </if>
+      <if test="pubmed4 != null" >
+        pubmed4,
+      </if>
+      <if test="abstract4 != null" >
+        abstract4,
+      </if>
+      <if test="operator != null" >
+        operator,
+      </if>
+      <if test="operatedate != null" >
+        operateDate,
+      </if>
+      <if test="modifydate != null" >
+        modifyDate,
+      </if>
+      <if test="modifier != null" >
+        modifier,
+      </if>
+      <if test="ec1 != null" >
+        ec1,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="ec2 != null" >
+        #{ec2,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="locus != null" >
+        #{locus,jdbcType=VARCHAR},
+      </if>
+      <if test="pdbid != null" >
+        #{pdbid,jdbcType=CHAR},
+      </if>
+      <if test="dbsource != null" >
+        #{dbsource,jdbcType=VARCHAR},
+      </if>
+      <if test="microbe != null" >
+        #{microbe,jdbcType=VARCHAR},
+      </if>
+      <if test="source != null" >
+        #{source,jdbcType=VARCHAR},
+      </if>
+      <if test="organism != null" >
+        #{organism,jdbcType=VARCHAR},
+      </if>
+      <if test="date != null" >
+        #{date,jdbcType=CHAR},
+      </if>
+      <if test="country != null" >
+        #{country,jdbcType=VARCHAR},
+      </if>
+      <if test="origin != null" >
+        #{origin,jdbcType=VARCHAR},
+      </if>
+      <if test="author1 != null" >
+        #{author1,jdbcType=VARCHAR},
+      </if>
+      <if test="title1 != null" >
+        #{title1,jdbcType=VARCHAR},
+      </if>
+      <if test="journal1 != null" >
+        #{journal1,jdbcType=VARCHAR},
+      </if>
+      <if test="pubmed1 != null" >
+        #{pubmed1,jdbcType=VARCHAR},
+      </if>
+      <if test="abstract1 != null" >
+        #{abstract1,jdbcType=VARCHAR},
+      </if>
+      <if test="author2 != null" >
+        #{author2,jdbcType=VARCHAR},
+      </if>
+      <if test="title2 != null" >
+        #{title2,jdbcType=VARCHAR},
+      </if>
+      <if test="journal2 != null" >
+        #{journal2,jdbcType=VARCHAR},
+      </if>
+      <if test="pubmed2 != null" >
+        #{pubmed2,jdbcType=VARCHAR},
+      </if>
+      <if test="abstract2 != null" >
+        #{abstract2,jdbcType=VARCHAR},
+      </if>
+      <if test="author3 != null" >
+        #{author3,jdbcType=VARCHAR},
+      </if>
+      <if test="title3 != null" >
+        #{title3,jdbcType=VARCHAR},
+      </if>
+      <if test="journal3 != null" >
+        #{journal3,jdbcType=VARCHAR},
+      </if>
+      <if test="pubmed3 != null" >
+        #{pubmed3,jdbcType=VARCHAR},
+      </if>
+      <if test="abstract3 != null" >
+        #{abstract3,jdbcType=VARCHAR},
+      </if>
+      <if test="author4 != null" >
+        #{author4,jdbcType=VARCHAR},
+      </if>
+      <if test="title4 != null" >
+        #{title4,jdbcType=VARCHAR},
+      </if>
+      <if test="journal4 != null" >
+        #{journal4,jdbcType=VARCHAR},
+      </if>
+      <if test="pubmed4 != null" >
+        #{pubmed4,jdbcType=VARCHAR},
+      </if>
+      <if test="abstract4 != null" >
+        #{abstract4,jdbcType=VARCHAR},
+      </if>
+      <if test="operator != null" >
+        #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="operatedate != null" >
+        #{operatedate,jdbcType=CHAR},
+      </if>
+      <if test="modifydate != null" >
+        #{modifydate,jdbcType=CHAR},
+      </if>
+      <if test="modifier != null" >
+        #{modifier,jdbcType=VARCHAR},
+      </if>
+      <if test="ec1 != null" >
+        #{ec1,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>

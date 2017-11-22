@@ -5,9 +5,11 @@ import com.alibaba.fastjson.JSONObject;
 import com.matio.constraints.Errors;
 import com.matio.constraints.Keys;
 import com.matio.mapping.MmeMapper;
+import com.matio.mapping.View_frontMapper;
 import com.matio.pojo.Mme;
 import com.matio.pojo.MmeCondition;
 import com.matio.pojo.User;
+import com.matio.pojo.View_front;
 import com.matio.unit.JsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.support.ManagedMap;
@@ -28,6 +30,8 @@ import java.util.List;
 public class DataController {
     @Autowired
     MmeMapper mmeMapper;
+    @Autowired
+    View_frontMapper view_frontMapper;
 
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
@@ -332,70 +336,40 @@ public class DataController {
         return result.toJSONString();
     }
 
-//    @RequestMapping(value = "/getFrontList", method = RequestMethod.POST , produces="text/json;charset=UTF-8")
-//    public String getFrontList(
-//            @RequestParam(Keys.TYPE) String type,
-//            @RequestParam(Keys.PREFIX) String prefix
-//    ){
-//        MmeCondition mmeCondition = new MmeCondition();
-//        mmeCondition.setEc2(prefix);
-//        mmeCondition.setType(type);
-//        List<Mme> mmes = mmeMapper.selectByFuzzyEC2(mmeCondition);
-//
-//        JSONObject result = JsonUtil.fromErrors(Errors.SUCCESS);
-//        JSONArray data = new JSONArray();
-//        if (mmes == null){
-//            result = JsonUtil.fromErrors(Errors.FAILD);
-//            result.put(Keys.MSG,Errors.GETDATEFAILD);
-//            result.put(Keys.DATA,new JSONObject());
-//            return result.toJSONString();
-//        }
-//
-//        for (Mme mme:mmes){
-//            JSONObject buff = new JSONObject();
-//            buff.put(Keys.MMEID, mme.getId());
-//            buff.put(Keys.TITLE,mme.getTitle());
-//            buff.put(Keys.TITLE1,mme.getTitle1());
-//            buff.put(Keys.TITLE2,mme.getTitle2());
-//            buff.put(Keys.TITLE3,mme.getTitle3());
-//            buff.put(Keys.TITLE4,mme.getTitle4());
-//            buff.put(Keys.ABSTRACT1,mme.getAbstract1());
-//            buff.put(Keys.ABSTRACT2,mme.getAbstract2());
-//            buff.put(Keys.ABSTRACT3,mme.getAbstract3());
-//            buff.put(Keys.ABSTRACT4,mme.getAbstract4());
-//            buff.put(Keys.AUTHOR1,mme.getAuthor1());
-//            buff.put(Keys.AUTHOR2,mme.getAuthor2());
-//            buff.put(Keys.AUTHOR3,mme.getAuthor3());
-//            buff.put(Keys.AUTHOR4,mme.getAuthor4());
-//            buff.put(Keys.JOURNAL1,mme.getJournal1());
-//            buff.put(Keys.JOURNAL2,mme.getJournal2());
-//            buff.put(Keys.JOURNAL3,mme.getJournal3());
-//            buff.put(Keys.JOURNAL4,mme.getJournal4());
-//            buff.put(Keys.PUBMED1,mme.getPubmed1());
-//            buff.put(Keys.PUBMED2,mme.getPubmed2());
-//            buff.put(Keys.PUBMED3,mme.getPubmed3());
-//            buff.put(Keys.PUBMED4,mme.getPubmed4());
-//
-//            buff.put(Keys.COUNTRY,mme.getCountry());
-//            buff.put(Keys.LOCUS,mme.getLocus());
-//            buff.put(Keys.MICROBE,mme.getMicrobe());
-//            buff.put(Keys.EC2,mme.getEc2());
-//            buff.put(Keys.SOURCE,mme.getSource());
-//            buff.put(Keys.DBSOURCE,mme.getDbsource());
-//            buff.put(Keys.DATE,mme.getDate());
-//            buff.put(Keys.ORGANISM,mme.getOrganism());
-//            buff.put(Keys.ORIGIN,mme.getOrigin());
-//            buff.put(Keys.OPERATOR,mme.getOperator());
-//            buff.put(Keys.MODIFIER,mme.getModifier());
-//            buff.put(Keys.OPERATEDATE,mme.getOperatedate());
-//            buff.put(Keys.MODIFYDATE,mme.getModifydate());
-//            buff.put(Keys.PDBID,mme.getPdbid());
-//            buff.put(Keys.TYPE,mme.getType());
-//            data.add(buff);
-//
-//        }
-//
-//
-//    }
+    @RequestMapping(value = "/getFrontList", method = RequestMethod.POST , produces="text/json;charset=UTF-8")
+    public String getFrontList(
+            @RequestParam(Keys.EC1) String ec1,
+            @RequestParam(Keys.PREFIX) String prefix
+    ){
+        MmeCondition mmeCondition = new MmeCondition();
+        mmeCondition.setEc2(prefix);
+        mmeCondition.setEc1(ec1);
+        List<View_front> view_fronts = view_frontMapper.selectByFuzzyEC2(mmeCondition);
+
+        JSONObject result = JsonUtil.fromErrors(Errors.SUCCESS);
+        JSONArray data = new JSONArray();
+
+        if (view_fronts == null){
+            result = JsonUtil.fromErrors(Errors.FAILD);
+            result.put(Keys.MSG,Errors.GETDATEFAILD);
+            result.put(Keys.DATA,new JSONObject());
+            return result.toJSONString();
+        }
+
+        for (View_front view_front:view_fronts){
+            JSONObject buff = new JSONObject();
+
+            buff.put(Keys.TITLE,view_front.getTitle());
+            buff.put(Keys.EC2,view_front.getEc2());
+            buff.put(Keys.LOCUS,view_front.getLocus());
+
+            data.add(buff);
+
+        }
+
+        result.put(Keys.DATA,data);
+        result.put(Keys.MSG,"");
+        return result.toJSONString();
+    }
 
 }

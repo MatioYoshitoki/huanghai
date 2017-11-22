@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.matio.mapping.View_paramMapper" >
+  <resultMap id="BaseResultMap" type="com.matio.pojo.View_param" >
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="ec2" property="ec2" jdbcType="VARCHAR" />
+  </resultMap>
+  <insert id="insert" parameterType="com.matio.pojo.View_param" >
+    insert into view_param (type, ec2)
+    values (#{type,jdbcType=VARCHAR}, #{ec2,jdbcType=VARCHAR})
+  </insert>
+  <select id="selectEc2" resultMap="BaseResultMap">
+    SELECT
+    DISTINCT ec2
+    FROM
+    view_param
+  </select>
+  <select id="selectType" resultMap="BaseResultMap">
+    SELECT
+    DISTINCT type
+    FROM
+    view_param
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    SELECT
+    *
+    FROM
+    view_param
+  </select>
+  <insert id="insertSelective" parameterType="com.matio.pojo.View_param" >
+    insert into view_param
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="ec2 != null" >
+        ec2,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="ec2 != null" >
+        #{ec2,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>
