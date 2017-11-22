@@ -14,6 +14,8 @@ public interface MmeMapper {
 
     List<Mme> selectByCondition(MmeCondition condition);
 
+    List<Mme> selectByFuzzyEC2(MmeCondition condition);
+
     Mme selectByPrimaryKey(Integer id);
 
     int updateByPrimaryKeySelective(Mme record);

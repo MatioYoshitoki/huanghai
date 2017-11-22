@@ -18,6 +18,10 @@ public class Errors {
 	public static final String DELETE_FAILE = "删除用户失败！";
 	public static final String DELETE_SUCCESS = "删除用户成功！";
 
+	//modify_user
+	public static final String CHANGE_PASSWORD_FAILD = "密码修改失败！";
+	public static final String CHANGE_PASSWORD_SUCCESS = "密码修改成功！";
+
 	//role
 	public static final String NEW_ROLE_FAILD = "新建角色失败！";
 	public static final String NEW_ROLE_SUCCESS = "新建角色成功！";

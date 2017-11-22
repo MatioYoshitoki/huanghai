@@ -52,6 +52,14 @@
     from mme
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="selectByFuzzyEC2" resultMap="BaseResultMap" parameterType="com.matio.pojo.MmeCondition" >
+    select
+    <include refid="Base_Column_List" />
+    from mme
+    where type = #{type,jdbcType=INTEGER}
+    AND
+    ec2 like #{ec2} + "%"
+  </select>
   <select id="selectByCondition" resultMap="BaseResultMap" parameterType="com.matio.pojo.MmeCondition" >
     select
     <include refid="Base_Column_List" />

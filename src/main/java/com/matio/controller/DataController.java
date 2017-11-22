@@ -220,6 +220,7 @@ public class DataController {
         }
         result.put(Keys.DATA,data);
         result.put(Keys.MSG,"");
+        result.put(Keys.COUNT,mmes.size());
         return result.toJSONString();
     }
 
@@ -330,5 +331,71 @@ public class DataController {
 
         return result.toJSONString();
     }
+
+//    @RequestMapping(value = "/getFrontList", method = RequestMethod.POST , produces="text/json;charset=UTF-8")
+//    public String getFrontList(
+//            @RequestParam(Keys.TYPE) String type,
+//            @RequestParam(Keys.PREFIX) String prefix
+//    ){
+//        MmeCondition mmeCondition = new MmeCondition();
+//        mmeCondition.setEc2(prefix);
+//        mmeCondition.setType(type);
+//        List<Mme> mmes = mmeMapper.selectByFuzzyEC2(mmeCondition);
+//
+//        JSONObject result = JsonUtil.fromErrors(Errors.SUCCESS);
+//        JSONArray data = new JSONArray();
+//        if (mmes == null){
+//            result = JsonUtil.fromErrors(Errors.FAILD);
+//            result.put(Keys.MSG,Errors.GETDATEFAILD);
+//            result.put(Keys.DATA,new JSONObject());
+//            return result.toJSONString();
+//        }
+//
+//        for (Mme mme:mmes){
+//            JSONObject buff = new JSONObject();
+//            buff.put(Keys.MMEID, mme.getId());
+//            buff.put(Keys.TITLE,mme.getTitle());
+//            buff.put(Keys.TITLE1,mme.getTitle1());
+//            buff.put(Keys.TITLE2,mme.getTitle2());
+//            buff.put(Keys.TITLE3,mme.getTitle3());
+//            buff.put(Keys.TITLE4,mme.getTitle4());
+//            buff.put(Keys.ABSTRACT1,mme.getAbstract1());
+//            buff.put(Keys.ABSTRACT2,mme.getAbstract2());
+//            buff.put(Keys.ABSTRACT3,mme.getAbstract3());
+//            buff.put(Keys.ABSTRACT4,mme.getAbstract4());
+//            buff.put(Keys.AUTHOR1,mme.getAuthor1());
+//            buff.put(Keys.AUTHOR2,mme.getAuthor2());
+//            buff.put(Keys.AUTHOR3,mme.getAuthor3());
+//            buff.put(Keys.AUTHOR4,mme.getAuthor4());
+//            buff.put(Keys.JOURNAL1,mme.getJournal1());
+//            buff.put(Keys.JOURNAL2,mme.getJournal2());
+//            buff.put(Keys.JOURNAL3,mme.getJournal3());
+//            buff.put(Keys.JOURNAL4,mme.getJournal4());
+//            buff.put(Keys.PUBMED1,mme.getPubmed1());
+//            buff.put(Keys.PUBMED2,mme.getPubmed2());
+//            buff.put(Keys.PUBMED3,mme.getPubmed3());
+//            buff.put(Keys.PUBMED4,mme.getPubmed4());
+//
+//            buff.put(Keys.COUNTRY,mme.getCountry());
+//            buff.put(Keys.LOCUS,mme.getLocus());
+//            buff.put(Keys.MICROBE,mme.getMicrobe());
+//            buff.put(Keys.EC2,mme.getEc2());
+//            buff.put(Keys.SOURCE,mme.getSource());
+//            buff.put(Keys.DBSOURCE,mme.getDbsource());
+//            buff.put(Keys.DATE,mme.getDate());
+//            buff.put(Keys.ORGANISM,mme.getOrganism());
+//            buff.put(Keys.ORIGIN,mme.getOrigin());
+//            buff.put(Keys.OPERATOR,mme.getOperator());
+//            buff.put(Keys.MODIFIER,mme.getModifier());
+//            buff.put(Keys.OPERATEDATE,mme.getOperatedate());
+//            buff.put(Keys.MODIFYDATE,mme.getModifydate());
+//            buff.put(Keys.PDBID,mme.getPdbid());
+//            buff.put(Keys.TYPE,mme.getType());
+//            data.add(buff);
+//
+//        }
+//
+//
+//    }
 
 }

@@ -309,4 +309,30 @@ public class AccountController {
         result.put(Keys.DATA,data);
         return result.toJSONString();
     }
+
+    @RequestMapping(value = "/changePassword", method = RequestMethod.POST , produces="text/json;charset=UTF-8")
+    public String changePassword(
+            @RequestParam(Keys.ACCOUNT) String account,
+            @RequestParam(Keys.OLDPWD) String oldPwd,
+            @RequestParam(Keys.NEWPWD) String newPwd
+    ) {
+        User user = userMapper.selectByAccount(account);
+
+        JSONObject result ;
+        if (user!=null && user.getPassword().equals(MD5Util.encode32(oldPwd))){
+            result = JsonUtil.fromErrors(Errors.SUCCESS);
+            User changePWD = new User();
+            changePWD.setUseraccount(user.getUseraccount());
+            changePWD.setPassword(newPwd);
+            userMapper.updateByAccount(changePWD);
+            result.put(Keys.MSG,Errors.CHANGE_PASSWORD_SUCCESS);
+            result.put(Keys.DATA,new JSONObject());
+        }else {
+            result = JsonUtil.fromErrors(Errors.FAILD);
+            result.put(Keys.MSG,Errors.CHANGE_PASSWORD_FAILD);
+            result.put(Keys.DATA,new JSONObject());
+        }
+
+        return result.toJSONString();
+    }
 }

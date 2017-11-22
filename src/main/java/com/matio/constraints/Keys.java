@@ -19,6 +19,8 @@ public class Keys {
     public static final String ACCOUNT = "account";
     public static final String PASSWORD = "password";
     public static final String MSG = "msg";
+    public static final String COUNT = "count";
+    public static final String PREFIX = "prefix";
     public static final String DATA = "data";
     public static final String CODE = "code";
     public static final String USERACCOUNT = "userAccount";
@@ -78,4 +80,7 @@ public class Keys {
     public static final String NUMBERPERPAGE = "numberPerPage";
     public static final String STARTPOS = "startPos";
     public static final String PARAM = "param";
+
+    public static final String OLDPWD = "oldPwd";
+    public static final String NEWPWD = "newPwd";
 }
