@@ -56,6 +56,8 @@ public class AccountController {
             data.put(Keys.USERACCOUNT,user.getUseraccount());
             data.put(Keys.USERNAME,user.getUsername());
             data.put(Keys.USERGENDER,user.getUsergender());
+            data.put(Keys.USERCREATE,user.getUsercreate());
+            data.put(Keys.USERMODIFY,user.getUsermodify());
             Role role = roleMapper.selectByPrimaryKey(user.getUserrole());
             if (role != null){
                 data.put(Keys.ROLENAME,role.getRolename());
@@ -323,7 +325,7 @@ public class AccountController {
             result = JsonUtil.fromErrors(Errors.SUCCESS);
             User changePWD = new User();
             changePWD.setUseraccount(user.getUseraccount());
-            changePWD.setPassword(newPwd);
+            changePWD.setPassword(MD5Util.encode32(newPwd));
             userMapper.updateByAccount(changePWD);
             result.put(Keys.MSG,Errors.CHANGE_PASSWORD_SUCCESS);
             result.put(Keys.DATA,new JSONObject());

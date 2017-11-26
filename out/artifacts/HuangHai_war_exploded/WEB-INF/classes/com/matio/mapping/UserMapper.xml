@@ -96,11 +96,25 @@
   </insert>
   <update id="updateByAccount" parameterType="com.matio.pojo.User" >
     update user
-    set userName = #{username,jdbcType=VARCHAR},
+    set 
+    <if test="username != null">
+      userName = #{username,jdbcType=VARCHAR},
+    </if>
+    <if test="userrole != null">
       userRole = #{userrole,jdbcType=INTEGER},
+    </if>
+    <if test="usergender != null">
       userGender = #{usergender,jdbcType=CHAR},
+    </if>
+    <if test="usermodify != null">
       userModify = #{usermodify,jdbcType=CHAR},
+    </if>
+    <if test="operator != null">
       operator = #{operator,jdbcType=VARCHAR}
+    </if>
+    <if test="password != null">
+      password = #{password,jdbcType=VARCHAR}
+    </if>
     where userAccount = #{useraccount,jdbcType=VARCHAR}
   </update>
 </mapper>

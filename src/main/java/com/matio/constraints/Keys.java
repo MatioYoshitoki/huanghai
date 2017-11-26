@@ -70,6 +70,7 @@ public class Keys {
     public static final String MICROBE = "microbe";
     public static final String EC2 = "ec2";
     public static final String EC1 = "ec1";
+    public static final String EC1ID = "ec1Id";
     public static final String MODIFIER = "modifier";
     public static final String OPERATEDATE = "operateDate";
     public static final String MODIFYDATE = "modifyDate";
@@ -80,8 +81,22 @@ public class Keys {
     public static final String ENDDATE = "endDate";
     public static final String NUMBERPERPAGE = "numberPerPage";
     public static final String STARTPOS = "startPos";
+
     public static final String PARAM = "param";
+    public static final String VALUE = "value";
 
     public static final String OLDPWD = "oldPwd";
     public static final String NEWPWD = "newPwd";
+
+    public static final String INDEX_TITLE = "indexTitle";
+    public static final String INDEX_CONTENT = "indexContent";
+    public static final String INDEX_BANNER_TITLE = "indexBannerTitle";
+    public static final String INDEX_BANNER_CONTENT = "indexBannerContent";
+    public static final String INDEX_LINK_TEXT = "indexLinkText";
+    public static final String INDEX_LINK_URL = "indexLinkUrl";
+    public static final String BROWSE_TITLE = "browseTitle";
+    public static final String BROWSE_CONTENT = "browseContent";
+
+
+
 }

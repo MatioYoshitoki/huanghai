@@ -1,18 +1,15 @@
 /**
  * Created by admin on 2017/11/17.
  */
-$(document).ready(function() {
-    var url = location.href,
-        urlSplit = url.split("/"),
-        page = urlSplit[urlSplit.length - 1];
-
-
-});
 function init(client, fn) {
-    // var auth = sessionStorage.getItem("userAuth"),
     var isLogin = sessionStorage.getItem("isLogin"),
-        auth = "1|2|3|4|5|6",
-        auths = auth.split("|"),
+        user = null,
+        auth = null,
+        auths = [],
+        url = location.href,
+        urlSplit = url.split("/"),
+        page = urlSplit[urlSplit.length - 1],
+
         length = 0,
         loop = 0,
         sidebarLinks = [],
@@ -31,11 +28,17 @@ function init(client, fn) {
             }
         )
     } else {
+        user = JSON.parse(sessionStorage.getItem("user"));
+        auth = user.roleAuth;
+        auths = auth.split("|");
         // 根据权限显示相应的操作内容，并判断用户是否用权限进入当前页面
+        if(page === "message.html" || page === "profile.html") {
+            flag = true;
+        }
         for(loop = 0, length = auths.length; loop < length; loop++) {
             item = Config.sidebar[auths[loop]];
             sidebarLinks.push(item);
-            if(item.url === "userManage.html") {
+            if(item.url === page) {
                 flag = true;
             }
         }
@@ -195,6 +198,9 @@ var Dialog = {
 var Validator = function() {
     this.account = function(account) {
         return /^\w{6,12}$/.exec(account);
+    };
+    this.password = function(password) {
+        return password.length >=6 && password.length <= 15 ? true : false;
     };
     this.pages = function(pages, maxPages) {
         pages = Number(pages);

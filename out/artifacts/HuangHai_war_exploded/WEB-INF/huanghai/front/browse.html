@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Browse</title>
     <link href="../asset/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="../asset/easyDialog/css/easydialog.css" rel="stylesheet" type="text/css" />
     <link href="../asset/css/style.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -33,7 +34,7 @@
     </div>
     <div class="banner"></div>
     <div class="browse body">
-        <ul class="nav-list">
+        <ul class="nav-list" id="navbar">
             <li class="nav-item nav-item-top">Hydrolases</li>
             <li class="nav-item">Lyases</li>
             <li class="nav-item">Isomerases</li>
@@ -64,7 +65,7 @@
             <div class="tab-pane active">
                 <div class="catalog-con">
                     <h1 class="catalog-title">Index of Inhibitor Gene Names</h1>
-                    <div class="catalog-index">
+                    <div class="catalog-index" id="catalog">
                         <span class="catalog-links">A</span>
                         <span class="catalog-links">B</span>
                         <span class="catalog-links">C</span>
@@ -93,17 +94,14 @@
                         <span class="catalog-links">Z</span>
                     </div>
                     <table class="catalog-table table table-bordered">
+                        <thead>
                         <tr>
-                            <th>GENE NAME</th>
-                            <th>SPECIES</th>
-                            <th>MEROPS ID</th>
+                            <th>LOCUS</th>
+                            <th>EC2</th>
+                            <th>TITLE</th>
                         </tr>
-                        <tr>
-                            <td>|1A_000191</td>
-                            <td>Pseudomonas fluorescens</td>
-                            <td>
-                            <a href="detail.html">151 unassigned inhibitor</td>
-                        </tr>
+                        </thead>
+                        <tbody id="tbody"></tbody>
                     </table>
                 </div>
             </div>
@@ -127,5 +125,50 @@
     </div>
     <script src="../asset/js/frame/jquery-1.11.1.min.js"></script>
     <script src="../asset/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../asset/easyDialog/js/easydialog.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            var ec1Current = "Hydrolases";
+            link(ec1Current, "A");
+
+            $("#navbar").find(".nav-item").on("click", function(e) {
+                var ec1 = $(e.target).text();
+                ec1Current = ec1;
+                link(ec1Current, "A");
+            });
+
+            $("#catalog").find(".catalog-links").on("click", function(e) {
+                var prefix = $(e.target).text();
+                link(ec1Current, prefix);
+            });
+            function link(ec1, prefix) {
+                var tbody = $("#tbody");
+                tbody.empty();
+                $.ajax({
+                    type: "post",
+                    url: "/getFrontList",
+                    data: {
+                        ec1: ec1,
+                        prefix: prefix
+                    },
+                    success: function (msg) {
+                        var data = msg.data,
+                            item = null,
+                            length = data.length,
+                            loop = 0;
+
+                        for (loop = 0; loop < length; loop++) {
+                            item = data[loop];
+                            $data = "<tr><td><a style='text-decoration: underline;' href='detail.html?locus=" + item.locus + "'>" + item.locus + "</a></td><td>" + item.ec2 + "</td><td>" + item.title + " </td></tr>";
+                            tbody.append($data);
+                        }
+                    },
+                    error: function (msg) {
+                        Dialog.warn("连接服务器失败！");
+                    }
+                })
+            }
+        })
+    </script>
 </body>
 </html>

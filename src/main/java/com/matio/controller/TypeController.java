@@ -4,8 +4,12 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.matio.constraints.Errors;
 import com.matio.constraints.Keys;
+import com.matio.mapping.Ec_1Mapper;
+import com.matio.mapping.Ec_2Mapper;
 import com.matio.mapping.TypeMapper;
 import com.matio.mapping.View_paramMapper;
+import com.matio.pojo.Ec_1;
+import com.matio.pojo.Ec_2;
 import com.matio.pojo.Type;
 import com.matio.pojo.View_param;
 import com.matio.unit.JsonUtil;
@@ -29,6 +33,11 @@ public class TypeController {
 
     @Autowired
     View_paramMapper view_paramMapper ;
+
+    @Autowired
+    Ec_1Mapper ec_1Mapper;
+    @Autowired
+    Ec_2Mapper ec_2Mapper;
 
     @RequestMapping(value = "/getType", method = RequestMethod.POST , produces="text/json;charset=UTF-8")
     public String getType(){
@@ -126,4 +135,84 @@ public class TypeController {
         result.put(Keys.DATA,data);
         return result.toJSONString();
     }
+
+    @RequestMapping(value = "/addEC1", method = RequestMethod.POST , produces="text/json;charset=UTF-8")
+    public String addEc_1(
+            @RequestParam(Keys.EC1) String ec_1
+    ){
+        List<Ec_1> ec_1s = ec_1Mapper.selectByEC1(ec_1);
+        JSONObject result = JsonUtil.fromErrors(Errors.SUCCESS);
+        if (ec_1s == null || ec_1s.size() == 0){
+            result = JsonUtil.fromErrors(Errors.FAILD);
+            result.put(Keys.MSG,Errors.ADD_EC1_FAILD);
+            result.put(Keys.DATA,new JSONObject());
+            return result.toJSONString();
+        }
+        Ec_1 add_ec1 = new Ec_1();
+        add_ec1.setEc1(ec_1);
+        ec_1Mapper.insert(add_ec1);
+        result.put(Keys.MSG,Errors.ADD_EC1_SUCCESS);
+        result.put(Keys.DATA,new JSONObject());
+        return result.toJSONString();
+
+    }
+
+    @RequestMapping(value = "/deleteEC1", method = RequestMethod.POST , produces="text/json;charset=UTF-8")
+    public String deleteEc_1(
+            @RequestParam(Keys.ID) String id
+    ){
+        Ec_1 ec_1s = ec_1Mapper.selectByPrimaryKey(Integer.valueOf(id));
+        JSONObject result = JsonUtil.fromErrors(Errors.SUCCESS);
+        if (ec_1s == null){
+            result = JsonUtil.fromErrors(Errors.FAILD);
+            result.put(Keys.MSG,Errors.DELETE_EC1_FAILD);
+            result.put(Keys.DATA,new JSONObject());
+            return result.toJSONString();
+        }
+        ec_1Mapper.deleteByPrimaryKey(Integer.valueOf(id));
+        result.put(Keys.MSG,Errors.DELETE_EC1_SUCCESS);
+        result.put(Keys.DATA,new JSONObject());
+        return result.toJSONString();
+    }
+
+    @RequestMapping(value = "/addEC2", method = RequestMethod.POST , produces="text/json;charset=UTF-8")
+    public String addEc_2(
+            @RequestParam(Keys.EC1ID) String ec1_id,
+            @RequestParam(Keys.EC2) String ec_2
+    ){
+        Ec_2 condition = new Ec_2();
+        condition.setEc1id(Integer.valueOf(ec1_id));
+        condition.setEc2(ec_2);
+        JSONObject result = JsonUtil.fromErrors(Errors.SUCCESS);
+        Ec_2 ec2 = ec_2Mapper.selectByEC1_IdAndEC2(condition);
+        if (ec2 == null){
+            ec_2Mapper.insert(condition);
+            result.put(Keys.DATA,new JSONObject());
+            result.put(Keys.MSG,Errors.ADD_EC2_SUCCESS);
+        }else {
+            result = JsonUtil.fromErrors(Errors.FAILD);
+            result.put(Keys.DATA,new JSONObject());
+            result.put(Keys.MSG,Errors.ADD_EC2_FAILD);
+        }
+        return result.toJSONString();
+    }
+
+    @RequestMapping(value = "/deleteEC2", method = RequestMethod.POST , produces="text/json;charset=UTF-8")
+    public String deleteEc_2(
+            @RequestParam(Keys.ID) String id
+    ){
+        Ec_2 ec_2s = ec_2Mapper.selectByPrimaryKey(Integer.valueOf(id));
+        JSONObject result = JsonUtil.fromErrors(Errors.SUCCESS);
+        if (ec_2s == null){
+            result = JsonUtil.fromErrors(Errors.FAILD);
+            result.put(Keys.MSG,Errors.DELETE_EC2_FAILD);
+            result.put(Keys.DATA,new JSONObject());
+            return result.toJSONString();
+        }
+        ec_1Mapper.deleteByPrimaryKey(Integer.valueOf(id));
+        result.put(Keys.MSG,Errors.DELETE_EC2_SUCCESS);
+        result.put(Keys.DATA,new JSONObject());
+        return result.toJSONString();
+    }
+
 }

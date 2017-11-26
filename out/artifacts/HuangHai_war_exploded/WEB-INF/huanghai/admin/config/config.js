@@ -3,7 +3,7 @@
  */
 var Config = {
     isBug: true,
-    loginSkipPage: "userManage.html",
+    loginSkipPage: "profile.html",
     timeout: 600000,
     sidebar: {
         "1": {
@@ -29,17 +29,17 @@ var Config = {
             "name": "数据管理"
         },
         "5": {
-            "url": "systemManage.html",
+            "url": "blank.html",
             "icon": "fa-coffee",
             "name": "系统管理"
         },
         "6": {
-            "url": "examineManage.html",
+            "url": "blank.html",
             "icon": "fa-coffee",
             "name": "审核管理"
         },
         "7": {
-            "url": "message.html",
+            "url": "blank.html",
             "icon": "fa-coffee",
             "name": "消息中心"
         }
@@ -56,6 +56,8 @@ var Service = {
                     return "/register";
                 case "modifyUser":
                     return "/modify";
+                case "modifyPwd":
+                    return "/changePassword";
                 case "deleteUser":
                     return "/deleteUser";
                 case "getUser":

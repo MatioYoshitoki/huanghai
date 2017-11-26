@@ -53,6 +53,26 @@ public class Errors {
 	//session
 	public static final String SESSION_DEAD = "登录过期";
 
+	//config
+	public static final String GET_CONFIG_FAILD = "获取数据配置信息失败！";
+	public static final String MODIFY_CONFIG_FAILD = "修改页面配置信息失败！";
+	public static final String MODIFY_CONFIG_SUCCESS = "修改页面配置信息成功！";
+
+	//data config
+	public static final String GET_DATA_CONFIG_FAILD = "获取数据配置信息失败！";
+
+	//ec1
+	public static final String ADD_EC1_SUCCESS = "新增酶大类成功！";
+	public static final String ADD_EC1_FAILD = "新增酶大类失败！";
+	public static final String DELETE_EC1_SUCCESS  = "删除酶大类成功！";
+	public static final String DELETE_EC1_FAILD  = "删除酶大类失败！";
+
+	//ec2
+	public static final String ADD_EC2_SUCCESS = "新增酶种成功！";
+	public static final String ADD_EC2_FAILD = "新增酶种失败！";
+	public static final String DELETE_EC2_SUCCESS = "删除酶种成功！";
+	public static final String DELETE_EC2_FAILD = "删除酶种失败！";
+
 	public static final String SUCCESS = "success";
 	public static final String FAILD = "faild";
 }

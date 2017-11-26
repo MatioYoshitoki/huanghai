@@ -248,9 +248,7 @@
     var Client = new Vue({
         el: "#client",
         data: {
-            user: {
-                name: ""
-            },
+            user: {},
             message: [
                 { username: "陈煦", operation: "修改了系统管理员身份"}
             ],
@@ -405,7 +403,6 @@
                 var data = null,
                     url = null,
                     successFn = null,
-                    errorFn = null,
                     item = null;
 
                 if(type === "getUserList") {
@@ -452,7 +449,7 @@
                         url: url,
                         data: data,
                         successFn: successFn,
-                        errorFn: errorFn
+                        errorFn: errorCallback
                     }
                 });
             },

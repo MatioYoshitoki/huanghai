@@ -241,6 +241,11 @@
     <script src="../asset/easyDialog/js/easydialog.min.js"></script>
     <script>
         $(document).ready(function() {
+            var search = location.search,
+                locus = search.split("=")[1],
+                pdbId = locus.slice(0, 4);
+
+            console.log(pdbId);
             request();
             $(".tab-item").on("click", function() {
                 $(".tab-list").find(".active").removeClass("active");
@@ -252,8 +257,15 @@
             function request() {
                 $.ajax({
                     type: "post",
-                    url: "data/data.json",
-                    data: {},
+                    url: "/getData",
+                    data: {
+                        type: "1",
+                        param: pdbId,
+                        startDate: "",
+                        endDate: "",
+                        numberPerPage: 1,
+                        startPos: 1
+                    },
                     success: function(msg) {
                         repaintData(msg);
                     },
@@ -264,10 +276,9 @@
             }
 
             function repaintData(msg) {
-                var data = msg.data;
+                var data = msg.data[0];
 
                 if(Number(msg.code) === 1) {
-                    console.log("haha");
                     $("#title").text(data.title);
                     $("#locusSeq").text(data.locusSeq);
                     $("#locus").text(data.locus);

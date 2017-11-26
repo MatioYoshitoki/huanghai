@@ -160,8 +160,7 @@ a, a:hover {
   .index .detail-con .detail-scroll {
     height: 305px; }
     .index .detail-con .detail-scroll .swiper-container {
-      height: 305px;
-      background-color: #cccccc; }
+      height: 305px;  }
     .index .detail-con .detail-scroll .detail-explain {
       height: 305px; }
       .index .detail-con .detail-scroll .detail-explain .explain-title {
