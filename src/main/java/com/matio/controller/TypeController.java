@@ -92,18 +92,14 @@ public class TypeController {
         Type type = typeMapper.selectByPrimaryKey(Integer.valueOf(id));
         JSONObject result ;
         if (type == null){
-
             result = JsonUtil.fromErrors(Errors.FAILD);
             result.put(Keys.MSG,Errors.DELETETYPEFAILD);
             result.put(Keys.DATA,new JSONObject());
-
-        }else {
-
-            result = JsonUtil.fromErrors(Errors.SUCCESS);
-            result.put(Keys.MSG,Errors.DELETETYPESUCCESS);
-            result.put(Keys.DATA,new JSONObject());
-
         }
+        typeMapper.deleteByPrimaryKey(Integer.valueOf(id));
+        result = JsonUtil.fromErrors(Errors.SUCCESS);
+        result.put(Keys.MSG,Errors.DELETETYPESUCCESS);
+        result.put(Keys.DATA,new JSONObject());
         return result.toJSONString();
     }
 
@@ -214,5 +210,4 @@ public class TypeController {
         result.put(Keys.DATA,new JSONObject());
         return result.toJSONString();
     }
-
 }

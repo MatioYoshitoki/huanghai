@@ -222,9 +222,10 @@ public class DataController {
             data.add(buff);
 
         }
+        int size = mmeMapper.selectCountByCondition(condition);
         result.put(Keys.DATA,data);
         result.put(Keys.MSG,"");
-        result.put(Keys.COUNT,mmes.size());
+        result.put(Keys.COUNT,size);
         return result.toJSONString();
     }
 
@@ -371,7 +372,5 @@ public class DataController {
         result.put(Keys.MSG,"");
         return result.toJSONString();
     }
-
-
 
 }
