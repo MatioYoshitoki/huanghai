@@ -138,7 +138,7 @@ public class TypeController {
     ){
         List<Ec_1> ec_1s = ec_1Mapper.selectByEC1(ec_1);
         JSONObject result = JsonUtil.fromErrors(Errors.SUCCESS);
-        if (ec_1s == null || ec_1s.size() == 0){
+        if (ec_1s != null && ec_1s.size() > 0){
             result = JsonUtil.fromErrors(Errors.FAILD);
             result.put(Keys.MSG,Errors.ADD_EC1_FAILD);
             result.put(Keys.DATA,new JSONObject());
