@@ -14,8 +14,8 @@
 
     <link rel="stylesheet" href="css/main.css">
     <!--[if lt IE 9]>
-        <!--<script src="js/html5shiv.js"></script>-->
-        <!--<script src="js/respond.min.js"></script>-->
+        <script src="js/html5shiv.js"></script>
+        <script src="js/respond.min.js"></script>
     <![endif]-->
 </head>
 <body>
@@ -101,7 +101,7 @@
                                                 <button @click="openPanel('panelModify', item)" class="btn btn-default mg-l">
                                                     <i class="fa fa-edit"></i>修改
                                                 </button>
-                                                <button @click="openPanel('panelDelete', item)" class="btn btn-default mg-l">
+                                                <button v-if="isRoot == true" @click="openPanel('panelDelete', item)" class="btn btn-default mg-l">
                                                     <i class="fa fa-remove"></i>删除
                                                 </button>
                                             </td>
@@ -170,7 +170,7 @@
                 </div>
                 <div class="row mg-t-sm">
                     <div class="col-sm-2"><strong>DBSOURCE：</strong></div>
-                    <div class="col-sm-10" v-text="view.dbsource"></div>
+                    <div class="col-sm-10" v-html="view.dbsource"></div>
                 </div>
                 <div class="row mg-t-sm">
                     <div class="col-sm-2"><strong>SOURCE：</strong></div>
@@ -178,11 +178,31 @@
                 </div>
                 <div class="row mg-t-sm">
                     <div class="col-sm-2"><strong>ORGANISM：</strong></div>
-                    <div class="col-sm-10" v-text="view.organism"></div>
+                    <div class="col-sm-10" v-html="view.organism"></div>
                 </div>
                 <div class="row mg-t-sm">
                     <div class="col-sm-2"><strong>ORIGIN：</strong></div>
-                    <div class="col-sm-10" v-text="view.origin"></div>
+                    <div class="col-sm-10" v-html="view.origin"></div>
+                </div>
+                <div class="row mg-t-sm">
+                    <div class="col-sm-2"><strong>DEEPSEA：</strong></div>
+                    <div class="col-sm-2" v-text="view.deepSea"></div>
+                    <div class="col-sm-2"><strong>TEMPERATURE：</strong></div>
+                    <div class="col-sm-2" v-text="view.temperature"></div>
+                    <div class="col-sm-2"><strong>PH：</strong></div>
+                    <div class="col-sm-2" v-text="view.ph"></div>
+                </div>
+                <div class="row mg-t-sm" v-if="view.zone != ''">
+                    <div class="col-sm-2"><strong>ZONE：</strong></div>
+                    <div class="col-sm-10" v-text="view.zone"></div>
+                </div>
+                <div class="row mg-t-sm" v-if="view.cofactors != ''">
+                    <div class="col-sm-2"><strong>COFACTORS：</strong></div>
+                    <div class="col-sm-10" v-text="view.cofactors"></div>
+                </div>
+                <div class="row mg-t-sm" v-if="view.inhibitors != ''">
+                    <div class="col-sm-2"><strong>INHIBITORS：</strong></div>
+                    <div class="col-sm-10" v-text="view.inhibitors"></div>
                 </div>
                 <div v-if="view.title1 != ''">
                     <h4>REFENRENCE 1</h4>
@@ -342,12 +362,49 @@
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">MICROBE</label>
-                        <div class="col-sm-6">
-                            <input v-model="modify.microbe" type="text" class="form-control">
+                        <div class="col-sm-10">
+                            <input v-model="modify.microbe" type="text" class="form-control" placeholder="预留字段，暂时不用填写">
                         </div>
+                    </div>
+                    <div class="form-group">
                         <label class="col-sm-2 control-label">COUNTRY</label>
-                        <div class="col-sm-2">
+                        <div class="col-sm-4">
                             <input v-model="modify.country" type="text" class="form-control">
+                        </div>
+                        <label class="col-sm-2 control-label">PH</label>
+                        <div class="col-sm-4">
+                            <input v-model="modify.ph" type="text" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">DEEPSEA</label>
+                        <div class="col-sm-4">
+                            <select id="selectForDeepSea" class="form-control selectpicker" data-style="btn-primary">
+                                <option value="0">否</option>
+                                <option value="1">是</option>
+                            </select>
+                        </div>
+                        <label class="col-sm-3 control-label">TEMPERATURE</label>
+                        <div class="col-sm-3">
+                            <input v-model="modify.temperature" type="text" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">ZONE</label>
+                        <div class="col-sm-10">
+                            <input v-model="modify.zone" type="text" class="form-control" placeholder="预留字段，暂时不用填写" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">COFACTORS</label>
+                        <div class="col-sm-10">
+                            <input v-model="modify.cofactors" type="text" class="form-control" placeholder="预留字段，暂时不用填写" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">INHIBITORS</label>
+                        <div class="col-sm-10">
+                            <input v-model="modify.inhibitors" type="text" class="form-control" placeholder="预留字段，暂时不用填写" />
                         </div>
                     </div>
                     <div>
@@ -480,6 +537,12 @@
                             <textarea v-model="modify.origin" class="form-control" rows="5"></textarea>
                         </div>
                     </div>
+                    <div class="form-group" v-if="isRoot == false">
+                        <label class="col-sm-2 control-label"><span class="text-danger">*</span>备注</label>
+                        <div class="col-sm-10">
+                            <textarea v-model="modify.note" class="form-control" rows="5"></textarea>
+                        </div>
+                    </div>
                 </form>
             </div>
             <div class="panel-footer">
@@ -522,6 +585,7 @@
             sidebarLinks: [],
             dataList: [],
             dataListAfterSearch: [],
+            isRoot: false,
             table: {
                 // 分页部分
                 recordNumber: 0,    // 数据数目
@@ -546,10 +610,15 @@
         mounted: function () {
             this.$nextTick(function () {
                 init(Client, function() {
+                    // 初始化组件，以及获取相应数据
                     $("#startDate").datepicker({"format": "yyyy-mm-dd"});
                     $("#endDate").datepicker({"format": "yyyy-mm-dd"});
                     Client.request("getDataList");
-                    Client.request("getParam")
+                    Client.request("getParam");
+                    // 判断当前用户是否是系统管理员
+                    if(Client.user.roleName === "系统管理员") {
+                        Client.isRoot = true;
+                    }
                 });
             })
         },
@@ -565,11 +634,28 @@
                     "container": panel
                 });
                 if(panel === "panelView") {
-                    this.view = item;
+                    var data = item,
+                        dbsource = "",
+                        organism = "",
+                        origin = "";
+
+                    // 对数据呈现格式进行规范化
+                    data.dbsource ? dbsource = data.dbsource : "";
+                    data.organism ? organism = data.organism : "";
+                    data.origin ? origin = data.origin : "";
+                    dbsource = dbsource.replace(/;/g, "<br/>");
+                    organism = organism.replace(/;/g, "<br/>");
+                    origin = origin.replace(/[1-9][0-9]*/g, function(e) {
+                        return "<br/>" + e;
+                    });
+                    origin = origin.replace("<br/>", "");
+                    data.dbsource = dbsource;
+                    data.organism = organism;
+                    data.origin = origin;
+                    this.view = data;
                 } else if(panel === "panelModify") {
                     this.modify = item;
-//                    $("#selectForType").selectpicker("val", item.type);
-//                    $("#selectForEC2").selectpicker("val", item.ec2);
+                    this.modify.note = "";
                 } else if(panel === "panelDelete") {
                     this.del.id = item.mmeId;
                 }
@@ -608,10 +694,16 @@
                     data = this.modify;
                     data.type = $("#selectForType").selectpicker("val");
                     data.ec2 = $("#selectForEC2").selectpicker("val");
+                    data.deepSea = $("#selectForDeepSea").selectpicker("val");
                     data.operator = this.user.userName;
                     if(data.title === "" || data.type === "" || data.ec2 === "" ||
                         data.locus === "" || data.pdbId === "" || data.date === "") {
-                        Dialog.info("请将必填信息都填写完整");
+                        alert("请将必填信息都填写完整");
+                        return;
+                    }
+                    console.log(data.note);
+                    if(!this.isRoot && data.note === "") {
+                        alert("请填写备注，以便审核人员了解修改情况");
                         return;
                     }
                     url = Service.getUrl("modifyData");
@@ -687,6 +779,9 @@
                 if (Number(msg.code) === 1) {
                     this.dataList = msg.data;
                     this.dataListAfterSearch = msg.data;
+                    // 获取记录数并计算总页数
+                    this.table.recordNumber = msg.count;
+                    this.table.pageNumber = Math.ceil(msg.count / this.table.numberPerPage);
                 } else {
                     Dialog.warn(msg.msg);
                 }

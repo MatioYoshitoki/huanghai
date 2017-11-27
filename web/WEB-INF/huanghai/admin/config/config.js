@@ -2,7 +2,7 @@
  * Created by admin on 2017/11/13.
  */
 var Config = {
-    isBug: true,
+    isBug: false,
     loginSkipPage: "profile.html",
     timeout: 600000,
     sidebar: {
@@ -29,19 +29,14 @@ var Config = {
             "name": "数据管理"
         },
         "5": {
-            "url": "blank.html",
+            "url": "system.html",
             "icon": "fa-coffee",
             "name": "系统管理"
         },
         "6": {
-            "url": "blank.html",
+            "url": "examine.html",
             "icon": "fa-coffee",
             "name": "审核管理"
-        },
-        "7": {
-            "url": "blank.html",
-            "icon": "fa-coffee",
-            "name": "消息中心"
         }
     }
 };
@@ -82,6 +77,53 @@ var Service = {
                     return "/deleteData";
                 case "getDataList":
                     return "/getData";
+                case 99:
+                    return "data/successTest";
+
+            }
+        } else {
+            switch (type) {
+                case "login":
+                    return "/login";
+                case "createUser":
+                    return "/register";
+                case "modifyUser":
+                    return "/modify";
+                case "modifyPwd":
+                    return "/changePassword";
+                case "deleteUser":
+                    return "/deleteUser";
+                case "getUser":
+                    return "/getUserList";
+                case "createRole":
+                    return "/createRole";
+                case "modifyRole":
+                    return "/modifyRole";
+                case "deleteRole":
+                    return "/deleteRole";
+                case "getRole":
+                    return "/getRoleList";
+                case "getRoleSelect":
+                    return "/getRoleSelect";
+                case "getParam":
+                    return "/getTypeAndEC2";
+                case "createData":
+                    return "/manualInput";
+                case "modifyData":
+                    return "/modifyInput";
+                case "deleteData":
+                    return "/deleteData";
+                case "getDataList":
+                    return "/getData";
+                // 系统管理：获取分类列表
+                case "getTypeList":
+                    return "/getType";
+                // 系统管理：添加分类
+                case "addType":
+                    return "/addType";
+                // 系统管理：删除分类
+                case "deleteType":
+                    return "/deleteType";
                 case 99:
                     return "data/successTest";
 

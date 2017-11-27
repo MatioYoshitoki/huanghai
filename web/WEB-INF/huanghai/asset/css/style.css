@@ -40,11 +40,23 @@ a, a:hover {
       .header .nav .nav-list .nav-item:hover {
         background-color: #003985; }
     .header .nav .header-title {
+      width: 200px;
       position: relative;
       top: 25px;
       left: 50px;
       color: #fff;
-      font-size: 14px; }
+      font-size: 14px;
+      float: left; }
+      .header .nav .header-title .header-icon {
+        width: 40px;
+        height: 40px;
+        background: url("../img/detail_logo2.png") center no-repeat;
+        float: left; }
+      .header .nav .header-title .header-text {
+        line-height: 40px;
+        color: #2f90d4;
+        margin-left: 15px;
+        float: left; }
 
 .body {
   width: 1000px;
@@ -124,8 +136,9 @@ a, a:hover {
         position: relative;
         z-index: 1;
         line-height: 55px;
-        font-size: 24px;
-        color: #fff; }
+        font-size: 24px; }
+        .breadcrumb .bread-con div.mme div a {
+          color: #fff; }
 
 .banner {
   width: 100%;
@@ -160,7 +173,7 @@ a, a:hover {
   .index .detail-con .detail-scroll {
     height: 305px; }
     .index .detail-con .detail-scroll .swiper-container {
-      height: 305px;  }
+      height: 305px; }
     .index .detail-con .detail-scroll .detail-explain {
       height: 305px; }
       .index .detail-con .detail-scroll .detail-explain .explain-title {
@@ -173,9 +186,12 @@ a, a:hover {
         padding-left: 24px;
         overflow: auto; }
         .index .detail-con .detail-scroll .detail-explain .detail-list .detail-item {
-          color: #8c8c8c;
           line-height: 30px;
           list-style-type: disc; }
+          .index .detail-con .detail-scroll .detail-explain .detail-list .detail-item a {
+            color: #8c8c8c; }
+          .index .detail-con .detail-scroll .detail-explain .detail-list .detail-item a:hover {
+            text-decoration: underline; }
   .index .detail-con .detail-nav {
     margin-top: 30px;
     margin-bottom: 50px; }

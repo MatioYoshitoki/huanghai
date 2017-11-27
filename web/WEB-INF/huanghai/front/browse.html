@@ -29,7 +29,10 @@
                     <a href="#">About Us</a>
                 </li>
             </ul>
-            <div class="header-title">EMBL-EBL&nbsp;&nbsp;Hinxton</div>
+            <div class="header-title clearfix">
+                <div class="header-icon"></div>
+                <div class="header-text">LOGO</div>
+            </div>
         </div>
     </div>
     <div class="banner"></div>
@@ -43,28 +46,16 @@
             <li class="nav-item nav-item-bottom">Transferase</li>
         </ul>
         <div class="tab-content">
-            <div class="tab-pane">
+            <div class="tab-pane active">
                 <div class="intro-con">
-                    <h1 class="intro-title">Marine Microorganism Enzyme(MME)</h1>
-                    <div class="intro-content">
-                        The Summary page describing a given peptidase can be reached by use of
-                        an index under its Name, MEROPS Identifier or source Organism. The Summary
-                        describes the classification and nomenclature of the peptidase and offers
-                        links to supplementary pages showing sequence identifiers, the structure
-                        if known, literature references and more.<br/>
-                        The MEROPS database uses an hierarchical, structure-based classification of
-                        the peptidases. In this, each peptidase is assigned to a Family on the basis
-                        of statistically significant similarities in amino acid sequence, and families
-                        that are thought to be homologous are grouped together in a Clan. There is a
-                        Summary page for each family and clan, and these again have indexes. Each of
-                        the Summary pages offers links to supplementary pages.
-                    </div>
+                    <h1 id="browseTitle" class="intro-title"></h1>
+                    <div id="browseContent" class="intro-content"></div>
                 </div>
                 <div class="pane-pic"></div>
             </div>
-            <div class="tab-pane active">
+            <div class="tab-pane">
                 <div class="catalog-con">
-                    <h1 class="catalog-title">Index of Inhibitor Gene Names</h1>
+                    <h1 class="catalog-title">Index of Marie Enzyme</h1>
                     <div class="catalog-index" id="catalog">
                         <span class="catalog-links">A</span>
                         <span class="catalog-links">B</span>
@@ -128,19 +119,38 @@
     <script src="../asset/easyDialog/js/easydialog.min.js"></script>
     <script>
         $(document).ready(function() {
-            var ec1Current = "Hydrolases";
-            link(ec1Current, "A");
+            var search = location.search,
+                ec1Current = "",
+                ec1 = "";
+
+            if(search !== "") {
+                ec1 = search.split("=")[1];
+                console.log(ec1);
+                ec1Current = ec1;
+                link(ec1, "A");
+
+                // 切换到目录Tab
+                $(".tab-pane").eq(0).removeClass("active").end().eq(1).addClass("active");
+            }
 
             $("#navbar").find(".nav-item").on("click", function(e) {
                 var ec1 = $(e.target).text();
                 ec1Current = ec1;
                 link(ec1Current, "A");
+
+                // 切换到目录Tab
+                $(".tab-pane").eq(0).removeClass("active").end().eq(1).addClass("active");
             });
 
             $("#catalog").find(".catalog-links").on("click", function(e) {
                 var prefix = $(e.target).text();
                 link(ec1Current, prefix);
             });
+            /**
+             * 获取数据列表
+             * @param ec1    酶大类
+             * @param prefix 首字母
+             */
             function link(ec1, prefix) {
                 var tbody = $("#tbody");
                 tbody.empty();
@@ -167,6 +177,54 @@
                         Dialog.warn("连接服务器失败！");
                     }
                 })
+            }
+
+            var info = sessionStorage.getItem("info");
+
+            if(!info) {
+                $.ajax({
+                    type: "POST",
+                    url: "",
+                    data: {},
+                    success: function(msg) {
+                        var data = JSON.stringfy(msg.data);
+
+                        if(Number(msg.code) === 1) {
+                            sessionStorage.setItem("info", data);
+                            paint(data)
+                        } else {
+                            alert(msg.msg);
+                        }
+                    },
+                    error: function(msg) {
+
+                    }
+                })
+            } else {
+                paint(info);
+            }
+            // 测试使用
+            paint(info);
+
+            /**
+             * 渲染页面：将数据填入到页面指定位置
+             * @param data 页面数据
+             */
+            function paint(data) {
+                var data = JSON.parse(data);
+
+                $("#browseTitle").text("Marine Microorganism Enzyme(MME)");
+                $("#browseContent").html("The Summary page describing a given peptidase can be reached by use of" +
+                    " an index under its Name, MEROPS Identifier or source Organism. The Summary" +
+                    " describes the classification and nomenclature of the peptidase and offers" +
+                    " links to supplementary pages showing sequence identifiers, the structure" +
+                    " if known, literature references and more.<br/>" +
+                    " The MEROPS database uses an hierarchical, structure-based classification of" +
+                    " the peptidases. In this, each peptidase is assigned to a Family on the basis" +
+                    " of statistically significant similarities in amino acid sequence, and families" +
+                    " that are thought to be homologous are grouped together in a Clan. There is a" +
+                    " Summary page for each family and clan, and these again have indexes. Each of" +
+                    " the Summary pages offers links to supplementary pages.");
             }
         })
     </script>

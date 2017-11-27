@@ -29,13 +29,16 @@
                 <a href="#">About Us</a>
             </li>
         </ul>
-        <div class="header-title">EMBL-EBL&nbsp;&nbsp;Hinxton</div>
+        <div class="header-title clearfix">
+            <div class="header-icon"></div>
+            <div class="header-text">LOGO</div>
+        </div>
     </div>
 </div>
     <div class="detail body">
         <div class="detail-con">
             <div class="detail-header">
-                <div class="header-icon"></div>
+                <!--<div class="header-icon"></div>-->
                 <div class="header-title">MARINE ALIKALINE METALLOPPROTEASE</div>
             </div>
             <div class="detail-body">
@@ -61,8 +64,8 @@
                     </div>
                     <div class="panel-row panel-row-bottom row">
                         <div class="panel-title col-md-3">LOCUS</div>
-                        <div class="panel-content col-md-4 col-md-offset-1" id="locusSeq"></div>
-                        <div class="panel-content col-md-4" id="locus"></div>
+                        <div class="panel-content col-md-4 col-md-offset-1" id="locus"></div>
+                        <div class="panel-content col-md-4" id="locusSeq"></div>
                     </div>
                     <div class="panel-row panel-row-bottom row">
                         <div class="panel-title col-md-3">DBSOURCE</div>
@@ -119,9 +122,7 @@
                     </div>
                     <div class="panel-row panel-row-bottom row">
                         <div class="panel-title col-md-3">Tertiary structure</div>
-                        <div class="panel-content col-md-8 col-md-offset-1">
-                            <a href="#" id="terStru"></a>
-                        </div>
+                        <div class="panel-content col-md-8 col-md-offset-1" id="terStru"></div>
                     </div>
                 </div>
                 <div class="tab-panel" id="reference">
@@ -276,15 +277,28 @@
             }
 
             function repaintData(msg) {
-                var data = msg.data[0];
+                var data = msg.data[0],
+                    dbsource = data.dbsource,
+                    organism = data.organism,
+                    origin = data.origin;
+
+                console.log(origin);
+                // 对多行数据进行处理
+                dbsource = dbsource.replace(/;/g, "<br/>");
+                organism = organism.replace(/;/g, "<br/>");
+                origin = origin.replace(/[1-9][0-9]*/g, function(e) {
+                    return "<br/>" + e;
+                });
+                origin = origin.replace("<br/>", "");
+                console.log(origin);
 
                 if(Number(msg.code) === 1) {
                     $("#title").text(data.title);
                     $("#locusSeq").text(data.locusSeq);
                     $("#locus").text(data.locus);
-                    $("#dbsource").html(data.dbsource);
-                    $("#source").html(data.source);
-                    $("#organism").html(data.organism);
+                    $("#dbsource").html(dbsource);
+                    $("#source").text(data.source);
+                    $("#organism").html(organism);
                     $("#date").text(data.date);
                     $("#country").text(data.country);
                     $("#ec1").text(data.ec1);
@@ -293,8 +307,8 @@
                     $("#zone").text(data.zone);
                     $("#temp").text(data.temp);
                     $("#ph").text(data.ph);
-                    $("#primSeq").html(data.origin);
-                    $("#terStru").text(data.terStru);
+                    $("#primSeq").html(origin);
+                    $("#terStru").text(data.pdbId);
                     if(data.author1 !== "") {
                         $("#reference1").css("display", "block");
                         $("#author1").text(data.author1);
