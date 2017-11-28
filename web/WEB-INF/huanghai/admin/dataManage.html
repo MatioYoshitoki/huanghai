@@ -81,6 +81,7 @@
                                             <th class="text-center">录入者</th>
                                             <th class="text-center">修改时间</th>
                                             <th class="text-center">修改者</th>
+                                            <th class="text-center">数据状态</th>
                                             <th class="text-center">相关操作</th>
                                         </tr>
                                         </thead>
@@ -95,6 +96,15 @@
                                             <td class="text-center" v-text="item.modifyDate"></td>
                                             <td class="text-center" v-text="item.modifier"></td>
                                             <td class="text-center">
+                                                <span v-if="item.isModified == 1" class="text-danger">审核中</span>
+                                                <span v-else class="text-success">正常</span>
+                                            </td>
+                                            <td v-if="item.isModified == 1">
+                                                <button @click="openPanel('panelView', item)" class="btn btn-default">
+                                                    <i class="fa fa-adn"></i>查看
+                                                </button>
+                                            </td>
+                                            <td v-else class="text-center">
                                                 <button @click="openPanel('panelView', item)" class="btn btn-default">
                                                     <i class="fa fa-adn"></i>查看
                                                 </button>

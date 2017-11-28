@@ -187,7 +187,7 @@
                     url: "",
                     data: {},
                     success: function(msg) {
-                        var data = JSON.stringfy(msg.data);
+                        var data = JSON.stringify(msg.data);
 
                         if(Number(msg.code) === 1) {
                             sessionStorage.setItem("info", data);
@@ -197,34 +197,31 @@
                         }
                     },
                     error: function(msg) {
-
+                        alert("连接服务器失败！");
                     }
                 })
             } else {
                 paint(info);
             }
-            // 测试使用
-            paint(info);
 
             /**
              * 渲染页面：将数据填入到页面指定位置
              * @param data 页面数据
              */
             function paint(data) {
-                var data = JSON.parse(data);
+                var param = {},
+                    data = JSON.parse(data),
+                    item = null,
+                    length = 0,
+                    loop = 0;
 
-                $("#browseTitle").text("Marine Microorganism Enzyme(MME)");
-                $("#browseContent").html("The Summary page describing a given peptidase can be reached by use of" +
-                    " an index under its Name, MEROPS Identifier or source Organism. The Summary" +
-                    " describes the classification and nomenclature of the peptidase and offers" +
-                    " links to supplementary pages showing sequence identifiers, the structure" +
-                    " if known, literature references and more.<br/>" +
-                    " The MEROPS database uses an hierarchical, structure-based classification of" +
-                    " the peptidases. In this, each peptidase is assigned to a Family on the basis" +
-                    " of statistically significant similarities in amino acid sequence, and families" +
-                    " that are thought to be homologous are grouped together in a Clan. There is a" +
-                    " Summary page for each family and clan, and these again have indexes. Each of" +
-                    " the Summary pages offers links to supplementary pages.");
+                for(loop = 0, length = data.length; loop < length; loop++) {
+                    item = data[loop];
+                    param[item.param] = item.value;
+                }
+
+                $("#browseTitle").text(param.browseTitle);
+                $("#browseContent").html(param.browseContent);
             }
         })
     </script>

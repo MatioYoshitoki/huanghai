@@ -32,7 +32,7 @@
                     <li class="">
                         <a href="#data" data-toggle="tab">数据配置</a>
                     </li>
-                    <li class="active">
+                    <li class="">
                         <a href="#spider" data-toggle="tab">爬虫控制</a>
                     </li>
                 </ul>
@@ -42,7 +42,7 @@
                     <div class="col-lg-12">
                         <div class="tab-content">
                             <!-- 页面配置 -->
-                            <div class="tab-pane" id="setting">
+                            <div class="tab-pane active" id="setting">
                                 <section>
                                     <div class="row mg-b">
                                         <div class="col-xs-10">
@@ -151,7 +151,7 @@
                                 </section>
                             </div>
                             <!-- 数据配置 -->
-                            <div class="tab-pane active" id="data">
+                            <div class="tab-pane " id="data">
                                 <div class="col-md-3">
                                     <div class="panel">
                                         <div class="panel-heading clearfix">
@@ -161,7 +161,7 @@
                                                 <i class="fa fa-edit mg-r-xs"></i>添加
                                             </label>
                                         </div>
-                                        <div class="panel-body no-padding" style="height: 421px; overflow: auto">
+                                        <div class="panel-body no-padding" style="max-height: 421px; overflow: auto">
                                             <table class="table table-hover no-margin">
                                                 <thead>
                                                 <tr>
@@ -209,7 +209,7 @@
                                                 <i class="fa fa-edit mg-r-xs"></i>添加
                                             </label>
                                         </div>
-                                        <div class="panel-body no-padding" style="height: 421px; overflow: auto">
+                                        <div class="panel-body no-padding" style="max-height: 421px; overflow: auto">
                                             <table class="table table-hover no-margin">
                                                 <thead>
                                                 <tr>
@@ -257,7 +257,7 @@
                                                 <i class="fa fa-edit mg-r-xs"></i>添加
                                             </label>
                                         </div>
-                                        <div class="panel-body no-padding" style="height: 421px; overflow: auto">
+                                        <div class="panel-body no-padding" style="max-height: 421px; overflow: auto">
                                             <table class="table table-hover no-margin">
                                                 <thead>
                                                 <tr>
@@ -268,7 +268,7 @@
                                                 </tr>
                                                 </thead>
                                                 <tbody style="height: 195px; overflow: auto;">
-                                                <tr v-for="(item, index) in dataConfig.EC2List">
+                                                <tr v-for="(item, index) in dataConfig.ec2List">
                                                     <td class="text-center" v-text="(index + 1)"></td>
                                                     <td v-text="item.ec1"></td>
                                                     <td v-text="item.ec2"></td>
@@ -309,7 +309,7 @@
                                             <div class="form-inline mg-t" v-show="dataConfig.isEC2Add">
                                                 <div class="form-group">
                                                     <!--<label class="col-md-3 control-label">所属酶大类：</label>-->
-                                                    <select class="form-control selectpicker">
+                                                    <select id="selectForEC1" class="form-control selectpicker">
                                                         <option v-for="item in dataConfig.ec1List" :value="item.id" v-text="item.ec1"></option>
                                                     </select>
                                                 </div>
@@ -367,11 +367,18 @@
                                                          alt="">
                                                 </a>
                                                 <div>爬虫1号</div>
-                                                <small>上一次启动时间：<span
-                                                        v-text="spiderConfig.recordList[0].operateDate"></span></small>
-                                                <br>
-                                                <small>上一次抓取数据：<span v-text="spiderConfig.recordList[0].number"></span>
-                                                </small>
+                                                <div v-if="spiderConfig.recordList.length > 0">
+                                                    <small>上一次启动时间：<span
+                                                            v-text="spiderConfig.recordList[0].operateDate"></span></small>
+                                                    <br>
+                                                    <small>上一次抓取数据：<span v-text="spiderConfig.recordList[0].number"></span>
+                                                    </small>
+                                                </div>
+                                                <div v-else>
+                                                    <small>上一次启动时间：无</small>
+                                                    <br>
+                                                    <small>上一次抓取数据：0</small>
+                                                </div>
                                             </div>
                                             <div class="panel-footer no-padding no-border">
                                                 <div class="row no-margin">
@@ -539,19 +546,8 @@
             // 爬虫控制信息
             spiderConfig: {
                 isStart: false,
-                isTiming: true,
-                recordList: [
-                    {number: 17, operateDate: "2017-11-23"},
-                    {number: 23, operateDate: "2017-11-21"},
-                    {number: 57, operateDate: "2017-11-20"},
-                    {number: 7, operateDate: "2017-11-19"},
-                    {number: 14, operateDate: "2017-11-18"},
-                    {number: 45, operateDate: "2017-11-17"},
-                    {number: 107, operateDate: "2017-11-16"},
-                    {number: 9, operateDate: "2017-11-15"},
-                    {number: 8, operateDate: "2017-11-14"},
-                    {number: 15, operateDate: "2017-11-13"}
-                ]
+                isTiming: false,
+                recordList: []
             },
             // 删除面板内容
             del: {}
@@ -565,7 +561,9 @@
                 init(Client, function () {
                     $(".selectpicker").selectpicker();
                     $("#startDate").datepicker({"format": "yyyy-mm-dd"});
-                    Client.request("getTypeList");
+                    Client.request("getPageConfig");
+                    Client.request("getDataConfig");
+                    Client.request("getEC2List");
 //                    Client.request("getSpiderRecord");
                 });
             })
@@ -625,8 +623,11 @@
                     successFn = null,
                     item = null;
 
-                if (type === "getPageInfo") {
-
+                if (type === "getPageConfig") {
+                    // 获取页面配置信息
+                    data = {};
+                    url = Service.getUrl("getPageConfig");
+                    successFn = Client.getPageConfigCallback;
                 } else if (type === "modifyPage") {
                     // 修改页面配置信息
                     item = this.pageConfig;
@@ -642,10 +643,11 @@
                     };
                     url = Service.getUrl("modifyPage");
                     successFn = Client.modifyPageCallback;
-                } else if (type === "getTypeList") {
+                } else if (type === "getDataConfig") {
+                    // 获取数据配置信息
                     data = {};
-                    url = Service.getUrl("getTypeList");
-                    successFn = Client.getTypeListCallback;
+                    url = Service.getUrl("getDataConfig");
+                    successFn = Client.getDataConfigCallback;
                 } else if (type === "addType") {
                     data = { type: this.dataConfig.addContentType };
                     url = Service.getUrl("addType");
@@ -655,11 +657,6 @@
                     data = { id: item.id };
                     url = Service.getUrl("deleteType");
                     successFn = Client.deleteTypeCallback;
-                } else if (type === "getEC1List") {
-                    // 获取酶大类列表
-                    data = {};
-                    url = Service.getUrl("getEC1List");
-                    successFn = Client.getEC1ListCallback;
                 } else if (type === "addEC1") {
                     // 新增酶大类
                     data = { ec1: this.dataConfig.addContentEC1 };
@@ -682,8 +679,7 @@
                 } else if (type === "addEC2") {
                     // 新增酶种
                     data = {
-//                        ec1Id: $("#selectForEC1").selectpicker("val"),
-                        ec1Id: 1,
+                        ec1Id: $("#selectForEC1").selectpicker("val"),
                         ec2: this.dataConfig.addContentEC2
                     };
                     url = Service.getUrl("addEC2");
@@ -790,20 +786,22 @@
              */
             skipPage: function(type) {
                 var type = Number(type),
-                    skipPage = Number(this.table.currentPage),
+                    skipPage = Number(this.dataConfig.currentPage),
                     validator = new Validator();
 
                 switch(Number(type)) {
                     case 1: { skipPage--; break; }
-                    case 2: { skipPage = this.table.inputPage; break; }
+                    case 2: { skipPage = this.dataConfig.inputPage; break; }
                     case 3: { skipPage++; break; }
                 }
                 // 判断跳往页数是否合法（上一页和下一页已经通过页面进行限制，因此该条件判断只针对跳页）
-                if(validator.pages(skipPage, this.table.pageNumber)) {
-                    this.table.currentPage = skipPage;
+                if(validator.pages(skipPage, this.dataConfig.pageNumber)) {
+                    this.dataConfig.currentPage = skipPage;
+                    this.dataConfig.inputPage = skipPage;
+                    this.request("getEC2List");
                 } else {
                     Dialog.tip("请输入正确的页码");
-                    this.table.inputPage = this.table.currentPage;
+                    this.dataConfig.inputPage = this.dataConfig.currentPage;
                 }
             },
             /**
@@ -843,6 +841,43 @@
                 return timing;
             },
             /**
+             * 执行获取页面配置信息回调函数
+             * @param msg 服务器返回的对象
+             */
+            getPageConfigCallback: function(msg) {
+                var param = {},
+                    pageConfig = {},
+                    data = null,
+                    item = null,
+                    length = 0,
+                    loop = 0;
+
+                if(Number(msg.code) === 1) {
+                    data = msg.data;
+                    for(loop = 0, length = data.length; loop < length; loop++) {
+                        item = data[loop];
+                        param[item.param] = item.value;
+                    }
+                    pageConfig = {
+                        indexBannerTitle: param.indexBannerTitle,
+                        indexBannerContent: param.indexBannerContent,
+                        indexLinkText: param.indexLinkText,
+                        indexLinkUrl: param.indexLinkUrl,
+                        indexTitle: param.indexTitle,
+                        indexContent: param.indexContent,
+                        browseTitle: param.browseTitle,
+                        browseContent: param.browseContent,
+                        inputDisabled: null,
+                        isModify: false
+                    };
+                    this.pageConfig = pageConfig;
+                    this.spiderConfig.isStart = param.isStart;
+                    this.spiderConfig.isTiming = param.isTiming;
+                } else {
+                    Dialog.warn(msg.msg);
+                }
+            },
+            /**
              * 修改页面配置操作的回调函数
              * @param msg 服务器返回的对象
              */
@@ -856,12 +891,20 @@
                 }
             },
             /**
-             * 执行获取分类列表操作的回调函数
+             * 执行获取数据配置信息操作的回调函数
              * @param msg 服务器返回的对象
              */
-            getTypeListCallback: function (msg) {
+            getDataConfigCallback: function (msg) {
+                var timer = null;
+
                 if (Number(msg.code) === 1) {
-                    this.dataConfig.typeList = msg.data;
+                    this.dataConfig.typeList = msg.data.type;
+                    this.dataConfig.ec1List = msg.data.ec1;
+                    // 刷新所有的 selectpicker 组件
+                    timer = setTimeout(function() {
+                        $(".selectpicker").selectpicker("refresh");
+                        clearTimeout(timer);
+                    }, 500);
                 } else {
                     Dialog.warn(msg.msg);
                 }
@@ -907,19 +950,6 @@
                 }
             },
             /**
-             * 执行获取酶大类列表操作的回调函数
-             * @param msg 服务器返回的对象
-             */
-            getEC1ListCallback: function (msg) {
-                if (Number(msg.code) === 1) {
-                    this.dataConfig.ec1List = msg.data;
-                    // 刷新所有的 selectpicker 组件
-                    $(".selectpicker").selectpicker("refresh");
-                } else {
-                    Dialog.warn(msg.msg);
-                }
-            },
-            /**
              * 执行新增酶大类操作的回调函数
              * @param msg 服务器返回的对象
              */
@@ -927,7 +957,7 @@
                 if (Number(msg.code) === 1) {
                     this.dataConfig.isEC1Add = false;
                     this.dataConfig.addContentEC1 = "";
-                    this.request("getEC1List");
+                    this.request("getDataConfig");
                     Dialog.info(msg.msg);
                 } else {
                     Dialog.warn(msg.msg);
@@ -966,6 +996,8 @@
             getEC2ListCallback: function (msg) {
                 if (Number(msg.code) === 1) {
                     this.dataConfig.ec2List = msg.data;
+                    this.dataConfig.recordNumber = msg.count;
+                    this.dataConfig.pageNumber = Math.ceil(msg.count / this.dataConfig.numberPerPage);
                 } else {
                     Dialog.warn(msg.msg);
                 }

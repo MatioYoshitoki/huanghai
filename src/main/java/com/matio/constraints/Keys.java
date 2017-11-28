@@ -75,6 +75,13 @@ public class Keys {
     public static final String OPERATEDATE = "operateDate";
     public static final String MODIFYDATE = "modifyDate";
     public static final String MMEID = "mmeId";
+    public static final String ISMODIFIED = "isModified";
+    public static final String ZONE = "zone";
+    public static final String TEMPERATURE = "temperature";
+    public static final String PH = "ph";
+    public static final String DEEPSEA = "deepSea";
+    public static final String COFACTORS = "cofactors";
+    public static final String INHIBITORS = "inhibitors";
 
     public static final String TYPE = "type";
     public static final String STARTDATE = "startDate";

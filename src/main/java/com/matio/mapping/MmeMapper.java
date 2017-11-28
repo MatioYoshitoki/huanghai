@@ -18,6 +18,8 @@ public interface MmeMapper {
 
     int selectCountByCondition(MmeCondition condition);
 
+    String selectEC1ByEC2(String ec2);
+
     Mme selectByPrimaryKey(Integer id);
 
     int updateByPrimaryKeySelective(Mme record);

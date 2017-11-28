@@ -108,22 +108,48 @@ var Service = {
                 case "getParam":
                     return "/getTypeAndEC2";
                 case "createData":
+                    // 数据录入：创建数据
                     return "/manualInput";
+                case "getDataList":
+                    // 数据管理：获取数据列表
+                    return "/getData";
                 case "modifyData":
+                    // 数据管理：修改数据
                     return "/modifyInput";
                 case "deleteData":
                     return "/deleteData";
-                case "getDataList":
-                    return "/getData";
-                // 系统管理：获取分类列表
+                case "getPageConfig":
+                    // 系统管理：获取页面配置信息
+                    return "/getConfigList";
+                case "modifyPage":
+                    // 系统管理：修改页面配置信息
+                    return "/modifyConfig";
+                case "getDataConfig":
+                    // 系统管理：获取数据配置信息
+                    return "/getDataConfigList";
                 case "getTypeList":
                     return "/getType";
-                // 系统管理：添加分类
                 case "addType":
+                    // 系统管理：添加分类
                     return "/addType";
-                // 系统管理：删除分类
                 case "deleteType":
+                    // 系统管理：删除分类
                     return "/deleteType";
+                case "addEC1":
+                    // 系统管理：新增酶大类
+                    return "/addEC1";
+                case "deleteEC1":
+                    // 系统管理：删除酶大类
+                    return "/deleteEC1";
+                case "getEC2List":
+                    // 系统管理：获取酶种列表
+                    return "/getEC2";
+                case "addEC2":
+                    // 系统管理：新增酶种
+                    return "/addEC2";
+                case "deleteEC2":
+                    // 系统管理：删除酶种
+                    return "/deleteEC2";
                 case 99:
                     return "data/successTest";
 

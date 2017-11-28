@@ -4,14 +4,8 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.matio.constraints.Errors;
 import com.matio.constraints.Keys;
-import com.matio.mapping.Ec_1Mapper;
-import com.matio.mapping.Ec_2Mapper;
-import com.matio.mapping.TypeMapper;
-import com.matio.mapping.View_paramMapper;
-import com.matio.pojo.Ec_1;
-import com.matio.pojo.Ec_2;
-import com.matio.pojo.Type;
-import com.matio.pojo.View_param;
+import com.matio.mapping.*;
+import com.matio.pojo.*;
 import com.matio.unit.JsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,6 +32,8 @@ public class TypeController {
     Ec_1Mapper ec_1Mapper;
     @Autowired
     Ec_2Mapper ec_2Mapper;
+    @Autowired
+    View_ecMapper view_ecMapper;
 
     @RequestMapping(value = "/getType", method = RequestMethod.POST , produces="text/json;charset=UTF-8")
     public String getType(){
@@ -171,6 +167,35 @@ public class TypeController {
         return result.toJSONString();
     }
 
+    @RequestMapping(value = "/getEC2", method = RequestMethod.POST , produces="text/json;charset=UTF-8")
+    public String getEC2(
+            @RequestParam(Keys.NUMBERPERPAGE) String numberPerPage,
+            @RequestParam(Keys.STARTPOS) String startPos
+    ){
+        MmeCondition condition = new MmeCondition();
+        int startPos_int = Integer.valueOf(startPos);
+        int numberPerPage_int = Integer.valueOf(numberPerPage);
+        int startSize = (startPos_int - 1) * numberPerPage_int;
+        int endSize = (startPos_int) * numberPerPage_int;
+        condition.setStartSize(startSize);;
+        condition.setEndSize(endSize);
+        List<View_ec> ec2List = view_ecMapper.selectAll(condition);
+        int count = view_ecMapper.selectAllCount();
+        JSONObject result ;
+        if (ec2List == null){
+            result = JsonUtil.fromErrors(Errors.FAILD);
+            result.put(Keys.MSG,Errors.GETTYPEANDEC2_FAILD);
+            result.put(Keys.DATA,new JSONObject());
+            return result.toJSONString();
+        }else {
+            result = JsonUtil.fromErrors(Errors.SUCCESS);
+        }
+        result.put(Keys.MSG,"");
+        result.put(Keys.DATA,ec2List);
+        result.put(Keys.COUNT, count);
+        return result.toJSONString();
+    }
+
     @RequestMapping(value = "/addEC2", method = RequestMethod.POST , produces="text/json;charset=UTF-8")
     public String addEc_2(
             @RequestParam(Keys.EC1ID) String ec1_id,
@@ -205,9 +230,27 @@ public class TypeController {
             result.put(Keys.DATA,new JSONObject());
             return result.toJSONString();
         }
-        ec_1Mapper.deleteByPrimaryKey(Integer.valueOf(id));
+        ec_2Mapper.deleteByPrimaryKey(Integer.valueOf(id));
         result.put(Keys.MSG,Errors.DELETE_EC2_SUCCESS);
         result.put(Keys.DATA,new JSONObject());
+        return result.toJSONString();
+    }
+
+    @RequestMapping(value = "/getTypeCount", method = RequestMethod.POST , produces="text/json;charset=UTF-8")
+    public String getTypeCount(){
+        List<View_type> dataType = view_paramMapper.selectTypeCount();
+        JSONObject result ;
+        if (dataType == null){
+            result = JsonUtil.fromErrors(Errors.FAILD);
+            result.put(Keys.MSG,Errors.GETTYPEANDEC2_FAILD);
+            result.put(Keys.DATA,new JSONObject());
+            return result.toJSONString();
+        }else {
+            result = JsonUtil.fromErrors(Errors.SUCCESS);
+        }
+        JSONObject data = new JSONObject();
+        result.put(Keys.MSG,"");
+        result.put(Keys.DATA,dataType);
         return result.toJSONString();
     }
 }

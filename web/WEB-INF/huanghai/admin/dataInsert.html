@@ -336,6 +336,7 @@
                             fileObj = $(this).val();
 
                         formData.append("file", fileObj);
+                        formData.append("operator", Client.user.userName);
                         $.ajax({
                             url : "",
                             type : 'POST',
@@ -345,13 +346,13 @@
                             // 告诉jQuery不要去设置Content-Type请求头
                             contentType : false,
                             beforeSend:function(){
-                                console.log("正在进行，请稍候");
+                                Dialog.info("正在进行，请稍候");
                             },
                             success : function(responseStr) {
                                 if(responseStr.status===0){
-                                    console.log("成功"+responseStr);
+                                    Dialog.info("成功"+responseStr);
                                 }else{
-                                    console.log("失败");
+                                    Dialog.warn("上传失败");
                                 }
                             },
                             error : function(responseStr) {
@@ -363,6 +364,9 @@
             })
         },
         methods: {
+            /**
+             * 新增引用
+             */
             addReference: function() {
                 this.referLength++;
                 this.referShow[this.referLength] = true;

@@ -43,8 +43,8 @@ public class Errors {
 	public static final String GETTYPEFAILD = "获取数据类型失败！";
 	public static final String ADDTYPEFAILD = "新增数据类型失败！";
 	public static final String ADDTYPESUCCESS = "新增数据类型成功！";
-	public static final String DELETETYPEFAILD = "删除数据类型成功！";
-	public static final String DELETETYPESUCCESS = "删除数据类型失败！";
+	public static final String DELETETYPEFAILD = "删除数据类型失败！";
+	public static final String DELETETYPESUCCESS = "删除数据类型成功！";
 
 	//type&ec2
 	public static final String GETTYPEANDEC2_FAILD = "获取检索参数成功！";

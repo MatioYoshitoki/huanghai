@@ -6,6 +6,19 @@
     <result column="ec1" property="ec1" jdbcType="VARCHAR" />
     <result column="ec2" property="ec2" jdbcType="VARCHAR" />
   </resultMap>
+  <sql id="Base_Column_List" >
+    id, ec1, ec2
+  </sql>
+  <select id="selectAll" resultMap="BaseResultMap" parameterType="com.matio.pojo.MmeCondition" >
+    select
+    <include refid="Base_Column_List" />
+    from view_ec
+    limit #{startSize},#{endSize}
+  </select>
+  <select id="selectAllCount" resultType="java.lang.Integer">
+    select count(*)
+    from view_ec
+  </select>
   <insert id="insert" parameterType="com.matio.pojo.View_ec" >
     insert into view_ec (id, ec1, ec2)
     values (#{id,jdbcType=INTEGER}, #{ec1,jdbcType=VARCHAR}, #{ec2,jdbcType=VARCHAR})

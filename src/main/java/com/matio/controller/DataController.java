@@ -68,9 +68,16 @@ public class DataController {
             @RequestParam(Keys.ORIGIN) String origin,
             @RequestParam(Keys.OPERATOR) String operator,
             @RequestParam(Keys.TYPE) String type,
-            @RequestParam(Keys.EC2) String ec2
+            @RequestParam(Keys.EC2) String ec2,
+            @RequestParam(Keys.DEEPSEA) String deepSea,
+            @RequestParam(Keys.TEMPERATURE) String temperature,
+            @RequestParam(Keys.PH) String ph,
+            @RequestParam(Keys.ZONE) String zone,
+            @RequestParam(Keys.COFACTORS) String cofactors,
+            @RequestParam(Keys.INHIBITORS) String inhibitors
     ){
-        JSONObject result ;
+        JSONObject result;
+        String ec1 = mmeMapper.selectEC1ByEC2(ec2);
         Date now = new Date();
         Mme mme = new Mme();
         mme.setAbstract1(abstract1);
@@ -103,10 +110,16 @@ public class DataController {
         mme.setSource(source);
         mme.setCountry(country);
         mme.setType(type);
+        mme.setEc1(ec1);
         mme.setEc2(ec2);
+        mme.setDeepSea(deepSea);
+        mme.setTemperature(temperature);
+        mme.setPh(ph);
+        mme.setZone(zone);
+        mme.setCofactors(cofactors);
+        mme.setInhibitors(inhibitors);
 
         mme.setOperator(operator);
-//        mme.setModifier(operator);
         mme.setOperatedate(simpleDateFormat.format(now));
         mme.setModifydate(simpleDateFormat.format(now));
         if (mmeMapper.insert(mme) > 0){
@@ -212,6 +225,12 @@ public class DataController {
             buff.put(Keys.DBSOURCE,mme.getDbsource());
             buff.put(Keys.DATE,mme.getDate());
             buff.put(Keys.ORGANISM,mme.getOrganism());
+            buff.put(Keys.DEEPSEA,mme.getDeepSea());
+            buff.put(Keys.TEMPERATURE,mme.getTemperature());
+            buff.put(Keys.PH,mme.getPh());
+            buff.put(Keys.ZONE,mme.getZone());
+            buff.put(Keys.COFACTORS,mme.getCofactors());
+            buff.put(Keys.INHIBITORS,mme.getInhibitors());
             buff.put(Keys.ORIGIN,mme.getOrigin());
             buff.put(Keys.OPERATOR,mme.getOperator());
             buff.put(Keys.MODIFIER,mme.getModifier());
@@ -219,6 +238,7 @@ public class DataController {
             buff.put(Keys.MODIFYDATE,mme.getModifydate());
             buff.put(Keys.PDBID,mme.getPdbid());
             buff.put(Keys.TYPE,mme.getType());
+            buff.put(Keys.ISMODIFIED,mme.getIsModified());
             data.add(buff);
 
         }
@@ -282,8 +302,13 @@ public class DataController {
             @RequestParam(Keys.ORIGIN) String origin,
             @RequestParam(Keys.OPERATOR) String operator,
             @RequestParam(Keys.TYPE) String type,
-            @RequestParam(Keys.EC2) String ec2
-
+            @RequestParam(Keys.EC2) String ec2,
+            @RequestParam(Keys.DEEPSEA) String deepSea,
+            @RequestParam(Keys.TEMPERATURE) String temperature,
+            @RequestParam(Keys.PH) String ph,
+            @RequestParam(Keys.ZONE) String zone,
+            @RequestParam(Keys.COFACTORS) String cofactors,
+            @RequestParam(Keys.INHIBITORS) String inhibitors
     ) {
         JSONObject result;
         Date now = new Date();
@@ -320,6 +345,12 @@ public class DataController {
         mme.setCountry(country);
         mme.setType(type);
         mme.setEc2(ec2);
+        mme.setDeepSea(deepSea);
+        mme.setTemperature(temperature);
+        mme.setPh(ph);
+        mme.setZone(zone);
+        mme.setCofactors(cofactors);
+        mme.setInhibitors(inhibitors);
 
         mme.setModifier(operator);
         mme.setModifydate(simpleDateFormat.format(now));

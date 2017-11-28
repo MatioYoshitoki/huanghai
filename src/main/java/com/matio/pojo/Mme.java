@@ -5,6 +5,8 @@ public class Mme {
 
     private String type;
 
+    private String ec1;
+
     private String ec2;
 
     private String title;
@@ -24,6 +26,18 @@ public class Mme {
     private String date;
 
     private String country;
+
+    private String deepSea;
+
+    private String temperature;
+
+    private String ph;
+
+    private String zone;
+
+    private String cofactors;
+
+    private String inhibitors;
 
     private String origin;
 
@@ -75,6 +89,8 @@ public class Mme {
 
     private String modifier;
 
+    private String isModified;
+
     public Integer getId() {
         return id;
     }
@@ -123,6 +139,15 @@ public class Mme {
         this.pdbid = pdbid;
     }
 
+    public void setEc1(String ec1) {
+        this.ec1 = ec1;
+    }
+
+    public String getEc1() {
+
+        return ec1;
+    }
+
     public String getDbsource() {
         return dbsource;
     }
@@ -169,6 +194,55 @@ public class Mme {
 
     public void setCountry(String country) {
         this.country = country;
+    }
+
+    public void setDeepSea(String deepSea) {
+        this.deepSea = deepSea;
+    }
+
+    public void setTemperature(String temperature) {
+        this.temperature = temperature;
+    }
+
+    public void setPh(String ph) {
+        this.ph = ph;
+    }
+
+    public void setZone(String zone) {
+        this.zone = zone;
+    }
+
+    public void setCofactors(String cofactors) {
+        this.cofactors = cofactors;
+    }
+
+    public void setInhibitors(String inhibitors) {
+        this.inhibitors = inhibitors;
+    }
+
+    public String getDeepSea() {
+
+        return deepSea;
+    }
+
+    public String getTemperature() {
+        return temperature;
+    }
+
+    public String getPh() {
+        return ph;
+    }
+
+    public String getZone() {
+        return zone;
+    }
+
+    public String getCofactors() {
+        return cofactors;
+    }
+
+    public String getInhibitors() {
+        return inhibitors;
     }
 
     public String getOrigin() {
@@ -369,5 +443,13 @@ public class Mme {
 
     public void setModifier(String modifier) {
         this.modifier = modifier;
+    }
+
+    public String getIsModified() {
+        return isModified;
+    }
+
+    public void setIsModified(String isModified) {
+        this.isModified = isModified;
     }
 }
