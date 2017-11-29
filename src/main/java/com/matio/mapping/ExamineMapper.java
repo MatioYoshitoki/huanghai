@@ -1,6 +1,7 @@
 package com.matio.mapping;
 
 import com.matio.pojo.Examine;
+import com.matio.pojo.Mme;
 import com.matio.pojo.MmeCondition;
 
 import java.util.List;
@@ -9,6 +10,8 @@ public interface ExamineMapper {
     int deleteByPrimaryKey(Integer id);
 
     int insert(Examine record);
+
+    int selectCountByCondition(MmeCondition condition);
 
     int insertSelective(Examine record);
 

@@ -203,7 +203,7 @@ public class TypeController {
     ){
         Ec_2 condition = new Ec_2();
         condition.setEc1id(Integer.valueOf(ec1_id));
-        condition.setEc2(ec_2);
+        condition.setEc2(ec_2.toLowerCase());
         JSONObject result = JsonUtil.fromErrors(Errors.SUCCESS);
         Ec_2 ec2 = ec_2Mapper.selectByEC1_IdAndEC2(condition);
         if (ec2 == null){

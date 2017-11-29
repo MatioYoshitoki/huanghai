@@ -58,6 +58,7 @@ public class MmeService implements IMmeService {
         mme.setCountry(examine.getCountry());
         mme.setLocus(examine.getLocus());
         mme.setMicrobe(examine.getMicrobe());
+        mme.setEc1(examine.getEc1());
         mme.setEc2(examine.getEc2());
         mme.setSource(examine.getSource());
         mme.setDbsource(examine.getDbsource());
@@ -68,6 +69,12 @@ public class MmeService implements IMmeService {
         mme.setModifydate(examine.getModifydate());
         mme.setPdbid(examine.getPdbid());
         mme.setType(examine.getType());
+        mme.setDeepSea(examine.getDeepSea());
+        mme.setTemperature(examine.getTemperature());
+        mme.setPh(examine.getPh());
+        mme.setZone(examine.getZone());
+        mme.setCofactors(examine.getCofactors());
+        mme.setInhibitors(examine.getInhibitors());
 
         int roll = mmeMapper.updateByPrimaryKey(mme);
         if (roll <= 0){
@@ -92,6 +99,7 @@ public class MmeService implements IMmeService {
     @Transactional(rollbackFor = {RuntimeException.class, Exception.class})
     public String marlboro_batch(List<Examine> examines) {
         JSONObject result = JsonUtil.fromErrors(Errors.SUCCESS);
+
         for (Examine examine:examines){
             Mme mme = new Mme();
             mme.setId(examine.getId());
@@ -120,6 +128,7 @@ public class MmeService implements IMmeService {
             mme.setCountry(examine.getCountry());
             mme.setLocus(examine.getLocus());
             mme.setMicrobe(examine.getMicrobe());
+            mme.setEc1(examine.getEc1());
             mme.setEc2(examine.getEc2());
             mme.setSource(examine.getSource());
             mme.setDbsource(examine.getDbsource());
@@ -130,6 +139,12 @@ public class MmeService implements IMmeService {
             mme.setModifydate(examine.getModifydate());
             mme.setPdbid(examine.getPdbid());
             mme.setType(examine.getType());
+            mme.setDeepSea(examine.getDeepSea());
+            mme.setTemperature(examine.getTemperature());
+            mme.setPh(examine.getPh());
+            mme.setZone(examine.getZone());
+            mme.setCofactors(examine.getCofactors());
+            mme.setInhibitors(examine.getInhibitors());
 
             if (mmeMapper.updateByPrimaryKey(mme)<=0){
                 result = JsonUtil.fromErrors(Errors.FAILD);

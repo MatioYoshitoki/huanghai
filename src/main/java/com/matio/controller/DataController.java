@@ -220,6 +220,7 @@ public class DataController {
             buff.put(Keys.COUNTRY,mme.getCountry());
             buff.put(Keys.LOCUS,mme.getLocus());
             buff.put(Keys.MICROBE,mme.getMicrobe());
+            buff.put(Keys.EC1,mme.getEc1());
             buff.put(Keys.EC2,mme.getEc2());
             buff.put(Keys.SOURCE,mme.getSource());
             buff.put(Keys.DBSOURCE,mme.getDbsource());
@@ -311,6 +312,7 @@ public class DataController {
             @RequestParam(Keys.INHIBITORS) String inhibitors
     ) {
         JSONObject result;
+        String ec1 = mmeMapper.selectEC1ByEC2(ec2);
         Date now = new Date();
         Mme mme = new Mme();
         mme.setId(Integer.valueOf(mmeId));
@@ -344,6 +346,7 @@ public class DataController {
         mme.setSource(source);
         mme.setCountry(country);
         mme.setType(type);
+        mme.setEc1(ec1);
         mme.setEc2(ec2);
         mme.setDeepSea(deepSea);
         mme.setTemperature(temperature);
@@ -374,7 +377,7 @@ public class DataController {
             @RequestParam(Keys.PREFIX) String prefix
     ){
         MmeCondition mmeCondition = new MmeCondition();
-        mmeCondition.setEc2(prefix);
+        mmeCondition.setEc2(prefix.toLowerCase());
         mmeCondition.setEc1(ec1);
         List<View_front> view_fronts = view_frontMapper.selectByFuzzyEC2(mmeCondition);
 
