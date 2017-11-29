@@ -169,7 +169,7 @@
 
                         for (loop = 0; loop < length; loop++) {
                             item = data[loop];
-                            $data = "<tr><td><a style='text-decoration: underline;' href='detail.html?locus=" + item.locus + "'>" + item.locus + "</a></td><td>" + item.ec2 + "</td><td>" + item.title + " </td></tr>";
+                            $data = "<tr><td><a style='text-decoration: underline;' target='_blank' href='detail.html?locus=" + item.locus + "'>" + item.locus + "</a></td><td>" + item.ec2 + "</td><td>" + item.title + " </td></tr>";
                             tbody.append($data);
                         }
                     },

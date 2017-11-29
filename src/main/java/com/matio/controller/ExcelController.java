@@ -9,6 +9,7 @@ import com.matio.tools.ReadExcelUtils;
 import com.matio.unit.JsonUtil;
 import com.sun.org.apache.bcel.internal.generic.BREAKPOINT;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -33,13 +34,14 @@ public class ExcelController {
     @Autowired
     MmeMapper mmeMapper;
 
-    @RequestMapping(value = "/excel_operate", method = RequestMethod.POST,produces = "text/html;charset=utf-8")
+    @RequestMapping(value = "/excel_operate", method = RequestMethod.POST)
     public String excel_operate(
             @RequestParam(Keys.FILE) MultipartFile file,
             @RequestParam(Keys.OPERATOR) String operator
     ) {
         JSONObject result = JsonUtil.fromErrors(Errors.SUCCESS);
-        String file_name = file.getName();
+        String file_name = file.getOriginalFilename();
+        System.out.println(file.getOriginalFilename());
         ReadExcelUtils excelReader = null;
         try {
             excelReader = new ReadExcelUtils(file_name,file.getInputStream());
@@ -65,12 +67,15 @@ public class ExcelController {
                     tmp.add((String) map.get(i).get(j));
                 }
             }
-            content.add(tmp);
+            if (i!=0) {
+                content.add(tmp);
+            }
         }
+//        System.out.println(titles);
         for (int index = 0;index<content.size();index++) {
             List<String> tmp = content.get(index);
+            Mme mme = new Mme();
             for (int i = 0; i < titles.size(); i++) {
-                Mme mme = new Mme();
                 switch (titles.get(i)){
                     case Keys.TITLE:
                         mme.setTitle(tmp.get(i));
@@ -180,15 +185,16 @@ public class ExcelController {
                     default:
                         break;
                 }
-                Date now = new Date();
-                mme.setOperator(operator);
-                mme.setOperatedate(simpleDateFormat.format(now));
-                mme.setModifier(operator);
-                mme.setModifydate(simpleDateFormat.format(now));
-                int flag = mmeMapper.insert(mme);
-                if (flag <= 0){
-                    data.add(mme.getLocus());
-                }
+
+            }
+            Date now = new Date();
+            mme.setOperator(operator);
+            mme.setOperatedate(simpleDateFormat.format(now));
+            mme.setModifier(operator);
+            mme.setModifydate(simpleDateFormat.format(now));
+            int flag = mmeMapper.insert(mme);
+            if (flag <= 0){
+                data.add(mme.getLocus());
             }
         }
         result.put(Keys.DATA,data);
