@@ -5,6 +5,8 @@ public class Examine {
 
     private String type;
 
+    private String ec1;
+
     private String ec2;
 
     private String title;
@@ -24,6 +26,18 @@ public class Examine {
     private String date;
 
     private String country;
+
+    private String deepsea;
+
+    private String temperature;
+
+    private String ph;
+
+    private String zone;
+
+    private String cofactors;
+
+    private String inhibitors;
 
     private String origin;
 
@@ -67,10 +81,6 @@ public class Examine {
 
     private String abstract4;
 
-    private String operator;
-
-    private String operatedate;
-
     private String modifydate;
 
     private String modifier;
@@ -91,6 +101,14 @@ public class Examine {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getEc1() {
+        return ec1;
+    }
+
+    public void setEc1(String ec1) {
+        this.ec1 = ec1;
     }
 
     public String getEc2() {
@@ -171,6 +189,54 @@ public class Examine {
 
     public void setCountry(String country) {
         this.country = country;
+    }
+
+    public String getDeepsea() {
+        return deepsea;
+    }
+
+    public void setDeepsea(String deepsea) {
+        this.deepsea = deepsea;
+    }
+
+    public String getTemperature() {
+        return temperature;
+    }
+
+    public void setTemperature(String temperature) {
+        this.temperature = temperature;
+    }
+
+    public String getPh() {
+        return ph;
+    }
+
+    public void setPh(String ph) {
+        this.ph = ph;
+    }
+
+    public String getZone() {
+        return zone;
+    }
+
+    public void setZone(String zone) {
+        this.zone = zone;
+    }
+
+    public String getCofactors() {
+        return cofactors;
+    }
+
+    public void setCofactors(String cofactors) {
+        this.cofactors = cofactors;
+    }
+
+    public String getInhibitors() {
+        return inhibitors;
+    }
+
+    public void setInhibitors(String inhibitors) {
+        this.inhibitors = inhibitors;
     }
 
     public String getOrigin() {
@@ -339,22 +405,6 @@ public class Examine {
 
     public void setAbstract4(String abstract4) {
         this.abstract4 = abstract4;
-    }
-
-    public String getOperator() {
-        return operator;
-    }
-
-    public void setOperator(String operator) {
-        this.operator = operator;
-    }
-
-    public String getOperatedate() {
-        return operatedate;
-    }
-
-    public void setOperatedate(String operatedate) {
-        this.operatedate = operatedate;
     }
 
     public String getModifydate() {

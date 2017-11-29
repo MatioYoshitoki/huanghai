@@ -28,34 +28,26 @@
                 <a href="#">About Us</a>
             </li>
         </ul>
-        <div class="header-title">EMBL-EBL&nbsp;&nbsp;Hinxton</div>
+        <div class="header-title clearfix">
+            <div class="header-icon"></div>
+            <div class="header-text">LOGO</div>
+        </div>
     </div>
 </div>
 <div class="breadcrumb">
     <div class="bread-con">
-        <h3>MMAP</h3>
-        <div class="mmap"><strong>The marine microorganism active</br>product database</strong></br>Releas 1.0</div>
+        <h3 id="indexBannerTitle"></h3>
+        <div id="indexBannerContent" class="mmap"></div>
         <div class="mme">
             <div class="back"></div>
-            <div>Marine Microorganism Enzyme(MME)&nbsp;&nbsp;&gt;</div>
+            <div><a id="indexLinkUrl" href="#"><span id="indexLinkText"></span>&nbsp;&nbsp;&gt;</a></div>
         </div>
     </div>
 </div>
 <div class="index body">
     <div class="intro-con">
-        <h1 class="intro-title">
-            MMAP(Information database of Marine Microorganism Active Product)
-        </h1>
-        <div class="intro-content">
-            The Information database of MMAP is an information resource for marine
-            microorganism active products. It gives us the basic experimental and
-            theoretical data for the active products that originate from marine microorganism,
-            including the sub database of marine microorganism, marine enzyme and the
-            resources from deep sea.Please use the Menu in the bottom to the sub database.<br/>
-            nav-item The MMAP team is the Marine product resources and Enzyme Engineering Laboratory
-            at the Yellow Sea Fisheries Research Institute of Chinese Academy of Fishery
-            Sciences, NO.106, Nanjing Road, Qingdao, Shandong, China(jixf@ysri.ac.cn)<strong></strong>
-        </div>
+        <h1 id="indexTitle" class="intro-title"></h1>
+        <div id="indexContent" class="intro-content"></div>
     </div>
     <div class="detail-con">
         <div class="row">
@@ -65,18 +57,29 @@
             <div class="detail-scroll col-md-6">
                 <div class="swiper-container col-md-6">
                     <!-- swiper -->
-                    <img src="../asset/img/pic.jpg" style="width: 100%; height: 100%;" />
+                    <img src="../asset/img/pic.jpg" style="width: 100%; height: 100%;"/>
                 </div>
                 <div class="detail-explain col-md-6">
                     <h2 class="explain-title">Microorganism</h2>
                     <ul class="detail-list">
-                        <li class="detail-item">Research Institute of Chinese</li>
-                        <li class="detail-item">The Information database</li>
-                        <li class="detail-item">Fishery Sciences, N0.106</li>
-                        <li class="detail-item">The MMAP team is the</li>
-                        <li class="detail-item">Nanjing Road, Qingdao</li>
-                        <li class="detail-item">Enzyme Engineering</li>
-                        <li class="detail-item">MMAP is an information</li>
+                        <li class="detail-item">
+                            <a href="browse.html?ec1=Hydrolases">Hydrolases</a>
+                        </li>
+                        <li class="detail-item">
+                            <a href="browse.html?ec1=Lyases">Lyases</a>
+                        </li>
+                        <li class="detail-item">
+                            <a href="browse.html?ec1=Isomerases">Isomerases</a>
+                        </li>
+                        <li class="detail-item">
+                            <a href="browse.html?ec1=Ligases">Ligases</a>
+                        </li>
+                        <li class="detail-item">
+                            <a href="browse.html?ec1=Oxidoreductases">Oxidoreductases</a>
+                        </li>
+                        <li class="detail-item">
+                            <a href="browse.html?ec1=Transferase">Transferase</a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -123,48 +126,127 @@
 <script src="../asset/js/frame/jquery-1.11.1.min.js"></script>
 <script src="../asset/js/frame/echarts.js"></script>
 <script>
-    $(document).ready(function() {
-        var chart = echarts.init(document.getElementById("chart")),
-            option = {
-                title: {
-                    text: "Data ratio",
-                    x: "center"
-                },
-                tooltip: {
-                    trigger: "item",
-                    formatter: "{a} <br/> {b} : {c} ({d}%)"
-                },
-                legend: {
-                    orient: 'vertical',
-                    left: 'left',
-                    data: ['marine','sea','ocean','south pole','north pole', "antarctinc", "arctic"]
-                },
-                series : [
-                    {
-                        name: 'Data ratio',
-                        type: 'pie',
-                        radius : '80%',
-                        center: ['55%', '55%'],
-                        data:[
-                            {value:335, name:'marine'},
-                            {value:310, name:'sea'},
-                            {value:234, name:'ocean'},
-                            {value:135, name:'south pole'},
-                            {value:1548, name:'north pole'},
-                            {value:1548, name:'antarctinc'},
-                            {value:1548, name:'arctic'}
-                        ],
-                        itemStyle: {
-                            emphasis: {
-                                shadowBlur: 10,
-                                shadowOffsetX: 0,
-                                shadowColor: 'rgba(0, 0, 0, 0.5)'
-                            }
-                        }
+    $(document).ready(function () {
+
+        var info = sessionStorage.getItem("info");
+
+        if (!info) {
+            $.ajax({
+                type: "POST",
+                url: "/getConfigList",
+                data: {},
+                success: function (msg) {
+                    var data = JSON.stringify(msg.data);
+
+                    if (Number(msg.code) === 1) {
+                        sessionStorage.setItem("info", data);
+                        generateChart();
+                        paint(data)
+                    } else {
+                        alert(msg.msg);
                     }
-                ]
-            };
-        chart.setOption(option);
+                },
+                error: function (msg) {
+                    alert("连接服务器失败！");
+                }
+            });
+        } else {
+            generateChart();
+            paint(info);
+        }
+        function generateChart() {
+            $.ajax({
+                type: "POST",
+                url: "/getTypeCount",
+                data: {},
+                success: function (msg) {
+                    var chart = echarts.init(document.getElementById("chart")),
+                        data = msg.data,
+                        option = null,
+                        item = null,
+                        legend = [],
+                        dataComp = [],
+                        length = 0,
+                        loop = 0;
+
+                    for(loop = 0, length = data.length; loop < length; loop++) {
+                        item = data[loop];
+                        legend.push(item.type);
+                        dataComp.push({
+                            name: item.type,
+                            value: item.count
+                        })
+                    }
+
+
+                    if (Number(msg.code) === 1) {
+                        option = {
+                            title: {
+                                text: "Data ratio",
+                                x: "center"
+                            },
+                            tooltip: {
+                                trigger: "item",
+                                formatter: "{a} <br/> {b} : {c} ({d}%)"
+                            },
+                            legend: {
+                                orient: 'vertical',
+                                left: 'left',
+                                data: legend
+                            },
+                            series: [
+                                {
+                                    name: 'Data ratio',
+                                    type: 'pie',
+                                    radius: '80%',
+                                    center: ['55%', '55%'],
+                                    data: dataComp,
+                                    itemStyle: {
+                                        emphasis: {
+                                            shadowBlur: 10,
+                                            shadowOffsetX: 0,
+                                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                                        }
+                                    }
+                                }
+                            ]
+                        };
+                        chart.setOption(option);
+                    } else {
+                        alert(msg.msg);
+                    }
+                },
+                error: function (msg) {
+                    alert("连接服务器失败！");
+                }
+            });
+        }
+
+        // 测试使用
+        paint(info);
+        /**
+         * 渲染页面：将数据填入到页面指定位置
+         * @param data 页面数据
+         */
+        function paint(data) {
+            var param = {},
+                data = JSON.parse(data),
+                item = null,
+                length = 0,
+                loop = 0;
+
+            for (loop = 0, length = data.length; loop < length; loop++) {
+                item = data[loop];
+                param[item.param] = item.value;
+            }
+
+            $("#indexBannerTitle").text(param.indexBannerTitle);
+            $("#indexBannerContent").html(param.indexBannerContent);
+            $("#indexLinkText").html(param.indexLinkText);
+            $("#indexLinkUrl").attr("href", param.indexLinkUrl);
+            $("#indexTitle").text(param.indexTitle);
+            $("#indexContent").html(param.indexContent);
+        }
     })
 </script>
 </body>

@@ -695,7 +695,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 
 	    /**
-	     * Get visual from series or data.json.json.
+	     * Get visual from series or data.
 	     * @param {string|Object} finder
 	     *        If string, e.g., 'series', means {seriesIndex: 0}.
 	     *        If Object, could contain some of these properties below:
@@ -704,7 +704,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     *            dataIndex / dataIndexInside
 	     *        }
 	     *        If dataIndex is not specified, series visual will be fetched,
-	     *        but not data.json.json item visual.
+	     *        but not data item visual.
 	     *        If all of seriesIndex, seriesId, seriesName are not specified,
 	     *        visual will be fetched from first series.
 	     * @param {string} visualType 'color', 'symbol', 'symbolSize'
@@ -758,7 +758,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            ecModel.restoreData();
 
 	            // TODO
-	            // Save total ecModel here for undo/redo (after restoring data.json.json and before processing data.json.json).
+	            // Save total ecModel here for undo/redo (after restoring data and before processing data).
 	            // Undo (restoration of total ecModel) can be carried out in 'action' or outside API call.
 
 	            // Create new coordinate system each update
@@ -1099,7 +1099,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            eventObj.type = actionInfo.event || eventObj.type;
 	            eventObjBatch.push(eventObj);
 
-	            // light update does not perform data.json.json process, layout and visual.
+	            // light update does not perform data process, layout and visual.
 	            if (isHighDown) {
 	                // method, payload, mainType, subType
 	                updateDirectly(this, updateMethod, batchItem, 'series');
@@ -1253,7 +1253,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 
 	    /**
-	     * Processor data.json.json in each series
+	     * Processor data in each series
 	     *
 	     * @param {module:echarts/model/Global} ecModel
 	     * @private
@@ -1298,7 +1298,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 
 	    /**
-	     * Encode visual infomation from data.json.json after data.json.json processing
+	     * Encode visual infomation from data after data processing
 	     *
 	     * @param {module:echarts/model/Global} ecModel
 	     * @param {object} layout
@@ -2880,16 +2880,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var nativeReduce = arrayProto.reduce;
 
 	    /**
-	     * Those data.json.json types can be cloned:
+	     * Those data types can be cloned:
 	     *     Plain object, Array, TypedArray, number, string, null, undefined.
-	     * Those data.json.json types will be assgined using the orginal data.json.json:
+	     * Those data types will be assgined using the orginal data:
 	     *     BUILTIN_OBJECT
 	     * Instance of user defined class will be cloned to a plain object, without
 	     * properties in prototype.
-	     * Other data.json.json types is not supported (not sure what will happen).
+	     * Other data types is not supported (not sure what will happen).
 	     *
 	     * Caution: do not support clone Date, for performance consideration.
-	     * (There might be a large number of date in `series.data.json.json`).
+	     * (There might be a large number of date in `series.data`).
 	     * So date should not be modified in and out of echarts.
 	     *
 	     * @param {*} source
@@ -3434,8 +3434,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    modelUtil.LABEL_OPTIONS = ['position', 'offset', 'show', 'textStyle', 'distance', 'formatter'];
 
 	    /**
-	     * data.json.json could be [12, 2323, {value: 223}, [1221, 23], {value: [2, 23]}]
-	     * This helper method retieves value from data.json.json.
+	     * data could be [12, 2323, {value: 223}, [1221, 23], {value: [2, 23]}]
+	     * This helper method retieves value from data.
 	     * @param {string|number|Date|Array|Object} dataItem
 	     * @return {number|string|Date|Array.<number|string|Date>}
 	     */
@@ -3445,19 +3445,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 
 	    /**
-	     * data.json.json could be [12, 2323, {value: 223}, [1221, 23], {value: [2, 23]}]
+	     * data could be [12, 2323, {value: 223}, [1221, 23], {value: [2, 23]}]
 	     * This helper method determine if dataItem has extra option besides value
 	     * @param {string|number|Date|Array|Object} dataItem
 	     */
 	    modelUtil.isDataItemOption = function (dataItem) {
 	        return isObject(dataItem)
 	            && !(dataItem instanceof Array);
-	            // // markLine data.json.json can be array
+	            // // markLine data can be array
 	            // && !(dataItem[0] && isObject(dataItem[0]) && !(dataItem[0] instanceof Array));
 	    };
 
 	    /**
-	     * This helper method convert value in data.json.json.
+	     * This helper method convert value in data.
 	     * @param {string|number|Date} value
 	     * @param {Object|string} [dimInfo] If string (like 'x'), dimType defaults 'number'.
 	     */
@@ -3480,7 +3480,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 
 	    /**
-	     * Create a model proxy to be used in tooltip for edge data.json.json, markLine data.json.json, markPoint data.json.json.
+	     * Create a model proxy to be used in tooltip for edge data, markLine data, markPoint data.
 	     * @param {module:echarts/data/List} data
 	     * @param {Object} opt
 	     * @param {string} [opt.seriesIndex]
@@ -4282,7 +4282,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 
 	    /**
-	     * Minimal dicernible data.json.json precisioin according to a single pixel.
+	     * Minimal dicernible data precisioin according to a single pixel.
 	     * @param {Array.<number>} dataExtent
 	     * @param {Array.<number>} pixelExtent
 	     * @return {number} precision
@@ -7135,8 +7135,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	     *         legend: {...},
 	     *         visualMap: {...},
 	     *         series: [
-	     *             {data.json.json: [...]},
-	     *             {data.json.json: [...]},
+	     *             {data: [...]},
+	     *             {data: [...]},
 	     *             ...
 	     *         ]
 	     *     };
@@ -7150,15 +7150,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	     *             title: {...},
 	     *             legend: {...},
 	     *             series: [
-	     *                 {data.json.json: [...]},
-	     *                 {data.json.json: [...]},
+	     *                 {data: [...]},
+	     *                 {data: [...]},
 	     *                 ...
 	     *             ]
 	     *         },
 	     *         timeline: {...},
 	     *         options: [
-	     *             {title: {...}, series: {data.json.json: [...]}},
-	     *             {title: {...}, series: {data.json.json: [...]}},
+	     *             {title: {...}, series: {data: [...]}},
+	     *             {title: {...}, series: {data: [...]}},
 	     *             ...
 	     *         ],
 	     *         media: [
@@ -7617,11 +7617,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	             */
 	            set(this, 'dataBeforeProcessed', this.getInitialData(option, ecModel));
 
-	            // If we reverse the order (make data.json.json firstly, and then make
+	            // If we reverse the order (make data firstly, and then make
 	            // dataBeforeProcessed by cloneShallow), cloneShallow will
-	            // cause data.json.json.graph.data.json.json !== data.json.json when using
-	            // module:echarts/data.json.json/Graph or module:echarts/data.json.json/Tree.
-	            // See module:echarts/data.json.json/helper/linkList
+	            // cause data.graph.data !== data when using
+	            // module:echarts/data/Graph or module:echarts/data/Tree.
+	            // See module:echarts/data/helper/linkList
 	            this.restoreData();
 	        },
 
@@ -7662,7 +7662,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            }
 
 	            var data = this.getInitialData(newSeriesOption, ecModel);
-	            // TODO Merge data.json.json?
+	            // TODO Merge data?
 	            if (data) {
 	                set(this, 'data', data);
 	                set(this, 'dataBeforeProcessed', data.cloneShallow());
@@ -7670,8 +7670,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        },
 
 	        fillDataTextStyle: function (data) {
-	            // Default data.json.json label emphasis `position` and `show`
-	            // FIXME Tree structure data.json.json ?
+	            // Default data label emphasis `position` and `show`
+	            // FIXME Tree structure data ?
 	            // FIXME Performance ?
 	            if (data) {
 	                for (var i = 0; i < data.length; i++) {
@@ -7683,7 +7683,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        },
 
 	        /**
-	         * Init a data.json.json structure from data.json.json related option in series
+	         * Init a data structure from data related option in series
 	         * Must be overwritten
 	         */
 	        getInitialData: function () {},
@@ -7705,7 +7705,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        },
 
 	        /**
-	         * Get data.json.json before processed
+	         * Get data before processed
 	         * @return {module:echarts/data/List}
 	         */
 	        getRawData: function () {
@@ -7713,13 +7713,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	        },
 
 	        /**
-	         * Coord dimension to data.json.json dimension.
+	         * Coord dimension to data dimension.
 	         *
-	         * By default the result is the same as dimensions of series data.json.json.
-	         * But in some series data.json.json dimensions are different from coord dimensions (i.e.
+	         * By default the result is the same as dimensions of series data.
+	         * But in some series data dimensions are different from coord dimensions (i.e.
 	         * candlestick and boxplot). Override this method to handle those cases.
 	         *
-	         * Coord dimension to data.json.json dimension can be one-to-many
+	         * Coord dimension to data dimension can be one-to-many
 	         *
 	         * @param {string} coordDim
 	         * @return {Array.<string>} dimensions on the axis.
@@ -7729,7 +7729,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        },
 
 	        /**
-	         * Convert data.json.json dimension to coord dimension.
+	         * Convert data dimension to coord dimension.
 	         *
 	         * @param {string|number} dataDim
 	         * @return {string}
@@ -7847,12 +7847,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	        },
 
 	        /**
-	         * Get data.json.json indices for show tooltip content. See tooltip.
+	         * Get data indices for show tooltip content. See tooltip.
 	         * @abstract
 	         * @param {Array.<string>|string} dim
 	         * @param {Array.<number>} value
 	         * @param {module:echarts/coord/single/SingleAxis} baseAxis
-	         * @return {Array.<number>} data.json.json indices.
+	         * @return {Array.<number>} data indices.
 	         */
 	        getAxisTooltipDataIndex: null,
 
@@ -9602,7 +9602,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        if (!trackLen) {
 	            return;
 	        }
-	        // Guess data.json.json type
+	        // Guess data type
 	        var firstVal = keyframes[0].value;
 	        var isValueArray = isArrayLike(firstVal);
 	        var isValueColor = false;
@@ -11070,7 +11070,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        render: function (seriesModel, ecModel, api, payload) {},
 
 	        /**
-	         * Highlight series or specified data.json.json item
+	         * Highlight series or specified data item
 	         * @param  {module:echarts/model/Series} seriesModel
 	         * @param  {module:echarts/model/Global} ecModel
 	         * @param  {module:echarts/ExtensionAPI} api
@@ -11081,7 +11081,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        },
 
 	        /**
-	         * Downplay series or specified data.json.json item
+	         * Downplay series or specified data item
 	         * @param  {module:echarts/model/Series} seriesModel
 	         * @param  {module:echarts/model/Global} ecModel
 	         * @param  {module:echarts/ExtensionAPI} api
@@ -11235,7 +11235,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 
 	    /**
-	     * Create a path element from path data.json.json string
+	     * Create a path element from path data string
 	     * @param {string} pathData
 	     * @param {Object} opts
 	     * @param {module:zrender/core/BoundingRect} rect
@@ -11853,7 +11853,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            .replace(/,,/g, ',');
 
 	        var n;
-	        // create pipes so that we can split the data.json.json
+	        // create pipes so that we can split the data
 	        for (n = 0; n < cc.length; n++) {
 	            cs = cs.replace(new RegExp(cc[n], 'g'), '|' + cc[n]);
 	        }
@@ -12115,7 +12115,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    module.exports = {
 	        /**
-	         * Create a Path object from path string data.json.json
+	         * Create a Path object from path string data
 	         * http://www.w3.org/TR/SVG/paths.html#PathData
 	         * @param  {Object} opts Other options
 	         */
@@ -12124,7 +12124,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        },
 
 	        /**
-	         * Create a Path class from path string data.json.json
+	         * Create a Path class from path string data
 	         * @param  {string} str
 	         * @param  {Object} opts Other options
 	         */
@@ -12675,7 +12675,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        /**
 	         * Render the element progressively when the value >= 0,
-	         * usefull for large data.json.json.
+	         * usefull for large data.
 	         * @type {number}
 	         */
 	        progressive: -1,
@@ -13333,7 +13333,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var PathProxy = function () {
 
 	        /**
-	         * Path data.json.json. Stored as flat array
+	         * Path data. Stored as flat array
 	         * @type {Array.<Object>}
 	         */
 	        this.data = [];
@@ -13666,7 +13666,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        },
 
 	        _expandData: function () {
-	            // Only if data.json.json is Float32Array
+	            // Only if data is Float32Array
 	            if (!(this.data instanceof Array)) {
 	                var newData = [];
 	                for (var i = 0; i < this._len; i++) {
@@ -13935,7 +13935,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                vec2.max(max, max, max2);
 	            }
 
-	            // No data.json.json
+	            // No data
 	            if (i === 0) {
 	                min[0] = min[1] = max[0] = max[1] = 0;
 	            }
@@ -13946,7 +13946,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        },
 
 	        /**
-	         * Rebuild path from current data.json.json
+	         * Rebuild path from current data
 	         * Rebuild path will not consider javascript implemented line dash.
 	         * @param {CanvasRenderingContext} ctx
 	         */
@@ -21142,7 +21142,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        newDom.height = height * dpr;
 
 	        // id不作为索引用，避免可能造成的重名，定义为私有属性
-	        newDom.setAttribute('data.json-zr-dom-id', id);
+	        newDom.setAttribute('data-zr-dom-id', id);
 	        return newDom;
 	    }
 
@@ -21349,7 +21349,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            // FIXME Set color function or use the platte color
 	            data.setVisual('color', color);
 
-	            // Only visible series has each data.json.json be visual encoded
+	            // Only visible series has each data be visual encoded
 	            if (!ecModel.isSeriesFiltered(seriesModel)) {
 	                if (typeof color === 'function' && !(color instanceof Gradient)) {
 	                    data.each(function (idx) {
@@ -21359,7 +21359,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    });
 	                }
 
-	                // itemStyle in each data.json.json item
+	                // itemStyle in each data item
 	                data.each(function (idx) {
 	                    var itemModel = data.getItemModel(idx);
 	                    var color = itemModel.get(colorAccessPath, true);
@@ -21538,7 +21538,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            for (var i = 0; i < data.length; i++) {
 	                compatItemStyle(data[i]);
 	            }
-	            // mark point data.json.json
+	            // mark point data
 	            var markPoint = seriesOpt.markPoint;
 	            if (markPoint && markPoint.data) {
 	                var mpData = markPoint.data;
@@ -21546,7 +21546,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    compatItemStyle(mpData[i]);
 	                }
 	            }
-	            // mark line data.json.json
+	            // mark line data
 	            var markLine = seriesOpt.markLine;
 	            if (markLine && markLine.data) {
 	                var mlData = markLine.data;
@@ -21672,7 +21672,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {/**
-	 * List for data.json.json storage
+	 * List for data storage
 	 * @module echarts/data/List
 	 */
 
@@ -21687,7 +21687,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var dataCtors = {
 	        'float': Float64Array,
 	        'int': Int32Array,
-	        // Ordinal data.json.json type can be string or int
+	        // Ordinal data type can be string or int
 	        'ordinal': Array,
 	        'number': Array,
 	        'time': Array
@@ -21716,7 +21716,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    /**
 	     * @constructor
-	     * @alias module:echarts/data.json.json/List
+	     * @alias module:echarts/data/List
 	     *
 	     * @param {Array.<string>} dimensions
 	     *        Dimensions should be concrete names like x, y, z, lng, lat, angle, radius
@@ -21756,7 +21756,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.dimensions = dimensionNames;
 
 	        /**
-	         * Infomation of each data.json.json dimension, like data.json.json type.
+	         * Infomation of each data dimension, like data type.
 	         * @type {Object}
 	         */
 	        this._dimensionInfos = dimensionInfos;
@@ -21772,8 +21772,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.dataType;
 
 	        /**
-	         * Indices stores the indices of data.json.json subset after filtered.
-	         * This data.json.json subset will be used in chart.
+	         * Indices stores the indices of data subset after filtered.
+	         * This data subset will be used in chart.
 	         * @type {Array.<number>}
 	         * @readOnly
 	         */
@@ -21795,7 +21795,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	         */
 	        this._idList = [];
 	        /**
-	         * Models of data.json.json option is stored sparse for optimizing memory cost
+	         * Models of data option is stored sparse for optimizing memory cost
 	         * @type {Array.<module:echarts/model/Model>}
 	         * @private
 	         */
@@ -21858,7 +21858,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    listProto.type = 'list';
 	    /**
-	     * If each data.json.json item has it's own option
+	     * If each data item has it's own option
 	     * @type {boolean}
 	     */
 	    listProto.hasItemOption = true;
@@ -21887,7 +21887,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 
 	    /**
-	     * Initialize from data.json.json
+	     * Initialize from data
 	     * @param {Array.<Object|number|Array>} data
 	     * @param {Array.<string>} [nameList]
 	     * @param {Function} [dimValueGetter] (dataItem, dimName, dataIndex, dimIndex) => number
@@ -21897,7 +21897,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        if (true) {
 	            if (!zrUtil.isArray(data)) {
-	                throw new Error('Invalid data.json.json.');
+	                throw new Error('Invalid data.');
 	            }
 	        }
 
@@ -21945,14 +21945,14 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        for (var idx = 0; idx < data.length; idx++) {
 	            var dataItem = data[idx];
-	            // Each data.json.json item is value
+	            // Each data item is value
 	            // [1, 2]
 	            // 2
 	            // Bar chart, line chart which uses category axis
 	            // only gives the 'y' value. 'x' value is the indices of cateogry
 	            // Use a tempValue to normalize the value to be a (x, y) value
 
-	            // Store the data.json.json by dimensions
+	            // Store the data by dimensions
 	            for (var k = 0; k < dimensions.length; k++) {
 	                var dim = dimensions[k];
 	                var dimStorage = storage[dim];
@@ -22014,15 +22014,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 
 	        var value = storage[dim] && storage[dim][dataIndex];
-	        // FIXME ordinal data.json.json type is not stackable
+	        // FIXME ordinal data type is not stackable
 	        if (stack) {
 	            var dimensionInfo = this._dimensionInfos[dim];
 	            if (dimensionInfo && dimensionInfo.stackable) {
 	                var stackedOn = this.stackedOn;
 	                while (stackedOn) {
-	                    // Get no stacked data.json.json of stacked on
+	                    // Get no stacked data of stacked on
 	                    var stackedValue = stackedOn.get(dim, idx);
-	                    // Considering positive stack, negative stack and empty data.json.json
+	                    // Considering positive stack, negative stack and empty data
 	                    if ((value >= 0 && stackedValue > 0)  // Positive stack
 	                        || (value <= 0 && stackedValue < 0) // Negative stack
 	                    ) {
@@ -22080,7 +22080,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 
 	    /**
-	     * Get extent of data.json.json in one dimension
+	     * Get extent of data in one dimension
 	     * @param {string} dim
 	     * @param {boolean} stack
 	     * @param {Function} filter
@@ -22119,7 +22119,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 
 	    /**
-	     * Get sum of data.json.json in one dimension
+	     * Get sum of data in one dimension
 	     * @param {string} dim
 	     * @param {boolean} stack
 	     */
@@ -22181,7 +22181,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 
 	    /**
-	     * Retreive the index with given raw data.json.json index
+	     * Retreive the index with given raw data index
 	     * @param {number} idx
 	     * @param {number} name
 	     * @return {number}
@@ -22238,7 +22238,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                if (
 	                    diff <= maxDistance
 	                    && (dist < minDist
-	                        // For the case of two data.json.json are same on xAxis, which has sequence data.json.json.
+	                        // For the case of two data are same on xAxis, which has sequence data.
 	                        // Show the nearest index
 	                        // https://github.com/ecomfe/echarts/issues/2869
 	                        || (dist === minDist && diff > 0)
@@ -22253,7 +22253,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 
 	    /**
-	     * Get raw data.json.json index
+	     * Get raw data index
 	     * @param {number} idx
 	     * @return {number}
 	     */
@@ -22263,7 +22263,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 
 	    /**
-	     * Get raw data.json.json item
+	     * Get raw data item
 	     * @param {number} idx
 	     * @return {number}
 	     */
@@ -22396,7 +22396,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        this.indices = newIndices;
 
-	        // Reset data.json.json extent
+	        // Reset data extent
 	        this._extent = {};
 
 	        return this;
@@ -22498,7 +22498,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 
 	    /**
-	     * Large data.json.json down sampling on given dimension
+	     * Large data down sampling on given dimension
 	     * @param {string} dimension
 	     * @param {number} rate
 	     * @param {Function} sampleValue
@@ -22518,7 +22518,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        var dimStore = targetStorage[dimension];
 	        var len = this.count();
-	        // Copy data.json.json from original data.json.json
+	        // Copy data from original data
 	        for (var i = 0; i < storage[dimension].length; i++) {
 	            targetStorage[dimension][i] = storage[dimension][i];
 	        }
@@ -22535,7 +22535,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            }
 	            var value = sampleValue(frameValues);
 	            var idx = frameIndices[sampleIndex(frameValues, value) || 0];
-	            // Only write value on the filtered data.json.json
+	            // Only write value on the filtered data
 	            dimStore[idx] = value;
 	            indices.push(idx);
 	        }
@@ -22544,7 +22544,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 
 	    /**
-	     * Get model of one data.json.json item.
+	     * Get model of one data item.
 	     *
 	     * @param {number} idx
 	     */
@@ -22556,9 +22556,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 
 	    /**
-	     * Create a data.json.json differ
+	     * Create a data differ
 	     * @param {module:echarts/data/List} otherList
-	     * @return {module:echarts/data.json.json/DataDiffer}
+	     * @return {module:echarts/data/DataDiffer}
 	     */
 	    listProto.diff = function (otherList) {
 	        var idList = this._idList;
@@ -22639,7 +22639,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 
 	    /**
-	     * Get layout of single data.json.json item
+	     * Get layout of single data item
 	     * @param {number} idx
 	     */
 	    listProto.getItemLayout = function (idx) {
@@ -22647,7 +22647,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 
 	    /**
-	     * Set layout of single data.json.json item
+	     * Set layout of single data item
 	     * @param {number} idx
 	     * @param {Object} layout
 	     * @param {boolean=} [merge=false]
@@ -22659,14 +22659,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 
 	    /**
-	     * Clear all layout of single data.json.json item
+	     * Clear all layout of single data item
 	     */
 	    listProto.clearItemLayouts = function () {
 	        this._itemLayouts.length = 0;
 	    };
 
 	    /**
-	     * Get visual property of single data.json.json item
+	     * Get visual property of single data item
 	     * @param {number} idx
 	     * @param {string} key
 	     * @param {boolean} ignoreParent
@@ -22682,7 +22682,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 
 	    /**
-	     * Set visual property of single data.json.json item
+	     * Set visual property of single data item
 	     *
 	     * @param {number} idx
 	     * @param {string|Object} key
@@ -22723,7 +22723,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        child.dataType = this.dataType;
 	    };
 	    /**
-	     * Set graphic element relative to data.json.json. It can be set as null
+	     * Set graphic element relative to data. It can be set as null
 	     * @param {number} idx
 	     * @param {module:zrender/Element} [el]
 	     */
@@ -22731,7 +22731,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var hostModel = this.hostModel;
 
 	        if (el) {
-	            // Add data.json.json index and series index for indexing the data.json.json by element
+	            // Add data index and series index for indexing the data by element
 	            // Useful in tooltip
 	            el.dataIndex = idx;
 	            el.dataType = this.dataType;
@@ -22778,7 +22778,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        transferProperties(list, this);
 
 
-	        // Clone will not change the data.json.json extent and indices
+	        // Clone will not change the data extent and indices
 	        list.indices = this.indices.slice();
 
 	        if (this._extent) {
@@ -22840,7 +22840,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        constructor: DataDiffer,
 
 	        /**
-	         * Callback function when add a data.json.json
+	         * Callback function when add a data
 	         */
 	        add: function (func) {
 	            this._add = func;
@@ -22848,7 +22848,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        },
 
 	        /**
-	         * Callback function when update a data.json.json
+	         * Callback function when update a data
 	         */
 	        update: function (func) {
 	            this._update = func;
@@ -22856,7 +22856,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        },
 
 	        /**
-	         * Callback function when remove a data.json.json
+	         * Callback function when remove a data
 	         */
 	        remove: function (func) {
 	            this._remove = func;
@@ -23094,15 +23094,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 
 	    /**
-	     * Helper function to create a list from option data.json.json
+	     * Helper function to create a list from option data
 	     */
 	    function createListFromArray(data, seriesModel, ecModel) {
-	        // If data.json.json is undefined
+	        // If data is undefined
 	        data = data || [];
 
 	        if (true) {
 	            if (!zrUtil.isArray(data)) {
-	                throw new Error('Invalid data.json.json.');
+	                throw new Error('Invalid data.');
 	            }
 	        }
 
@@ -23365,9 +23365,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	            var categories = categoryAxisModel.getCategories();
 	            if (categories) {
 	                var dataLen = data.length;
-	                // Ordered data.json.json is given explicitly like
+	                // Ordered data is given explicitly like
 	                // [[3, 0.2], [1, 0.3], [2, 0.15]]
-	                // or given scatter data.json.json,
+	                // or given scatter data,
 	                // pick the category
 	                if (zrUtil.isArray(data[0]) && data[0].length > 1) {
 	                    nameList = [];
@@ -23393,14 +23393,14 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
-	 * Complete dimensions by data.json.json (guess dimension).
+	 * Complete dimensions by data (guess dimension).
 	 */
 
 
 	    var zrUtil = __webpack_require__(4);
 
 	    /**
-	     * Complete the dimensions array guessed from the data.json.json structure.
+	     * Complete the dimensions array guessed from the data structure.
 	     * @param  {Array.<string>} dimensions      Necessary dimensions, like ['x', 'y']
 	     * @param  {Array} data                     Data list. [[1, 2, 3], [2, 3, 4]]
 	     * @param  {Array.<string>} [defaultNames]    Default names to fill not necessary dimensions, like ['value']
@@ -23430,7 +23430,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 
 	    // The rule should not be complex, otherwise user might not
-	    // be able to known where the data.json.json is wrong.
+	    // be able to known where the data is wrong.
 	    var guessOrdinal = completeDimensions.guessOrdinal = function (data, dimIndex) {
 	        for (var i = 0, len = data.length; i < len; i++) {
 	            var value = retrieveValue(data[i]);
@@ -23668,7 +23668,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    function getVisualGradient(data, coordSys) {
 	        var visualMetaList = data.getVisual('visualMeta');
 	        if (!visualMetaList || !visualMetaList.length || !data.count()) {
-	            // When data.json.json.count() is 0, gradient range can not be calculated.
+	            // When data.count() is 0, gradient range can not be calculated.
 	            return;
 	        }
 
@@ -23854,7 +23854,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    el.stopAnimation(true);
 	                });
 
-	                // In the case data.json.json zoom triggerred refreshing frequently
+	                // In the case data zoom triggerred refreshing frequently
 	                // Data may not change if line has a category axis. So it should animate nothing
 	                if (!isPointsSame(this._stackedOnPoints, stackedOnPoints)
 	                    || !isPointsSame(this._points, points)
@@ -23930,7 +23930,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            }
 
 	            this._data = data;
-	            // Save the coordinate system for transition animation when data.json.json changed
+	            // Save the coordinate system for transition animation when data changed
 	            this._coordSys = coordSys;
 	            this._stackedOnPoints = stackedOnPoints;
 	            this._points = points;
@@ -23949,7 +23949,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    // Create a temporary symbol if it is not exists
 	                    var pt = data.getItemLayout(dataIndex);
 	                    if (!pt) {
-	                        // Null data.json.json
+	                        // Null data
 	                        return;
 	                    }
 	                    symbol = new Symbol(data, dataIndex);
@@ -24199,7 +24199,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    && data.getItemVisual(idx, 'symbol') !== 'none';
 	    }
 	    /**
-	     * Update symbols draw by new data.json.json
+	     * Update symbols draw by new data
 	     * @param {module:echarts/data/List} data
 	     * @param {Array.<boolean>} [isIgnore]
 	     */
@@ -25054,7 +25054,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        // convertToIntId(newIdList, oldIdList);
 
-	        // // FIXME One data.json.json ?
+	        // // FIXME One data ?
 	        // diff = arrayDiff(oldIdList, newIdList);
 
 	        var currPoints = [];
@@ -25072,12 +25072,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	            var pointAdded = true;
 
 	            // FIXME, animation is not so perfect when dataZoom window moves fast
-	            // Which is in case remvoing or add more than one data.json.json in the tail or head
+	            // Which is in case remvoing or add more than one data in the tail or head
 	            switch (diffItem.cmd) {
 	                case '=':
 	                    var currentPt = oldData.getItemLayout(diffItem.idx);
 	                    var nextPt = newData.getItemLayout(diffItem.idx1);
-	                    // If previous data.json.json is NaN, use next point directly
+	                    // If previous data is NaN, use next point directly
 	                    if (isNaN(currentPt[0]) || isNaN(currentPt[1])) {
 	                        currentPt = nextPt.slice();
 	                    }
@@ -25109,7 +25109,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                case '-':
 	                    var idx = diffItem.idx;
 	                    var rawIndex = oldData.getRawIndex(idx);
-	                    // Data is replaced. In the case of dynamic data.json.json queue
+	                    // Data is replaced. In the case of dynamic data queue
 	                    // FIXME FIXME FIXME
 	                    if (rawIndex !== idx) {
 	                        currPoints.push(oldData.getItemLayout(idx));
@@ -25139,7 +25139,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 
 	        // Diff result may be crossed if all items are changed
-	        // Sort by data.json.json index
+	        // Sort by data index
 	        sortedIndices.sort(function (a, b) {
 	            return rawIndices[a] - rawIndices[b];
 	        });
@@ -25242,7 +25242,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                        v2Copy(cp1, p);
 	                    }
 	                    else {
-	                        // If next data.json.json is null in not connect case
+	                        // If next data is null in not connect case
 	                        if (isPointNull(nextP) && !connectNulls) {
 	                            nextP = p;
 	                        }
@@ -25450,7 +25450,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                symbolSize: symbolSize
 	            });
 
-	            // Only visible series has each data.json.json be visual encoded
+	            // Only visible series has each data be visual encoded
 	            if (!ecModel.isSeriesFiltered(seriesModel)) {
 	                if (typeof symbolSize === 'function') {
 	                    data.each(function (idx) {
@@ -25772,7 +25772,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        });
 
 	        // Resize again if containLabel is enabled
-	        // FIXME It may cause getting wrong grid size in data.json.json processing stage
+	        // FIXME It may cause getting wrong grid size in data processing stage
 	        this.resize(this._model, api);
 	    };
 
@@ -26197,7 +26197,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return grids;
 	    };
 
-	    // For deciding which dimensions to use when creating list data.json.json
+	    // For deciding which dimensions to use when creating list data
 	    Grid.dimensions = Cartesian2D.prototype.dimensions;
 
 	    __webpack_require__(26).register('cartesian2d', Grid);
@@ -26466,7 +26466,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * http://en.wikipedia.org/wiki/Level_of_measurement
 	 */
 
-	// FIXME only one data.json.json
+	// FIXME only one data
 
 
 	    var zrUtil = __webpack_require__(4);
@@ -26636,7 +26636,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 
 	    /**
-	     * Set extent from data.json.json
+	     * Set extent from data
 	     * @param {Array.<number>} other
 	     */
 	    scaleProto.unionExtent = function (other) {
@@ -26648,7 +26648,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 
 	    /**
-	     * Set extent from data.json.json
+	     * Set extent from data
 	     * @param {module:echarts/data/List} data
 	     * @param {string} dim
 	     */
@@ -26841,7 +26841,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            if (!isFinite(span)) {
 	                return;
 	            }
-	            // User may set axis min 0 and data.json.json are all negative
+	            // User may set axis min 0 and data are all negative
 	            // FIXME If it needs to reverse ?
 	            if (span < 0) {
 	                span = -span;
@@ -26886,7 +26886,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    var expandSize = extent[0];
 	                    // In the fowllowing case
 	                    //      Axis has been fixed max 100
-	                    //      Plus data.json.json are all 100 and axis extent are [100, 100].
+	                    //      Plus data are all 100 and axis extent are [100, 100].
 	                    // Extend to the both side will cause expanded max is larger than fixed max.
 	                    // So only expand to the smaller side.
 	                    if (!fixMax) {
@@ -26902,7 +26902,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                }
 	            }
 	            var span = extent[1] - extent[0];
-	            // If there are no data.json.json and extent are [Infinity, -Infinity]
+	            // If there are no data and extent are [Infinity, -Infinity]
 	            if (!isFinite(span)) {
 	                extent[0] = 0;
 	                extent[1] = 1;
@@ -26998,7 +26998,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                extent[0] -= ONE_DAY;
 	                extent[1] += ONE_DAY;
 	            }
-	            // If there are no data.json.json and extent are [Infinity, -Infinity]
+	            // If there are no data and extent are [Infinity, -Infinity]
 	            if (extent[1] === -Infinity && extent[0] === Infinity) {
 	                var d = new Date();
 	                extent[1] = new Date(d.getFullYear(), d.getMonth(), d.getDate());
@@ -27346,7 +27346,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        },
 
 	        /**
-	         * If contain data.json.json
+	         * If contain data
 	         * @param {Array.<number>} data
 	         * @return {boolean}
 	         */
@@ -27356,7 +27356,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        },
 
 	        /**
-	         * Convert series data.json.json to an array of points
+	         * Convert series data to an array of points
 	         * @param {module:echarts/data/List} data
 	         * @param {boolean} stack
 	         * @return {Array}
@@ -27493,7 +27493,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        },
 
 	        /**
-	         * Convert data.json.json to coord in nd space
+	         * Convert data to coord in nd space
 	         * @param {Array.<number>|Object.<string, number>} val
 	         * @return {Array.<number>|Object.<string, number>}
 	         */
@@ -27502,7 +27502,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        },
 
 	        /**
-	         * Convert coord in nd space to data.json.json
+	         * Convert coord in nd space to data
 	         * @param  {Array.<number>|Object.<string, number>} val
 	         * @return {Array.<number>|Object.<string, number>}
 	         */
@@ -27723,7 +27723,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        },
 
 	        /**
-	         * If axis extent contain given data.json.json
+	         * If axis extent contain given data
 	         * @param {number} data
 	         * @return {boolean}
 	         */
@@ -27764,7 +27764,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        },
 
 	        /**
-	         * Convert data.json.json to coord. Data is the rank if it has a ordinal scale
+	         * Convert data to coord. Data is the rank if it has a ordinal scale
 	         * @param {number} data
 	         * @param  {boolean} clamp
 	         * @return {number}
@@ -27783,7 +27783,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        },
 
 	        /**
-	         * Convert coord to data.json.json. Data is the rank if it has a ordinal scale
+	         * Convert coord to data. Data is the rank if it has a ordinal scale
 	         * @param {number} coord
 	         * @param  {boolean} clamp
 	         * @return {number}
@@ -27864,7 +27864,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            var dataExtent = this.scale.getExtent();
 
 	            var len = dataExtent[1] - dataExtent[0] + (this.onBand ? 1 : 0);
-	            // Fix #2728, avoid NaN when only one data.json.json.
+	            // Fix #2728, avoid NaN when only one data.
 	            len === 0 && (len = 1);
 
 	            var size = Math.abs(axisExtent[1] - axisExtent[0]);
@@ -27873,7 +27873,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        },
 
 	        /**
-	         * When axis extent depends on data.json.json and no data.json.json exists,
+	         * When axis extent depends on data and no data exists,
 	         * axis ticks should not be drawn, which is named 'blank'.
 	         */
 	        isBlank: function () {
@@ -27881,7 +27881,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        },
 
 	        /**
-	         * When axis extent depends on data.json.json and no data.json.json exists,
+	         * When axis extent depends on data and no data exists,
 	         * axis ticks should not be drawn, which is named 'blank'.
 	         */
 	        setBlank: function (isBlank) {
@@ -28027,7 +28027,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    });
 
 	    function getAxisType(axisDim, option) {
-	        // Default axis with data.json.json is category axis
+	        // Default axis with data is category axis
 	        return option.type || (option.data ? 'category' : 'value');
 	    }
 
@@ -28237,9 +28237,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        // min: null,
 	        // 最大值，设置成 'dataMax' 则从数据中计算最大值
 	        // max: null,
-	        // Readonly prop, specifies start value of the range when using data.json.json zoom.
+	        // Readonly prop, specifies start value of the range when using data zoom.
 	        // rangeStart: null
-	        // Readonly prop, specifies end value of the range when using data.json.json zoom.
+	        // Readonly prop, specifies end value of the range when using data zoom.
 	        // rangeEnd: null
 	        // 脱离0值比例，放大聚焦到最终_min，_max区间
 	        // scale: false,
@@ -28987,7 +28987,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    z2: 10
 	                });
 
-	                // Pack data.json.json for mouse event
+	                // Pack data for mouse event
 	                if (triggerEvent) {
 	                    textEl.eventData = makeAxisEventDataBase(axisModel);
 	                    textEl.eventData.targetType = 'axisLabel';
@@ -29985,8 +29985,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        init: function (option) {
 	            PieSeries.superApply(this, 'init', arguments);
 
-	            // Enable legend selection for each data.json.json item
-	            // Use a function instead of direct access because data.json.json reference may changed
+	            // Enable legend selection for each data item
+	            // Use a function instead of direct access because data reference may changed
 	            this.legendDataProvider = function () {
 	                return this.getRawData();
 	            };
@@ -30060,7 +30060,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            // 南丁格尔玫瑰图模式，'radius'（半径） | 'area'（面积）
 	            // roseType: null,
 
-	            // If still show when all data.json.json zero.
+	            // If still show when all data zero.
 	            stillShowZeroSum: true,
 
 	            label: {
@@ -30119,8 +30119,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	/**
 	 * Data selectable mixin for chart series.
-	 * To eanble data.json.json select, option of series must have `selectedMode`.
-	 * And each data.json.json item will use `selected` to toggle itself selected status
+	 * To eanble data select, option of series must have `selectedMode`.
+	 * And each data item will use `selected` to toggle itself selected status
 	 *
 	 * @module echarts/chart/helper/DataSelectable
 	 */
@@ -30363,7 +30363,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        );
 
 	        function onEmphasis() {
-	            // Sector may has animation of updating data.json.json. Force to move to the last frame
+	            // Sector may has animation of updating data. Force to move to the last frame
 	            // Or it may stopped on the wrong shape
 	            sector.stopAnimation(true);
 	            sector.animateTo({
@@ -30633,9 +30633,9 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 146 */
 /***/ function(module, exports) {
 
-	// Pick color from palette for each data.json.json item.
+	// Pick color from palette for each data item.
 	// Applicable for charts that require applying color palette
-	// in data.json.json level (like pie, funnel, chord).
+	// in data level (like pie, funnel, chord).
 
 
 	    module.exports = function (seriesType, ecModel) {
@@ -30662,7 +30662,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                        var itemModel = dataAll.getItemModel(rawIdx);
 	                        var color = itemModel.get('itemStyle.normal.color')
 	                            || seriesModel.getColorFromPalette(dataAll.getName(rawIdx), paletteScope);
-	                        // Legend may use the visual info in data.json.json before processed
+	                        // Legend may use the visual info in data before processed
 	                        dataAll.setItemVisual(rawIdx, 'color', color);
 
 	                        // Data is not filtered
@@ -30671,7 +30671,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                        }
 	                    }
 	                    else {
-	                        // Set data.json.json all color for legend
+	                        // Set data all color for legend
 	                        dataAll.setItemVisual(rawIdx, 'color', singleDataColor);
 	                    }
 	                });
@@ -31308,7 +31308,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var largeSymbolProto = LargeSymbolDraw.prototype;
 
 	    /**
-	     * Update symbols draw by new data.json.json
+	     * Update symbols draw by new data
 	     * @param {module:echarts/data/List} data
 	     */
 	    largeSymbolProto.updateData = function (data) {
@@ -31331,7 +31331,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            )
 	        });
 
-	        // Create symbolProxy to build path for each data.json.json
+	        // Create symbolProxy to build path for each data
 	        symbolEl.symbolProxy = symbolUtil.createSymbol(
 	            data.getVisual('symbol'), 0, 0, 0, 0
 	        );
@@ -31631,7 +31631,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 
 	    /**
-	     * Radar dimensions is based on the data.json.json
+	     * Radar dimensions is based on the data
 	     * @type {Array}
 	     */
 	    Radar.dimensions = [];
@@ -32040,8 +32040,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        init: function (option) {
 	            RadarSeries.superApply(this, 'init', arguments);
 
-	            // Enable legend selection for each data.json.json item
-	            // Use a function instead of direct access because data.json.json reference may changed
+	            // Enable legend selection for each data item
+	            // Use a function instead of direct access because data reference may changed
 	            this.legendDataProvider = function () {
 	                return this.getRawData();
 	            };
@@ -32531,7 +32531,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        },
 
 	        getRawValue: function (dataIndex) {
-	            // Use value stored in data.json.json instead because it is calculated from multiple series
+	            // Use value stored in data instead because it is calculated from multiple series
 	            // FIXME Provide all value of multiple series ?
 	            return this.getData().get('value', dataIndex);
 	        },
@@ -32552,7 +32552,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	         * @param {number} dataIndex
 	         */
 	        formatTooltip: function (dataIndex) {
-	            // FIXME orignalData and data.json.json is a bit confusing
+	            // FIXME orignalData and data is a bit confusing
 	            var data = this.getData();
 	            var formattedValue = addCommas(this.getRawValue(dataIndex));
 	            var name = data.getName(dataIndex);
@@ -32733,7 +32733,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            }
 	            else {
 	                if (true) {
-	                    console.warn('Given layoutCenter or layoutSize data.json.json are invalid. Use left/top/width/height instead.');
+	                    console.warn('Given layoutCenter or layoutSize data are invalid. Use left/top/width/height instead.');
 	                }
 	            }
 	        }
@@ -32791,7 +32791,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    var geoCreator = {
 
-	        // For deciding which dimensions to use when creating list data.json.json
+	        // For deciding which dimensions to use when creating list data
 	        dimensions: Geo.prototype.dimensions,
 
 	        create: function (ecModel, api) {
@@ -33168,7 +33168,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        },
 
 	        /**
-	         * Convert series data.json.json to a list of points
+	         * Convert series data to a list of points
 	         * @param {module:echarts/data/List} data
 	         * @param {boolean} stack
 	         * @return {Array}
@@ -33430,7 +33430,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                vec2.min(min, min, min2);
 	                vec2.max(max, max, max2);
 	            }
-	            // No data.json.json
+	            // No data
 	            if (i === 0) {
 	                min[0] = min[1] = max[0] = max[1] = 0;
 	            }
@@ -33766,7 +33766,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        },
 
 	        /**
-	         * Convert a single (lon, lat) data.json.json item to (x, y) point.
+	         * Convert a single (lon, lat) data item to (x, y) point.
 	         * @param {Array.<number>} data
 	         * @return {Array.<number>}
 	         */
@@ -33778,7 +33778,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        },
 
 	        /**
-	         * Convert a (x, y) point to (lon, lat) data.json.json
+	         * Convert a (x, y) point to (lon, lat) data
 	         * @param {Array.<number>} point
 	         * @return {Array.<number>}
 	         */
@@ -34026,7 +34026,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                        // Which needs statistic of multiple series and draw on one map.
 	                        // And each series also need a symbol with legend color
 	                        //
-	                        // Layout and visual are put one the different data.json.json
+	                        // Layout and visual are put one the different data
 	                        fill: mapModel.getData().getVisual('color')
 	                    },
 	                    shape: {
@@ -34038,7 +34038,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    z2: 10
 	                });
 
-	                // First data.json.json on the same region
+	                // First data on the same region
 	                if (!offset) {
 	                    var fullData = mapModel.mainSeries.getData();
 	                    var name = originalData.getName(idx);
@@ -34207,8 +34207,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	            var isGeo = mapOrGeoModel.mainType === 'geo';
 
-	            // map series has data.json.json, geo model that controlled by map series
-	            // has no data.json.json, otherwise data.json.json exists.
+	            // map series has data, geo model that controlled by map series
+	            // has no data, otherwise data exists.
 	            var data = mapOrGeoModel.getData && mapOrGeoModel.getData();
 	            isGeo && ecModel.eachComponent({mainType: 'series', subType: 'map'}, function (mapSeries) {
 	                if (!data && mapSeries.getHostGeoModel() === mapOrGeoModel) {
@@ -34262,7 +34262,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                var hoverLabelModel = regionModel.getModel(hoverLabelAccessPath);
 
 	                var dataIdx;
-	                // Use the itemStyle in data.json.json if has data.json.json
+	                // Use the itemStyle in data if has data
 	                if (data) {
 	                    dataIdx = data.indexOfName(region.name);
 	                    // Only visual color of each item will be used. It can be encoded by dataRange
@@ -34299,7 +34299,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                var isDataNaN = data && isNaN(data.get('value', dataIdx));
 	                var itemLayout = data && data.getItemLayout(dataIdx);
 	                // In the following cases label will be drawn
-	                // 1. In map series and data.json.json value is NaN
+	                // 1. In map series and data value is NaN
 	                // 2. In geo component
 	                // 4. Region has no series legendSymbol, which will be add a showLabel flag in mapSymbolLayout
 	                if (
@@ -34860,7 +34860,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                        var name = data.getName(idx);
 	                        var region = geo.getRegion(name);
 
-	                        // If input series.data.json.json is [11, 22, '-'/null/undefined, 44],
+	                        // If input series.data is [11, 22, '-'/null/undefined, 44],
 	                        // it will be filled with NaN: [11, 22, NaN, 44] and NaN will
 	                        // not be drawn. So here must validate if value is NaN.
 	                        if (!region || isNaN(value)) {
@@ -35187,7 +35187,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            levels: []                  // Each item: {
 	                                        //     visibleMin, itemStyle, visualDimension, label
 	                                        // }
-	            // data.json.json: {
+	            // data: {
 	            //      value: [],
 	            //      children: [],
 	            //      link: 'http://xxx.xxx.xxx',
@@ -35282,10 +35282,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	            // A feature is implemented:
 	            // index is monotone increasing with the sequence of
 	            // input id at the first time.
-	            // This feature can make sure that each data.json.json item and its
-	            // mapped color have the same index between data.json.json list and
+	            // This feature can make sure that each data item and its
+	            // mapped color have the same index between data list and
 	            // color list at the beginning, which is useful for user
-	            // to adjust data.json.json-color mapping.
+	            // to adjust data-color mapping.
 
 	            /**
 	             * @private
@@ -35413,7 +35413,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
-	 * Tree data.json.json structure
+	 * Tree data structure
 	 *
 	 * @module echarts/data/Tree
 	 */
@@ -35426,7 +35426,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var completeDimensions = __webpack_require__(103);
 
 	    /**
-	     * @constructor module:echarts/data.json.json/Tree~TreeNode
+	     * @constructor module:echarts/data/Tree~TreeNode
 	     * @param {string} name
 	     * @param {module:echarts/data/Tree} hostTree
 	     */
@@ -35693,7 +35693,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    /**
 	     * @constructor
-	     * @alias module:echarts/data.json.json/Tree
+	     * @alias module:echarts/data/Tree
 	     * @param {module:echarts/model/Model} hostModel
 	     * @param {Array.<Object>} levelOptions
 	     */
@@ -35804,7 +35804,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 
 	    /**
-	     * data.json.json node format:
+	     * data node format:
 	     * {
 	     *     name: ...
 	     *     value: ...
@@ -35912,7 +35912,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * @param {module:echarts/data/List} opt.mainData
 	     * @param {Object} [opt.struct] For example, instance of Graph or Tree.
 	     * @param {string} [opt.structAttr] designation: list[structAttr] = struct;
-	     * @param {Object} [opt.datas] {dataType: data.json.json},
+	     * @param {Object} [opt.datas] {dataType: data},
 	     *                 like: {node: nodeList, edge: edgeList}.
 	     *                 Should contain mainData.
 	     * @param {Object} [opt.datasAttr] {dataType: attr},
@@ -35930,7 +35930,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        linkAll(mainData, datas, opt);
 
-	        // Porxy data.json.json original methods.
+	        // Porxy data original methods.
 	        each(datas, function (data) {
 	            each(mainData.TRANSFERABLE_METHODS, function (methodName) {
 	                data.wrapMethod(methodName, zrUtil.curry(transferInjection, opt));
@@ -35953,13 +35953,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    function transferInjection(opt, res) {
 	        if (isMainData(this)) {
-	            // Transfer datas to new main data.json.json.
+	            // Transfer datas to new main data.
 	            var datas = zrUtil.extend({}, this[DATAS]);
 	            datas[this.dataType] = res;
 	            linkAll(res, datas, opt);
 	        }
 	        else {
-	            // Modify the reference in main data.json.json to point newData.
+	            // Modify the reference in main data to point newData.
 	            linkSingle(res, this.dataType, this[MAIN_DATA], opt);
 	        }
 	        return res;
@@ -37574,9 +37574,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	     *                                            If no option.categories, categories is set
 	     *                                            as [0, 1, 2, ...].
 	     * @param {boolean} [option.loop=false] Whether loop mapping when mappingMethod is 'category'.
-	     * @param {(Array|Object|*)} [option.visual]  Visual data.json.json.
+	     * @param {(Array|Object|*)} [option.visual]  Visual data.
 	     *                                            when mappingMethod is 'category',
-	     *                                            visual data.json.json can be array or object
+	     *                                            visual data can be array or object
 	     *                                            (like: {cate1: '#222', none: '#fff'})
 	     *                                            or primary types (which represents
 	     *                                            defualt category visual), otherwise visual
@@ -38358,7 +38358,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 
 	    /**
-	     * Set area to each child, and calculate data.json.json extent for visual coding.
+	     * Set area to each child, and calculate data extent for visual coding.
 	     */
 	    function initChildren(node, nodeModel, totalArea, options, hideChildren, depth) {
 	        var viewChildren = node.children || [];
@@ -38465,8 +38465,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	            sum += children[i].getValue();
 	        }
 
-	        // Statistic data.json.json extent for latter visual coding.
-	        // Notice: data.json.json extent should be calculate based on raw children
+	        // Statistic data extent for latter visual coding.
+	        // Notice: data extent should be calculate based on raw children
 	        // but not filtered view children, otherwise visual mapping will not
 	        // be stable when zoom (where children is filtered by visibleMin).
 
@@ -38750,7 +38750,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        init: function (option) {
 	            GraphSeries.superApply(this, 'init', arguments);
 
-	            // Provide data.json.json for legend select
+	            // Provide data for legend select
 	            this.legendDataProvider = function () {
 	                return this._categoriesData;
 	            };
@@ -38964,7 +38964,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	            // categories: [],
 
-	            // data.json.json: []
+	            // data: []
 	            // Or
 	            // nodes: []
 	            //
@@ -39083,7 +39083,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 	/**
-	 * Graph data.json.json structure
+	 * Graph data structure
 	 *
 	 * @module echarts/data/Graph
 	 * @author Yi Shen(https://www.github.com/pissang)
@@ -39093,7 +39093,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var zrUtil = __webpack_require__(4);
 
 	    /**
-	     * @alias module:echarts/data.json.json/Graph
+	     * @alias module:echarts/data/Graph
 	     * @constructor
 	     * @param {boolean} directed
 	     */
@@ -39179,7 +39179,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 
 	    /**
-	     * Get node by data.json.json index
+	     * Get node by data index
 	     * @param  {number} dataIndex
 	     * @return {module:echarts/data/Graph~Node}
 	     */
@@ -39250,7 +39250,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 
 	    /**
-	     * Get edge by data.json.json index
+	     * Get edge by data index
 	     * @param  {number} dataIndex
 	     * @return {module:echarts/data/Graph~Node}
 	     */
@@ -39418,7 +39418,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	    /**
-	     * @alias module:echarts/data.json.json/Graph.Node
+	     * @alias module:echarts/data/Graph.Node
 	     */
 	    function Node(id, dataIndex) {
 	        /**
@@ -39491,7 +39491,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    /**
 	     * 图边
-	     * @alias module:echarts/data.json.json/Graph.Edge
+	     * @alias module:echarts/data/Graph.Edge
 	     * @param {module:echarts/data/Graph.Node} n1
 	     * @param {module:echarts/data/Graph.Node} n2
 	     * @param {number} [dataIndex=-1]
@@ -41333,7 +41333,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    min[1] -= 1;
 	                }
 	                var aspect = (max[0] - min[0]) / (max[1] - min[1]);
-	                // FIXME If get view rect after data.json.json processed?
+	                // FIXME If get view rect after data processed?
 	                var viewRect = getViewRect(seriesModel, api, aspect);
 	                // Position may be NaN, use view rect instead
 	                if (isNaN(aspect)) {
@@ -41397,7 +41397,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            if (!zrUtil.isArray(dataOpt)) {
 	                dataOpt = [dataOpt];
 	            }
-	            // Only use the first data.json.json item
+	            // Only use the first data item
 	            list.initData(dataOpt);
 	            return list;
 	        },
@@ -41871,7 +41871,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    style: {
 	                        x: x,
 	                        y: y,
-	                        // FIXME First data.json.json name ?
+	                        // FIXME First data name ?
 	                        text: seriesModel.getData().getName(0),
 	                        fill: textStyleModel.getTextColor(),
 	                        textFont: textStyleModel.getFont(),
@@ -41906,7 +41906,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    },
 	                    style: {
 	                        text: formatLabel(
-	                            // FIXME First data.json.json name ?
+	                            // FIXME First data name ?
 	                            value, detailModel.get('formatter')
 	                        ),
 	                        fill: detailModel.get('backgroundColor'),
@@ -42016,8 +42016,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        init: function (option) {
 	            FunnelSeries.superApply(this, 'init', arguments);
 
-	            // Enable legend selection for each data.json.json item
-	            // Use a function instead of direct access because data.json.json reference may changed
+	            // Enable legend selection for each data item
+	            // Use a function instead of direct access because data reference may changed
 	            this.legendDataProvider = function () {
 	                return this.getRawData();
 	            };
@@ -42452,7 +42452,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            var y = viewRect.y;
 
 	            var getLinePoints = function (idx, offY) {
-	                // End point index is data.json.json.count() and we assign it 0
+	                // End point index is data.count() and we assign it 0
 	                var val = data.get('value', idx) || 0;
 	                var itemWidth = number.linearMap(val, [min, max], sizeExtent, true);
 	                var x0;
@@ -42723,7 +42723,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        },
 
 	        /**
-	         * Update axis scale after data.json.json processed
+	         * Update axis scale after data processed
 	         * @param  {module:echarts/model/Global} ecModel
 	         * @param  {module:echarts/ExtensionAPI} api
 	         */
@@ -42909,7 +42909,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        },
 
 	        /**
-	         * Convert a dim value of a single item of series data.json.json to Point.
+	         * Convert a dim value of a single item of series data to Point.
 	         * @param {*} value
 	         * @param {string} dim
 	         * @return {Array}
@@ -42922,7 +42922,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        },
 
 	        /**
-	         * Travel data.json.json for one time, get activeState of each data.json.json item.
+	         * Travel data for one time, get activeState of each data item.
 	         * @param {module:echarts/data/List} data
 	         * @param {Functio} cb param: {string} activeState 'active' or 'inactive' or 'normal'
 	         *                            {number} dataIndex
@@ -44681,7 +44681,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            var list = new List(dataDimsInfo, this);
 	            list.initData(rawData);
 
-	            // Anication is forbiden in progressive data.json.json mode.
+	            // Anication is forbiden in progressive data mode.
 	            if (this.option.progressive) {
 	                this.option.animation = false;
 	            }
@@ -44690,7 +44690,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        },
 
 	        /**
-	         * User can get data.json.json raw indices on 'axisAreaSelected' event received.
+	         * User can get data raw indices on 'axisAreaSelected' event received.
 	         *
 	         * @public
 	         * @param {string} activeState 'active' or 'inactive' or 'normal'
@@ -44759,7 +44759,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            });
 	        }
 	        // FIXME
-	        // 如果没有设置axis data.json.json, 应自动算出，或者提示。
+	        // 如果没有设置axis data, 应自动算出，或者提示。
 	    }
 
 	    function convertDimNameToNumber(dimName) {
@@ -44767,7 +44767,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 
 	    function generateDataDims(modelDims, rawData) {
-	        // parallelModel.dimension should not be regarded as data.json.json
+	        // parallelModel.dimension should not be regarded as data
 	        // dimensions. Consider dimensions = ['dim4', 'dim2', 'dim6'];
 
 	        // We detect max dim by parallelModel.dimensions and fist
@@ -44899,7 +44899,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	         */
 	        // _renderForProgressive: function (seriesModel) {
 	        //     var dataGroup = this._dataGroup;
-	        //     var data.json.json = seriesModel.getData();
+	        //     var data = seriesModel.getData();
 	        //     var oldData = this._data;
 	        //     var coordSys = seriesModel.coordinateSystem;
 	        //     var dimensions = coordSys.dimensions;
@@ -44907,23 +44907,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	        //     var progressive = option.progressive;
 	        //     var smooth = option.smooth ? SMOOTH : null;
 
-	        //     // In progressive animation is disabled, so use simple data.json.json diff,
+	        //     // In progressive animation is disabled, so use simple data diff,
 	        //     // which effects performance less.
-	        //     // (Typically performance for data.json.json with length 7000+ like:
+	        //     // (Typically performance for data with length 7000+ like:
 	        //     // simpleDiff: 60ms, addEl: 184ms,
 	        //     // in RMBP 2.4GHz intel i7, OSX 10.9 chrome 50.0.2661.102 (64-bit))
-	        //     if (simpleDiff(oldData, data.json.json, dimensions)) {
+	        //     if (simpleDiff(oldData, data, dimensions)) {
 	        //         dataGroup.removeAll();
-	        //         data.json.json.each(function (dataIndex) {
-	        //             addEl(data.json.json, dataGroup, dataIndex, dimensions, coordSys);
+	        //         data.each(function (dataIndex) {
+	        //             addEl(data, dataGroup, dataIndex, dimensions, coordSys);
 	        //         });
 	        //     }
 
-	        //     updateElCommon(data.json.json, progressive, smooth);
+	        //     updateElCommon(data, progressive, smooth);
 
 	        //     // Consider switch between progressive and not.
-	        //     data.json.json.__plProgressive = true;
-	        //     this._data = data.json.json;
+	        //     data.__plProgressive = true;
+	        //     this._data = data;
 	        // },
 
 	        /**
@@ -45093,7 +45093,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
-	 * @file Get initial data.json.json and define sankey view's series model
+	 * @file Get initial data and define sankey view's series model
 	 * @author Deqing Li(annong035@gmail.com)
 	 */
 
@@ -45109,10 +45109,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	        layoutInfo: null,
 
 	        /**
-	         * Init a graph data.json.json structure from data.json.json in option series
+	         * Init a graph data structure from data in option series
 	         *
 	         * @param  {Object} option  the object used to config echarts view
-	         * @return {module:echarts/data/List} storage initial data.json.json
+	         * @return {module:echarts/data/List} storage initial data
 	         */
 	        getInitialData: function (option) {
 	            var links = option.edges || option.links;
@@ -45124,18 +45124,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	        },
 
 	        /**
-	         * Return the graphic data.json.json structure
+	         * Return the graphic data structure
 	         *
-	         * @return {module:echarts/data/Graph} graphic data.json.json structure
+	         * @return {module:echarts/data/Graph} graphic data structure
 	         */
 	        getGraph: function () {
 	            return this.getData().graph;
 	        },
 
 	        /**
-	         * Get edge data.json.json of graphic data.json.json structure
+	         * Get edge data of graphic data structure
 	         *
-	         * @return {module:echarts/data/List} data.json.json structure of list
+	         * @return {module:echarts/data/List} data structure of list
 	         */
 	        getEdgeData: function () {
 	            return this.getGraph().edgeData;
@@ -46178,7 +46178,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        init: function () {
 	            /**
-	             * Old data.json.json.
+	             * Old data.
 	             * @private
 	             * @type {module:echarts/chart/helper/WhiskerBoxDraw}
 	             */
@@ -46361,7 +46361,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var whiskerBoxDrawProto = WhiskerBoxDraw.prototype;
 
 	    /**
-	     * Update symbols draw by new data.json.json
+	     * Update symbols draw by new data
 	     * @param {module:echarts/data/List} data
 	     */
 	    whiskerBoxDrawProto.updateData = function (data) {
@@ -46380,7 +46380,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            .update(function (newIdx, oldIdx) {
 	                var symbolEl = oldData.getItemGraphicEl(oldIdx);
 
-	                // Empty data.json.json
+	                // Empty data
 	                if (!data.hasValue(newIdx)) {
 	                    group.remove(symbolEl);
 	                    return;
@@ -46502,7 +46502,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                color: seriesModel.get(borderColorQuery) || defaulColor
 	            });
 
-	            // Only visible series has each data.json.json be visual encoded
+	            // Only visible series has each data be visual encoded
 	            if (!ecModel.isSeriesFiltered(seriesModel)) {
 	                data.each(function (idx) {
 	                    var itemModel = data.getItemModel(idx);
@@ -46934,7 +46934,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                legendSymbol: 'roundRect'
 	            });
 
-	            // Only visible series has each data.json.json be visual encoded
+	            // Only visible series has each data be visual encoded
 	            if (!ecModel.isSeriesFiltered(seriesModel)) {
 	                data.each(function (idx) {
 	                    var itemModel = data.getItemModel(idx);
@@ -47484,7 +47484,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var data = seriesOpt.data;
 	        if (data && data[0] && data[0][0] && data[0][0].coord) {
 	            if (true) {
-	                console.warn('Lines data.json.json configuration has been changed to'
+	                console.warn('Lines data configuration has been changed to'
 	                    + ' { coords:[[1,2],[2,3]] }');
 	            }
 	            seriesOpt.data = zrUtil.map(data, function (itemOpt) {
@@ -48220,7 +48220,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var largeLineProto = LargeLineDraw.prototype;
 
 	    /**
-	     * Update symbols draw by new data.json.json
+	     * Update symbols draw by new data
 	     * @param {module:echarts/data/List} data
 	     */
 	    largeLineProto.updateData = function (data) {
@@ -48286,7 +48286,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            var coordSys = seriesModel.coordinateSystem;
 	            var lineData = seriesModel.getData();
 
-	            // FIXME Use data.json.json dimensions ?
+	            // FIXME Use data dimensions ?
 	            lineData.each(function (idx) {
 	                var itemModel = lineData.getItemModel(idx);
 	                // TODO Support pure array
@@ -48295,7 +48295,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	                if (true) {
 	                    if (!(coords instanceof Array && coords.length > 0 && coords[0] instanceof Array)) {
-	                        throw new Error('Invalid coords ' + JSON.stringify(coords) + '. Lines must have 2d coords array in data.json.json item.');
+	                        throw new Error('Invalid coords ' + JSON.stringify(coords) + '. Lines must have 2d coords array in data item.');
 	                    }
 	                }
 	                var pts = [];
@@ -48545,7 +48545,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            data.each(['x', 'y', 'z'], function (x, y, z, idx) {
 	                var itemModel = data.getItemModel(idx);
 	                var point = cartesian.dataToPoint([x, y]);
-	                // Ignore empty data.json.json
+	                // Ignore empty data
 	                if (isNaN(z)) {
 	                    return;
 	                }
@@ -48694,7 +48694,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    Heatmap.prototype = {
 	        /**
 	         * Renders Heatmap and returns the rendered canvas
-	         * @param {Array} data array of data.json.json, each has x, y, value
+	         * @param {Array} data array of data, each has x, y, value
 	         * @param {number} width canvas width
 	         * @param {number} height canvas height
 	         */
@@ -48735,7 +48735,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            while(offset < pixelLen) {
 	                var alpha = pixels[offset + 3] / 256;
 	                var gradientOffset = Math.floor(alpha * (GRADIENT_LEVELS - 1)) * 4;
-	                // Simple optimize to ignore the empty data.json.json
+	                // Simple optimize to ignore the empty data
 	                if (alpha > 0) {
 	                    var gradient = isInRange(alpha) ? gradientInRange : gradientOutOfRange;
 	                    // Any alpha > 0 will be mapped to [minOpacity, maxOpacity]
@@ -48859,9 +48859,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	            symbolMargin: null,   // start margin and end margin. Can be a number or a percent string.
 	                                  // Auto margin by defualt.
 	            symbolRepeat: false,  // false/null/undefined, means no repeat.
-	                                  // Can be true, means auto calculate repeat times and cut by data.json.json.
-	                                  // Can be a number, specifies repeat times, and do not cut by data.json.json.
-	                                  // Can be 'fixed', means auto calculate repeat times but do not cut by data.json.json.
+	                                  // Can be true, means auto calculate repeat times and cut by data.
+	                                  // Can be a number, specifies repeat times, and do not cut by data.
+	                                  // Can be 'fixed', means auto calculate repeat times but do not cut by data.
 	            symbolRepeatDirection: 'end', // 'end' means from 'start' to 'end'.
 
 	            symbolClip: false,
@@ -48870,7 +48870,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	            barGap: '-100%',      // In most case, overlap is needed.
 
-	            // z can be set in data.json.json item, which is z2 actually.
+	            // z can be set in data item, which is z2 actually.
 
 	            // Disable progressive
 	            progressive: 0,
@@ -49498,7 +49498,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 
 	    function createBar(data, opt, symbolMeta, isUpdate) {
-	        // bar is the main element for each data.json.json.
+	        // bar is the main element for each data.
 	        var bar = new graphic.Group();
 	        // bundle is used for location and clip.
 	        var bundle = new graphic.Group();
@@ -49831,7 +49831,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        },
 
 	        /**
-	         * Update axis scale after data.json.json processed
+	         * Update axis scale after data processed
 	         * @param  {module:echarts/model/Global} ecModel
 	         * @param  {module:echarts/ExtensionAPI} api
 	         */
@@ -49975,7 +49975,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        },
 
 	        /**
-	         * Convert the series data.json.json to concrete point.
+	         * Convert the series data to concrete point.
 	         *
 	         * @param  {number|Array.<number>} val
 	         * @return {Array.<number>}
@@ -50421,8 +50421,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	            ThemeRiverSeries.superApply(this, 'init', arguments);
 
 	            // Put this function here is for the sake of consistency of code
-	            // Enable legend selection for each data.json.json item
-	            // Use a function instead of direct access because data.json.json reference may changed
+	            // Enable legend selection for each data item
+	            // Use a function instead of direct access because data reference may changed
 	            this.legendDataProvider = function () {
 	                return this.getRawData();
 	            };
@@ -50431,20 +50431,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	        /**
 	         * If there is no value of a certain point in the time for some event,set it value to 0.
 	         *
-	         * @param {Array} data  initial data.json.json in the option
+	         * @param {Array} data  initial data in the option
 	         * @return {Array}
 	         */
 	        fixData: function (data) {
 	            var rawDataLength = data.length;
 
-	            // grouped data.json.json by name
+	            // grouped data by name
 	            var dataByName = nest()
 	                .key(function (dataItem) {
 	                    return dataItem[2];
 	                })
 	                .entries(data);
 
-	            // data.json.json group in each layer
+	            // data group in each layer
 	            var layData = zrUtil.map(dataByName, function (d) {
 	                return {
 	                    name: d.key,
@@ -50530,7 +50530,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                }
 	            ];
 
-	            // filter the data.json.json item with the value of label is undefined
+	            // filter the data item with the value of label is undefined
 	            var filterData = zrUtil.filter(option.data, function (dataItem) {
 	                return dataItem[2] !== undefined;
 	            });
@@ -50567,7 +50567,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        },
 
 	        /**
-	         * The raw data.json.json is divided into multiple layers and each layer
+	         * The raw data is divided into multiple layers and each layer
 	         *     has same name.
 	         *
 	         * @return {Array.<Array.<number>>}
@@ -50580,7 +50580,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            for (var i = 0; i < lenCount; ++i) {
 	                indexArr[i] = i;
 	            }
-	            // data.json.json group by name
+	            // data group by name
 	            var dataByName = nest()
 	                .key(function (index) {
 	                    return data.get('name', index);
@@ -50606,7 +50606,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        },
 
 	        /**
-	         * Get data.json.json indices for show tooltip content
+	         * Get data indices for show tooltip content
 	         *
 	         * @param {Array.<string>|string} dim  single coordinate dimension
 	         * @param {Array.<number>} value  coordinate value
@@ -50650,7 +50650,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        /**
 	         * @override
-	         * @param {Array.<number>} dataIndexs  index of data.json.json
+	         * @param {Array.<number>} dataIndexs  index of data
 	         */
 	        formatTooltip: function (dataIndexs) {
 	            var data = this.getData();
@@ -51088,7 +51088,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
-	 * @file  Using layout algorithm transform the raw data.json.json to layout information.
+	 * @file  Using layout algorithm transform the raw data to layout information.
 	 * @author Deqing Li(annong035@gmail.com)
 	 */
 
@@ -51138,7 +51138,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    /**
 	     * The layout information about themeriver
 	     *
-	     * @param {module:echarts/data/List} data  data.json.json in the series
+	     * @param {module:echarts/data/List} data  data in the series
 	     * @param {module:echarts/model/Series} seriesModel  the model object of themeRiver series
 	     * @param {number} height  value used to compute every series height
 	     */
@@ -51147,7 +51147,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            return;
 	        }
 	        var coordSys = seriesModel.coordinateSystem;
-	        // the data.json.json in each layer are organized into a series.
+	        // the data in each layer are organized into a series.
 	        var layerSeries = seriesModel.getLayerSeries();
 
 	        // the points in each layer.
@@ -51945,8 +51945,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	            selectedMode: true,
 	            // 配置默认选中状态，可配合LEGEND.SELECTED事件做动态数据载入
 	            // selected: null,
-	            // 图例内容（详见legend.data.json.json，数组中每一项代表一个item
-	            // data.json.json: [],
+	            // 图例内容（详见legend.data，数组中每一项代表一个item
+	            // data: [],
 
 	            // Tooltip 相关配置
 	            tooltip: {
@@ -52015,7 +52015,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * @type {Object}
 	     * @property {string} type 'legendToggleSelect'
 	     * @property {string} [from]
-	     * @property {string} name Series name or data.json.json item name
+	     * @property {string} name Series name or data item name
 	     */
 	    echarts.registerAction(
 	        'legendToggleSelect', 'legendselectchanged',
@@ -52026,7 +52026,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * @event legendSelect
 	     * @type {Object}
 	     * @property {string} type 'legendSelect'
-	     * @property {string} name Series name or data.json.json item name
+	     * @property {string} name Series name or data item name
 	     */
 	    echarts.registerAction(
 	        'legendSelect', 'legendselected',
@@ -52037,7 +52037,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * @event legendUnSelect
 	     * @type {Object}
 	     * @property {string} type 'legendUnSelect'
-	     * @property {string} name Series name or data.json.json item name
+	     * @property {string} name Series name or data item name
 	     */
 	    echarts.registerAction(
 	        'legendUnSelect', 'legendunselected',
@@ -52141,7 +52141,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	                    // If color is a callback function
 	                    if (typeof color === 'function') {
-	                        // Use the first data.json.json
+	                        // Use the first data
 	                        color = color(seriesModel.getDataParams(0));
 	                    }
 
@@ -52165,7 +52165,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                else {
 	                    // Data legend of pie, funnel
 	                    ecModel.eachRawSeries(function (seriesModel) {
-	                        // In case multiple series has same data.json.json name
+	                        // In case multiple series has same data name
 	                        if (legendDrawedMap[name]) {
 	                            return;
 	                        }
@@ -52199,7 +52199,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	                if (true) {
 	                    if (!legendDrawedMap[name]) {
-	                        console.warn(name + ' series not exists. Legend data.json.json should be same with series name or data.json.json name.');
+	                        console.warn(name + ' series not exists. Legend data should be same with series name or data name.');
 	                    }
 	                }
 	            }, this);
@@ -52397,7 +52397,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        if (legendModels && legendModels.length) {
 	            ecModel.filterSeries(function (series) {
 	                // If in any legend component the status is not selected.
-	                // Because in legend series is assumed selected when it is not in the legend data.json.json.
+	                // Because in legend series is assumed selected when it is not in the legend data.
 	                for (var i = 0; i < legendModels.length; i++) {
 	                    if (!legendModels[i].isSelected(series.name)) {
 	                        return false;
@@ -52413,7 +52413,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 299 */
 /***/ function(module, exports, __webpack_require__) {
 
-	// FIXME Better way to pack data.json.json in graphic element
+	// FIXME Better way to pack data in graphic element
 
 
 	    __webpack_require__(300);
@@ -52802,7 +52802,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	             * @private
 	             */
 	            this._lastHover = {
-	                // data.json.json
+	                // data
 	                // payloadBatch
 	            };
 
@@ -52924,7 +52924,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                        seriesModel = null;
 	                    }
 	                    if (!seriesModel) {
-	                        // Find the first series can use axis trigger And data.json.json is not null
+	                        // Find the first series can use axis trigger And data is not null
 	                        ecModel.eachSeries(function (_series) {
 	                            if (ifSeriesSupportAxisTrigger(_series) && !seriesModel) {
 	                                if (seriesHaveDataOnIndex(_series)) {
@@ -53007,7 +53007,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        },
 
 	        _prepareAxisTriggerData: function (tooltipModel, ecModel) {
-	            // Prepare data.json.json for axis trigger
+	            // Prepare data for axis trigger
 	            var seriesGroupByAxis = {};
 	            ecModel.eachSeries(function (seriesModel) {
 	                if (ifSeriesSupportAxisTrigger(seriesModel)) {
@@ -53066,19 +53066,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	            if (el && el.dataIndex != null) {
 	                // Use dataModel in element if possible
 	                // Used when mouseover on a element like markPoint or edge
-	                // In which case, the data.json.json is not main data.json.json in series.
+	                // In which case, the data is not main data in series.
 	                var dataModel = el.dataModel || ecModel.getSeriesByIndex(el.seriesIndex);
 	                var dataIndex = el.dataIndex;
 	                var data = dataModel.getData();
 	                var itemModel = data.getItemModel(dataIndex);
-	                // Series or single data.json.json may use item trigger when global is axis trigger
+	                // Series or single data may use item trigger when global is axis trigger
 	                if ((itemModel.get('tooltip.trigger') || globalTrigger) === 'axis') {
 	                    this._showAxisTooltip(tooltipModel, ecModel, e);
 	                }
 	                else {
 	                    // Reset ticket
 	                    this._ticket = '';
-	                    // If either single data.json.json or series use item trigger
+	                    // If either single data or series use item trigger
 	                    this._hideAxisPointer();
 	                    // Reset last hover and dispatch downplay action
 	                    this._resetLastHover();
@@ -53192,7 +53192,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                var contentNotChange = false;
 	                var lastHover = this._lastHover;
 	                if (axisPointerType === 'cross') {
-	                    // If hover data.json.json not changed
+	                    // If hover data not changed
 	                    // Possible when two axes are all category
 	                    if (dataEqual(lastHover.data, value)) {
 	                        contentNotChange = true;
@@ -53202,7 +53202,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                else {
 	                    var valIndex = zrUtil.indexOf(dimensions, axisType);
 
-	                    // If hover data.json.json not changed on the axis dimension
+	                    // If hover data not changed on the axis dimension
 	                    if (lastHover.data === value[valIndex]) {
 	                        contentNotChange = true;
 	                    }
@@ -53583,7 +53583,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                        : series.getData().indexOfNearest(
 	                            series.coordDimToDataDim(baseAxis.dim)[0],
 	                            value[baseDimIndex],
-	                            // Add a threshold to avoid find the wrong dataIndex when data.json.json length is not same
+	                            // Add a threshold to avoid find the wrong dataIndex when data length is not same
 	                            false, baseAxis.type === 'category' ? 0.5 : null
 	                        )
 	                };
@@ -53636,7 +53636,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	                    // Default tooltip content
 	                    // FIXME
-	                    // (1) shold be the first data.json.json which has name?
+	                    // (1) shold be the first data which has name?
 	                    // (2) themeRiver, firstDataIndex is array, and first line is unnecessary.
 	                    var firstLine = baseAxis.type === 'time'
 	                        ? baseAxis.scale.getLabel(value[baseDimIndex])
@@ -53672,14 +53672,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	         * @param {Object} e
 	         */
 	        _showItemTooltipContent: function (seriesModel, dataIndex, dataType, e) {
-	            // FIXME Graph data.json.json
+	            // FIXME Graph data
 	            var api = this._api;
 	            var data = seriesModel.getData(dataType);
 	            var itemModel = data.getItemModel(dataIndex);
 
 	            var tooltipOpt = itemModel.get('tooltip', true);
 	            if (typeof tooltipOpt === 'string') {
-	                // In each data.json.json item tooltip can be simply write:
+	                // In each data item tooltip can be simply write:
 	                // {
 	                //  value: 10,
 	                //  tooltip: 'Something you need to know'
@@ -54320,7 +54320,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        },
 
 	        /**
-	         * If contain data.json.json
+	         * If contain data
 	         * @param {Array.<number>} data
 	         * @return {boolean}
 	         */
@@ -54387,7 +54387,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        },
 
 	        /**
-	         * Convert series data.json.json to a list of (x, y) points
+	         * Convert series data to a list of (x, y) points
 	         * @param {module:echarts/data/List} data
 	         * @return {Array}
 	         *  Return list of coordinates. For example:
@@ -54400,8 +54400,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        },
 
 	        /**
-	         * Convert a single data.json.json item to (x, y) point.
-	         * Parameter data.json.json is an array which the first element is radius and the second is angle
+	         * Convert a single data item to (x, y) point.
+	         * Parameter data is an array which the first element is radius and the second is angle
 	         * @param {Array.<number>} data
 	         * @param {boolean} [clamp=false]
 	         * @return {Array.<number>}
@@ -54414,7 +54414,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        },
 
 	        /**
-	         * Convert a (x, y) point to data.json.json
+	         * Convert a (x, y) point to data
 	         * @param {Array.<number>} point
 	         * @param {boolean} [clamp=false]
 	         * @return {Array.<number>}
@@ -54667,7 +54667,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 
 	    function getAxisType(axisDim, option) {
-	        // Default axis with data.json.json is category axis
+	        // Default axis with data is category axis
 	        return option.type || (option.data ? 'category' : 'value');
 	    }
 
@@ -55646,9 +55646,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        // This event will not be triggered when `setOpion`, otherwise dead lock may
 	        // triggered when do `setOption` in event listener, which we do not find
 	        // satisfactory way to solve yet. Some considered resolutions:
-	        // (a) Diff with prevoius selected data.json.json ant only trigger event when changed.
-	        // But store previous data.json.json and diff precisely (i.e., not only by dataIndex, but
-	        // also detect value changes in selected data.json.json) might bring complexity or fragility.
+	        // (a) Diff with prevoius selected data ant only trigger event when changed.
+	        // But store previous data and diff precisely (i.e., not only by dataIndex, but
+	        // also detect value changes in selected data) might bring complexity or fragility.
 	        // (b) Use spectial param like `silent` to suppress event triggering.
 	        // But such kind of volatile param may be weird in `setOption`.
 	        if (!payload) {
@@ -55940,7 +55940,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    // Key of the second level is chart element type: `point`, `rect`.
 	    // See moudule:echarts/component/helper/BrushController
 	    // function param:
-	    //      {Object} itemLayout fetch from data.json.json.getItemLayout(dataIndex)
+	    //      {Object} itemLayout fetch from data.getItemLayout(dataIndex)
 	    //      {Object} selectors {point: selector, rect: selector, ...}
 	    //      {Object} area {range: [[], [], ..], boudingRect}
 	    // function return:
@@ -57039,11 +57039,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	            yAxisIndex: null,       // Default the first vertical category axis.
 
 	            filterMode: 'filter',   // Possible values: 'filter' or 'empty'.
-	                                    // 'filter': data.json.json items which are out of window will be removed.
+	                                    // 'filter': data items which are out of window will be removed.
 	                                    //           This option is applicable when filtering outliers.
-	                                    // 'empty': data.json.json items which are out of window will be set to empty.
+	                                    // 'empty': data items which are out of window will be set to empty.
 	                                    //          This option is applicable when user should not neglect
-	                                    //          that there are some data.json.json items out of window.
+	                                    //          that there are some data items out of window.
 	                                    // Taking line chart as an example, line will be broken in
 	                                    // the filtered points when filterModel is set to 'empty', but
 	                                    // be connected when set to 'filter'.
@@ -57459,7 +57459,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            // Consider this case: dataZoomModel1 and dataZoomModel2 control the same axis,
 	            // and the option.start or option.end settings are different. The percentRange
 	            // should follow axisProxy.
-	            // (We encounter this problem in toolbox data.json.json zoom.)
+	            // (We encounter this problem in toolbox data zoom.)
 	            for (var key in axisProxies) {
 	                if (axisProxies.hasOwnProperty(key) && !axisProxies[key].hostedBy(this)) {
 	                    return axisProxies[key];
@@ -57651,7 +57651,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * Operate single axis.
 	     * One axis can only operated by one axis operator.
 	     * Different dataZoomModels may be defined to operate the same axis.
-	     * (i.e. 'inside' data.json.json zoom and 'slider' data.json.json zoom components)
+	     * (i.e. 'inside' data zoom and 'slider' data zoom components)
 	     * So dataZoomModels share one axisProxy in that case.
 	     *
 	     * @class
@@ -57807,7 +57807,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	            // In percent range is used and axis min/max/scale is set,
 	            // window should be based on min/max/0, but should not be
-	            // based on the extent of filtered data.json.json.
+	            // based on the extent of filtered data.
 	            dataExtent = dataExtent.slice();
 	            fixExtentByAxis(dataExtent, axisModel);
 
@@ -57862,7 +57862,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                return;
 	            }
 
-	            // Culculate data.json.json window and data.json.json extent, and record them.
+	            // Culculate data window and data extent, and record them.
 	            this._dataExtent = calculateDataExtent(
 	                this._dimName, this.getTargetSeriesModels()
 	            );
@@ -57901,11 +57901,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	            // FIXME
 	            // Toolbox may has dataZoom injected. And if there are stacked bar chart
-	            // with NaN data.json.json, NaN will be filtered and stack will be wrong.
+	            // with NaN data, NaN will be filtered and stack will be wrong.
 	            // So we need to force the mode to be set empty.
 	            // In fect, it is not a big deal that do not support filterMode-'filter'
 	            // when using toolbox#dataZoom, utill tooltip#dataZoom support "single axis
-	            // selection" some day, which might need "adapt to data.json.json extent on the
+	            // selection" some day, which might need "adapt to data extent on the
 	            // otherAxis", which is disabled by filterMode-'empty'.
 	            var otherAxisModel = this.getOtherAxisModel();
 	            if (dataZoomModel.get('$fromToolbox')
@@ -57915,7 +57915,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                filterMode = 'empty';
 	            }
 
-	            // Process series data.json.json
+	            // Process series data
 	            each(seriesModels, function (seriesModel) {
 	                var seriesData = seriesModel.getData();
 
@@ -58113,7 +58113,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            bottom: null, // Default align to grid rect.
 
 	            backgroundColor: 'rgba(47,69,84,0)',    // Background of slider zoom component.
-	            // dataBackgroundColor: '#ddd',         // Background coor of data.json.json shadow and border of box,
+	            // dataBackgroundColor: '#ddd',         // Background coor of data shadow and border of box,
 	                                                    // highest priority, remain for compatibility of
 	                                                    // previous version, but not recommended any more.
 	            dataBackground: {
@@ -58461,7 +58461,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            var step = thisShadowExtent[1] / (data.count() - 1);
 	            var thisCoord = 0;
 
-	            // Optimize for large data.json.json shadow
+	            // Optimize for large data shadow
 	            var stride = Math.round(data.count() / size[0]);
 	            var lastIsEmpty;
 	            data.each([otherDim], function (value, index) {
@@ -58480,7 +58480,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                var otherCoord = isEmpty
 	                    ? 0 : linearMap(value, otherDataExtent, otherShadowExtent, true);
 
-	                // Attempt to draw data.json.json shadow precisely when there are empty value.
+	                // Attempt to draw data shadow precisely when there are empty value.
 	                if (isEmpty && !lastIsEmpty && index) {
 	                    areaPoints.push([areaPoints[areaPoints.length - 1][0], 0]);
 	                    linePoints.push([linePoints[linePoints.length - 1][0], 0]);
@@ -58747,7 +58747,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    var range = this._range;
 
 	                    var dataInterval = nonRealtime
-	                        // See #4434, data.json.json and axis are not processed and reset yet in non-realtime mode.
+	                        // See #4434, data and axis are not processed and reset yet in non-realtime mode.
 	                        ? axisProxy.calculateDataWindow({
 	                            start: range[0], end: range[1]
 	                        }).valueWindow
@@ -59247,9 +59247,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	    // Only create one roam controller for each coordinate system.
-	    // one roam controller might be refered by two inside data.json.json zoom
+	    // one roam controller might be refered by two inside data zoom
 	    // components (for example, one for x and one for y). When user
-	    // pan or zoom, only dispatch one action for those data.json.json zoom
+	    // pan or zoom, only dispatch one action for those data zoom
 	    // components.
 
 	    var zrUtil = __webpack_require__(4);
@@ -59451,16 +59451,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	            // reset should be called after seriesData.restoreData.
 	            dataZoomModel.eachTargetAxis(resetSingleAxis);
 
-	            // Caution: data.json.json zoom filtering is order sensitive when using
+	            // Caution: data zoom filtering is order sensitive when using
 	            // percent range and no min/max/scale set on axis.
 	            // For example, we have dataZoom definition:
 	            // [
 	            //      {xAxisIndex: 0, start: 30, end: 70},
 	            //      {yAxisIndex: 0, start: 20, end: 80}
 	            // ]
-	            // In this case, [20, 80] of y-dataZoom should be based on data.json.json
+	            // In this case, [20, 80] of y-dataZoom should be based on data
 	            // that have filtered by x-dataZoom using range of [30, 70],
-	            // but should not be based on full raw data.json.json. Thus sliding
+	            // but should not be based on full raw data. Thus sliding
 	            // x-dataZoom will change both ranges of xAxis and yAxis,
 	            // while sliding y-dataZoom will only change the range of yAxis.
 	            // So we should filter x-axis after reset x-axis immediately,
@@ -59778,7 +59778,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            itemHeight: null,       // The length of the range control edge.
 	            itemWidth: null,        // The length of the other side.
 	            hoverLink: true,        // Enable hover highlight.
-	            hoverLinkDataSize: null,// The size of hovered data.json.json.
+	            hoverLinkDataSize: null,// The size of hovered data.
 	            hoverLinkOnHandle: true // Whether trigger hoverLink when hover handle.
 	        },
 
@@ -60225,8 +60225,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	         * this.formatValueText(someVal); // format single numeric value to text.
 	         * this.formatValueText(someVal, true); // format single category value to text.
 	         * this.formatValueText([min, max]); // format numeric min-max to text.
-	         * this.formatValueText([this.dataBound[0], max]); // using data.json.json lower bound.
-	         * this.formatValueText([min, this.dataBound[1]]); // using data.json.json upper bound.
+	         * this.formatValueText([this.dataBound[0], max]); // using data lower bound.
+	         * this.formatValueText([min, this.dataBound[1]]); // using data upper bound.
 	         *
 	         * @param {number|Array.<number>} value Real value, or this.dataBound[0 or 1].
 	         * @param {boolean} [isCategory=false] Only available when value is number.
@@ -60296,8 +60296,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        resetExtent: function () {
 	            var thisOption = this.option;
 
-	            // Can not calculate data.json.json extent by data.json.json here.
-	            // Because series and data.json.json may be modified in processing stage.
+	            // Can not calculate data extent by data here.
+	            // Because series and data may be modified in processing stage.
 	            // So we do not support the feature "auto min/max".
 
 	            var extent = asc([thisOption.min, thisOption.max]);
@@ -60628,9 +60628,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    // Notice:
 	    // Any "interval" should be by the order of [low, high].
 	    // "handle0" (handleIndex === 0) maps to
-	    // low data.json.json value: this._dataInterval[0] and has low coord.
+	    // low data value: this._dataInterval[0] and has low coord.
 	    // "handle1" (handleIndex === 1) maps to
-	    // high data.json.json value: this._dataInterval[1] and has high coord.
+	    // high data value: this._dataInterval[1] and has high coord.
 	    // The logic of transform is implemented in this._createBarGroup.
 
 	    var ContinuousView = VisualMapView.extend({
@@ -60967,7 +60967,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            );
 	            var dataExtent = visualMapModel.getExtent();
 	            var sizeExtent = [0, visualMapModel.itemSize[1]];
-	            // Update data.json.json interval.
+	            // Update data interval.
 	            this._dataInterval = [
 	                linearMap(handleEnds[0], sizeExtent, dataExtent, true),
 	                linearMap(handleEnds[1], sizeExtent, dataExtent, true)
@@ -61261,7 +61261,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                linearMap(hoverRange[0], sizeExtent, dataExtent, true),
 	                linearMap(hoverRange[1], sizeExtent, dataExtent, true)
 	            ];
-	            // Consider data.json.json range is out of visualMap range, see sidebar/visualMap-continuous.html,
+	            // Consider data range is out of visualMap range, see sidebar/visualMap-continuous.html,
 	            // where china and india has very large population.
 	            hoverRange[0] < sizeExtent[0] && (valueRange[0] = -Infinity);
 	            hoverRange[1] > sizeExtent[1] && (valueRange[1] = Infinity);
@@ -62797,7 +62797,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            coordDimsInfos = zrUtil.map(coordSys && coordSys.dimensions, function (coordDim) {
 	                var info = seriesModel.getData().getDimensionInfo(
 	                    seriesModel.coordDimToDataDim(coordDim)[0]
-	                ) || {}; // In map series data.json.json don't have lng and lat dimension. Fallback to same with coordSys
+	                ) || {}; // In map series data don't have lng and lat dimension. Fallback to same with coordSys
 	                info.name = coordDim;
 	                return info;
 	            });
@@ -62908,7 +62908,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 
 	    /**
-	     * Transform markPoint data.json.json item to format used in List by do the following
+	     * Transform markPoint data item to format used in List by do the following
 	     * 1. Calculate statistic like `max`, `min`, `average`
 	     * 2. Convert `item.xAxis`, `item.yAxis` to `item.coord` array
 	     * @param  {module:echarts/model/Series} seriesModel
@@ -62921,7 +62921,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var coordSys = seriesModel.coordinateSystem;
 
 	        // 1. If not specify the position with pixel directly
-	        // 2. If `coord` is not a data.json.json array. Which uses `xAxis`,
+	        // 2. If `coord` is not a data array. Which uses `xAxis`,
 	        // `yAxis` to specify the coord on each dimension
 
 	        // parseFloat first because item.x and item.y can be percent string like '20%'
@@ -62987,7 +62987,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 
 	    /**
-	     * Filter data.json.json which is out of coordinateSystem range
+	     * Filter data which is out of coordinateSystem range
 	     * [dataFilter description]
 	     * @param  {module:echarts/coord/*} [coordSys]
 	     * @param  {Object} item
@@ -63160,7 +63160,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            && (
 	                mlType === 'min' || mlType === 'max' || mlType === 'average'
 	                // In case
-	                // data.json.json: [{
+	                // data: [{
 	                //   yAxis: 10
 	                // }]
 	                || (item.xAxis != null || item.yAxis != null)
@@ -63216,7 +63216,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            zrUtil.extend({}, item[2])
 	        ];
 
-	        // Avoid line data.json.json type is extended by from(to) data.json.json type
+	        // Avoid line data type is extended by from(to) data type
 	        item[2].type = item[2].type || '';
 
 	        // Merge from option and to option into line option
@@ -63245,7 +63245,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            // In case
 	            // {
 	            //  markLine: {
-	            //    data.json.json: [{ yAxis: 2 }]
+	            //    data: [{ yAxis: 2 }]
 	            //  }
 	            // }
 	            if (
@@ -63289,7 +63289,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            // Expand line to the edge of grid if value on one axis is Inifnity
 	            // In case
 	            //  markLine: {
-	            //    data.json.json: [{
+	            //    data: [{
 	            //      yAxis: 2
 	            //      // or
 	            //      type: 'average'
@@ -63369,7 +63369,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	            mlModel.__from = fromData;
 	            mlModel.__to = toData;
-	            // Line data.json.json for tooltip and formatter
+	            // Line data for tooltip and formatter
 	            mlModel.setData(lineData);
 
 	            var symbolType = mlModel.get('symbol');
@@ -63449,7 +63449,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            coordDimsInfos = zrUtil.map(coordSys && coordSys.dimensions, function (coordDim) {
 	                var info = seriesModel.getData().getDimensionInfo(
 	                    seriesModel.coordDimToDataDim(coordDim)[0]
-	                ) || {}; // In map series data.json.json don't have lng and lat dimension. Fallback to same with coordSys
+	                ) || {}; // In map series data don't have lng and lat dimension. Fallback to same with coordSys
 	                info.name = coordDim;
 	                return info;
 	            });
@@ -63612,7 +63612,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            // In case
 	            // {
 	            //  markArea: {
-	            //    data.json.json: [{ yAxis: 2 }]
+	            //    data: [{ yAxis: 2 }]
 	            //  }
 	            // }
 	            if (
@@ -63725,7 +63725,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	            var areaData = createList(coordSys, seriesModel, maModel);
 
-	            // Line data.json.json for tooltip and formatter
+	            // Line data for tooltip and formatter
 	            maModel.setData(areaData);
 
 	            // Update visual and layout of line
@@ -63836,7 +63836,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            coordDimsInfos = zrUtil.map(coordSys && coordSys.dimensions, function (coordDim) {
 	                var info = seriesModel.getData().getDimensionInfo(
 	                    seriesModel.coordDimToDataDim(coordDim)[0]
-	                ) || {}; // In map series data.json.json don't have lng and lat dimension. Fallback to same with coordSys
+	                ) || {}; // In map series data don't have lng and lat dimension. Fallback to same with coordSys
 	                info.name = coordDim;
 	                return info;
 	            });
@@ -64079,7 +64079,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            inverse: false,
 
 	            tooltip: {                          // boolean or Object
-	                trigger: 'item'                 // data.json.json item may also have tootip attr.
+	                trigger: 'item'                 // data item may also have tootip attr.
 	            },
 
 	            symbol: 'emptyCircle',
@@ -65678,7 +65678,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                return zrUtil.merge({
 	                    id: seriesId,
 	                    type: 'line',
-	                    // Preserve data.json.json related option
+	                    // Preserve data related option
 	                    data: seriesModel.get('data'),
 	                    stack: seriesModel.get('stack'),
 	                    markPoint: seriesModel.get('markPoint'),
@@ -65691,7 +65691,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                return zrUtil.merge({
 	                    id: seriesId,
 	                    type: 'bar',
-	                    // Preserve data.json.json related option
+	                    // Preserve data related option
 	                    data: seriesModel.get('data'),
 	                    stack: seriesModel.get('stack'),
 	                    markPoint: seriesModel.get('markPoint'),
@@ -66242,7 +66242,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                if (zrUtil.isObject(newVal) && !zrUtil.isArray(newVal)) {
 	                    newVal = newVal.value;
 	                }
-	                // Original data.json.json has option
+	                // Original data has option
 	                return zrUtil.defaults({
 	                    value: newVal
 	                }, original);
@@ -67169,7 +67169,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    var startAngle = data[i++] + angle;
 	                    var endAngle = data[i++] + startAngle + angle;
 	                    // FIXME
-	                    // var psi = data.json.json[i++];
+	                    // var psi = data[i++];
 	                    i++;
 	                    var clockwise = data[i++];
 

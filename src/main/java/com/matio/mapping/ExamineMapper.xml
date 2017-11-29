@@ -1,65 +1,78 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.matio.mapping.ExamineMapper" >
-  <resultMap id="BaseResultMap" type="com.matio.pojo.Examine" >
-    <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="type" property="type" jdbcType="VARCHAR" />
-    <result column="ec2" property="ec2" jdbcType="VARCHAR" />
-    <result column="title" property="title" jdbcType="VARCHAR" />
-    <result column="locus" property="locus" jdbcType="VARCHAR" />
-    <result column="pdbId" property="pdbid" jdbcType="CHAR" />
-    <result column="dbsource" property="dbsource" jdbcType="VARCHAR" />
-    <result column="microbe" property="microbe" jdbcType="VARCHAR" />
-    <result column="source" property="source" jdbcType="VARCHAR" />
-    <result column="organism" property="organism" jdbcType="VARCHAR" />
-    <result column="date" property="date" jdbcType="CHAR" />
-    <result column="country" property="country" jdbcType="VARCHAR" />
-    <result column="origin" property="origin" jdbcType="VARCHAR" />
-    <result column="author1" property="author1" jdbcType="VARCHAR" />
-    <result column="title1" property="title1" jdbcType="VARCHAR" />
-    <result column="journal1" property="journal1" jdbcType="VARCHAR" />
-    <result column="pubmed1" property="pubmed1" jdbcType="VARCHAR" />
-    <result column="abstract1" property="abstract1" jdbcType="VARCHAR" />
-    <result column="author2" property="author2" jdbcType="VARCHAR" />
-    <result column="title2" property="title2" jdbcType="VARCHAR" />
-    <result column="journal2" property="journal2" jdbcType="VARCHAR" />
-    <result column="pubmed2" property="pubmed2" jdbcType="VARCHAR" />
-    <result column="abstract2" property="abstract2" jdbcType="VARCHAR" />
-    <result column="author3" property="author3" jdbcType="VARCHAR" />
-    <result column="title3" property="title3" jdbcType="VARCHAR" />
-    <result column="journal3" property="journal3" jdbcType="VARCHAR" />
-    <result column="pubmed3" property="pubmed3" jdbcType="VARCHAR" />
-    <result column="abstract3" property="abstract3" jdbcType="VARCHAR" />
-    <result column="author4" property="author4" jdbcType="VARCHAR" />
-    <result column="title4" property="title4" jdbcType="VARCHAR" />
-    <result column="journal4" property="journal4" jdbcType="VARCHAR" />
-    <result column="pubmed4" property="pubmed4" jdbcType="VARCHAR" />
-    <result column="abstract4" property="abstract4" jdbcType="VARCHAR" />
-    <result column="operator" property="operator" jdbcType="VARCHAR" />
-    <result column="operateDate" property="operatedate" jdbcType="CHAR" />
-    <result column="modifyDate" property="modifydate" jdbcType="CHAR" />
-    <result column="modifier" property="modifier" jdbcType="VARCHAR" />
-    <result column="note" property="note" jdbcType="VARCHAR" />
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.matio.mapping.ExamineMapper">
+  <resultMap id="BaseResultMap" type="com.matio.pojo.Examine">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="ec1" jdbcType="VARCHAR" property="ec1" />
+    <result column="ec2" jdbcType="VARCHAR" property="ec2" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="locus" jdbcType="VARCHAR" property="locus" />
+    <result column="pdbId" jdbcType="CHAR" property="pdbid" />
+    <result column="dbsource" jdbcType="VARCHAR" property="dbsource" />
+    <result column="microbe" jdbcType="VARCHAR" property="microbe" />
+    <result column="source" jdbcType="VARCHAR" property="source" />
+    <result column="organism" jdbcType="VARCHAR" property="organism" />
+    <result column="date" jdbcType="CHAR" property="date" />
+    <result column="country" jdbcType="VARCHAR" property="country" />
+    <result column="deepSea" jdbcType="CHAR" property="deepsea" />
+    <result column="temperature" jdbcType="VARCHAR" property="temperature" />
+    <result column="ph" jdbcType="VARCHAR" property="ph" />
+    <result column="zone" jdbcType="VARCHAR" property="zone" />
+    <result column="cofactors" jdbcType="VARCHAR" property="cofactors" />
+    <result column="inhibitors" jdbcType="VARCHAR" property="inhibitors" />
+    <result column="origin" jdbcType="VARCHAR" property="origin" />
+    <result column="author1" jdbcType="VARCHAR" property="author1" />
+    <result column="title1" jdbcType="VARCHAR" property="title1" />
+    <result column="journal1" jdbcType="VARCHAR" property="journal1" />
+    <result column="pubmed1" jdbcType="VARCHAR" property="pubmed1" />
+    <result column="abstract1" jdbcType="VARCHAR" property="abstract1" />
+    <result column="author2" jdbcType="VARCHAR" property="author2" />
+    <result column="title2" jdbcType="VARCHAR" property="title2" />
+    <result column="journal2" jdbcType="VARCHAR" property="journal2" />
+    <result column="pubmed2" jdbcType="VARCHAR" property="pubmed2" />
+    <result column="abstract2" jdbcType="VARCHAR" property="abstract2" />
+    <result column="author3" jdbcType="VARCHAR" property="author3" />
+    <result column="title3" jdbcType="VARCHAR" property="title3" />
+    <result column="journal3" jdbcType="VARCHAR" property="journal3" />
+    <result column="pubmed3" jdbcType="VARCHAR" property="pubmed3" />
+    <result column="abstract3" jdbcType="VARCHAR" property="abstract3" />
+    <result column="author4" jdbcType="VARCHAR" property="author4" />
+    <result column="title4" jdbcType="VARCHAR" property="title4" />
+    <result column="journal4" jdbcType="VARCHAR" property="journal4" />
+    <result column="pubmed4" jdbcType="VARCHAR" property="pubmed4" />
+    <result column="abstract4" jdbcType="VARCHAR" property="abstract4" />
+    <result column="modifyDate" jdbcType="CHAR" property="modifydate" />
+    <result column="modifier" jdbcType="VARCHAR" property="modifier" />
+    <result column="note" jdbcType="VARCHAR" property="note" />
   </resultMap>
-  <sql id="Base_Column_List" >
-    id, type, ec2, title, locus, pdbId, dbsource, microbe, source, organism, date, country, 
-    origin, author1, title1, journal1, pubmed1, abstract1, author2, title2, journal2, 
-    pubmed2, abstract2, author3, title3, journal3, pubmed3, abstract3, author4, title4, 
-    journal4, pubmed4, abstract4, operator, operateDate, modifyDate, modifier, note
+  <sql id="Base_Column_List">
+    id, type, ec1, ec2, title, locus, pdbId, dbsource, microbe, source, organism, date, 
+    country, deepSea, temperature, ph, zone, cofactors, inhibitors, origin, author1, 
+    title1, journal1, pubmed1, abstract1, author2, title2, journal2, pubmed2, abstract2, 
+    author3, title3, journal3, pubmed3, abstract3, author4, title4, journal4, pubmed4, 
+    abstract4, modifyDate, modifier, note
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from examine
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from examine
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
   <select id="selectAll" resultMap="BaseResultMap">
     SELECT
     <include refid="Base_Column_List" />
     FROM
     examine
   </select>
-  <select id="selectByCondition" resultMap="BaseResultMap" parameterType="com.matio.pojo.MmeCondition" >
+  <delete id="deleteAll">
+    delete from examine
+  </delete>
+  <select id="selectByCondition" parameterType="com.matio.pojo.MmeCondition" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from examine
@@ -80,406 +93,448 @@
       modifier = #{modifier} AND
     </if>
     <if test="startDate_op != null">
-      operateDate > #{startDate_op} AND
+      operateDate &gt; #{startDate_op} AND
       operateDate &lt; #{endDate_op} AND
     </if>
     <if test="startDate_md != null">
-      modifyDate > #{startDate_md} AND
+      modifyDate &gt; #{startDate_md} AND
       modifyDate &lt; #{endDate_md} AND
     </if>
     1=1 limit #{startSize},#{endSize}
   </select>
-
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from examine
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
-  <delete id="deleteAll" >
-    delete from examine
-  </delete>
-  <insert id="insert" parameterType="com.matio.pojo.Examine" >
-    insert into examine (id, type, ec2, 
-      title, locus, pdbId, dbsource, 
-      microbe, source, organism, 
-      date, country, origin, 
-      author1, title1, journal1, 
-      pubmed1, abstract1, author2, 
-      title2, journal2, pubmed2, 
-      abstract2, author3, title3, 
-      journal3, pubmed3, abstract3, 
-      author4, title4, journal4, 
-      pubmed4, abstract4, operator, 
-      operateDate, modifyDate, modifier, 
+  <insert id="insert" parameterType="com.matio.pojo.Examine">
+    insert into examine (id, type, ec1, 
+      ec2, title, locus, 
+      pdbId, dbsource, microbe, 
+      source, organism, date, 
+      country, deepSea, temperature, 
+      ph, zone, cofactors, 
+      inhibitors, origin, author1, 
+      title1, journal1, pubmed1, 
+      abstract1, author2, title2, 
+      journal2, pubmed2, abstract2, 
+      author3, title3, journal3, 
+      pubmed3, abstract3, author4, 
+      title4, journal4, pubmed4, 
+      abstract4, modifyDate, modifier, 
       note)
-    values (#{id,jdbcType=INTEGER}, #{type,jdbcType=VARCHAR}, #{ec2,jdbcType=VARCHAR}, 
-      #{title,jdbcType=VARCHAR}, #{locus,jdbcType=VARCHAR}, #{pdbid,jdbcType=CHAR}, #{dbsource,jdbcType=VARCHAR}, 
-      #{microbe,jdbcType=VARCHAR}, #{source,jdbcType=VARCHAR}, #{organism,jdbcType=VARCHAR}, 
-      #{date,jdbcType=CHAR}, #{country,jdbcType=VARCHAR}, #{origin,jdbcType=VARCHAR}, 
-      #{author1,jdbcType=VARCHAR}, #{title1,jdbcType=VARCHAR}, #{journal1,jdbcType=VARCHAR}, 
-      #{pubmed1,jdbcType=VARCHAR}, #{abstract1,jdbcType=VARCHAR}, #{author2,jdbcType=VARCHAR}, 
-      #{title2,jdbcType=VARCHAR}, #{journal2,jdbcType=VARCHAR}, #{pubmed2,jdbcType=VARCHAR}, 
-      #{abstract2,jdbcType=VARCHAR}, #{author3,jdbcType=VARCHAR}, #{title3,jdbcType=VARCHAR}, 
-      #{journal3,jdbcType=VARCHAR}, #{pubmed3,jdbcType=VARCHAR}, #{abstract3,jdbcType=VARCHAR}, 
-      #{author4,jdbcType=VARCHAR}, #{title4,jdbcType=VARCHAR}, #{journal4,jdbcType=VARCHAR}, 
-      #{pubmed4,jdbcType=VARCHAR}, #{abstract4,jdbcType=VARCHAR}, #{operator,jdbcType=VARCHAR}, 
-      #{operatedate,jdbcType=CHAR}, #{modifydate,jdbcType=CHAR}, #{modifier,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{type,jdbcType=VARCHAR}, #{ec1,jdbcType=VARCHAR}, 
+      #{ec2,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{locus,jdbcType=VARCHAR}, 
+      #{pdbid,jdbcType=CHAR}, #{dbsource,jdbcType=VARCHAR}, #{microbe,jdbcType=VARCHAR}, 
+      #{source,jdbcType=VARCHAR}, #{organism,jdbcType=VARCHAR}, #{date,jdbcType=CHAR}, 
+      #{country,jdbcType=VARCHAR}, #{deepsea,jdbcType=CHAR}, #{temperature,jdbcType=VARCHAR}, 
+      #{ph,jdbcType=VARCHAR}, #{zone,jdbcType=VARCHAR}, #{cofactors,jdbcType=VARCHAR}, 
+      #{inhibitors,jdbcType=VARCHAR}, #{origin,jdbcType=VARCHAR}, #{author1,jdbcType=VARCHAR}, 
+      #{title1,jdbcType=VARCHAR}, #{journal1,jdbcType=VARCHAR}, #{pubmed1,jdbcType=VARCHAR}, 
+      #{abstract1,jdbcType=VARCHAR}, #{author2,jdbcType=VARCHAR}, #{title2,jdbcType=VARCHAR}, 
+      #{journal2,jdbcType=VARCHAR}, #{pubmed2,jdbcType=VARCHAR}, #{abstract2,jdbcType=VARCHAR}, 
+      #{author3,jdbcType=VARCHAR}, #{title3,jdbcType=VARCHAR}, #{journal3,jdbcType=VARCHAR}, 
+      #{pubmed3,jdbcType=VARCHAR}, #{abstract3,jdbcType=VARCHAR}, #{author4,jdbcType=VARCHAR}, 
+      #{title4,jdbcType=VARCHAR}, #{journal4,jdbcType=VARCHAR}, #{pubmed4,jdbcType=VARCHAR}, 
+      #{abstract4,jdbcType=VARCHAR}, #{modifydate,jdbcType=CHAR}, #{modifier,jdbcType=VARCHAR}, 
       #{note,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.matio.pojo.Examine" >
+  <insert id="insertSelective" parameterType="com.matio.pojo.Examine">
     insert into examine
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
         id,
       </if>
-      <if test="type != null" >
+      <if test="type != null">
         type,
       </if>
-      <if test="ec2 != null" >
+      <if test="ec1 != null">
+        ec1,
+      </if>
+      <if test="ec2 != null">
         ec2,
       </if>
-      <if test="title != null" >
+      <if test="title != null">
         title,
       </if>
-      <if test="locus != null" >
+      <if test="locus != null">
         locus,
       </if>
-      <if test="pdbid != null" >
+      <if test="pdbid != null">
         pdbId,
       </if>
-      <if test="dbsource != null" >
+      <if test="dbsource != null">
         dbsource,
       </if>
-      <if test="microbe != null" >
+      <if test="microbe != null">
         microbe,
       </if>
-      <if test="source != null" >
+      <if test="source != null">
         source,
       </if>
-      <if test="organism != null" >
+      <if test="organism != null">
         organism,
       </if>
-      <if test="date != null" >
+      <if test="date != null">
         date,
       </if>
-      <if test="country != null" >
+      <if test="country != null">
         country,
       </if>
-      <if test="origin != null" >
+      <if test="deepsea != null">
+        deepSea,
+      </if>
+      <if test="temperature != null">
+        temperature,
+      </if>
+      <if test="ph != null">
+        ph,
+      </if>
+      <if test="zone != null">
+        zone,
+      </if>
+      <if test="cofactors != null">
+        cofactors,
+      </if>
+      <if test="inhibitors != null">
+        inhibitors,
+      </if>
+      <if test="origin != null">
         origin,
       </if>
-      <if test="author1 != null" >
+      <if test="author1 != null">
         author1,
       </if>
-      <if test="title1 != null" >
+      <if test="title1 != null">
         title1,
       </if>
-      <if test="journal1 != null" >
+      <if test="journal1 != null">
         journal1,
       </if>
-      <if test="pubmed1 != null" >
+      <if test="pubmed1 != null">
         pubmed1,
       </if>
-      <if test="abstract1 != null" >
+      <if test="abstract1 != null">
         abstract1,
       </if>
-      <if test="author2 != null" >
+      <if test="author2 != null">
         author2,
       </if>
-      <if test="title2 != null" >
+      <if test="title2 != null">
         title2,
       </if>
-      <if test="journal2 != null" >
+      <if test="journal2 != null">
         journal2,
       </if>
-      <if test="pubmed2 != null" >
+      <if test="pubmed2 != null">
         pubmed2,
       </if>
-      <if test="abstract2 != null" >
+      <if test="abstract2 != null">
         abstract2,
       </if>
-      <if test="author3 != null" >
+      <if test="author3 != null">
         author3,
       </if>
-      <if test="title3 != null" >
+      <if test="title3 != null">
         title3,
       </if>
-      <if test="journal3 != null" >
+      <if test="journal3 != null">
         journal3,
       </if>
-      <if test="pubmed3 != null" >
+      <if test="pubmed3 != null">
         pubmed3,
       </if>
-      <if test="abstract3 != null" >
+      <if test="abstract3 != null">
         abstract3,
       </if>
-      <if test="author4 != null" >
+      <if test="author4 != null">
         author4,
       </if>
-      <if test="title4 != null" >
+      <if test="title4 != null">
         title4,
       </if>
-      <if test="journal4 != null" >
+      <if test="journal4 != null">
         journal4,
       </if>
-      <if test="pubmed4 != null" >
+      <if test="pubmed4 != null">
         pubmed4,
       </if>
-      <if test="abstract4 != null" >
+      <if test="abstract4 != null">
         abstract4,
       </if>
-      <if test="operator != null" >
-        operator,
-      </if>
-      <if test="operatedate != null" >
-        operateDate,
-      </if>
-      <if test="modifydate != null" >
+      <if test="modifydate != null">
         modifyDate,
       </if>
-      <if test="modifier != null" >
+      <if test="modifier != null">
         modifier,
       </if>
-      <if test="note != null" >
+      <if test="note != null">
         note,
       </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="type != null" >
+      <if test="type != null">
         #{type,jdbcType=VARCHAR},
       </if>
-      <if test="ec2 != null" >
+      <if test="ec1 != null">
+        #{ec1,jdbcType=VARCHAR},
+      </if>
+      <if test="ec2 != null">
         #{ec2,jdbcType=VARCHAR},
       </if>
-      <if test="title != null" >
+      <if test="title != null">
         #{title,jdbcType=VARCHAR},
       </if>
-      <if test="locus != null" >
+      <if test="locus != null">
         #{locus,jdbcType=VARCHAR},
       </if>
-      <if test="pdbid != null" >
+      <if test="pdbid != null">
         #{pdbid,jdbcType=CHAR},
       </if>
-      <if test="dbsource != null" >
+      <if test="dbsource != null">
         #{dbsource,jdbcType=VARCHAR},
       </if>
-      <if test="microbe != null" >
+      <if test="microbe != null">
         #{microbe,jdbcType=VARCHAR},
       </if>
-      <if test="source != null" >
+      <if test="source != null">
         #{source,jdbcType=VARCHAR},
       </if>
-      <if test="organism != null" >
+      <if test="organism != null">
         #{organism,jdbcType=VARCHAR},
       </if>
-      <if test="date != null" >
+      <if test="date != null">
         #{date,jdbcType=CHAR},
       </if>
-      <if test="country != null" >
+      <if test="country != null">
         #{country,jdbcType=VARCHAR},
       </if>
-      <if test="origin != null" >
+      <if test="deepsea != null">
+        #{deepsea,jdbcType=CHAR},
+      </if>
+      <if test="temperature != null">
+        #{temperature,jdbcType=VARCHAR},
+      </if>
+      <if test="ph != null">
+        #{ph,jdbcType=VARCHAR},
+      </if>
+      <if test="zone != null">
+        #{zone,jdbcType=VARCHAR},
+      </if>
+      <if test="cofactors != null">
+        #{cofactors,jdbcType=VARCHAR},
+      </if>
+      <if test="inhibitors != null">
+        #{inhibitors,jdbcType=VARCHAR},
+      </if>
+      <if test="origin != null">
         #{origin,jdbcType=VARCHAR},
       </if>
-      <if test="author1 != null" >
+      <if test="author1 != null">
         #{author1,jdbcType=VARCHAR},
       </if>
-      <if test="title1 != null" >
+      <if test="title1 != null">
         #{title1,jdbcType=VARCHAR},
       </if>
-      <if test="journal1 != null" >
+      <if test="journal1 != null">
         #{journal1,jdbcType=VARCHAR},
       </if>
-      <if test="pubmed1 != null" >
+      <if test="pubmed1 != null">
         #{pubmed1,jdbcType=VARCHAR},
       </if>
-      <if test="abstract1 != null" >
+      <if test="abstract1 != null">
         #{abstract1,jdbcType=VARCHAR},
       </if>
-      <if test="author2 != null" >
+      <if test="author2 != null">
         #{author2,jdbcType=VARCHAR},
       </if>
-      <if test="title2 != null" >
+      <if test="title2 != null">
         #{title2,jdbcType=VARCHAR},
       </if>
-      <if test="journal2 != null" >
+      <if test="journal2 != null">
         #{journal2,jdbcType=VARCHAR},
       </if>
-      <if test="pubmed2 != null" >
+      <if test="pubmed2 != null">
         #{pubmed2,jdbcType=VARCHAR},
       </if>
-      <if test="abstract2 != null" >
+      <if test="abstract2 != null">
         #{abstract2,jdbcType=VARCHAR},
       </if>
-      <if test="author3 != null" >
+      <if test="author3 != null">
         #{author3,jdbcType=VARCHAR},
       </if>
-      <if test="title3 != null" >
+      <if test="title3 != null">
         #{title3,jdbcType=VARCHAR},
       </if>
-      <if test="journal3 != null" >
+      <if test="journal3 != null">
         #{journal3,jdbcType=VARCHAR},
       </if>
-      <if test="pubmed3 != null" >
+      <if test="pubmed3 != null">
         #{pubmed3,jdbcType=VARCHAR},
       </if>
-      <if test="abstract3 != null" >
+      <if test="abstract3 != null">
         #{abstract3,jdbcType=VARCHAR},
       </if>
-      <if test="author4 != null" >
+      <if test="author4 != null">
         #{author4,jdbcType=VARCHAR},
       </if>
-      <if test="title4 != null" >
+      <if test="title4 != null">
         #{title4,jdbcType=VARCHAR},
       </if>
-      <if test="journal4 != null" >
+      <if test="journal4 != null">
         #{journal4,jdbcType=VARCHAR},
       </if>
-      <if test="pubmed4 != null" >
+      <if test="pubmed4 != null">
         #{pubmed4,jdbcType=VARCHAR},
       </if>
-      <if test="abstract4 != null" >
+      <if test="abstract4 != null">
         #{abstract4,jdbcType=VARCHAR},
       </if>
-      <if test="operator != null" >
-        #{operator,jdbcType=VARCHAR},
-      </if>
-      <if test="operatedate != null" >
-        #{operatedate,jdbcType=CHAR},
-      </if>
-      <if test="modifydate != null" >
+      <if test="modifydate != null">
         #{modifydate,jdbcType=CHAR},
       </if>
-      <if test="modifier != null" >
+      <if test="modifier != null">
         #{modifier,jdbcType=VARCHAR},
       </if>
-      <if test="note != null" >
+      <if test="note != null">
         #{note,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.matio.pojo.Examine" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.matio.pojo.Examine">
     update examine
-    <set >
-      <if test="type != null" >
+    <set>
+      <if test="type != null">
         type = #{type,jdbcType=VARCHAR},
       </if>
-      <if test="ec2 != null" >
+      <if test="ec1 != null">
+        ec1 = #{ec1,jdbcType=VARCHAR},
+      </if>
+      <if test="ec2 != null">
         ec2 = #{ec2,jdbcType=VARCHAR},
       </if>
-      <if test="title != null" >
+      <if test="title != null">
         title = #{title,jdbcType=VARCHAR},
       </if>
-      <if test="locus != null" >
+      <if test="locus != null">
         locus = #{locus,jdbcType=VARCHAR},
       </if>
-      <if test="pdbid != null" >
+      <if test="pdbid != null">
         pdbId = #{pdbid,jdbcType=CHAR},
       </if>
-      <if test="dbsource != null" >
+      <if test="dbsource != null">
         dbsource = #{dbsource,jdbcType=VARCHAR},
       </if>
-      <if test="microbe != null" >
+      <if test="microbe != null">
         microbe = #{microbe,jdbcType=VARCHAR},
       </if>
-      <if test="source != null" >
+      <if test="source != null">
         source = #{source,jdbcType=VARCHAR},
       </if>
-      <if test="organism != null" >
+      <if test="organism != null">
         organism = #{organism,jdbcType=VARCHAR},
       </if>
-      <if test="date != null" >
+      <if test="date != null">
         date = #{date,jdbcType=CHAR},
       </if>
-      <if test="country != null" >
+      <if test="country != null">
         country = #{country,jdbcType=VARCHAR},
       </if>
-      <if test="origin != null" >
+      <if test="deepsea != null">
+        deepSea = #{deepsea,jdbcType=CHAR},
+      </if>
+      <if test="temperature != null">
+        temperature = #{temperature,jdbcType=VARCHAR},
+      </if>
+      <if test="ph != null">
+        ph = #{ph,jdbcType=VARCHAR},
+      </if>
+      <if test="zone != null">
+        zone = #{zone,jdbcType=VARCHAR},
+      </if>
+      <if test="cofactors != null">
+        cofactors = #{cofactors,jdbcType=VARCHAR},
+      </if>
+      <if test="inhibitors != null">
+        inhibitors = #{inhibitors,jdbcType=VARCHAR},
+      </if>
+      <if test="origin != null">
         origin = #{origin,jdbcType=VARCHAR},
       </if>
-      <if test="author1 != null" >
+      <if test="author1 != null">
         author1 = #{author1,jdbcType=VARCHAR},
       </if>
-      <if test="title1 != null" >
+      <if test="title1 != null">
         title1 = #{title1,jdbcType=VARCHAR},
       </if>
-      <if test="journal1 != null" >
+      <if test="journal1 != null">
         journal1 = #{journal1,jdbcType=VARCHAR},
       </if>
-      <if test="pubmed1 != null" >
+      <if test="pubmed1 != null">
         pubmed1 = #{pubmed1,jdbcType=VARCHAR},
       </if>
-      <if test="abstract1 != null" >
+      <if test="abstract1 != null">
         abstract1 = #{abstract1,jdbcType=VARCHAR},
       </if>
-      <if test="author2 != null" >
+      <if test="author2 != null">
         author2 = #{author2,jdbcType=VARCHAR},
       </if>
-      <if test="title2 != null" >
+      <if test="title2 != null">
         title2 = #{title2,jdbcType=VARCHAR},
       </if>
-      <if test="journal2 != null" >
+      <if test="journal2 != null">
         journal2 = #{journal2,jdbcType=VARCHAR},
       </if>
-      <if test="pubmed2 != null" >
+      <if test="pubmed2 != null">
         pubmed2 = #{pubmed2,jdbcType=VARCHAR},
       </if>
-      <if test="abstract2 != null" >
+      <if test="abstract2 != null">
         abstract2 = #{abstract2,jdbcType=VARCHAR},
       </if>
-      <if test="author3 != null" >
+      <if test="author3 != null">
         author3 = #{author3,jdbcType=VARCHAR},
       </if>
-      <if test="title3 != null" >
+      <if test="title3 != null">
         title3 = #{title3,jdbcType=VARCHAR},
       </if>
-      <if test="journal3 != null" >
+      <if test="journal3 != null">
         journal3 = #{journal3,jdbcType=VARCHAR},
       </if>
-      <if test="pubmed3 != null" >
+      <if test="pubmed3 != null">
         pubmed3 = #{pubmed3,jdbcType=VARCHAR},
       </if>
-      <if test="abstract3 != null" >
+      <if test="abstract3 != null">
         abstract3 = #{abstract3,jdbcType=VARCHAR},
       </if>
-      <if test="author4 != null" >
+      <if test="author4 != null">
         author4 = #{author4,jdbcType=VARCHAR},
       </if>
-      <if test="title4 != null" >
+      <if test="title4 != null">
         title4 = #{title4,jdbcType=VARCHAR},
       </if>
-      <if test="journal4 != null" >
+      <if test="journal4 != null">
         journal4 = #{journal4,jdbcType=VARCHAR},
       </if>
-      <if test="pubmed4 != null" >
+      <if test="pubmed4 != null">
         pubmed4 = #{pubmed4,jdbcType=VARCHAR},
       </if>
-      <if test="abstract4 != null" >
+      <if test="abstract4 != null">
         abstract4 = #{abstract4,jdbcType=VARCHAR},
       </if>
-      <if test="operator != null" >
-        operator = #{operator,jdbcType=VARCHAR},
-      </if>
-      <if test="operatedate != null" >
-        operateDate = #{operatedate,jdbcType=CHAR},
-      </if>
-      <if test="modifydate != null" >
+      <if test="modifydate != null">
         modifyDate = #{modifydate,jdbcType=CHAR},
       </if>
-      <if test="modifier != null" >
+      <if test="modifier != null">
         modifier = #{modifier,jdbcType=VARCHAR},
       </if>
-      <if test="note != null" >
+      <if test="note != null">
         note = #{note,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.matio.pojo.Examine" >
+  <update id="updateByPrimaryKey" parameterType="com.matio.pojo.Examine">
     update examine
     set type = #{type,jdbcType=VARCHAR},
+      ec1 = #{ec1,jdbcType=VARCHAR},
       ec2 = #{ec2,jdbcType=VARCHAR},
       title = #{title,jdbcType=VARCHAR},
       locus = #{locus,jdbcType=VARCHAR},
@@ -490,6 +545,12 @@
       organism = #{organism,jdbcType=VARCHAR},
       date = #{date,jdbcType=CHAR},
       country = #{country,jdbcType=VARCHAR},
+      deepSea = #{deepsea,jdbcType=CHAR},
+      temperature = #{temperature,jdbcType=VARCHAR},
+      ph = #{ph,jdbcType=VARCHAR},
+      zone = #{zone,jdbcType=VARCHAR},
+      cofactors = #{cofactors,jdbcType=VARCHAR},
+      inhibitors = #{inhibitors,jdbcType=VARCHAR},
       origin = #{origin,jdbcType=VARCHAR},
       author1 = #{author1,jdbcType=VARCHAR},
       title1 = #{title1,jdbcType=VARCHAR},
@@ -511,11 +572,10 @@
       journal4 = #{journal4,jdbcType=VARCHAR},
       pubmed4 = #{pubmed4,jdbcType=VARCHAR},
       abstract4 = #{abstract4,jdbcType=VARCHAR},
-      operator = #{operator,jdbcType=VARCHAR},
-      operateDate = #{operatedate,jdbcType=CHAR},
       modifyDate = #{modifydate,jdbcType=CHAR},
       modifier = #{modifier,jdbcType=VARCHAR},
       note = #{note,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
 </mapper>

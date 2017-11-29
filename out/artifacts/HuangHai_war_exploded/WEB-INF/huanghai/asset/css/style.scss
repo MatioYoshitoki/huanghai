@@ -54,11 +54,26 @@ a, a:hover {
       }
     }
     .header-title {
+      width: 200px;
       position: relative;
       top: 25px;
       left: 50px;
       color: #fff;
       font-size: 14px;
+      float: left;
+
+      .header-icon {
+        width: 40px;
+        height: 40px;
+        background: url("../img/detail_logo2.png") center no-repeat;
+        float: left;
+      }
+      .header-text {
+        line-height: 40px;
+        color: #2f90d4;
+        margin-left: 15px;
+        float: left;
+      }
     }
   }
 }
@@ -159,7 +174,10 @@ a, a:hover {
         z-index: 1;
         line-height: 55px;
         font-size: 24px;
-        color: #fff;
+
+        a {
+          color: #fff;
+        }
       }
     }
   }
@@ -227,9 +245,15 @@ a, a:hover {
           overflow: auto;
 
           .detail-item {
-            color: #8c8c8c;
             line-height: 30px;
             list-style-type: disc;
+
+            a {
+              color: #8c8c8c;
+            }
+            a:hover {
+              text-decoration: underline;
+            }
           }
         }
       }
