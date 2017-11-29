@@ -5,6 +5,7 @@ import com.matio.constraints.Errors;
 import com.matio.constraints.Keys;
 import com.matio.mapping.MmeMapper;
 import com.matio.pojo.Mme;
+import com.matio.services.impl.MmeService;
 import com.matio.tools.ReadExcelUtils;
 import com.matio.unit.JsonUtil;
 import com.sun.org.apache.bcel.internal.generic.BREAKPOINT;
@@ -33,6 +34,8 @@ public class ExcelController {
 
     @Autowired
     MmeMapper mmeMapper;
+    @Autowired
+    MmeService mmeService;
 
     @RequestMapping(value = "/excel_operate", method = RequestMethod.POST)
     public String excel_operate(
@@ -186,6 +189,11 @@ public class ExcelController {
                         break;
                 }
 
+            }
+            List<Mme> mmes = mmeService.selectByLocus(mme.getLocus());
+            if (mmes == null || mmes.size() <= 0){
+                data.add(mme.getLocus());
+                continue;
             }
             Date now = new Date();
             mme.setOperator(operator);

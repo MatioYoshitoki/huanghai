@@ -161,4 +161,10 @@ public class MmeService implements IMmeService {
         result.put(Keys.MSG,Errors.MARLBORO_BATCH_SUCCESS);
         return result.toJSONString();
     }
+
+    @Override
+    public List<Mme> selectByLocus(String locus) {
+        List<Mme> mmes = mmeMapper.selectByLocus(locus);
+        return mmes;
+    }
 }

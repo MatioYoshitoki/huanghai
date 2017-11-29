@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="com.matio.pojo.Mme" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="ec1" property="ec1" jdbcType="VARCHAR" />
     <result column="ec2" property="ec2" jdbcType="VARCHAR" />
     <result column="title" property="title" jdbcType="VARCHAR" />
     <result column="locus" property="locus" jdbcType="VARCHAR" />
@@ -48,7 +49,7 @@
     <result column="isModified" property="isModified" jdbcType="CHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, type, ec2, title, locus, pdbId, dbsource, microbe, source, organism, date, country,
+    id, type, ec1, ec2, title, locus, pdbId, dbsource, microbe, source, organism, date, country,
     deepSea, temperature, ph, zone, cofactors, inhibitors,
     origin, author1, title1, journal1, pubmed1, abstract1, author2, title2, journal2, 
     pubmed2, abstract2, author3, title3, journal3, pubmed3, abstract3, author4, title4, 
@@ -153,7 +154,7 @@
       temperature, ph, zone, cofactors,
       inhibitors
       )
-    values (#{id,jdbcType=INTEGER}, #{type,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{ec2,jdbcType=VARCHAR},
+    values (#{id,jdbcType=INTEGER}, #{type,jdbcType=VARCHAR}, #{ec1,jdbcType=VARCHAR}, #{ec2,jdbcType=VARCHAR},
       #{title,jdbcType=VARCHAR}, #{locus,jdbcType=VARCHAR}, #{pdbid,jdbcType=CHAR}, #{dbsource,jdbcType=VARCHAR}, 
       #{microbe,jdbcType=VARCHAR}, #{source,jdbcType=VARCHAR}, #{organism,jdbcType=VARCHAR}, 
       #{date,jdbcType=CHAR}, #{country,jdbcType=VARCHAR}, #{origin,jdbcType=VARCHAR}, 
@@ -392,6 +393,9 @@
       <if test="type != null" >
         type = #{type,jdbcType=VARCHAR},
       </if>
+      <if test="ec1 != null" >
+        ec1 = #{ec1,jdbcType=VARCHAR},
+      </if>
       <if test="ec2 != null" >
         ec2 = #{ec2,jdbcType=VARCHAR},
       </if>
@@ -515,6 +519,7 @@
   <update id="updateByPrimaryKey" parameterType="com.matio.pojo.Mme" >
     update mme
     set type = #{type,jdbcType=VARCHAR},
+      ec1 = #{ec1,jdbcType=VARCHAR},
       ec2 = #{ec2,jdbcType=VARCHAR},
       title = #{title,jdbcType=VARCHAR},
       locus = #{locus,jdbcType=VARCHAR},

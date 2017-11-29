@@ -55,6 +55,13 @@
     pubmed2, abstract2, author3, title3, journal3, pubmed3, abstract3, author4, title4, 
     journal4, pubmed4, abstract4, operator, operateDate, modifyDate, modifier, isModified
   </sql>
+  <select id="selectByLocus" resultMap="BaseResultMap" parameterType="java.lang.String">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM
+    mme WHERE
+    locus = #{locus}
+  </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select
     <include refid="Base_Column_List" />

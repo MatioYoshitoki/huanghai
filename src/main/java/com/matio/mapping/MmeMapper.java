@@ -16,6 +16,8 @@ public interface MmeMapper {
 
     List<Mme> selectByFuzzyEC2(MmeCondition condition);
 
+    List<Mme> selectByLocus(String locus);
+
     int selectCountByCondition(MmeCondition condition);
 
     String selectEC1ByEC2(String ec2);
