@@ -9,13 +9,20 @@ import com.matio.mapping.MmeMapper;
 import com.matio.pojo.Examine;
 import com.matio.pojo.Mme;
 import com.matio.pojo.MmeCondition;
+import com.matio.services.intf.IMmeService;
 import com.matio.unit.JsonUtil;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.transaction.Transaction;
+import org.apache.ibatis.transaction.TransactionFactory;
+import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -27,6 +34,9 @@ public class ExamineController {
     ExamineMapper examineMapper;
     @Autowired
     MmeMapper mmeMapper;
+    @Autowired
+    IMmeService mmeService;
+
 
     @RequestMapping(value = "/getExamineData", method = RequestMethod.POST , produces="text/json;charset=UTF-8")
     public String getExamineData(
@@ -120,9 +130,7 @@ public class ExamineController {
             buff.put(Keys.DATE, examine.getDate());
             buff.put(Keys.ORGANISM, examine.getOrganism());
             buff.put(Keys.ORIGIN, examine.getOrigin());
-            buff.put(Keys.OPERATOR, examine.getOperator());
             buff.put(Keys.MODIFIER, examine.getModifier());
-            buff.put(Keys.OPERATEDATE, examine.getOperatedate());
             buff.put(Keys.MODIFYDATE, examine.getModifydate());
             buff.put(Keys.PDBID, examine.getPdbid());
             buff.put(Keys.TYPE, examine.getType());
@@ -139,123 +147,34 @@ public class ExamineController {
     public String marlboro(
             @RequestParam(Keys.ID) String id
     ){
+
+
         Examine examine = examineMapper.selectByPrimaryKey(Integer.valueOf(id));
-        JSONObject result = JsonUtil.fromErrors(Errors.SUCCESS);
+
+        JSONObject result ;
+
+
         if (examine==null){
             result = JsonUtil.fromErrors(Errors.FAILD);
             result.put(Keys.DATA,new JSONObject());
             result.put(Keys.MSG,Errors.MARLBORO_FAILD);
             return result.toJSONString();
         }
-        Mme mme = new Mme();
-        mme.setId(examine.getId());
-        mme.setTitle(examine.getTitle());
-        mme.setTitle1(examine.getTitle1());
-        mme.setTitle2(examine.getTitle2());
-        mme.setTitle3(examine.getTitle3());
-        mme.setTitle4(examine.getTitle4());
-        mme.setAbstract1(examine.getAbstract1());
-        mme.setAbstract2(examine.getAbstract2());
-        mme.setAbstract3(examine.getAbstract3());
-        mme.setAbstract4(examine.getAbstract4());
-        mme.setAuthor1(examine.getAuthor1());
-        mme.setAuthor2(examine.getAuthor2());
-        mme.setAuthor3(examine.getAuthor3());
-        mme.setAuthor4(examine.getAuthor4());
-        mme.setJournal1(examine.getJournal1());
-        mme.setJournal2(examine.getJournal2());
-        mme.setJournal3(examine.getJournal3());
-        mme.setJournal4(examine.getJournal4());
-        mme.setPubmed1(examine.getPubmed1());
-        mme.setPubmed2(examine.getPubmed2());
-        mme.setPubmed3(examine.getPubmed3());
-        mme.setPubmed4(examine.getPubmed4());
 
-        mme.setCountry(examine.getCountry());
-        mme.setLocus(examine.getLocus());
-        mme.setMicrobe(examine.getMicrobe());
-        mme.setEc2(examine.getEc2());
-        mme.setSource(examine.getSource());
-        mme.setDbsource(examine.getDbsource());
-        mme.setDate(examine.getDate());
-        mme.setOrganism(examine.getOrganism());
-        mme.setOrigin(examine.getOrigin());
-        mme.setOperator(examine.getOperator());
-        mme.setModifier(examine.getModifier());
-        mme.setOperatedate(examine.getOperatedate());
-        mme.setModifydate(examine.getModifydate());
-        mme.setPdbid(examine.getPdbid());
-        mme.setType(examine.getType());
-
-        int roll = mmeMapper.updateByPrimaryKey(mme);
-        if (roll <= 0){
-            result = JsonUtil.fromErrors(Errors.FAILD);
-            result.put(Keys.DATA,new JSONObject());
-            result.put(Keys.MSG,Errors.MARLBORO_FAILD);
-            return result.toJSONString();
-        }
-        examineMapper.deleteByPrimaryKey(Integer.valueOf(id));
-        result.put(Keys.DATA,new JSONObject());
-        result.put(Keys.MSG,Errors.MARLBORO_SUCCESS);
-        return result.toJSONString();
+        return mmeService.marlboro(examine);
     }
     @RequestMapping(value = "/marlboro_batch", method = RequestMethod.POST , produces="text/json;charset=UTF-8")
     public String marlboro(){
+
         List<Examine> examines = examineMapper.selectAll();
-        JSONObject result = JsonUtil.fromErrors(Errors.SUCCESS);
+        JSONObject result ;
         if (examines == null){
             result = JsonUtil.fromErrors(Errors.FAILD);
             result.put(Keys.DATA,new JSONObject());
             result.put(Keys.MSG,Errors.MARLBORO_BATCH_FAILD);
             return result.toJSONString();
         }
-        for (Examine examine:examines){
-            Mme mme = new Mme();
-            mme.setId(examine.getId());
-            mme.setTitle(examine.getTitle());
-            mme.setTitle1(examine.getTitle1());
-            mme.setTitle2(examine.getTitle2());
-            mme.setTitle3(examine.getTitle3());
-            mme.setTitle4(examine.getTitle4());
-            mme.setAbstract1(examine.getAbstract1());
-            mme.setAbstract2(examine.getAbstract2());
-            mme.setAbstract3(examine.getAbstract3());
-            mme.setAbstract4(examine.getAbstract4());
-            mme.setAuthor1(examine.getAuthor1());
-            mme.setAuthor2(examine.getAuthor2());
-            mme.setAuthor3(examine.getAuthor3());
-            mme.setAuthor4(examine.getAuthor4());
-            mme.setJournal1(examine.getJournal1());
-            mme.setJournal2(examine.getJournal2());
-            mme.setJournal3(examine.getJournal3());
-            mme.setJournal4(examine.getJournal4());
-            mme.setPubmed1(examine.getPubmed1());
-            mme.setPubmed2(examine.getPubmed2());
-            mme.setPubmed3(examine.getPubmed3());
-            mme.setPubmed4(examine.getPubmed4());
-
-            mme.setCountry(examine.getCountry());
-            mme.setLocus(examine.getLocus());
-            mme.setMicrobe(examine.getMicrobe());
-            mme.setEc2(examine.getEc2());
-            mme.setSource(examine.getSource());
-            mme.setDbsource(examine.getDbsource());
-            mme.setDate(examine.getDate());
-            mme.setOrganism(examine.getOrganism());
-            mme.setOrigin(examine.getOrigin());
-            mme.setOperator(examine.getOperator());
-            mme.setModifier(examine.getModifier());
-            mme.setOperatedate(examine.getOperatedate());
-            mme.setModifydate(examine.getModifydate());
-            mme.setPdbid(examine.getPdbid());
-            mme.setType(examine.getType());
-
-            mmeMapper.updateByPrimaryKey(mme);
-            examineMapper.deleteByPrimaryKey(examine.getId());
-        }
-        result.put(Keys.DATA,new JSONObject());
-        result.put(Keys.MSG,Errors.MARLBORO_BATCH_SUCCESS);
-        return result.toJSONString();
+        return mmeService.marlboro_batch(examines);
     }
     @RequestMapping(value = "/refusal_examine", method = RequestMethod.POST , produces="text/json;charset=UTF-8")
     public String refusalExamine(

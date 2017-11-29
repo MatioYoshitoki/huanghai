@@ -22,6 +22,7 @@
     select
     <include refid="Base_Column_List" />
     from role
+    where roleId != '1'
   </select>
   <select id="selectRole" resultMap="BaseResultMap" >
     select

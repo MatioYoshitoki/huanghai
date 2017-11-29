@@ -49,27 +49,27 @@
 			   <!--enableCountByExample="false" enableUpdateByExample="false"-->
 			   <!--enableDeleteByExample="false" enableSelectByExample="false"-->
 			   <!--selectByExampleQueryId="false"></table>-->
-		<table tableName="config" domainObjectName="Config"
-		enableCountByExample="false" enableUpdateByExample="false"
-		enableDeleteByExample="false" enableSelectByExample="false"
-		selectByExampleQueryId="false"></table>
-		<table tableName="ec1" domainObjectName="Ec_1"
-			   enableCountByExample="false" enableUpdateByExample="false"
-			   enableDeleteByExample="false" enableSelectByExample="false"
-			   selectByExampleQueryId="false"></table>
-		<table tableName="ec2" domainObjectName="Ec_2"
-			   enableCountByExample="false" enableUpdateByExample="false"
-			   enableDeleteByExample="false" enableSelectByExample="false"
-			   selectByExampleQueryId="false"></table>
+		<!--<table tableName="config" domainObjectName="Config"-->
+		<!--enableCountByExample="false" enableUpdateByExample="false"-->
+		<!--enableDeleteByExample="false" enableSelectByExample="false"-->
+		<!--selectByExampleQueryId="false"></table>-->
+		<!--<table tableName="ec1" domainObjectName="Ec_1"-->
+			   <!--enableCountByExample="false" enableUpdateByExample="false"-->
+			   <!--enableDeleteByExample="false" enableSelectByExample="false"-->
+			   <!--selectByExampleQueryId="false"></table>-->
+		<!--<table tableName="ec2" domainObjectName="Ec_2"-->
+			   <!--enableCountByExample="false" enableUpdateByExample="false"-->
+			   <!--enableDeleteByExample="false" enableSelectByExample="false"-->
+			   <!--selectByExampleQueryId="false"></table>-->
+		<!--<table tableName="examine" domainObjectName="Examine"-->
+			   <!--enableCountByExample="false" enableUpdateByExample="false"-->
+			   <!--enableDeleteByExample="false" enableSelectByExample="false"-->
+			   <!--selectByExampleQueryId="false"></table>-->
+		<!--<table tableName="view_ec" domainObjectName="View_ec"-->
+			   <!--enableCountByExample="false" enableUpdateByExample="false"-->
+			   <!--enableDeleteByExample="false" enableSelectByExample="false"-->
+			   <!--selectByExampleQueryId="false"></table>-->
 		<table tableName="examine" domainObjectName="Examine"
-			   enableCountByExample="false" enableUpdateByExample="false"
-			   enableDeleteByExample="false" enableSelectByExample="false"
-			   selectByExampleQueryId="false"></table>
-		<table tableName="view_ec" domainObjectName="View_ec"
-			   enableCountByExample="false" enableUpdateByExample="false"
-			   enableDeleteByExample="false" enableSelectByExample="false"
-			   selectByExampleQueryId="false"></table>
-		<table tableName="view_spider_record" domainObjectName="View_spider_record"
 			   enableCountByExample="false" enableUpdateByExample="false"
 			   enableDeleteByExample="false" enableSelectByExample="false"
 			   selectByExampleQueryId="false"></table>

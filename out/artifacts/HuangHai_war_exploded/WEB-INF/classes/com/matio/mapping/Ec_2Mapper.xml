@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.matio.mapping.Ec_2Mapper" >
+  <resultMap id="BaseResultMap" type="com.matio.pojo.Ec_2" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="ec1Id" property="ec1id" jdbcType="INTEGER" />
+    <result column="ec2" property="ec2" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, ec1Id, ec2
+  </sql>
+  <select id="selectByEC1_IdAndEC2" resultMap="BaseResultMap" parameterType="com.matio.pojo.Ec_2">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM ec2 WHERE
+    ec1Id = #{ec1id} AND
+    ec2 = #{ec2}
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from ec2
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from ec2
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.matio.pojo.Ec_2" >
+    insert into ec2 (id, ec1Id, ec2
+      )
+    values (#{id,jdbcType=INTEGER}, #{ec1id,jdbcType=INTEGER}, #{ec2,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.matio.pojo.Ec_2" >
+    insert into ec2
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="ec1id != null" >
+        ec1Id,
+      </if>
+      <if test="ec2 != null" >
+        ec2,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="ec1id != null" >
+        #{ec1id,jdbcType=INTEGER},
+      </if>
+      <if test="ec2 != null" >
+        #{ec2,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.matio.pojo.Ec_2" >
+    update ec2
+    <set >
+      <if test="ec1id != null" >
+        ec1Id = #{ec1id,jdbcType=INTEGER},
+      </if>
+      <if test="ec2 != null" >
+        ec2 = #{ec2,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.matio.pojo.Ec_2" >
+    update ec2
+    set ec1Id = #{ec1id,jdbcType=INTEGER},
+      ec2 = #{ec2,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

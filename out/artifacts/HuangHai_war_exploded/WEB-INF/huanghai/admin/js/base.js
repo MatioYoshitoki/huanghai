@@ -32,7 +32,7 @@ function init(client, fn) {
         auth = user.roleAuth;
         auths = auth.split("|");
         // 根据权限显示相应的操作内容，并判断用户是否用权限进入当前页面
-        if(page === "message.html" || page === "profile.html") {
+        if(page === "profile.html" || page === "help.html") {
             flag = true;
         }
         for(loop = 0, length = auths.length; loop < length; loop++) {
@@ -51,8 +51,6 @@ function init(client, fn) {
                 }
             )
         } else {
-            // 消息中心默认都有
-            sidebarLinks.push(Config.sidebar["7"]);
             Client.sidebarLinks = sidebarLinks;
 
             Client.user = JSON.parse(sessionStorage.getItem("user"));
@@ -72,6 +70,13 @@ function init(client, fn) {
         timer = setTimeout(timeout, Config.timeout);
     }
     $(document).on("keydown", resetTime).on("mouseover", resetTime);
+}
+function successCallback(msg) {
+    if(Number(msg.code) === 1) {
+        Dialog.info(msg.msg);
+    } else {
+        Dialog.warn(msg.msg);
+    }
 }
 function errorCallback(msg) {
     Dialog.warn("连接服务器失败！");

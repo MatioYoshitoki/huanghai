@@ -1,0 +1,1123 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="IE=Edge, Chrome=1">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
+    <title>系统管理</title>
+    <link rel="stylesheet" href="vendor/bootstrap-select/bootstrap-select.css">
+    <link rel="stylesheet" href="vendor/bootstrap-datepicker/datepicker.css">
+    <link rel="stylesheet" href="../asset/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/animate.min.css">
+    <link rel="stylesheet" href="../asset/easyDialog/css/easydialog.css">
+
+    <link rel="stylesheet" href="css/main.css">
+    <!--[if lt IE 9]>
+    <script src="js/html5shiv.js"></script>
+    <script src="js/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+<div class="app" id="client">
+    <navbar :user="user" :message="message"></navbar>
+    <section class="layout">
+        <sidebar :links="sidebarLinks"></sidebar>
+        <section class="main-content">
+            <header class="header navbar bg-default">
+                <ul class="nav navbar-nav nav-tabs">
+                    <li class="active">
+                        <a href="#setting" data-toggle="tab">页面配置</a>
+                    </li>
+                    <li class="">
+                        <a href="#data" data-toggle="tab">数据配置</a>
+                    </li>
+                    <li class="">
+                        <a href="#spider" data-toggle="tab">爬虫控制</a>
+                    </li>
+                </ul>
+            </header>
+            <div class="content-wrap">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="tab-content">
+                            <!-- 页面配置 -->
+                            <div class="tab-pane active" id="setting">
+                                <section>
+                                    <div class="row mg-b">
+                                        <div class="col-xs-10">
+                                            <h3 class="no-margin pd-b-sm bd-b" style="border-bottom-color: #ccc;">Index
+                                                页面设置</h3>
+                                        </div>
+                                        <div class="col-xs-1">
+                                            <div v-if="pageConfig.isModify == false" @click="startModify"
+                                                 class="btn btn-info mg-l-lg">进行修改
+                                            </div>
+                                            <div v-else @click="request('modifyPage')" class="btn btn-success mg-l-lg">
+                                                完成修改
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <img src="img/model.png"/>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <section class="panel no-border overflow-hidden">
+                                            <div class="bg-info pd-md clearfix">
+                                                <div class="h4 mg-t-xs mg-b-xs text-white">首页内容设置</div>
+                                            </div>
+                                            <form class="form-horizontal pd">
+                                                <div class="form-group">
+                                                    <label class="col-sm-2 control-label">横幅标题</label>
+                                                    <div class="col-sm-10">
+                                                        <input disabled v-model="pageConfig.indexBannerTitle"
+                                                               type="text"
+                                                               class="form-control"/>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-2 control-label">横幅内容</label>
+                                                    <div class="col-sm-10">
+                                                        <textarea disabled v-model="pageConfig.indexBannerContent"
+                                                                  class="form-control" rows="3"></textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-2 control-label">链接文字</label>
+                                                    <div class="col-sm-10">
+                                                        <input disabled v-model="pageConfig.indexLinkText" type="text"
+                                                               class="form-control"/>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-2 control-label">链接地址</label>
+                                                    <div class="col-sm-10">
+                                                        <input disabled v-model="pageConfig.indexLinkUrl" type="text"
+                                                               class="form-control"/>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-2 control-label">正文标题</label>
+                                                    <div class="col-sm-10">
+                                                        <input disabled v-model="pageConfig.indexTitle" type="text"
+                                                               class="form-control"/>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-2 control-label">正文内容</label>
+                                                    <div class="col-sm-10">
+                                                        <textarea disabled v-model="pageConfig.indexContent"
+                                                                  class="form-control"
+                                                                  rows="5"></textarea>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </section>
+                                    </div>
+                                </section>
+                                <section>
+                                    <div class="row mg-b">
+                                        <div class="col-xs-12">
+                                            <h3 class="no-margin pd-b-sm bd-b" style="border-bottom-color: #ccc;">Browse
+                                                页面设置</h3>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <img src="img/model2.jpg"/>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <section class="panel no-border overflow-hidden">
+                                            <div class="bg-info pd-md clearfix">
+                                                <div class="h4 mg-t-xs mg-b-xs text-white">浏览页内容设置</div>
+                                            </div>
+                                            <form class="form-horizontal pd">
+                                                <div class="form-group">
+                                                    <label class="col-sm-2 control-label">正文标题</label>
+                                                    <div class="col-sm-10">
+                                                        <input disabled v-model="pageConfig.browseTitle" type="text"
+                                                               class="form-control"/>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-2 control-label">正文内容</label>
+                                                    <div class="col-sm-10">
+                                                        <textarea disabled v-model="pageConfig.browseContent"
+                                                                  class="form-control" rows="5"></textarea>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </section>
+                                    </div>
+                                </section>
+                            </div>
+                            <!-- 数据配置 -->
+                            <div class="tab-pane " id="data">
+                                <div class="col-md-3">
+                                    <div class="panel">
+                                        <div class="panel-heading clearfix">
+                                            <div class="pull-left">数据分类</div>
+                                            <label @click="dataConfig.isTypeAdd = true"
+                                                   class="btn btn-white btn-sm no-margin pull-right">
+                                                <i class="fa fa-edit mg-r-xs"></i>添加
+                                            </label>
+                                        </div>
+                                        <div class="panel-body no-padding" style="max-height: 421px; overflow: auto">
+                                            <table class="table table-hover no-margin">
+                                                <thead>
+                                                <tr>
+                                                    <th class="text-center">序号</th>
+                                                    <th class="text-center">分类</th>
+                                                    <th class="text-center">操作</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody style="height: 195px; overflow: auto;">
+                                                <tr v-for="(item, index) in dataConfig.typeList">
+                                                    <th class="text-center" v-text="(index + 1)"></th>
+                                                    <td v-text="item.type"></td>
+                                                    <td>
+                                                        <label @click="openPanel('panelDeleteForType', item)"
+                                                               class="btn btn-white btn-sm no-margin"
+                                                               style="padding: 3px 10px;">
+                                                            <i class="fa fa-remove mg-r-xs"></i>删除
+                                                        </label>
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="panel-footer" v-show="dataConfig.isTypeAdd">
+                                            <div class="form-inline">
+                                                <div class="form-group">
+                                                    <label class="control-label">新增分类：</label>
+                                                    <input v-model="dataConfig.addContentType" type="text"
+                                                           class="form-control"
+                                                           style="width: 80px;"/>
+                                                </div>
+                                                <button @click="request('addType')" class="btn btn-white pull-right">
+                                                    确定
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="panel">
+                                        <div class="panel-heading clearfix">
+                                            <div class="pull-left">酶大类</div>
+                                            <label @click="dataConfig.isEC1Add = true"
+                                                   class="btn btn-white btn-sm no-margin pull-right">
+                                                <i class="fa fa-edit mg-r-xs"></i>添加
+                                            </label>
+                                        </div>
+                                        <div class="panel-body no-padding" style="max-height: 421px; overflow: auto">
+                                            <table class="table table-hover no-margin">
+                                                <thead>
+                                                <tr>
+                                                    <th class="text-center">序号</th>
+                                                    <th class="text-center">酶大类</th>
+                                                    <th class="text-center">操作</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody style="height: 195px; overflow: auto;">
+                                                <tr v-for="(item, index) in dataConfig.ec1List">
+                                                    <th class="text-center" v-text="(index + 1)"></th>
+                                                    <td v-text="item.ec1"></td>
+                                                    <td>
+                                                        <label @click="openPanel('panelDeleteForEC1', item)"
+                                                               class="btn btn-white btn-sm no-margin"
+                                                               style="padding: 3px 10px;">
+                                                            <i class="fa fa-remove mg-r-xs"></i>删除
+                                                        </label>
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="panel-footer" v-show="dataConfig.isEC1Add">
+                                            <div class="form-inline">
+                                                <div class="form-group">
+                                                    <label class="control-label">酶大类：</label>
+                                                    <input v-model="dataConfig.addContentEC1" type="text"
+                                                           class="form-control"
+                                                           style="width: 90px;"/>
+                                                </div>
+                                                <button @click="request('addEC1')" class="btn btn-white pull-right">
+                                                    确定
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="panel">
+                                        <div class="panel-heading clearfix">
+                                            <div class="pull-left">酶种</div>
+                                            <label @click="dataConfig.isEC2Add = true"
+                                                   class="btn btn-white btn-sm no-margin pull-right">
+                                                <i class="fa fa-edit mg-r-xs"></i>添加
+                                            </label>
+                                        </div>
+                                        <div class="panel-body no-padding" style="max-height: 421px; overflow: auto">
+                                            <table class="table table-hover no-margin">
+                                                <thead>
+                                                <tr>
+                                                    <th class="text-center">序号</th>
+                                                    <th class="text-center">酶大类</th>
+                                                    <th class="text-center">酶种</th>
+                                                    <th class="text-center">操作</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody style="height: 195px; overflow: auto;">
+                                                <tr v-for="(item, index) in dataConfig.ec2List">
+                                                    <td class="text-center" v-text="(index + 1)"></td>
+                                                    <td v-text="item.ec1"></td>
+                                                    <td v-text="item.ec2"></td>
+                                                    <td>
+                                                        <label @click="openPanel('panelDeleteForEC2', item)"
+                                                               class="btn btn-white btn-sm no-margin"
+                                                               style="padding: 3px 10px;">
+                                                            <i class="fa fa-remove mg-r-xs"></i>删除
+                                                        </label>
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="panel-footer">
+                                            <div class="page-container clearfix pd-l-sm pd-r-sm">
+                                                <div class="pull-left">
+                                                    共 <span v-text="dataConfig.recordNumber"></span> 条数据，
+                                                    共 <span v-text="dataConfig.pageNumber"></span> 页
+                                                </div>
+                                                <ul class="pagination no-margin pull-right">
+                                                    <li>
+                                                        <a v-if="dataConfig.currentPage == 1" href="javascript:;" style="background-color: #ccc; color: #fff;">上一页</a>
+                                                        <a v-else @click="skipPage(1)" href="javascript:;">上一页</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:;" class="no-padding">
+                                                            <input type="text" v-model="dataConfig.inputPage" class="text-center" style="width: 50px; padding: 4px;" />
+                                                        </a>
+                                                    </li>
+                                                    <li><a @click="skipPage(2)" href="javascript:;">跳页</a></li>
+                                                    <li>
+                                                        <a v-if="dataConfig.currentPage == dataConfig.pageNumber" href="javascript:;" style="background-color: #ccc; color: #fff;">下一页</a>
+                                                        <a v-else @click="skipPage(3)" href="javascript:;">下一页</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="form-inline mg-t" v-show="dataConfig.isEC2Add">
+                                                <div class="form-group">
+                                                    <!--<label class="col-md-3 control-label">所属酶大类：</label>-->
+                                                    <select id="selectForEC1" class="form-control selectpicker">
+                                                        <option v-for="item in dataConfig.ec1List" :value="item.id" v-text="item.ec1"></option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group mg-l-lg">
+                                                    <label class="control-label">酶种：</label>
+                                                    <input v-model="dataConfig.addContentEC2" type="text"
+                                                           class="form-control"
+                                                           style="width: 180px;"/>
+                                                </div>
+                                                <button @click="request('addEC2')" class="btn btn-white pull-right">
+                                                    确定
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- 爬虫控制 -->
+                            <div class="tab-pane " id="spider">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <section class="panel no-border profile-panel overflow-hidden">
+                                            <div class="panel-body bg-warning">
+                                                <div class="watermark fa fa-twitter"></div>
+                                                <div class="mg-b-sm text-center text-white">
+                                                    <div class="mg-b-md">
+                                                        <img src="img/pic_spider.png"
+                                                             class="avatar bordered-avatar img-circle pic" alt="user"
+                                                             title="user">
+                                                    </div>
+                                                    <small>手工启动爬虫</small>
+                                                </div>
+                                            </div>
+                                            <div class="panel-footer bg-white no-border">
+                                                <ul class="nav nav-pills nav-justified text-center">
+                                                    <li>
+                                                        <button @click="request('startSpider')" class="btn btn-warning">
+                                                            启动爬虫
+                                                        </button>
+                                                    </li>
+                                                    <li>
+                                                        <button @click="request('closeSpider')" class="btn btn-warning">
+                                                            关闭爬虫
+                                                        </button>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </section>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <section class="panel no-border overflow-hidden widget-social">
+                                            <div class="panel-body bg-white">
+                                                <a href="javascript:;" class="pull-left mg-r-md">
+                                                    <img src="img/pic_spider.png" class="avatar avatar-md img-circle"
+                                                         alt="">
+                                                </a>
+                                                <div>爬虫1号</div>
+                                                <div v-if="spiderConfig.recordList.length > 0">
+                                                    <small>上一次启动时间：<span
+                                                            v-text="spiderConfig.recordList[0].operateDate"></span></small>
+                                                    <br>
+                                                    <small>上一次抓取数据：<span v-text="spiderConfig.recordList[0].number"></span>
+                                                    </small>
+                                                </div>
+                                                <div v-else>
+                                                    <small>上一次启动时间：无</small>
+                                                    <br>
+                                                    <small>上一次抓取数据：0</small>
+                                                </div>
+                                            </div>
+                                            <div class="panel-footer no-padding no-border">
+                                                <div class="row no-margin">
+                                                    <div v-if="spiderConfig.isStart == true"
+                                                         class="col-xs-6 bg-success pd-md text-center">
+                                                        <span>爬虫状态</span><br/>
+                                                        <small>工作中</small>
+                                                    </div>
+                                                    <div v-else class="col-xs-6 bg-warning pd-md text-center">
+                                                        <span>爬虫状态</span><br/>
+                                                        <small>休息中</small>
+                                                    </div>
+                                                    <div v-if="spiderConfig.isTiming == true"
+                                                         class="col-xs-6 bg-success pd-md text-center">
+                                                        <span>是否开启定时</span><br/>
+                                                        <small>已经开启</small>
+                                                    </div>
+                                                    <div v-else class="col-xs-6 bg-warning pd-md text-center">
+                                                        <span>是否开启定时</span><br/>
+                                                        <small>已经关闭</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </section>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <section class="panel no-border overflow-hidden">
+                                            <div class="bg-danger pd-md clearfix">
+                                                <div class="h4 mg-t-xs mg-b-xs">爬虫定时设置</div>
+                                                <small>Timing settings for reptiles</small>
+                                            </div>
+                                            <form class="form-horizontal pd clearfix">
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 control-label">执行频度：</label>
+                                                    <div class="col-sm-8">
+                                                        <select id="spiderFrequence" class="form-control selectpicker">
+                                                            <option value="1">每年</option>
+                                                            <option value="2">每月</option>
+                                                            <option value="3">每周</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 control-label">执行日期：</label>
+                                                    <div class="col-sm-8">
+                                                        <select id="spiderDate" class="form-control selectpicker">
+                                                            <option value="2">周一</option>
+                                                            <option value="3">周二</option>
+                                                            <option value="4">周三</option>
+                                                            <option value="5">周四</option>
+                                                            <option value="6">周五</option>
+                                                            <option value="7">周六</option>
+                                                            <option value="1">周日</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 control-label">具体时间：</label>
+                                                    <div class="col-sm-8">
+                                                        <input id="spiderTime" type="text" class="form-control"
+                                                               placeholder="格式：19:15"/>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                            <div class="panel-footer bg-white no-border">
+                                                <ul class="nav nav-pills nav-justified text-center">
+                                                    <li>
+                                                        <button @click="request('startSpiderTiming')"
+                                                                class="btn btn-danger">启动定时
+                                                        </button>
+                                                    </li>
+                                                    <li>
+                                                        <button @click="request('closeSpiderTiming')"
+                                                                class="btn btn-danger">关闭定时
+                                                        </button>
+                                                    </li>
+                                                    <li>
+                                                        <button @click="request('setSpiderTiming')"
+                                                                class="btn btn-danger">设置定时
+                                                        </button>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </section>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div id="chart" class="pd" style="width: 100%; height: 400px;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div id="panelDelete" class="panel panel-color sr-only panel-custom" style="width: 450px;">
+            <div class="panel-heading">
+                删除面板
+                <small class="pull-right text-white">
+                    <a class="fa fa-chevron-down panel-collapsible pd-r-xs" href="javascript:;"
+                       @click="hidePanelBody($event)"></a>
+                    <a class="fa fa-times panel-remove" href="javascript:easyDialog.close();"></a>
+                </small>
+            </div>
+            <div class="panel-body">
+                确定删除 <strong class="text-info" v-text="del.text"></strong> 吗？
+                <button @click="request(del.url)" class="btn btn-default center-block">确定删除</button>
+            </div>
+        </div>
+    </section>
+</div>
+<script src="../asset/js/frame/jquery-1.11.1.min.js"></script>
+<script src="bootstrap/js/bootstrap.js"></script>
+<script src="../asset/js/frame/echarts.js"></script>
+<script src="../asset/js/frame/vue.js"></script>
+<script src="vendor/bootstrap-select/bootstrap-select.js"></script>
+<script src="vendor/bootstrap-datepicker/bootstrap-datepicker.js"></script>
+<script src="../asset/easyDialog/js/easydialog.min.js"></script>
+<script src="config/config.js"></script>
+<script src="js/components/header.js"></script>
+<script src="js/components/sidebar.js"></script>
+<script src="js/base.js"></script>
+<script>
+    var Client = new Vue({
+        el: "#client",
+        data: {
+            // 默认内容
+            user: {},
+            message: [
+                {username: "陈煦", operation: "修改了系统管理员身份"}
+            ],
+            sidebarLinks: [],
+            // 页面配置信息
+            pageConfig: {
+                indexBannerTitle: "",
+                indexBannerContent: "",
+                indexLinkText: "",
+                indexLinkUrl: "",
+                indexTitle: "",
+                indexContent: "",
+                browseTitle: "",
+                browseContent: "",
+                // 保存 disabled 输入框
+                inputDisabled: null,
+                isModify: false
+            },
+            // 数据配置信息
+            dataConfig: {
+                typeList: [],
+                ec1List: [],
+                ec2List: [],
+                isTypeAdd: false,
+                isEC1Add: false,
+                isEC2Add: false,
+                addContentType: "",
+                addContentEC1: "",
+                addContentEC2: "",
+                // 分页部分
+                recordNumber: 0,    // 数据数目
+                numberPerPage: 10,  // 每页显示数据数
+                pageNumber: 0,      // 总页数
+                currentPage: 1,     // 当前页码
+                inputPage: 1        // 输入框页码
+            },
+            // 爬虫控制信息
+            spiderConfig: {
+                isStart: false,
+                isTiming: false,
+                recordList: []
+            },
+            // 删除面板内容
+            del: {}
+        },
+        components: {
+            "navbar": header,
+            "sidebar": sidebar
+        },
+        mounted: function () {
+            this.$nextTick(function () {
+                init(Client, function () {
+                    $(".selectpicker").selectpicker();
+                    $("#startDate").datepicker({"format": "yyyy-mm-dd"});
+                    Client.request("getPageConfig");
+                    Client.request("getDataConfig");
+                    Client.request("getEC2List");
+//                    Client.request("getSpiderRecord");
+                });
+            })
+        },
+        methods: {
+            /**
+             * 打开弹窗（面板）：本页面只有删除面板
+             * @param panel 弹窗（面板）的 ID
+             * @param item  传递给弹窗（面板）的数据
+             */
+            openPanel: function (panel, item) {
+                // 默认打开删除面板
+                $("#panelDelete").removeClass("sr-only");
+                easyDialog.open({
+                    "container": "panelDelete"
+                });
+                if (panel === "panelView") {
+                    this.view = item;
+                } else if (panel === "panelModify") {
+                    this.modify = item;
+//                    $("#selectForType").selectpicker("val", item.type);
+//                    $("#selectForEC2").selectpicker("val", item.ec2);
+                } else if (panel === "panelDeleteForType") {
+                    this.del = {
+                        text: item.type,
+                        url: "deleteType",
+                        id: item.id
+                    }
+                } else if(panel === "panelDeleteForEC1") {
+                    this.del = {
+                        text: item.ec1,
+                        url: "deleteEC1",
+                        id: item.id
+                    }
+                } else if(panel === "panelDeleteForEC2") {
+                    this.del = {
+                        text: item.ec2,
+                        url: "deleteEC2",
+                        id: item.id
+                    }
+                }
+            },
+            /**
+             * 隐藏弹窗（面板）的主体部分
+             * @param obj 隐藏按钮对象
+             */
+            hidePanelBody: function (obj) {
+                $(obj.target).parent().parent().next().slideToggle("slow");
+            },
+            /**
+             * 向后台发起请求
+             * @param type 请求的类型
+             */
+            request: function (type) {
+                var data = null,
+                    url = null,
+                    successFn = null,
+                    item = null;
+
+                if (type === "getPageConfig") {
+                    // 获取页面配置信息
+                    data = {};
+                    url = Service.getUrl("getPageConfig");
+                    successFn = Client.getPageConfigCallback;
+                } else if (type === "modifyPage") {
+                    // 修改页面配置信息
+                    item = this.pageConfig;
+                    data = {
+                        indexTitle: item.indexTitle,
+                        indexContent: item.indexContent,
+                        indexBannerTitle: item.indexBannerTitle,
+                        indexBannerContent: item.indexBannerContent,
+                        indexLinkText: item.indexLinkText,
+                        indexLinkUrl: item.indexLinkUrl,
+                        browseTitle: item.browseTitle,
+                        browseContent: item.browseContent
+                    };
+                    url = Service.getUrl("modifyPage");
+                    successFn = Client.modifyPageCallback;
+                } else if (type === "getDataConfig") {
+                    // 获取数据配置信息
+                    data = {};
+                    url = Service.getUrl("getDataConfig");
+                    successFn = Client.getDataConfigCallback;
+                } else if (type === "addType") {
+                    data = { type: this.dataConfig.addContentType };
+                    url = Service.getUrl("addType");
+                    successFn = Client.addTypeCallback;
+                } else if (type === "deleteType") {
+                    item = this.del;
+                    data = { id: item.id };
+                    url = Service.getUrl("deleteType");
+                    successFn = Client.deleteTypeCallback;
+                } else if (type === "addEC1") {
+                    // 新增酶大类
+                    data = { ec1: this.dataConfig.addContentEC1 };
+                    url = Service.getUrl("addEC1");
+                    successFn = Client.addEC1Callback;
+                } else if (type === "deleteEC1") {
+                    // 删除酶大类
+                    item = this.del;
+                    data = { id: item.id };
+                    url = Service.getUrl("deleteEC1");
+                    successFn = Client.deleteEC1Callback;
+                } else if (type === "getEC2List") {
+                    // 获取酶种列表
+                    data = {
+                        numberPerPage: 10,
+                        startPos: this.dataConfig.currentPage
+                    };
+                    url = Service.getUrl("getEC2List");
+                    successFn = Client.getEC2ListCallback;
+                } else if (type === "addEC2") {
+                    // 新增酶种
+                    data = {
+                        ec1Id: $("#selectForEC1").selectpicker("val"),
+                        ec2: this.dataConfig.addContentEC2
+                    };
+                    url = Service.getUrl("addEC2");
+                    successFn = Client.addEC2Callback;
+                } else if (type === "deleteEC2") {
+                    // 删除酶种
+                    item = this.del;
+                    data = { id: item.id };
+                    url = Service.getUrl("deleteEC2");
+                    successFn = Client.deleteEC2Callback;
+                } else if (type === "getSpiderRecord") {
+                    // 获取爬虫记录
+                    data = {};
+                    url = Service.getUrl("getSpiderRecord");
+                    successFn = Client.getSpiderRecordCallback;
+                } else if (type === "startSpider") {
+                    // 手工启动爬虫
+                    data = {};
+                    url = Service.getUrl("startSpider");
+                    successFn = successCallback;
+                } else if (type === "closeSpider") {
+                    // 手工关闭爬虫
+                    data = {};
+                    url = Service.getUrl("closeSpider");
+                    successFn = successCallback;
+                } else if (type === "startSpiderTiming") {
+                    // 启动定时爬虫
+                    data = {};
+                    url = Service.getUrl("startSpiderTiming");
+                    successFn = successCallback;
+                } else if (type === "closeSpiderTiming") {
+                    // 关闭定时爬虫
+                    data = {};
+                    url = Service.getUrl("closeSpiderTiming");
+                    successFn = successCallback;
+                } else if (type === "setSpiderTiming") {
+                    // 设置定时爬虫
+                    data = {
+                        time: this.calTiming()
+                    };
+                    url = Service.getUrl("setSpiderTiming");
+                    successFn = successCallback;
+                }
+                Links.connect({
+                    method: "post",
+                    param: {
+                        url: url,
+                        data: data,
+                        successFn: successFn,
+                        errorFn: errorCallback
+                    }
+                });
+            },
+            /**
+             * 进行修改
+             */
+            startModify: function () {
+                var disableds = $(":disabled");
+                // 将所有不可编辑输入框的状态修改为可编辑
+                disableds.attr("disabled", false);
+                this.pageConfig.inputDisabled = disableds;
+                this.pageConfig.isModify = true;
+            },
+            /**
+             * 根据指定检索条件找到相应数据在某检索列表中的下标
+             * @param key   检索条件
+             * @param value 检索条件的值
+             * @param type  某检索列表
+             */
+            search: function (key, value, type) {
+                var list = null,
+                    item = null,
+                    length = 0,
+                    loop = 0;
+
+                switch(Number(type)) {
+                    case 1: {
+                        // 根据类型号寻找分类
+                        list = this.dataConfig.typeList;
+                        break;
+                    }
+                    case 2: {
+                        // 根据酶大类序号寻找酶大类
+                        list = this.dataConfig.ec1List;
+                        break;
+                    }
+                    case 3: {
+                        // 根据酶种序号寻找酶种
+                        list = this.dataConfig.ec2List;
+                        break;
+                    }
+                }
+                for (loop = 0, length = list.length; loop < length; loop++) {
+                    item = list[loop];
+                    if (item[key] === value) {
+                        return loop;
+                    }
+                }
+                return -1;
+            },
+            /**
+             * 跳页操作
+             * @param type 跳页操作类型 1：上一页 2：跳页 3：下一页
+             */
+            skipPage: function(type) {
+                var type = Number(type),
+                    skipPage = Number(this.dataConfig.currentPage),
+                    validator = new Validator();
+
+                switch(Number(type)) {
+                    case 1: { skipPage--; break; }
+                    case 2: { skipPage = this.dataConfig.inputPage; break; }
+                    case 3: { skipPage++; break; }
+                }
+                // 判断跳往页数是否合法（上一页和下一页已经通过页面进行限制，因此该条件判断只针对跳页）
+                if(validator.pages(skipPage, this.dataConfig.pageNumber)) {
+                    this.dataConfig.currentPage = skipPage;
+                    this.dataConfig.inputPage = skipPage;
+                    this.request("getEC2List");
+                } else {
+                    Dialog.tip("请输入正确的页码");
+                    this.dataConfig.inputPage = this.dataConfig.currentPage;
+                }
+            },
+            /**
+             * 将时间转换成 cron 格式
+             */
+            calTiming: function () {
+                var frequence = Number($("#spiderFrequence").selectpicker("val")),
+                    date = $("#spiderDate").selectpicker("val"),
+                    time = $("#spiderTime").val(),
+                    timeSplit = time.split(":"),
+                    hour = Number(timeSplit[0]),
+                    minute = Number(timeSplit[1]),
+                    timing = "";
+
+                if(!/[0-2][0-9]:[0-5][0-9]/.test(time)) {
+                    Dialog.warn("具体时间格式不正确！");
+                    throw new Error("具体时间格式不正确！");
+                }
+                if(hour > 24) {
+                    Dialog.warn("具体时间格式不正确！");
+                    throw new Error("具体时间格式不正确！");
+                }
+                switch (frequence) {
+                    case 1: {
+                        timing = "0 " + minute + " " + hour + " ? ? " + date + " *";
+                        break;
+                    }
+                    case 2: {
+                        timing = "0 " + minute + " " + hour + " ? 1/1 1#" + date;
+                        break;
+                    }
+                    case 3: {
+                        timing = "0 " + minute + " " + hour + " ? ? " + date;
+                        break;
+                    }
+                }
+                return timing;
+            },
+            /**
+             * 执行获取页面配置信息回调函数
+             * @param msg 服务器返回的对象
+             */
+            getPageConfigCallback: function(msg) {
+                var param = {},
+                    pageConfig = {},
+                    data = null,
+                    item = null,
+                    length = 0,
+                    loop = 0;
+
+                if(Number(msg.code) === 1) {
+                    data = msg.data;
+                    for(loop = 0, length = data.length; loop < length; loop++) {
+                        item = data[loop];
+                        param[item.param] = item.value;
+                    }
+                    pageConfig = {
+                        indexBannerTitle: param.indexBannerTitle,
+                        indexBannerContent: param.indexBannerContent,
+                        indexLinkText: param.indexLinkText,
+                        indexLinkUrl: param.indexLinkUrl,
+                        indexTitle: param.indexTitle,
+                        indexContent: param.indexContent,
+                        browseTitle: param.browseTitle,
+                        browseContent: param.browseContent,
+                        inputDisabled: null,
+                        isModify: false
+                    };
+                    this.pageConfig = pageConfig;
+                    this.spiderConfig.isStart = param.isStart;
+                    this.spiderConfig.isTiming = param.isTiming;
+                } else {
+                    Dialog.warn(msg.msg);
+                }
+            },
+            /**
+             * 修改页面配置操作的回调函数
+             * @param msg 服务器返回的对象
+             */
+            modifyPageCallback: function (msg) {
+                if (Number(msg.code) === 1) {
+                    // 修改输入框的编辑状态：不可编辑
+                    this.pageConfig.inputDisabled.attr("disabled", true);
+                    Dialog.info(msg.msg);
+                } else {
+                    Dialog.warn(msg.msg);
+                }
+            },
+            /**
+             * 执行获取数据配置信息操作的回调函数
+             * @param msg 服务器返回的对象
+             */
+            getDataConfigCallback: function (msg) {
+                var timer = null;
+
+                if (Number(msg.code) === 1) {
+                    this.dataConfig.typeList = msg.data.type;
+                    this.dataConfig.ec1List = msg.data.ec1;
+                    // 刷新所有的 selectpicker 组件
+                    timer = setTimeout(function() {
+                        $(".selectpicker").selectpicker("refresh");
+                        clearTimeout(timer);
+                    }, 500);
+                } else {
+                    Dialog.warn(msg.msg);
+                }
+            },
+            /**
+             * 执行新增分类操作的回调函数
+             * @param msg 服务器返回的对象
+             */
+            addTypeCallback: function (msg) {
+                if (Number(msg.code) === 1) {
+                    this.dataConfig.isTypeAdd = false;
+                    this.dataConfig.addContentType = "";
+                    this.request("getTypeList");
+                    Dialog.info(msg.msg);
+                } else {
+                    Dialog.warn(msg.msg);
+                }
+            },
+            /**
+             * 执行删除分类操作的回调函数
+             * @param msg 服务器返回的对象
+             */
+            deleteTypeCallback: function (msg) {
+                var index = null,
+                    deleteObj = this.del,
+                    typeList = this.dataConfig.typeList,
+                    length = 0,
+                    loop = 0;
+
+                // 若回调函数执行成功，则将相应的数据从列表中删除
+                if (Number(msg.code) === 1) {
+                    index = this.search("id", deleteObj.id, 1);
+                    if (index !== -1) {
+                        for (loop = index + 1, length = typeList.length; loop < length; loop++) {
+                            typeList[loop - 1] = typeList[loop];
+                        }
+                        typeList.pop();
+                        this.dataConfig.typeList = typeList;
+                    }
+                    Dialog.info(msg.msg);
+                } else {
+                    Dialog.warn(msg.msg);
+                }
+            },
+            /**
+             * 执行新增酶大类操作的回调函数
+             * @param msg 服务器返回的对象
+             */
+            addEC1Callback: function (msg) {
+                if (Number(msg.code) === 1) {
+                    this.dataConfig.isEC1Add = false;
+                    this.dataConfig.addContentEC1 = "";
+                    this.request("getDataConfig");
+                    Dialog.info(msg.msg);
+                } else {
+                    Dialog.warn(msg.msg);
+                }
+            },
+            /**
+             * 执行删除酶大类操作的回调函数
+             * @param msg 服务器返回的对象
+             */
+            deleteEC1Callback: function (msg) {
+                var index = null,
+                    deleteObj = this.del,
+                    ec1List = this.dataConfig.ec1List,
+                    length = 0,
+                    loop = 0;
+
+                // 若回调函数执行成功，则将相应的数据从列表中删除
+                if (Number(msg.code) === 1) {
+                    index = this.search("id", deleteObj.id, 2);
+                    if (index !== -1) {
+                        for (loop = index + 1, length = ec1List.length; loop < length; loop++) {
+                            ec1List[loop - 1] = ec1List[loop];
+                        }
+                        ec1List.pop();
+                        this.dataConfig.ec1List = ec1List;
+                    }
+                    Dialog.info(msg.msg);
+                } else {
+                    Dialog.warn(msg.msg);
+                }
+            },
+            /**
+             * 执行获取酶种列表操作的回调函数
+             * @param msg 服务器返回的对象
+             */
+            getEC2ListCallback: function (msg) {
+                if (Number(msg.code) === 1) {
+                    this.dataConfig.ec2List = msg.data;
+                    this.dataConfig.recordNumber = msg.count;
+                    this.dataConfig.pageNumber = Math.ceil(msg.count / this.dataConfig.numberPerPage);
+                } else {
+                    Dialog.warn(msg.msg);
+                }
+            },
+            /**
+             * 执行酶种分类操作的回调函数
+             * @param msg 服务器返回的对象
+             */
+            addEC2Callback: function (msg) {
+                if (Number(msg.code) === 1) {
+                    this.dataConfig.isEC2Add = false;
+                    this.dataConfig.addContentEC2 = "";
+                    this.request("getEC2List");
+                    Dialog.info(msg.msg);
+                } else {
+                    Dialog.warn(msg.msg);
+                }
+            },
+            /**
+             * 执行删除酶种操作的回调函数
+             * @param msg 服务器返回的对象
+             */
+            deleteEC2Callback: function (msg) {
+                var index = null,
+                    deleteObj = this.del,
+                    ec2List = this.dataConfig.ec2List,
+                    length = 0,
+                    loop = 0;
+
+                // 若回调函数执行成功，则将相应的数据从列表中删除
+                if (Number(msg.code) === 1) {
+                    index = this.search("id", deleteObj.id, 3);
+                    if (index !== -1) {
+                        for (loop = index + 1, length = ec2List.length; loop < length; loop++) {
+                            ec2List[loop - 1] = ec2List[loop];
+                        }
+                        ec2List.pop();
+                        this.dataConfig.ec2List = ec2List;
+                    }
+                    Dialog.info(msg.msg);
+                } else {
+                    Dialog.warn(msg.msg);
+                }
+            },
+            /**
+             * 获取爬虫记录回调函数
+             * @param msg 服务器返回的对象
+             */
+            getSpiderRecordCallback: function (msg) {
+                var record = null,
+                    chart = echarts.init(document.getElementById("chart")),
+                    xaixs = [],
+                    data = [],
+                    length = 0,
+                    loop = 0,
+                    option = null;
+                if (Number(msg.code) === 1) {
+                    record = msg.data;
+                    for (loop = 0, length = record.length; loop < length; loop++) {
+                        xaixs.push(record[loop].operateDate);
+                        data.push(record[loop].number);
+                    }
+                    xaixs.reverse();
+                    data.reverse();
+                    option = {
+                        title: {
+                            text: '爬虫行动轨迹记录折线图',
+                            textStyle: {
+                                align: 'center'
+                            }
+                        },
+                        tooltip: {
+                            trigger: 'axis'
+                        },
+                        toolbox: {
+                            show: true,
+                            feature: {
+                                dataView: {show: true, readOnly: false},
+                                magicType: {show: true, type: ['line', 'bar']},
+                                restore: {show: true}
+                            }
+                        },
+                        calculable: true,
+                        xAxis: [
+                            {
+                                type: 'category',
+                                data: xaixs
+                            }
+                        ],
+                        yAxis: [
+                            {
+                                type: 'value'
+                            }
+                        ],
+                        series: [
+                            {
+                                name: '数据量',
+                                type: 'bar',
+                                data: data,
+                                markPoint: {
+                                    data: [
+                                        {type: 'max', name: '最大值'},
+                                        {type: 'min', name: '最小值'}
+                                    ]
+                                },
+                                markLine: {
+                                    data: [
+                                        {type: 'average', name: '平均值'}
+                                    ]
+                                }
+                            }
+                        ]
+                    };
+                    chart.setOption(option);
+                } else {
+                    Dialog.warn(msg.msg);
+                }
+            }
+        }
+    });
+</script>
+</body>
+</html>
