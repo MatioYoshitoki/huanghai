@@ -218,6 +218,9 @@
                             <div class="panel-content col-md-8 col-md-offset-1" id="abstract4"></div>
                         </div>
                     </div>
+                    <div class="panel-section" id="noReference">
+                        <h2 class="text-center">There is no reference</h2>
+                    </div>
                 </div>
             </div>
         </div>
@@ -246,7 +249,6 @@
                 locus = search.split("=")[1],
                 pdbId = locus.slice(0, 4);
 
-            console.log(pdbId);
             request();
             $(".tab-item").on("click", function() {
                 $(".tab-list").find(".active").removeClass("active");
@@ -282,7 +284,6 @@
                     organism = data.organism,
                     origin = data.origin;
 
-                console.log(origin);
                 // 对多行数据进行处理
                 dbsource = dbsource.replace(/;/g, "<br/>");
                 organism = organism.replace(/;/g, "<br/>");
@@ -290,25 +291,25 @@
                     return "<br/>" + e;
                 });
                 origin = origin.replace("<br/>", "");
-                console.log(origin);
 
                 if(Number(msg.code) === 1) {
                     $("#title").text(data.title);
                     $("#locusSeq").text(data.locusSeq);
                     $("#locus").text(data.locus);
-                    $("#dbsource").html(dbsource);
-                    $("#source").text(data.source);
-                    $("#organism").html(organism);
-                    $("#date").text(data.date);
-                    $("#country").text(data.country);
                     $("#ec1").text(data.ec1);
                     $("#ec2").text(data.ec2);
-                    $("#deepSea").text(data.deepSea);
-                    $("#zone").text(data.zone);
-                    $("#temp").text(data.temp);
-                    $("#ph").text(data.ph);
-                    $("#primSeq").html(origin);
                     $("#terStru").text(data.pdbId);
+                    $("#date").text(data.date);
+
+                    $("#dbsource").html(dbsource ? dbsource : "/");
+                    $("#source").text(data.source ? data.source : "/");
+                    $("#organism").html(organism ? organism : "/");
+                    $("#country").text(data.country ? data.country : "/");
+                    $("#deepSea").text(data.deepSea ? "Yes" : "No");
+                    $("#zone").text(data.zone ? data.zone : "/");
+                    $("#temp").text(data.temperature ? data.temperature : "/");
+                    $("#ph").text(data.ph ? data.ph : "/");
+                    $("#primSeq").html(origin ? origin : "/");
                     if(data.author1 !== "") {
                         $("#reference1").css("display", "block");
                         $("#author1").text(data.author1);
@@ -316,6 +317,8 @@
                         $("#journal1").text(data.journal1);
                         $("#pubmed1").text(data.pubmed1);
                         $("#abstract1").text(data.abstract1);
+                    } else {
+                        $("#noReference").css("display", "block");
                     }
                     if(data.author2 !== "") {
                         $("#reference2").css("display", "block");

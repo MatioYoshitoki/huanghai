@@ -110,6 +110,9 @@ var Service = {
                 case "createData":
                     // 数据录入：创建数据
                     return "/manualInput";
+                case "inputFile":
+                    // 数据录入：批量导入
+                    return "/excel_operate";
                 case "getDataList":
                     // 数据管理：获取数据列表
                     return "/getData";
@@ -150,6 +153,21 @@ var Service = {
                 case "deleteEC2":
                     // 系统管理：删除酶种
                     return "/deleteEC2";
+                case "getExamineList":
+                    // 审核管理：获取审核数据列表
+                    return "/getExamineData";
+                case "examinePass":
+                    // 审核管理：通过审核
+                    return "/marlboro";
+                case "examineNoPass":
+                    // 审核管理：拒绝审核
+                    return "/refusal_examine";
+                case "examinePassAll":
+                    // 审核管理：批量通过审核
+                    return "/marlboro_batch";
+                case "examineNoPassAll":
+                    // 审核管理：批量拒绝审核
+                    return "/refusal_examine_batch";
                 case 99:
                     return "data/successTest";
 

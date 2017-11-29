@@ -61,8 +61,8 @@
                                         </select>
                                         <input v-model="table.searchParam" v-show="table.searchType < 6 && table.searchType > 0" class="form-control" type="text" />
                                         <div v-show="table.searchType >= 6" class="input-group input-append date datepicker">
-                                            <input v-model="table.startDate" type="text" class="form-control" id="startDate" style="width: 100px;">
-                                            <input v-model="table.endDate" type="text" class="form-control" id="endDate" style="width: 100px;">
+                                            <input type="text" class="form-control" id="startDate" style="width: 100px;">
+                                            <input type="text" class="form-control" id="endDate" style="width: 100px;">
                                         </div>
                                         <div @click="request('getDataList')" class="btn btn-info">搜索</div>
                                     </div>
@@ -75,8 +75,8 @@
                                         <tr>
                                             <th class="text-center">pdbId</th>
                                             <th class="text-center">type</th>
+                                            <th class="text-center">EC1</th>
                                             <th class="text-center">EC2</th>
-                                            <th class="text-center">date</th>
                                             <th class="text-center">录入时间</th>
                                             <th class="text-center">录入者</th>
                                             <th class="text-center">修改时间</th>
@@ -89,8 +89,8 @@
                                         <tr v-for="item in dataListAfterSearch">
                                             <td v-text="item.pdbId"></td>
                                             <td v-text="item.type"></td>
+                                            <td v-text="item.ec1"></td>
                                             <td v-text="item.ec2"></td>
-                                            <td class="text-center" v-text="item.date"></td>
                                             <td class="text-center" v-text="item.operateDate"></td>
                                             <td class="text-center" v-text="item.operator"></td>
                                             <td class="text-center" v-text="item.modifyDate"></td>
@@ -693,8 +693,8 @@
                     data = {
                         type: searchType,
                         param: table.searchParam,
-                        startDate: table.startDate,
-                        endDate: table.endDate,
+                        startDate: $("#startDate").val(),
+                        endDate: $("#endDate").val(),
                         numberPerPage: table.numberPerPage,
                         startPos: table.currentPage
                     };
@@ -775,6 +775,7 @@
                 // 判断跳往页数是否合法（上一页和下一页已经通过页面进行限制，因此该条件判断只针对跳页）
                 if(validator.pages(skipPage, this.table.pageNumber)) {
                     this.table.currentPage = skipPage;
+                    this.table.inputPage = skipPage;
                     this.request("getDataList");
                 } else {
                     Dialog.tip("请输入正确的页码");

@@ -338,7 +338,7 @@
                         formData.append("file", fileObj);
                         formData.append("operator", Client.user.userName);
                         $.ajax({
-                            url : "",
+                            url : Service.getUrl("inputFile"),
                             type : 'POST',
                             data : formData,
                             // 告诉jQuery不要去处理发送的数据
