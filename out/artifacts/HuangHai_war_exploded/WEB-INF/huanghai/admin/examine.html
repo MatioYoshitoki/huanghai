@@ -53,16 +53,15 @@
                                             <option value="0">全部</option>
                                             <option value="1">pdbId</option>
                                             <option value="2">type</option>
-                                            <option value="3">ec2</option>
-                                            <option value="4">录入者</option>
+                                            <option value="3">ec1</option>
+                                            <option value="4">ec2</option>
                                             <option value="5">修改者</option>
-                                            <option value="6">录入时间</option>
-                                            <option value="7">修改时间</option>
+                                            <option value="6">修改时间</option>
                                         </select>
                                         <input v-model="table.searchParam" v-show="table.searchType < 6 && table.searchType > 0" class="form-control" type="text" />
                                         <div v-show="table.searchType >= 6" class="input-group input-append date datepicker">
-                                            <input v-model="table.startDate" type="text" class="form-control" id="startDate" style="width: 100px;">
-                                            <input v-model="table.endDate" type="text" class="form-control" id="endDate" style="width: 100px;">
+                                            <input type="text" class="form-control" id="startDate" style="width: 100px;">
+                                            <input type="text" class="form-control" id="endDate" style="width: 100px;">
                                         </div>
                                         <div @click="request('getExamineList')" class="btn btn-info">搜索</div>
                                         <div @click="openPanel('panelPassAll')" class="btn btn-success">批量通过</div>
@@ -77,10 +76,9 @@
                                         <tr>
                                             <th class="text-center">pdbId</th>
                                             <th class="text-center">type</th>
+                                            <th class="text-center">EC1</th>
                                             <th class="text-center">EC2</th>
                                             <th class="text-center">date</th>
-                                            <th class="text-center">录入时间</th>
-                                            <th class="text-center">录入者</th>
                                             <th class="text-center">修改时间</th>
                                             <th class="text-center">修改者</th>
                                             <th class="text-center">相关操作</th>
@@ -90,10 +88,9 @@
                                         <tr v-for="item in examineListAfterSearch">
                                             <td v-text="item.pdbId"></td>
                                             <td v-text="item.type"></td>
+                                            <td v-text="item.ec1"></td>
                                             <td v-text="item.ec2"></td>
                                             <td class="text-center" v-text="item.date"></td>
-                                            <td class="text-center" v-text="item.operateDate"></td>
-                                            <td class="text-center" v-text="item.operator"></td>
                                             <td class="text-center" v-text="item.modifyDate"></td>
                                             <td class="text-center" v-text="item.modifier"></td>
                                             <td class="text-center">
@@ -172,19 +169,19 @@
                 </div>
                 <div class="row mg-t-sm">
                     <div class="col-sm-2"><strong>DBSOURCE：</strong></div>
-                    <div class="col-sm-10" v-text="view.dbsource"></div>
+                    <div class="col-sm-10" v-html="view.dbsource"></div>
                 </div>
                 <div class="row mg-t-sm">
                     <div class="col-sm-2"><strong>SOURCE：</strong></div>
-                    <div class="col-sm-10" v-text="view.source"></div>
+                    <div class="col-sm-10" v-html="view.source"></div>
                 </div>
                 <div class="row mg-t-sm">
                     <div class="col-sm-2"><strong>ORGANISM：</strong></div>
-                    <div class="col-sm-10" v-text="view.organism"></div>
+                    <div class="col-sm-10" v-html="view.organism"></div>
                 </div>
                 <div class="row mg-t-sm">
                     <div class="col-sm-2"><strong>ORIGIN：</strong></div>
-                    <div class="col-sm-10" v-text="view.origin"></div>
+                    <div class="col-sm-10" v-html="view.origin"></div>
                 </div>
                 <div v-if="view.title1 != ''">
                     <h4>REFENRENCE 1</h4>
@@ -269,12 +266,6 @@
                         <div class="col-sm-2"><strong>ABSTRACT：</strong></div>
                         <div class="col-sm-10" v-text="view.abstract4"></div>
                     </div>
-                </div>
-                <div class="row mg-t-sm">
-                    <div class="col-sm-2"><strong>录入时间：</strong></div>
-                    <div class="col-sm-6" v-text="view.operateDate"></div>
-                    <div class="col-sm-2"><strong>录入者：</strong></div>
-                    <div class="col-sm-2" v-text="view.operator"></div>
                 </div>
                 <div class="row mg-t-sm">
                     <div class="col-sm-2"><strong>修改时间：</strong></div>
@@ -405,6 +396,24 @@
                     "container": panel
                 });
                 if(panel === "panelView") {
+                    var data = item,
+                        dbsource = "",
+                        organism = "",
+                        origin = "";
+
+                    // 对数据呈现格式进行规范化
+                    data.dbsource ? dbsource = data.dbsource : "";
+                    data.organism ? organism = data.organism : "";
+                    data.origin ? origin = data.origin : "";
+                    dbsource = dbsource.replace(/;/g, "<br/>");
+                    organism = organism.replace(/;/g, "<br/>");
+                    origin = origin.replace(/[1-9][0-9]*/g, function(e) {
+                        return "<br/>" + e;
+                    });
+                    origin = origin.replace("<br/>", "");
+                    data.dbsource = dbsource;
+                    data.organism = organism;
+                    data.origin = origin;
                     this.view = item;
                 } else if(panel === "panelPass" || panel === "panelNoPass") {
                     this.param = item.mmeId;
@@ -434,13 +443,13 @@
                     data = {
                         type: searchType,
                         param: table.searchParam,
-                        startDate: table.startDate,
-                        endDate: table.endDate,
+                        startDate: $("#startDate").val(),
+                        endDate: $("#endDate").val(),
                         numberPerPage: table.numberPerPage,
                         startPos: table.currentPage
                     };
                     url = Service.getUrl("getExamineList");
-                    successFn = Client.getDataCallback;
+                    successFn = Client.getExamineCallback;
                 } else if(type === "pass") {
                     // 通过待审核数据
                     data = {
@@ -493,6 +502,7 @@
                 // 判断跳往页数是否合法（上一页和下一页已经通过页面进行限制，因此该条件判断只针对跳页）
                 if(validator.pages(skipPage, this.table.pageNumber)) {
                     this.table.currentPage = skipPage;
+                    this.table.inputPage = skipPage;
                     this.request("getExamineList");
                 } else {
                     Dialog.tip("请输入正确的页码");
@@ -533,6 +543,7 @@
             passAllOrNoPassAllCallback: function(msg) {
                 if(Number(msg.code) === 1) {
                     this.examineList = [];
+                    this.examineListAfterSearch = [];
                     Dialog.info(msg.msg);
                 } else {
                     Dialog.warn(msg.msg);

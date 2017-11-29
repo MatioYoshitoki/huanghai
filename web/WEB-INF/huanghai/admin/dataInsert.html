@@ -335,7 +335,7 @@
                         var formData = new FormData(),
                             fileObj = $(this).val();
 
-                        formData.append("file", fileObj);
+                        formData.append("file", document.getElementById("file").files[0]);
                         formData.append("operator", Client.user.userName);
                         $.ajax({
                             url : Service.getUrl("inputFile"),
