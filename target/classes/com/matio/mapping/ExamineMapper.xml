@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.matio.mapping.MmeMapper" >
-  <resultMap id="BaseResultMap" type="com.matio.pojo.Mme" >
+<mapper namespace="com.matio.mapping.ExamineMapper" >
+  <resultMap id="BaseResultMap" type="com.matio.pojo.Examine" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="type" property="type" jdbcType="VARCHAR" />
     <result column="ec2" property="ec2" jdbcType="VARCHAR" />
@@ -15,12 +15,6 @@
     <result column="date" property="date" jdbcType="CHAR" />
     <result column="country" property="country" jdbcType="VARCHAR" />
     <result column="origin" property="origin" jdbcType="VARCHAR" />
-    <result column="deepSea" property="deepSea" jdbcType="VARCHAR" />
-    <result column="temperature" property="temperature" jdbcType="VARCHAR" />
-    <result column="ph" property="ph" jdbcType="VARCHAR" />
-    <result column="zone" property="zone" jdbcType="VARCHAR" />
-    <result column="cofactors" property="cofactors" jdbcType="VARCHAR" />
-    <result column="inhibitors" property="inhibitors" jdbcType="VARCHAR" />
     <result column="author1" property="author1" jdbcType="VARCHAR" />
     <result column="title1" property="title1" jdbcType="VARCHAR" />
     <result column="journal1" property="journal1" jdbcType="VARCHAR" />
@@ -45,33 +39,30 @@
     <result column="operateDate" property="operatedate" jdbcType="CHAR" />
     <result column="modifyDate" property="modifydate" jdbcType="CHAR" />
     <result column="modifier" property="modifier" jdbcType="VARCHAR" />
-    <result column="isModified" property="isModified" jdbcType="CHAR" />
+    <result column="note" property="note" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, type, ec2, title, locus, pdbId, dbsource, microbe, source, organism, date, country,
-    deepSea, temperature, ph, zone, cofactors, inhibitors,
+    id, type, ec2, title, locus, pdbId, dbsource, microbe, source, organism, date, country, 
     origin, author1, title1, journal1, pubmed1, abstract1, author2, title2, journal2, 
     pubmed2, abstract2, author3, title3, journal3, pubmed3, abstract3, author4, title4, 
-    journal4, pubmed4, abstract4, operator, operateDate, modifyDate, modifier, isModified
+    journal4, pubmed4, abstract4, operator, operateDate, modifyDate, modifier, note
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select
+    select 
     <include refid="Base_Column_List" />
-    from mme
+    from examine
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <select id="selectByFuzzyEC2" resultMap="BaseResultMap" parameterType="com.matio.pojo.MmeCondition" >
-    select
+  <select id="selectAll" resultMap="BaseResultMap">
+    SELECT
     <include refid="Base_Column_List" />
-    from mme
-    where type = #{type,jdbcType=INTEGER}
-    AND
-    ec2 like #{ec2} + "%"
+    FROM
+    examine
   </select>
   <select id="selectByCondition" resultMap="BaseResultMap" parameterType="com.matio.pojo.MmeCondition" >
     select
     <include refid="Base_Column_List" />
-    from mme
+    from examine
     where
     <if test="pdbId != null">
       pdbId = #{pdbId} AND
@@ -98,47 +89,16 @@
     </if>
     1=1 limit #{startSize},#{endSize}
   </select>
-  <select id="selectCountByCondition" resultType="java.lang.Integer" parameterType="com.matio.pojo.MmeCondition" >
-    select
-    count(*)
-    from mme
-    where
-    <if test="pdbId != null">
-      pdbId = #{pdbId} AND
-    </if>
-    <if test="type != null">
-      type = #{type} AND
-    </if>
-    <if test="ec2 != null">
-      ec2 = #{ec2} AND
-    </if>
-    <if test="operator != null">
-      operator = #{operator} AND
-    </if>
-    <if test="modifier != null">
-      modifier = #{modifier} AND
-    </if>
-    <if test="startDate_op != null">
-      operateDate > #{startDate_op} AND
-      operateDate &lt; #{endDate_op} AND
-    </if>
-    <if test="startDate_md != null">
-      modifyDate > #{startDate_md} AND
-      modifyDate &lt; #{endDate_md} AND
-    </if>
-    1=1
-  </select>
-  <select id="selectEC1ByEC2" resultType="java.lang.String" parameterType="java.lang.String" >
-    select ec1
-    from view_ec
-    where ec2 = #{ec2}
-  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from mme
+    delete from examine
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.matio.pojo.Mme" >
-    insert into mme (id, type, ec1, ec2,
+  <delete id="deleteAll" >
+    delete from examine
+  </delete>
+  <insert id="insert" parameterType="com.matio.pojo.Examine" >
+    insert into examine (id, type, ec2, 
       title, locus, pdbId, dbsource, 
       microbe, source, organism, 
       date, country, origin, 
@@ -149,11 +109,9 @@
       journal3, pubmed3, abstract3, 
       author4, title4, journal4, 
       pubmed4, abstract4, operator, 
-      operateDate, modifyDate, deepSea,
-      temperature, ph, zone, cofactors,
-      inhibitors
-      )
-    values (#{id,jdbcType=INTEGER}, #{type,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{ec2,jdbcType=VARCHAR},
+      operateDate, modifyDate, modifier, 
+      note)
+    values (#{id,jdbcType=INTEGER}, #{type,jdbcType=VARCHAR}, #{ec2,jdbcType=VARCHAR}, 
       #{title,jdbcType=VARCHAR}, #{locus,jdbcType=VARCHAR}, #{pdbid,jdbcType=CHAR}, #{dbsource,jdbcType=VARCHAR}, 
       #{microbe,jdbcType=VARCHAR}, #{source,jdbcType=VARCHAR}, #{organism,jdbcType=VARCHAR}, 
       #{date,jdbcType=CHAR}, #{country,jdbcType=VARCHAR}, #{origin,jdbcType=VARCHAR}, 
@@ -164,13 +122,11 @@
       #{journal3,jdbcType=VARCHAR}, #{pubmed3,jdbcType=VARCHAR}, #{abstract3,jdbcType=VARCHAR}, 
       #{author4,jdbcType=VARCHAR}, #{title4,jdbcType=VARCHAR}, #{journal4,jdbcType=VARCHAR}, 
       #{pubmed4,jdbcType=VARCHAR}, #{abstract4,jdbcType=VARCHAR}, #{operator,jdbcType=VARCHAR}, 
-      #{operatedate,jdbcType=CHAR}, #{modifydate,jdbcType=CHAR}, #{deepSea,jdbcType=VARCHAR},
-      #{temperature,jdbcType=VARCHAR}, #{ph,jdbcType=VARCHAR}, #{zone,jdbcType=VARCHAR},
-      #{cofactors,jdbcType=VARCHAR}, #{inhibitors,jdbcType=VARCHAR}
-      )
+      #{operatedate,jdbcType=CHAR}, #{modifydate,jdbcType=CHAR}, #{modifier,jdbcType=VARCHAR}, 
+      #{note,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.matio.pojo.Mme" >
-    insert into mme
+  <insert id="insertSelective" parameterType="com.matio.pojo.Examine" >
+    insert into examine
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
@@ -274,8 +230,17 @@
       <if test="operator != null" >
         operator,
       </if>
+      <if test="operatedate != null" >
+        operateDate,
+      </if>
       <if test="modifydate != null" >
         modifyDate,
+      </if>
+      <if test="modifier != null" >
+        modifier,
+      </if>
+      <if test="note != null" >
+        note,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -381,13 +346,22 @@
       <if test="operator != null" >
         #{operator,jdbcType=VARCHAR},
       </if>
+      <if test="operatedate != null" >
+        #{operatedate,jdbcType=CHAR},
+      </if>
       <if test="modifydate != null" >
         #{modifydate,jdbcType=CHAR},
       </if>
+      <if test="modifier != null" >
+        #{modifier,jdbcType=VARCHAR},
+      </if>
+      <if test="note != null" >
+        #{note,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.matio.pojo.Mme" >
-    update mme
+  <update id="updateByPrimaryKeySelective" parameterType="com.matio.pojo.Examine" >
+    update examine
     <set >
       <if test="type != null" >
         type = #{type,jdbcType=VARCHAR},
@@ -421,24 +395,6 @@
       </if>
       <if test="country != null" >
         country = #{country,jdbcType=VARCHAR},
-      </if>
-      <if test="deepSea != null" >
-        deepSea = #{deepSea,jdbcType=VARCHAR},
-      </if>
-      <if test="temperature != null" >
-        temperature = #{temperature,jdbcType=VARCHAR},
-      </if>
-      <if test="ph != null" >
-        ph = #{ph,jdbcType=VARCHAR},
-      </if>
-      <if test="zone != null" >
-        zone = #{zone,jdbcType=VARCHAR},
-      </if>
-      <if test="cofactors != null" >
-        cofactors = #{cofactors,jdbcType=VARCHAR},
-      </if>
-      <if test="inhibitors != null" >
-        inhibitors = #{inhibitors,jdbcType=VARCHAR},
       </if>
       <if test="origin != null" >
         origin = #{origin,jdbcType=VARCHAR},
@@ -503,17 +459,26 @@
       <if test="abstract4 != null" >
         abstract4 = #{abstract4,jdbcType=VARCHAR},
       </if>
+      <if test="operator != null" >
+        operator = #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="operatedate != null" >
+        operateDate = #{operatedate,jdbcType=CHAR},
+      </if>
       <if test="modifydate != null" >
         modifyDate = #{modifydate,jdbcType=CHAR},
       </if>
       <if test="modifier != null" >
         modifier = #{modifier,jdbcType=VARCHAR},
       </if>
+      <if test="note != null" >
+        note = #{note,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.matio.pojo.Mme" >
-    update mme
+  <update id="updateByPrimaryKey" parameterType="com.matio.pojo.Examine" >
+    update examine
     set type = #{type,jdbcType=VARCHAR},
       ec2 = #{ec2,jdbcType=VARCHAR},
       title = #{title,jdbcType=VARCHAR},
@@ -525,12 +490,6 @@
       organism = #{organism,jdbcType=VARCHAR},
       date = #{date,jdbcType=CHAR},
       country = #{country,jdbcType=VARCHAR},
-      deepSea = #{deepSea,jdbcType=VARCHAR},
-      temperature = #{temperature,jdbcType=VARCHAR},
-      ph = #{ph,jdbcType=VARCHAR},
-      zone = #{zone,jdbcType=VARCHAR},
-      cofactors = #{cofactors,jdbcType=VARCHAR},
-      inhibitors = #{inhibitors,jdbcType=VARCHAR},
       origin = #{origin,jdbcType=VARCHAR},
       author1 = #{author1,jdbcType=VARCHAR},
       title1 = #{title1,jdbcType=VARCHAR},
@@ -552,8 +511,11 @@
       journal4 = #{journal4,jdbcType=VARCHAR},
       pubmed4 = #{pubmed4,jdbcType=VARCHAR},
       abstract4 = #{abstract4,jdbcType=VARCHAR},
+      operator = #{operator,jdbcType=VARCHAR},
+      operateDate = #{operatedate,jdbcType=CHAR},
       modifyDate = #{modifydate,jdbcType=CHAR},
-      modifier = #{modifier,jdbcType=VARCHAR}
+      modifier = #{modifier,jdbcType=VARCHAR},
+      note = #{note,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

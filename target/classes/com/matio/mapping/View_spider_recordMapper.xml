@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.matio.mapping.View_spider_recordMapper" >
+  <resultMap id="BaseResultMap" type="com.matio.pojo.View_spider_record" >
+    <result column="number" property="number" jdbcType="BIGINT" />
+    <result column="operateDate" property="operatedate" jdbcType="DATE" />
+  </resultMap>
+  <insert id="insert" parameterType="com.matio.pojo.View_spider_record" >
+    insert into view_spider_record (number, operateDate)
+    values (#{number,jdbcType=BIGINT}, #{operatedate,jdbcType=DATE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.matio.pojo.View_spider_record" >
+    insert into view_spider_record
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="number != null" >
+        number,
+      </if>
+      <if test="operatedate != null" >
+        operateDate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="number != null" >
+        #{number,jdbcType=BIGINT},
+      </if>
+      <if test="operatedate != null" >
+        #{operatedate,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+</mapper>

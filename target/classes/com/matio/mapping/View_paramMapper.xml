@@ -5,6 +5,10 @@
     <result column="type" property="type" jdbcType="VARCHAR" />
     <result column="ec2" property="ec2" jdbcType="VARCHAR" />
   </resultMap>
+  <resultMap id="TypeCountResultMap" type="com.matio.pojo.View_type">
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="count" property="count" jdbcType="INTEGER" />
+  </resultMap>
   <insert id="insert" parameterType="com.matio.pojo.View_param" >
     insert into view_param (type, ec2)
     values (#{type,jdbcType=VARCHAR}, #{ec2,jdbcType=VARCHAR})
@@ -20,6 +24,10 @@
     DISTINCT type
     FROM
     view_param
+  </select>
+  <select id="selectTypeCount" resultMap="TypeCountResultMap">
+    SELECT type, count(*) as 'count'
+    FROM mme GROUP BY type
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
     SELECT

@@ -104,6 +104,7 @@ public class Keys {
     public static final String BROWSE_TITLE = "browseTitle";
     public static final String BROWSE_CONTENT = "browseContent";
 
+    public static final String FILE = "file";
 
 
 }
