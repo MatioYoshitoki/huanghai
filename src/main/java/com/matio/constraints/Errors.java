@@ -73,6 +73,18 @@ public class Errors {
 	public static final String DELETE_EC2_SUCCESS = "删除酶种成功！";
 	public static final String DELETE_EC2_FAILD = "删除酶种失败！";
 
+	//examine
+	public static final String GET_EXAMINE_DATA_FAILD = "获取待审核数据列表失败！";
+	public static final String MARLBORO_SUCCESS = "通过待审核数据成功！";
+	public static final String MARLBORO_FAILD = "通过待审核数据失败！";
+	public static final String MARLBORO_BATCH_FAILD = "批量通过待审核数据失败！";
+	public static final String MARLBORO_BATCH_SUCCESS = "批量通过待审核数据成功！";
+	public static final String REFUSAL_EXAMINE_FAILD = "拒绝待审核数据失败！";
+	public static final String REFUSAL_EXAMINE_SUCCESS = "拒绝待审核数据成功！";
+	public static final String REFUSAL_EXAMINE_BATCH_SUCCESS = "批量拒绝待审核数据成功！";
+	public static final String REFUSAL_EXAMINE_BATCH_FAILD = "批量拒绝待审核数据失败！";
+
+
 	public static final String SUCCESS = "success";
 	public static final String FAILD = "faild";
 }
