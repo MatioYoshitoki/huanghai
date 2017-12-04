@@ -649,10 +649,12 @@
                     url = Service.getUrl("getDataConfig");
                     successFn = Client.getDataConfigCallback;
                 } else if (type === "addType") {
+                    // 新增分类
                     data = { type: this.dataConfig.addContentType };
                     url = Service.getUrl("addType");
                     successFn = Client.addTypeCallback;
                 } else if (type === "deleteType") {
+                    // 删除分类
                     item = this.del;
                     data = { id: item.id };
                     url = Service.getUrl("deleteType");
@@ -885,6 +887,7 @@
                 if (Number(msg.code) === 1) {
                     // 修改输入框的编辑状态：不可编辑
                     this.pageConfig.inputDisabled.attr("disabled", true);
+                    this.pageConfig.isModify = false;
                     Dialog.info(msg.msg);
                 } else {
                     Dialog.warn(msg.msg);
@@ -917,7 +920,7 @@
                 if (Number(msg.code) === 1) {
                     this.dataConfig.isTypeAdd = false;
                     this.dataConfig.addContentType = "";
-                    this.request("getTypeList");
+                    this.request("getDataConfig");
                     Dialog.info(msg.msg);
                 } else {
                     Dialog.warn(msg.msg);
@@ -972,7 +975,8 @@
                     deleteObj = this.del,
                     ec1List = this.dataConfig.ec1List,
                     length = 0,
-                    loop = 0;
+                    loop = 0,
+                    timer = null;
 
                 // 若回调函数执行成功，则将相应的数据从列表中删除
                 if (Number(msg.code) === 1) {
@@ -983,6 +987,11 @@
                         }
                         ec1List.pop();
                         this.dataConfig.ec1List = ec1List;
+                        // 刷新所有的 selectpicker 组件
+                        timer = setTimeout(function() {
+                            $(".selectpicker").selectpicker("refresh");
+                            clearTimeout(timer);
+                        }, 500);
                     }
                     Dialog.info(msg.msg);
                 } else {

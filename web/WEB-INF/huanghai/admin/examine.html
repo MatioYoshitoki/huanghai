@@ -472,7 +472,7 @@
                 } else if(type === "noPassAll") {
                     // 批量拒绝待审核数据
                     data = {};
-                    url = Service.getUrl("examineNoAllPass");
+                    url = Service.getUrl("examineNoPassAll");
                     successFn = Client.passAllOrNoPassAllCallback;
                 }
                 Links.connect({

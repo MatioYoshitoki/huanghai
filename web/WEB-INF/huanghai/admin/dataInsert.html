@@ -349,10 +349,12 @@
                                 Dialog.info("正在进行，请稍候");
                             },
                             success : function(responseStr) {
-                                if(responseStr.status===0){
-                                    Dialog.info("成功"+responseStr);
+                                var msg = JSON.parse(responseStr);
+                                if(responseStr.status===1){
+                                    Dialog.info("所有数据导入成功！");
                                 }else{
-                                    Dialog.warn("上传失败");
+                                    console.log(msg.data.join(","));
+                                    Dialog.warn("locus：" + msg.data.join(",") + " 数据导入失败！");
                                 }
                             },
                             error : function(responseStr) {
@@ -393,7 +395,7 @@
                     data.operator = this.user.userName;
                     if(data.title === "" || data.type === "" || data.ec2 === "" ||
                         data.locus === "" || data.pdbId === "" || data.date === "") {
-                        Dialog.info("请将必填信息都填写完整");
+                        Dialog.info("请将带红色星号的必填信息都填写完整");
                         return;
                     }
                     url = Service.getUrl("createData");

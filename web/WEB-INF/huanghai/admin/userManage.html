@@ -97,10 +97,10 @@
                                             <td class="text-center" v-text="item.userModify"></td>
                                             <td class="text-center">
                                                 <button @click="openPanel('panelModify', item)" class="btn btn-default">
-                                                    <i class="fa fa-money"></i>修改
+                                                    <i class="fa fa-edit"></i>修改
                                                 </button>
                                                 <button @click="openPanel('panelDelete', item)" class="btn btn-default mg-l">
-                                                    <i class="fa fa-money"></i>删除
+                                                    <i class="fa fa-remove"></i>删除
                                                 </button>
                                             </td>
                                         </tr>
@@ -149,13 +149,14 @@
                         <label class="col-sm-2 control-label">用户账号</label>
                         <div class="col-sm-10">
                             <input v-model="create.userAccount" type="text" class="form-control">
+                            <p class="help-block">用户账号长度为6-12位英文数字组合</p>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">用户姓名</label>
                         <div class="col-sm-10">
                             <input v-model="create.userName" type="text" class="form-control">
-                            <p class="help-block">Example block-level help text here.</p>
+                            <p class="help-block">用户姓名为0-5位中文</p>
                         </div>
                     </div>
                     <div class="form-group">
@@ -195,7 +196,7 @@
                         <label class="col-sm-2 control-label">用户姓名</label>
                         <div class="col-sm-10">
                             <input v-model="modify.userName" type="text" class="form-control">
-                            <p class="help-block">Example block-level help text here.</p>
+                            <p class="help-block">用户姓名为0-5位中文</p>
                         </div>
                     </div>
                     <div class="form-group">
@@ -271,16 +272,14 @@
             create: {
                 userAccount: "",
                 userName: "",
-                userGender: "",
-                userRole: "",
-                userCreate: ""
+                userGender: "0",
+                userRole: ""
             },
             modify: {
                 userAccount: "",
                 userName: "",
                 userGender: "",
-                userRole: "",
-                userModify: ""
+                userRole: ""
             },
             del: {
                 userAccount: "",
@@ -383,7 +382,12 @@
                     "container": panel
                 });
                 if(panel === "panelModify") {
-                    this.modify = item;
+                    this.modify = {
+                        userAccount: item.userAccount,
+                        userName: item.userName,
+                        userGender: item.userGender,
+                        userRole: item.userRole
+                    };
                 } else if(panel === "panelDelete") {
                     this.del = item;
                 }
@@ -403,7 +407,8 @@
                 var data = null,
                     url = null,
                     successFn = null,
-                    item = null;
+                    item = null,
+                    validator = null;
 
                 if(type === "getUserList") {
                     data = {};
@@ -412,6 +417,19 @@
                 } else if(type === "create") {
                     item = this.create;
                     url = Service.getUrl("createUser");
+                    validator = new Validator();
+                    if(item.userAccount === "" || item.userName === "") {
+                        alert("请将用户信息填写完整");
+                        return;
+                    }
+                    if(!validator.account(item.userAccount)) {
+                        alert("您输入的用户账号格式有误");
+                        return;
+                    }
+                    if(!validator.name(item.userName)) {
+                        alert("您输入的用户姓名格式有误");
+                        return;
+                    }
                     data = {
                         userName: item.userName,
                         userGender: item.userGender,
@@ -423,6 +441,11 @@
                 } else if(type === "modify") {
                     item = this.modify;
                     url = Service.getUrl("modifyUser");
+                    validator = new Validator();
+                    if(!validator.name(item.userName)) {
+                        alert("您输入的用户姓名格式有误");
+                        return;
+                    }
                     data = {
                         userAccount: item.userAccount,
                         userName: item.userName,
@@ -534,6 +557,7 @@
                 // 判断跳往页数是否合法（上一页和下一页已经通过页面进行限制，因此该条件判断只针对跳页）
                 if(validator.pages(skipPage, this.table.pageNumber)) {
                     this.table.currentPage = skipPage;
+                    this.table.inputPage = skipPage;
                 } else {
                     Dialog.tip("请输入正确的页码");
                     this.table.inputPage = this.table.currentPage;
@@ -569,7 +593,15 @@
             createUserCallback: function(msg) {
                 // 若回调函数执行成功，则将相应的数据添加到列表中
                 if (Number(msg.code) === 1) {
+                    // 创建日期由后台生成，因此在每次创建用户后需要重新向后台获取数据
                     this.request("getUserList");
+                    // 清空上一次输入的内容
+                    this.create = {
+                        userAccount: "",
+                        userName: "",
+                        userGender: "0",
+                        userRole: ""
+                    }
                     Dialog.tip(msg.msg);
                 } else {
                     Dialog.warn(msg.msg);

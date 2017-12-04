@@ -204,6 +204,34 @@ var Validator = function() {
     this.account = function(account) {
         return /^\w{6,12}$/.exec(account);
     };
+    this.name = function(name) {
+        var length = name.length,
+            loop = 0;
+
+        if(length > 5) {
+            return false;
+        }
+        for(loop = 0; loop < length; loop++) {
+            if(name.charCodeAt(loop) < 255) {
+                return false;
+            }
+        }
+        return true;
+    };
+    this.roleName = function(roleName) {
+        var length = roleName.length,
+            loop = 0;
+
+        if(length > 10) {
+            return false;
+        }
+        for(loop = 0; loop < length; loop++) {
+            if(roleName.charCodeAt(loop) < 255) {
+                return false;
+            }
+        }
+        return true;
+    };
     this.password = function(password) {
         return password.length >=6 && password.length <= 15 ? true : false;
     };

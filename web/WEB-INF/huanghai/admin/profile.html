@@ -352,9 +352,6 @@
         el: "#client",
         data: {
             user: {},
-            message: [
-                { username: "陈煦", operation: "修改了系统管理员身份"}
-            ],
             sidebarLinks: [],
             modify: {
                 oldPwd: "",
@@ -406,19 +403,23 @@
                 if(type === "modify") {
                     item = this.modify;
                     if(item.oldPwd === "") {
-                        Dialog.info("请填写原密码");
+                        alert("请填写原密码");
                         return;
                     }
-                    if(item.newPwd === "" || item.newPwdAgain === "") {
-                        Dialog.info("请填写新密码");
+                    if(item.newPwd === "") {
+                        alert("请填写新密码");
+                        return;
+                    }
+                    if(item.newPwdAgain === "") {
+                        alert("请填写新密码确认");
                         return;
                     }
                     if(item.newPwd !== item.newPwdAgain) {
-                        Dialog.info("两次输入的新密码不一致");
+                        alert("两次输入的新密码不一致");
                         return;
                     }
                     if(!validator.password(item.newPwd) || !validator.password(item.newPwdAgain)) {
-                        Dialog.info("密码格式不正确");
+                        alert("密码格式不正确");
                     }
                     url = Service.getUrl("modifyPwd");
                     data = {
@@ -441,6 +442,11 @@
             modifyPwdCallback: function(msg) {
                 if(Number(msg.code) === 1) {
                     Dialog.info(msg.msg);
+                    this.modify = {
+                        oldPwd: "",
+                        newPwd: "",
+                        newPwdAgain: ""
+                    }
                 } else {
                     Dialog.warn(msg.msg);
                 }

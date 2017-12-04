@@ -23,6 +23,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.sql.SQLException;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -37,6 +40,7 @@ public class ExamineController {
     @Autowired
     IMmeService mmeService;
 
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     @RequestMapping(value = "/getExamineData", method = RequestMethod.POST , produces="text/json;charset=UTF-8")
     public String getExamineData(
@@ -136,6 +140,7 @@ public class ExamineController {
             buff.put(Keys.MODIFYDATE,examine.getModifydate());
             buff.put(Keys.PDBID,examine.getPdbid());
             buff.put(Keys.TYPE,examine.getType());
+            buff.put(Keys.NOTE,examine.getNote());
             data.add(buff);
 
         }
@@ -143,6 +148,107 @@ public class ExamineController {
         result.put(Keys.MSG,"");
         result.put(Keys.COUNT,count);
         return result.toJSONString();
+    }
+
+    @RequestMapping(value = "/addExamine", method = RequestMethod.POST , produces="text/json;charset=UTF-8")
+    public String addExamine(
+            @RequestParam(Keys.TITLE) String title,
+            @RequestParam(Keys.TITLE1) String title1,
+            @RequestParam(Keys.TITLE2) String title2,
+            @RequestParam(Keys.TITLE3) String title3,
+            @RequestParam(Keys.TITLE4) String title4,
+            @RequestParam(Keys.AUTHOR1) String author1,
+            @RequestParam(Keys.AUTHOR2) String author2,
+            @RequestParam(Keys.AUTHOR3) String author3,
+            @RequestParam(Keys.AUTHOR4) String author4,
+            @RequestParam(Keys.ABSTRACT1) String abstract1,
+            @RequestParam(Keys.ABSTRACT2) String abstract2,
+            @RequestParam(Keys.ABSTRACT3) String abstract3,
+            @RequestParam(Keys.ABSTRACT4) String abstract4,
+            @RequestParam(Keys.JOURNAL1) String journal1,
+            @RequestParam(Keys.JOURNAL2) String journal2,
+            @RequestParam(Keys.JOURNAL3) String journal3,
+            @RequestParam(Keys.JOURNAL4) String journal4,
+            @RequestParam(Keys.PUBMED1) String pubmed1,
+            @RequestParam(Keys.PUBMED2) String pubmed2,
+            @RequestParam(Keys.PUBMED3) String pubmed3,
+            @RequestParam(Keys.PUBMED4) String pubmed4,
+            @RequestParam(Keys.LOCUS) String locus,
+            @RequestParam(Keys.PDBID) String pdbid,
+            @RequestParam(Keys.DBSOURCE) String dbsource,
+            @RequestParam(Keys.SOURCE) String source,
+            @RequestParam(Keys.ORGANISM) String organsim,
+            @RequestParam(Keys.DATE) String date,
+            @RequestParam(Keys.COUNTRY) String country,
+            @RequestParam(Keys.ORIGIN) String origin,
+            @RequestParam(Keys.MODIFIER) String modifier,
+            @RequestParam(Keys.TYPE) String type,
+            @RequestParam(Keys.EC2) String ec2,
+            @RequestParam(Keys.DEEPSEA) String deepSea,
+            @RequestParam(Keys.TEMPERATURE) String temperature,
+            @RequestParam(Keys.PH) String ph,
+            @RequestParam(Keys.ZONE) String zone,
+            @RequestParam(Keys.COFACTORS) String cofactors,
+            @RequestParam(Keys.INHIBITORS) String inhibitors,
+            @RequestParam(Keys.NOTE) String note,
+            @RequestParam(Keys.MMEID) String id
+    ){
+        Examine examine = examineMapper.selectByPrimaryKey(Integer.valueOf(id));
+        JSONObject result;
+        if (examine!=null){
+            result = JsonUtil.fromErrors(Errors.FAILD);
+            result.put(Keys.DATA,new JSONObject());
+            result.put(Keys.MSG,Errors.ADDEXAMINE_FAILD);
+            return result.toJSONString();
+        }
+        examine = new Examine();
+        String ec1 = mmeMapper.selectEC1ByEC2(ec2);
+        Date now = new Date();
+        examine.setAbstract1(abstract1);
+        examine.setAbstract2(abstract2);
+        examine.setAbstract3(abstract3);
+        examine.setAbstract4(abstract4);
+        examine.setTitle(title);
+        examine.setTitle1(title1);
+        examine.setTitle2(title2);
+        examine.setTitle3(title3);
+        examine.setTitle4(title4);
+        examine.setJournal1(journal1);
+        examine.setJournal2(journal2);
+        examine.setJournal3(journal3);
+        examine.setJournal4(journal4);
+        examine.setPubmed1(pubmed1);
+        examine.setPubmed2(pubmed2);
+        examine.setPubmed3(pubmed3);
+        examine.setPubmed4(pubmed4);
+        examine.setAuthor1(author1);
+        examine.setAuthor2(author2);
+        examine.setAuthor3(author3);
+        examine.setAuthor4(author4);
+        examine.setLocus(locus);
+        examine.setOrganism(organsim);
+        examine.setOrigin(origin);
+        examine.setPdbid(pdbid);
+        examine.setDate(date);
+        examine.setDbsource(dbsource);
+        examine.setSource(source);
+        examine.setCountry(country);
+        examine.setType(type);
+        examine.setEc1(ec1);
+        examine.setEc2(ec2);
+        examine.setId(Integer.valueOf(id));
+        examine.setDeepSea(deepSea);
+        examine.setTemperature(temperature);
+        examine.setPh(ph);
+        examine.setZone(zone);
+        examine.setCofactors(cofactors);
+        examine.setInhibitors(inhibitors);
+        examine.setNote(note);
+
+        examine.setModifier(modifier);
+        examine.setModifydate(simpleDateFormat.format(now));
+
+        return mmeService.addExamine(examine);
     }
 
     @RequestMapping(value = "/marlboro", method = RequestMethod.POST , produces="text/json;charset=UTF-8")
@@ -183,10 +289,7 @@ public class ExamineController {
             result.put(Keys.MSG,Errors.REFUSAL_EXAMINE_FAILD);
             return result.toJSONString();
         }
-        examineMapper.deleteByPrimaryKey(Integer.valueOf(id));
-        result.put(Keys.DATA,new JSONObject());
-        result.put(Keys.MSG,Errors.REFUSAL_EXAMINE_SUCCESS);
-        return result.toJSONString();
+        return mmeService.refuse(Integer.valueOf(id));
     }
     @RequestMapping(value = "/refusal_examine_batch", method = RequestMethod.POST , produces="text/json;charset=UTF-8")
     public String refusalExamineBatch(){
@@ -198,10 +301,7 @@ public class ExamineController {
             result.put(Keys.MSG,Errors.REFUSAL_EXAMINE_BATCH_FAILD);
             return result.toJSONString();
         }
-        examineMapper.deleteAll();
-        result.put(Keys.DATA,new JSONObject());
-        result.put(Keys.MSG,Errors.REFUSAL_EXAMINE_BATCH_SUCCESS);
-        return result.toJSONString();
+        return mmeService.refuse_batch();
     }
 
 }

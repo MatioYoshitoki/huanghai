@@ -16,7 +16,7 @@ public interface MmeMapper {
 
     List<Mme> selectByFuzzyEC2(MmeCondition condition);
 
-    List<Mme> selectByLocus(String locus);
+    String selectByLocus(String locus);
 
     int selectCountByCondition(MmeCondition condition);
 
@@ -27,4 +27,8 @@ public interface MmeMapper {
     int updateByPrimaryKeySelective(Mme record);
 
     int updateByPrimaryKey(Mme record);
+
+    int updateIsModified(Mme record);
+
+    int updateIsModifiedAll(String isModified);
 }
