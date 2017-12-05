@@ -8,35 +8,39 @@ var Config = {
     sidebar: {
         "1": {
             "name": "用户管理",
-            "intro": "新增、删除用户，修改用户信息",
-            "icon": "fa-coffee",
+            "intro": "新增、删除用户，以及修改用户信息",
+            "icon": "fa-user",
             "url": "userManage.html"
         },
         "2": {
             "url": "roleManage.html",
-            "icon": "fa-coffee",
+            "icon": "fa-sitemap",
             "name": "角色管理",
             "intro": "创建、删除角色，以及对角色的权限进行修改"
         },
         "3": {
             "url": "dataInsert.html",
-            "icon": "fa-coffee",
-            "name": "数据录入"
+            "icon": "fa-plus-square",
+            "name": "数据录入",
+            "intro": "手工录入数据或批量导入EXCEL数据文件"
         },
         "4": {
             "url": "dataManage.html",
-            "icon": "fa-coffee",
-            "name": "数据管理"
+            "icon": "fa-file-text",
+            "name": "数据管理",
+            "intro": "提交待审核数据"
         },
         "5": {
             "url": "system.html",
-            "icon": "fa-coffee",
-            "name": "系统管理"
+            "icon": "fa-cogs",
+            "name": "系统管理",
+            "intro": "管理页面配置、数据配置以及爬虫控制"
         },
         "6": {
             "url": "examine.html",
-            "icon": "fa-coffee",
-            "name": "审核管理"
+            "icon": "fa-list-alt",
+            "name": "审核管理",
+            "intro": "通过或拒绝角色待审核数据"
         }
     }
 };
@@ -119,7 +123,11 @@ var Service = {
                 case "modifyData":
                     // 数据管理：修改数据
                     return "/modifyInput";
+                case "addExamine":
+                    // 数据管理：新增待审核数据
+                    return "/addExamine";
                 case "deleteData":
+                    // 数据管理：删除数据
                     return "/deleteData";
                 case "getPageConfig":
                     // 系统管理：获取页面配置信息

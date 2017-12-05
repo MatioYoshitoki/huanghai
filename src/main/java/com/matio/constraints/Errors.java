@@ -75,6 +75,8 @@ public class Errors {
 
 	//examine
 	public static final String GET_EXAMINE_DATA_FAILD = "获取待审核数据列表失败！";
+	public static final String ADDEXAMINE_SUCCESS = "数据修改申请已提交！";
+	public static final String ADDEXAMINE_FAILD = "数据修改申请提交失败！";
 	public static final String MARLBORO_SUCCESS = "通过待审核数据成功！";
 	public static final String MARLBORO_FAILD = "通过待审核数据失败！";
 	public static final String MARLBORO_BATCH_FAILD = "批量通过待审核数据失败！";

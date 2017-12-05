@@ -153,10 +153,10 @@
       #{abstract2,jdbcType=VARCHAR}, #{author3,jdbcType=VARCHAR}, #{title3,jdbcType=VARCHAR},
       #{journal3,jdbcType=VARCHAR}, #{pubmed3,jdbcType=VARCHAR}, #{abstract3,jdbcType=VARCHAR},
       #{author4,jdbcType=VARCHAR}, #{title4,jdbcType=VARCHAR}, #{journal4,jdbcType=VARCHAR},
-      #{pubmed4,jdbcType=VARCHAR}, #{abstract4,jdbcType=VARCHAR}, #{modifydate,jdbcType=CHAR},
-      #{deepSea,jdbcType=VARCHAR}, #{temperature,jdbcType=VARCHAR}, #{ph,jdbcType=VARCHAR},
-      #{zone,jdbcType=VARCHAR}, #{note,jdbcType=VARCHAR}, #{modifier,jdbcType=VARCHAR},
-      #{cofactors,jdbcType=VARCHAR}, #{inhibitors,jdbcType=VARCHAR}
+      #{pubmed4,jdbcType=VARCHAR}, #{abstract4,jdbcType=VARCHAR}, #{modifier,jdbcType=VARCHAR},
+      #{modifydate,jdbcType=CHAR}, #{deepSea,jdbcType=VARCHAR}, #{temperature,jdbcType=VARCHAR},
+      #{ph,jdbcType=VARCHAR}, #{zone,jdbcType=VARCHAR}, #{cofactors,jdbcType=VARCHAR},
+      #{inhibitors,jdbcType=VARCHAR}, #{note,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.matio.pojo.Examine" >

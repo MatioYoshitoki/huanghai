@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -26,6 +27,34 @@ public class MmeService implements IMmeService {
     MmeMapper mmeMapper;
     @Autowired
     ExamineMapper examineMapper;
+
+    @Override
+    @Transactional(rollbackFor={RuntimeException.class, Exception.class})
+    public String addExamine(Examine examine) {
+        JSONObject result = JsonUtil.fromErrors(Errors.SUCCESS);
+
+        // 将新增的待审核数据插入到审核表
+        int roll = examineMapper.insert(examine);
+        if (roll <= 0){
+            result = JsonUtil.fromErrors(Errors.FAILD);
+            result.put(Keys.MSG,Errors.ADDEXAMINE_FAILD);
+            result.put(Keys.DATA,new JSONObject());
+            return result.toJSONString();
+        }
+        // 修改mme相应数据的审核标志为待审核
+        Mme mmeSearch = new Mme();
+        mmeSearch.setIsModified("1");
+        mmeSearch.setId(examine.getId());
+        if (mmeMapper.updateIsModified(mmeSearch) <= 0){
+            result = JsonUtil.fromErrors(Errors.FAILD);
+            result.put(Keys.DATA,new JSONObject());
+            result.put(Keys.MSG,Errors.ADDEXAMINE_FAILD);
+            return result.toJSONString();
+        }
+        result.put(Keys.MSG,Errors.ADDEXAMINE_SUCCESS);
+        result.put(Keys.DATA,new JSONObject());
+        return result.toJSONString();
+    }
 
     @Override
     @Transactional(rollbackFor={RuntimeException.class, Exception.class})
@@ -75,9 +104,16 @@ public class MmeService implements IMmeService {
         mme.setZone(examine.getZone());
         mme.setCofactors(examine.getCofactors());
         mme.setInhibitors(examine.getInhibitors());
+        mme.setIsModified("0");
 
         int roll = mmeMapper.updateByPrimaryKey(mme);
         if (roll <= 0){
+            result = JsonUtil.fromErrors(Errors.FAILD);
+            result.put(Keys.DATA,new JSONObject());
+            result.put(Keys.MSG,Errors.MARLBORO_FAILD);
+            return result.toJSONString();
+        }
+        if(mmeMapper.updateIsModified(mme) <= 0) {
             result = JsonUtil.fromErrors(Errors.FAILD);
             result.put(Keys.DATA,new JSONObject());
             result.put(Keys.MSG,Errors.MARLBORO_FAILD);
@@ -145,6 +181,7 @@ public class MmeService implements IMmeService {
             mme.setZone(examine.getZone());
             mme.setCofactors(examine.getCofactors());
             mme.setInhibitors(examine.getInhibitors());
+            mme.setIsModified("0");
 
             if (mmeMapper.updateByPrimaryKey(mme)<=0){
                 result = JsonUtil.fromErrors(Errors.FAILD);
@@ -152,10 +189,16 @@ public class MmeService implements IMmeService {
                 result.put(Keys.MSG,Errors.MARLBORO_BATCH_FAILD);
                 return result.toJSONString();
             }else {
-                examineMapper.deleteByPrimaryKey(examine.getId());
+                if(mmeMapper.updateIsModified(mme) <= 0) {
+                    result = JsonUtil.fromErrors(Errors.FAILD);
+                    result.put(Keys.DATA,new JSONObject());
+                    result.put(Keys.MSG,Errors.MARLBORO_BATCH_FAILD);
+                    return result.toJSONString();
+                } else {
+                    examineMapper.deleteByPrimaryKey(examine.getId());
+                }
             }
         }
-
 //        session.commit();
         result.put(Keys.DATA,new JSONObject());
         result.put(Keys.MSG,Errors.MARLBORO_BATCH_SUCCESS);
@@ -163,8 +206,58 @@ public class MmeService implements IMmeService {
     }
 
     @Override
-    public List<Mme> selectByLocus(String locus) {
-        List<Mme> mmes = mmeMapper.selectByLocus(locus);
-        return mmes;
+    @Transactional(rollbackFor={RuntimeException.class, Exception.class})
+    public String refuse(int id) {
+        JSONObject result = JsonUtil.fromErrors(Errors.SUCCESS);
+
+        Mme mmeSearch = new Mme();
+        mmeSearch.setIsModified("0");
+        mmeSearch.setId(id);
+        int roll = examineMapper.deleteByPrimaryKey(Integer.valueOf(id));
+        if (roll <= 0){
+            result = JsonUtil.fromErrors(Errors.FAILD);
+            result.put(Keys.MSG,Errors.REFUSAL_EXAMINE_FAILD);
+            result.put(Keys.DATA,new JSONObject());
+            return result.toJSONString();
+        }
+        if (mmeMapper.updateIsModified(mmeSearch) <= 0){
+            result = JsonUtil.fromErrors(Errors.FAILD);
+            result.put(Keys.DATA,new JSONObject());
+            result.put(Keys.MSG,Errors.REFUSAL_EXAMINE_FAILD);
+            return result.toJSONString();
+        }
+        result.put(Keys.DATA,new JSONObject());
+        result.put(Keys.MSG,Errors.REFUSAL_EXAMINE_SUCCESS);
+        return result.toJSONString();
+    }
+
+    @Override
+    @Transactional(rollbackFor={RuntimeException.class, Exception.class})
+    public String refuse_batch() {
+        JSONObject result = JsonUtil.fromErrors(Errors.SUCCESS);
+
+        int roll = examineMapper.deleteAll();
+        if (roll <= 0){
+            result = JsonUtil.fromErrors(Errors.FAILD);
+            result.put(Keys.MSG,Errors.REFUSAL_EXAMINE_BATCH_FAILD);
+            result.put(Keys.DATA,new JSONObject());
+            return result.toJSONString();
+        }
+        if (mmeMapper.updateIsModifiedAll("0") <= 0){
+            result = JsonUtil.fromErrors(Errors.FAILD);
+            result.put(Keys.DATA,new JSONObject());
+            result.put(Keys.MSG,Errors.REFUSAL_EXAMINE_BATCH_FAILD);
+            return result.toJSONString();
+        }
+
+        result.put(Keys.DATA,new JSONObject());
+        result.put(Keys.MSG,Errors.REFUSAL_EXAMINE_BATCH_SUCCESS);
+        return result.toJSONString();
+    }
+
+    @Override
+    public String selectByLocus(String locus) {
+        String locusAfterSearch = mmeMapper.selectByLocus(locus);
+        return locusAfterSearch;
     }
 }

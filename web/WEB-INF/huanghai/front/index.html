@@ -127,7 +127,6 @@
 <script src="../asset/js/frame/echarts.js"></script>
 <script>
     $(document).ready(function () {
-
         var info = sessionStorage.getItem("info");
 
         if (!info) {
@@ -154,6 +153,9 @@
             generateChart();
             paint(info);
         }
+        /**
+         * 生成饼图
+         */
         function generateChart() {
             $.ajax({
                 type: "POST",
@@ -177,8 +179,6 @@
                             value: item.count
                         })
                     }
-
-
                     if (Number(msg.code) === 1) {
                         option = {
                             title: {
@@ -221,9 +221,6 @@
                 }
             });
         }
-
-        // 测试使用
-        paint(info);
         /**
          * 渲染页面：将数据填入到页面指定位置
          * @param data 页面数据

@@ -374,37 +374,40 @@ public class DataController {
     @RequestMapping(value = "/getFrontList", method = RequestMethod.POST , produces="text/json;charset=UTF-8")
     public String getFrontList(
             @RequestParam(Keys.EC1) String ec1,
-            @RequestParam(Keys.PREFIX) String prefix
+            @RequestParam(Keys.PREFIX) String prefix,
+            @RequestParam(Keys.STARTPOS) String startPos,
+            @RequestParam(Keys.NUMBERPERPAGE) String numberPerPage
     ){
         MmeCondition mmeCondition = new MmeCondition();
+        int startPos_int = Integer.valueOf(startPos);
+        int numberPerPage_int = Integer.valueOf(numberPerPage);
+        int startSize = (startPos_int - 1) * numberPerPage_int;
+        int endSize = (startPos_int) * numberPerPage_int ;
+        mmeCondition.setStartSize(startSize);
+        mmeCondition.setEndSize(endSize);
         mmeCondition.setEc2(prefix.toLowerCase());
         mmeCondition.setEc1(ec1);
         List<View_front> view_fronts = view_frontMapper.selectByFuzzyEC2(mmeCondition);
+        int count = view_frontMapper.selectCountByFuzzyEC2(mmeCondition);
 
         JSONObject result = JsonUtil.fromErrors(Errors.SUCCESS);
         JSONArray data = new JSONArray();
-
         if (view_fronts == null){
             result = JsonUtil.fromErrors(Errors.FAILD);
             result.put(Keys.MSG,Errors.GETDATEFAILD);
             result.put(Keys.DATA,new JSONObject());
             return result.toJSONString();
         }
-
         for (View_front view_front:view_fronts){
             JSONObject buff = new JSONObject();
-
             buff.put(Keys.TITLE,view_front.getTitle());
             buff.put(Keys.EC2,view_front.getEc2());
             buff.put(Keys.LOCUS,view_front.getLocus());
-
             data.add(buff);
-
         }
-
         result.put(Keys.DATA,data);
         result.put(Keys.MSG,"");
+        result.put(Keys.COUNT, count);
         return result.toJSONString();
     }
-
 }

@@ -252,8 +252,7 @@
             },
             create: {
                 roleName: "",
-                roleAuth: "",
-                roleCreate: ""
+                roleAuth: ""
             },
             view: {
                 roleName: "",
@@ -361,7 +360,8 @@
                     url = null,
                     successFn = null,
                     errorFn = null,
-                    item = null;
+                    item = null,
+                    validator = null;
 
                 if(type === "getRoleList") {
                     data = {};
@@ -369,28 +369,38 @@
                     successFn = Client.getRoleCallback;
                 } else if(type === "create") {
                     var roleAuth = $("#selectForCreate").selectpicker("val");
+                    item = this.create;
+                    url = Service.getUrl("createRole");
+                    validator = new Validator();
+
+                    if(!validator.roleName(item.roleName)) {
+                        alert("您输入的角色名称格式有误");
+                        return;
+                    }
                     if(!roleAuth) {
                         Dialog.warn("请选择权限");
                         return;
                     }
-                    item = this.create;
-                    url = Service.getUrl("createRole");
                     data = {
                         roleName: item.roleName,
                         roleAuth: roleAuth.join("|"),
                         operator: this.user.userName
                     };
                     successFn = this.createRoleCallback;
-                    this.create.roleAuth = roleAuth.join("|");
-                    this.create.roleCreate = getDate();
                 } else if(type === "modify") {
                     var roleAuth = $("#selectForModify").selectpicker("val");
+                    item = this.modify;
+                    url = Service.getUrl("modifyRole");
+                    validator = new Validator();
+
+                    if(!validator.roleName(item.roleName)) {
+                        alert("您输入的角色名称格式有误");
+                        return;
+                    }
                     if(!roleAuth) {
                         Dialog.warn("请选择权限");
                         return;
                     }
-                    item = this.modify;
-                    url = Service.getUrl("modifyRole");
                     data = {
                         roleId: item.roleId,
                         roleName: item.roleName,
@@ -452,6 +462,7 @@
                 // 判断跳往页数是否合法（上一页和下一页已经通过页面进行限制，因此该条件判断只针对跳页）
                 if(validator.pages(skipPage, this.table.pageNumber)) {
                     this.table.currentPage = skipPage;
+                    this.table.inputPage = skipPage;
                 } else {
                     Dialog.tip("请输入正确的页码");
                     this.table.inputPage = this.table.currentPage;
@@ -489,6 +500,11 @@
                 // 若回调函数执行成功，则将相应的数据添加到列表中
                 if (Number(msg.code) === 1) {
                     this.request("getRoleList");
+                    // 清空上一次输入的内容
+                    this.create = {
+                        roleName: "",
+                        roleAuth: ""
+                    };
                     Dialog.tip(msg.msg);
                 } else {
                     Dialog.warn(msg.msg);

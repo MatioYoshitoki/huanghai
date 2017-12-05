@@ -55,9 +55,9 @@
     pubmed2, abstract2, author3, title3, journal3, pubmed3, abstract3, author4, title4, 
     journal4, pubmed4, abstract4, operator, operateDate, modifyDate, modifier, isModified
   </sql>
-  <select id="selectByLocus" resultMap="BaseResultMap" parameterType="java.lang.String">
+  <select id="selectByLocus" resultType="java.lang.String" parameterType="java.lang.String">
     SELECT
-    <include refid="Base_Column_List"/>
+    locus
     FROM
     mme WHERE
     locus = #{locus}
@@ -567,5 +567,14 @@
       modifyDate = #{modifydate,jdbcType=CHAR},
       modifier = #{modifier,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateIsModified" parameterType="com.matio.pojo.Mme" >
+    update mme
+    set isModified = #{isModified,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateIsModifiedAll" parameterType="java.lang.String" >
+    update mme
+    set isModified = #{isModified,jdbcType=VARCHAR}
   </update>
 </mapper>

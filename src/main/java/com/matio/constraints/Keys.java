@@ -82,6 +82,7 @@ public class Keys {
     public static final String DEEPSEA = "deepSea";
     public static final String COFACTORS = "cofactors";
     public static final String INHIBITORS = "inhibitors";
+    public static final String NOTE = "note";
 
     public static final String TYPE = "type";
     public static final String STARTDATE = "startDate";

@@ -28,6 +28,7 @@
     select
     roleId, roleName
     from role
+    where roleId != '1'
   </select>
   <select id="selectByRoleName" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select
