@@ -69,7 +69,7 @@
 			   <!--enableCountByExample="false" enableUpdateByExample="false"-->
 			   <!--enableDeleteByExample="false" enableSelectByExample="false"-->
 			   <!--selectByExampleQueryId="false"></table>-->
-		<table tableName="examine" domainObjectName="Examine"
+		<table tableName="view_spider_record" domainObjectName="View_spider_record"
 			   enableCountByExample="false" enableUpdateByExample="false"
 			   enableDeleteByExample="false" enableSelectByExample="false"
 			   selectByExampleQueryId="false"></table>

@@ -31,31 +31,4 @@
       </if>
     </trim>
   </insert>
-  <resultMap id="BaseResultMap" type="com.matio.pojo.View_spider_record">
-    <result column="number" jdbcType="BIGINT" property="number" />
-    <result column="operateDate" jdbcType="DATE" property="operatedate" />
-  </resultMap>
-  <insert id="insert" parameterType="com.matio.pojo.View_spider_record">
-    insert into view_spider_record (number, operateDate)
-    values (#{number,jdbcType=BIGINT}, #{operatedate,jdbcType=DATE})
-  </insert>
-  <insert id="insertSelective" parameterType="com.matio.pojo.View_spider_record">
-    insert into view_spider_record
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="number != null">
-        number,
-      </if>
-      <if test="operatedate != null">
-        operateDate,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="number != null">
-        #{number,jdbcType=BIGINT},
-      </if>
-      <if test="operatedate != null">
-        #{operatedate,jdbcType=DATE},
-      </if>
-    </trim>
-  </insert>
 </mapper>
