@@ -11,15 +11,17 @@ public interface RoleMapper {
 
     int insertSelective(Role record);
 
-    Role selectByPrimaryKey(Integer roleid);
+    List<Role> selectAll();
 
     Role selectByRoleName(String rolename);
 
+    List<Role> selectRole();
+
+    Role selectByPrimaryKey(Integer roleid);
+
     int updateByPrimaryKeySelective(Role record);
 
+    int updateByPrimaryKeyWithBLOBs(Role record);
+
     int updateByPrimaryKey(Role record);
-
-    List<Role> selectAll();
-
-    List<Role> selectRole();
 }

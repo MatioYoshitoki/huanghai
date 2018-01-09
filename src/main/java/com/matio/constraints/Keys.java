@@ -107,5 +107,8 @@ public class Keys {
 
     public static final String FILE = "file";
 
+    public static final String NUMBER = "number";
 
+
+    public static final String TIME = "time";
 }

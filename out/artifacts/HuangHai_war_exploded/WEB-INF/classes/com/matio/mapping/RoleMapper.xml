@@ -1,122 +1,139 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.matio.mapping.RoleMapper" >
-  <resultMap id="BaseResultMap" type="com.matio.pojo.Role" >
-    <id column="roleId" property="roleid" jdbcType="INTEGER" />
-    <result column="roleName" property="rolename" jdbcType="VARCHAR" />
-    <result column="roleAuth" property="roleauth" jdbcType="VARCHAR" />
-    <result column="roleCreate" property="rolecreate" jdbcType="CHAR" />
-    <result column="roleModify" property="rolemodify" jdbcType="CHAR" />
-    <result column="operator" property="operator" jdbcType="VARCHAR" />
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.matio.mapping.RoleMapper">
+  <resultMap id="BaseResultMap" type="com.matio.pojo.Role">
+    <id column="roleId" jdbcType="INTEGER" property="roleid" />
+    <result column="roleAuth" jdbcType="VARCHAR" property="roleauth" />
+    <result column="roleCreate" jdbcType="CHAR" property="rolecreate" />
+    <result column="roleModify" jdbcType="CHAR" property="rolemodify" />
   </resultMap>
-  <sql id="Base_Column_List" >
-    roleId, roleName, roleAuth, roleCreate, roleModify, operator
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.matio.pojo.Role">
+    <result column="roleName" jdbcType="BINARY" property="rolename" />
+    <result column="operator" jdbcType="BINARY" property="operator" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    roleId, roleAuth, roleCreate, roleModify
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select
+  <sql id="Blob_Column_List">
+    roleName, operator
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
     <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
     from role
     where roleId = #{roleid,jdbcType=INTEGER}
   </select>
-  <select id="selectAll" resultMap="BaseResultMap" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from role
+    where roleId = #{roleid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.matio.pojo.Role">
+    insert into role (roleId, roleAuth, roleCreate, 
+      roleModify, roleName, operator
+      )
+    values (#{roleid,jdbcType=INTEGER}, #{roleauth,jdbcType=VARCHAR}, #{rolecreate,jdbcType=CHAR}, 
+      #{rolemodify,jdbcType=CHAR}, #{rolename,jdbcType=BINARY}, #{operator,jdbcType=BINARY}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.matio.pojo.Role">
+    insert into role
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="roleid != null">
+        roleId,
+      </if>
+      <if test="roleauth != null">
+        roleAuth,
+      </if>
+      <if test="rolecreate != null">
+        roleCreate,
+      </if>
+      <if test="rolemodify != null">
+        roleModify,
+      </if>
+      <if test="rolename != null">
+        roleName,
+      </if>
+      <if test="operator != null">
+        operator,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="roleid != null">
+        #{roleid,jdbcType=INTEGER},
+      </if>
+      <if test="roleauth != null">
+        #{roleauth,jdbcType=VARCHAR},
+      </if>
+      <if test="rolecreate != null">
+        #{rolecreate,jdbcType=CHAR},
+      </if>
+      <if test="rolemodify != null">
+        #{rolemodify,jdbcType=CHAR},
+      </if>
+      <if test="rolename != null">
+        #{rolename,jdbcType=BINARY},
+      </if>
+      <if test="operator != null">
+        #{operator,jdbcType=BINARY},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.matio.pojo.Role">
+    update role
+    <set>
+      <if test="roleauth != null">
+        roleAuth = #{roleauth,jdbcType=VARCHAR},
+      </if>
+      <if test="rolecreate != null">
+        roleCreate = #{rolecreate,jdbcType=CHAR},
+      </if>
+      <if test="rolemodify != null">
+        roleModify = #{rolemodify,jdbcType=CHAR},
+      </if>
+      <if test="rolename != null">
+        roleName = #{rolename,jdbcType=BINARY},
+      </if>
+      <if test="operator != null">
+        operator = #{operator,jdbcType=BINARY},
+      </if>
+    </set>
+    where roleId = #{roleid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.matio.pojo.Role">
+    update role
+    set roleAuth = #{roleauth,jdbcType=VARCHAR},
+      roleCreate = #{rolecreate,jdbcType=CHAR},
+      roleModify = #{rolemodify,jdbcType=CHAR},
+      roleName = #{rolename,jdbcType=BINARY},
+      operator = #{operator,jdbcType=BINARY}
+    where roleId = #{roleid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.matio.pojo.Role">
+    update role
+    set roleAuth = #{roleauth,jdbcType=VARCHAR},
+      roleCreate = #{rolecreate,jdbcType=CHAR},
+      roleModify = #{rolemodify,jdbcType=CHAR}
+    where roleId = #{roleid,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectAll" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from role
     where roleId != '1'
   </select>
-  <select id="selectRole" resultMap="BaseResultMap" >
+  <select id="selectRole" resultMap="BaseResultMap">
     select
     roleId, roleName
     from role
+    where roleId != '1'
   </select>
-  <select id="selectByRoleName" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  <select id="selectByRoleName" parameterType="java.lang.String" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from role
-    where roleName = #{rolename,jdbcType=VARCHAR}
+    where roleName = #{rolename,jdbcType=BINARY}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from role
-    where roleId = #{roleid,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="com.matio.pojo.Role" >
-    insert into role (roleId, roleName, roleAuth, 
-      roleCreate, roleModify, operator
-      )
-    values (#{roleid,jdbcType=INTEGER}, #{rolename,jdbcType=VARCHAR}, #{roleauth,jdbcType=VARCHAR}, 
-      #{rolecreate,jdbcType=CHAR}, #{rolemodify,jdbcType=CHAR}, #{operator,jdbcType=VARCHAR}
-      )
-  </insert>
-  <insert id="insertSelective" parameterType="com.matio.pojo.Role" >
-    insert into role
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="roleid != null" >
-        roleId,
-      </if>
-      <if test="rolename != null" >
-        roleName,
-      </if>
-      <if test="roleauth != null" >
-        roleAuth,
-      </if>
-      <if test="rolecreate != null" >
-        roleCreate,
-      </if>
-      <if test="rolemodify != null" >
-        roleModify,
-      </if>
-      <if test="operator != null" >
-        operator,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="roleid != null" >
-        #{roleid,jdbcType=INTEGER},
-      </if>
-      <if test="rolename != null" >
-        #{rolename,jdbcType=VARCHAR},
-      </if>
-      <if test="roleauth != null" >
-        #{roleauth,jdbcType=VARCHAR},
-      </if>
-      <if test="rolecreate != null" >
-        #{rolecreate,jdbcType=CHAR},
-      </if>
-      <if test="rolemodify != null" >
-        #{rolemodify,jdbcType=CHAR},
-      </if>
-      <if test="operator != null" >
-        #{operator,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.matio.pojo.Role" >
-    update role
-    <set >
-      <if test="rolename != null" >
-        roleName = #{rolename,jdbcType=VARCHAR},
-      </if>
-      <if test="roleauth != null" >
-        roleAuth = #{roleauth,jdbcType=VARCHAR},
-      </if>
-      <if test="rolecreate != null" >
-        roleCreate = #{rolecreate,jdbcType=CHAR},
-      </if>
-      <if test="rolemodify != null" >
-        roleModify = #{rolemodify,jdbcType=CHAR},
-      </if>
-      <if test="operator != null" >
-        operator = #{operator,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where roleId = #{roleid,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.matio.pojo.Role" >
-    update role
-    set roleName = #{rolename,jdbcType=VARCHAR},
-      roleAuth = #{roleauth,jdbcType=VARCHAR},
-      roleModify = #{rolemodify,jdbcType=CHAR},
-      operator = #{operator,jdbcType=VARCHAR}
-    where roleId = #{roleid,jdbcType=INTEGER}
-  </update>
 </mapper>

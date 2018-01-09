@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -112,14 +113,18 @@ public class DataController {
         mme.setType(type);
         mme.setEc1(ec1);
         mme.setEc2(ec2);
-        mme.setDeepSea(deepSea);
+        mme.setDeepsea(deepSea);
         mme.setTemperature(temperature);
         mme.setPh(ph);
         mme.setZone(zone);
         mme.setCofactors(cofactors);
         mme.setInhibitors(inhibitors);
 
-        mme.setOperator(operator);
+        try {
+            mme.setOperator(operator.getBytes("utf8"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
         mme.setOperatedate(simpleDateFormat.format(now));
         mme.setModifydate(simpleDateFormat.format(now));
         if (mmeMapper.insert(mme) > 0){
@@ -163,10 +168,18 @@ public class DataController {
                 condition.setEc2(param);
                 break;
             case "4":
-                condition.setOperator(param);
+                try {
+                    condition.setOperator(param.getBytes("utf8"));
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
                 break;
             case "5":
-                condition.setModifier(param);
+                try {
+                    condition.setModifier(param.getBytes("utf8"));
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
                 break;
             case "6":
                 startDate += "00:00:00";
@@ -226,20 +239,28 @@ public class DataController {
             buff.put(Keys.DBSOURCE,mme.getDbsource());
             buff.put(Keys.DATE,mme.getDate());
             buff.put(Keys.ORGANISM,mme.getOrganism());
-            buff.put(Keys.DEEPSEA,mme.getDeepSea());
+            buff.put(Keys.DEEPSEA,mme.getDeepsea());
             buff.put(Keys.TEMPERATURE,mme.getTemperature());
             buff.put(Keys.PH,mme.getPh());
             buff.put(Keys.ZONE,mme.getZone());
             buff.put(Keys.COFACTORS,mme.getCofactors());
             buff.put(Keys.INHIBITORS,mme.getInhibitors());
             buff.put(Keys.ORIGIN,mme.getOrigin());
-            buff.put(Keys.OPERATOR,mme.getOperator());
-            buff.put(Keys.MODIFIER,mme.getModifier());
+            try {
+                buff.put(Keys.OPERATOR,new String(mme.getOperator(),"utf8"));
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            try {
+                buff.put(Keys.MODIFIER,new String(mme.getModifier(),"utf8"));
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
             buff.put(Keys.OPERATEDATE,mme.getOperatedate());
             buff.put(Keys.MODIFYDATE,mme.getModifydate());
             buff.put(Keys.PDBID,mme.getPdbid());
             buff.put(Keys.TYPE,mme.getType());
-            buff.put(Keys.ISMODIFIED,mme.getIsModified());
+            buff.put(Keys.ISMODIFIED,mme.getIsmodified());
             data.add(buff);
 
         }
@@ -348,14 +369,18 @@ public class DataController {
         mme.setType(type);
         mme.setEc1(ec1);
         mme.setEc2(ec2);
-        mme.setDeepSea(deepSea);
+        mme.setDeepsea(deepSea);
         mme.setTemperature(temperature);
         mme.setPh(ph);
         mme.setZone(zone);
         mme.setCofactors(cofactors);
         mme.setInhibitors(inhibitors);
 
-        mme.setModifier(operator);
+        try {
+            mme.setModifier(operator.getBytes("utf8"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
         mme.setModifydate(simpleDateFormat.format(now));
 
         if (mmeMapper.updateByPrimaryKey(mme) > 0){

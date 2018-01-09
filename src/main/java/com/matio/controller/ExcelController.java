@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -169,7 +170,7 @@ public class ExcelController {
                         mme.setDate(tmp.get(i));
                         break;
                     case Keys.DEEPSEA:
-                        mme.setDeepSea(tmp.get(i));
+                        mme.setDeepsea(tmp.get(i));
                         break;
                     case Keys.TEMPERATURE:
                         mme.setTemperature(tmp.get(i));
@@ -198,9 +199,14 @@ public class ExcelController {
                 continue;
             }
             Date now = new Date();
-            mme.setOperator(operator);
+
             mme.setOperatedate(simpleDateFormat.format(now));
-            mme.setModifier(operator);
+            try {
+                mme.setModifier(operator.getBytes("utf8"));
+                mme.setOperator(operator.getBytes("utf8"));
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
             mme.setModifydate(simpleDateFormat.format(now));
             int flag = mmeMapper.insert(mme);
             if (flag <= 0){

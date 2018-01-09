@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
 
 import java.text.SimpleDateFormat;
@@ -74,7 +75,11 @@ public class ExamineController {
                 condition.setEc2(param);
                 break;
             case "5":
-                condition.setModifier(param);
+                try {
+                    condition.setModifier(param.getBytes("utf8"));
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
                 break;
             case "6":
                 startDate += "00:00:00";
@@ -129,14 +134,18 @@ public class ExamineController {
             buff.put(Keys.DBSOURCE,examine.getDbsource());
             buff.put(Keys.DATE,examine.getDate());
             buff.put(Keys.ORGANISM,examine.getOrganism());
-            buff.put(Keys.DEEPSEA,examine.getDeepSea());
+            buff.put(Keys.DEEPSEA,examine.getDeepsea());
             buff.put(Keys.TEMPERATURE,examine.getTemperature());
             buff.put(Keys.PH,examine.getPh());
             buff.put(Keys.ZONE,examine.getZone());
             buff.put(Keys.COFACTORS,examine.getCofactors());
             buff.put(Keys.INHIBITORS,examine.getInhibitors());
             buff.put(Keys.ORIGIN,examine.getOrigin());
-            buff.put(Keys.MODIFIER,examine.getModifier());
+            try {
+                buff.put(Keys.MODIFIER,new String(examine.getModifier(),"utf8"));
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
             buff.put(Keys.MODIFYDATE,examine.getModifydate());
             buff.put(Keys.PDBID,examine.getPdbid());
             buff.put(Keys.TYPE,examine.getType());
@@ -237,7 +246,7 @@ public class ExamineController {
         examine.setEc1(ec1);
         examine.setEc2(ec2);
         examine.setId(Integer.valueOf(id));
-        examine.setDeepSea(deepSea);
+        examine.setDeepsea(deepSea);
         examine.setTemperature(temperature);
         examine.setPh(ph);
         examine.setZone(zone);
@@ -245,7 +254,11 @@ public class ExamineController {
         examine.setInhibitors(inhibitors);
         examine.setNote(note);
 
-        examine.setModifier(modifier);
+        try {
+            examine.setModifier(modifier.getBytes("utf8"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
         examine.setModifydate(simpleDateFormat.format(now));
 
         return mmeService.addExamine(examine);

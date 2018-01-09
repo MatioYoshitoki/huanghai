@@ -43,7 +43,7 @@ public class MmeService implements IMmeService {
         }
         // 修改mme相应数据的审核标志为待审核
         Mme mmeSearch = new Mme();
-        mmeSearch.setIsModified("1");
+        mmeSearch.setIsmodified("1");
         mmeSearch.setId(examine.getId());
         if (mmeMapper.updateIsModified(mmeSearch) <= 0){
             result = JsonUtil.fromErrors(Errors.FAILD);
@@ -98,13 +98,13 @@ public class MmeService implements IMmeService {
         mme.setModifydate(examine.getModifydate());
         mme.setPdbid(examine.getPdbid());
         mme.setType(examine.getType());
-        mme.setDeepSea(examine.getDeepSea());
+        mme.setDeepsea(examine.getDeepsea());
         mme.setTemperature(examine.getTemperature());
         mme.setPh(examine.getPh());
         mme.setZone(examine.getZone());
         mme.setCofactors(examine.getCofactors());
         mme.setInhibitors(examine.getInhibitors());
-        mme.setIsModified("0");
+        mme.setIsmodified("0");
 
         int roll = mmeMapper.updateByPrimaryKey(mme);
         if (roll <= 0){
@@ -175,13 +175,13 @@ public class MmeService implements IMmeService {
             mme.setModifydate(examine.getModifydate());
             mme.setPdbid(examine.getPdbid());
             mme.setType(examine.getType());
-            mme.setDeepSea(examine.getDeepSea());
+            mme.setDeepsea(examine.getDeepsea());
             mme.setTemperature(examine.getTemperature());
             mme.setPh(examine.getPh());
             mme.setZone(examine.getZone());
             mme.setCofactors(examine.getCofactors());
             mme.setInhibitors(examine.getInhibitors());
-            mme.setIsModified("0");
+            mme.setIsmodified("0");
 
             if (mmeMapper.updateByPrimaryKey(mme)<=0){
                 result = JsonUtil.fromErrors(Errors.FAILD);
@@ -211,7 +211,7 @@ public class MmeService implements IMmeService {
         JSONObject result = JsonUtil.fromErrors(Errors.SUCCESS);
 
         Mme mmeSearch = new Mme();
-        mmeSearch.setIsModified("0");
+        mmeSearch.setIsmodified("0");
         mmeSearch.setId(id);
         int roll = examineMapper.deleteByPrimaryKey(Integer.valueOf(id));
         if (roll <= 0){

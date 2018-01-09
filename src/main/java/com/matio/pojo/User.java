@@ -1,10 +1,6 @@
 package com.matio.pojo;
 
 public class User {
-    private Integer userid;
-
-    private String username;
-
     private String useraccount;
 
     private Integer userrole;
@@ -17,23 +13,9 @@ public class User {
 
     private String usermodify;
 
-    private String operator;
+    private byte[] username;
 
-    public Integer getUserid() {
-        return userid;
-    }
-
-    public void setUserid(Integer userid) {
-        this.userid = userid;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
+    private byte[] operator;
 
     public String getUseraccount() {
         return useraccount;
@@ -83,11 +65,19 @@ public class User {
         this.usermodify = usermodify;
     }
 
-    public String getOperator() {
+    public byte[] getUsername() {
+        return username;
+    }
+
+    public void setUsername(byte[] username) {
+        this.username = username;
+    }
+
+    public byte[] getOperator() {
         return operator;
     }
 
-    public void setOperator(String operator) {
+    public void setOperator(byte[] operator) {
         this.operator = operator;
     }
 }

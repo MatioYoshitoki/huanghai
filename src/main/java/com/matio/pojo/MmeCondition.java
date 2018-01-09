@@ -13,8 +13,8 @@ public class MmeCondition {
     private String pdbId ;
     private String type ;
     private String ec2 ;
-    private String operator ;
-    private String modifier ;
+    private byte[] operator ;
+    private byte[] modifier ;
     private String ec1 ;
 
     public void setEc1(String ec1) {
@@ -34,7 +34,7 @@ public class MmeCondition {
         this.endSize = endSize;
     }
 
-    public void setOperator(String operator) {
+    public void setOperator(byte[] operator) {
         this.operator = operator;
     }
 
@@ -64,7 +64,7 @@ public class MmeCondition {
         return startSize;
     }
 
-    public String getOperator() {
+    public byte[] getOperator() {
         return operator;
     }
 
@@ -77,11 +77,11 @@ public class MmeCondition {
         return type;
     }
 
-    public void setModifier(String modifier) {
+    public void setModifier(byte[] modifier) {
         this.modifier = modifier;
     }
 
-    public String getModifier() {
+    public byte[] getModifier() {
         return modifier;
     }
 

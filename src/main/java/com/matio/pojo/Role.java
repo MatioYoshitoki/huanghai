@@ -3,15 +3,15 @@ package com.matio.pojo;
 public class Role {
     private Integer roleid;
 
-    private String rolename;
-
     private String roleauth;
 
     private String rolecreate;
 
     private String rolemodify;
 
-    private String operator;
+    private byte[] rolename;
+
+    private byte[] operator;
 
     public Integer getRoleid() {
         return roleid;
@@ -19,14 +19,6 @@ public class Role {
 
     public void setRoleid(Integer roleid) {
         this.roleid = roleid;
-    }
-
-    public String getRolename() {
-        return rolename;
-    }
-
-    public void setRolename(String rolename) {
-        this.rolename = rolename;
     }
 
     public String getRoleauth() {
@@ -53,11 +45,19 @@ public class Role {
         this.rolemodify = rolemodify;
     }
 
-    public String getOperator() {
+    public byte[] getRolename() {
+        return rolename;
+    }
+
+    public void setRolename(byte[] rolename) {
+        this.rolename = rolename;
+    }
+
+    public byte[] getOperator() {
         return operator;
     }
 
-    public void setOperator(String operator) {
+    public void setOperator(byte[] operator) {
         this.operator = operator;
     }
 }

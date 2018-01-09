@@ -86,6 +86,13 @@ public class Errors {
 	public static final String REFUSAL_EXAMINE_BATCH_SUCCESS = "批量拒绝待审核数据成功！";
 	public static final String REFUSAL_EXAMINE_BATCH_FAILD = "批量拒绝待审核数据失败！";
 
+	//Crawler
+	public static final String START_CRAWLER_SUCCESS = "启动爬虫成功！";
+	public static final String START_CRAWLER_FAILD = "启动爬虫失败！";
+	public static final String STOP_CRAWLER_SUCCESS = "关闭爬虫成功！";
+	public static final String STOP_CRAWLER_FAILD = "关闭爬虫失败！";
+	public static final String SET_CRAWLER_TIME_SUCCESS = "设置定时爬虫成功！";
+	public static final String SET_CRAWLER_TIME_FAILD = "设置定时爬虫失败！";
 
 	public static final String SUCCESS = "success";
 	public static final String FAILD = "faild";

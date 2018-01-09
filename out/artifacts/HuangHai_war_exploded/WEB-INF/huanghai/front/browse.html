@@ -94,6 +94,22 @@
                         </thead>
                         <tbody id="tbody"></tbody>
                     </table>
+                    <div class="page-container clearfix">
+                        <div class="pull-left">
+                            共 <span id="recordNumber"></span> 条数据，
+                            共 <span id="pageNumber"></span> 页
+                        </div>
+                        <ul class="pagination pull-right" style="margin: 0;">
+                            <li><a id="prevBtn" href="javascript:;">上一页</a></li>
+                            <li>
+                                <a href="javascript:;" style="padding: 0;">
+                                    <input id="inputPage" type="text" class="text-center" style="width: 50px; padding: 4px;" />
+                                </a>
+                            </li>
+                            <li><a id="skipBtn" href="javascript:;">跳页</a></li>
+                            <li><a id="nextBtn" href="javascript:;">下一页</a></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
@@ -114,55 +130,106 @@
             </div>
         </div>
     </div>
+
     <script src="../asset/js/frame/jquery-1.11.1.min.js"></script>
     <script src="../asset/bootstrap/js/bootstrap.min.js"></script>
     <script src="../asset/easyDialog/js/easydialog.min.js"></script>
+    <script src="../asset/js/base.js"></script>
     <script>
-        $(document).ready(function() {
-            var search = location.search,
-                ec1Current = "",
-                ec1 = "";
+        var Client = {
+            ec1: "",
+            prefix: "A",
+            table: {
+                // 当前页码
+                currentPage: 1,
+                // 总页数
+                pageNumber: 0,
+                // 总记录数
+                recordNumber: 0,
+                // 每页显示个数
+                numberPerPage: 10
+            },
+            init: function() {
+                var search = location.search,
+                    info = sessionStorage.getItem("info");
 
-            if(search !== "") {
-                ec1 = search.split("=")[1];
-                console.log(ec1);
-                ec1Current = ec1;
-                link(ec1, "A");
+                // 初始化事件监听
+                Client.listen();
+                // 初始化输入页码
+                $("#inputPage").val(Client.table.currentPage);
+                if(search !== "") {
+                    Client.ec1 = search.split("=")[1];
+                    Client.link();
+                    // 切换到目录Tab
+                    $(".tab-pane").eq(0).removeClass("active").end().eq(1).addClass("active");
+                }
+                // 初始化连接服务器
+                if(!info) {
+                    $.ajax({
+                        type: "POST",
+                        url: "",
+                        data: {},
+                        success: function(msg) {
+                            var data = JSON.stringify(msg.data);
 
-                // 切换到目录Tab
-                $(".tab-pane").eq(0).removeClass("active").end().eq(1).addClass("active");
-            }
+                            if(Number(msg.code) === 1) {
+                                sessionStorage.setItem("info", data);
+                                Client.paint(data)
+                            } else {
+                                alert(msg.msg);
+                            }
+                        },
+                        error: function(msg) {
+                            alert("连接服务器失败！");
+                        }
+                    })
+                } else {
+                    Client.paint(info);
+                }
+            },
+            listen: function() {
+                $("#navbar").find(".nav-item").on("click", function(e) {
+                    Client.ec1 = $(e.target).text();
+                    Client.link();
 
-            $("#navbar").find(".nav-item").on("click", function(e) {
-                var ec1 = $(e.target).text();
-                ec1Current = ec1;
-                link(ec1Current, "A");
+                    // 切换到目录Tab
+                    $(".tab-pane").eq(0).removeClass("active").end().eq(1).addClass("active");
+                });
 
-                // 切换到目录Tab
-                $(".tab-pane").eq(0).removeClass("active").end().eq(1).addClass("active");
-            });
+                $("#catalog").find(".catalog-links").on("click", function(e) {
+                    Client.prefix = $(e.target).text();
+                    Client.link();
+                });
 
-            $("#catalog").find(".catalog-links").on("click", function(e) {
-                var prefix = $(e.target).text();
-                link(ec1Current, prefix);
-            });
+                $("#prevBtn").on("click", function() {
+                    Client.skipPage("1");
+                });
+                $("#skipBtn").on("click", function() {
+                    Client.skipPage("2");
+                });
+                $("#nextBtn").on("click", function() {
+                    Client.skipPage("3");
+                });
+            },
             /**
              * 获取数据列表
-             * @param ec1    酶大类
-             * @param prefix 首字母
              */
-            function link(ec1, prefix) {
+            link: function() {
                 var tbody = $("#tbody");
+
                 tbody.empty();
                 $.ajax({
                     type: "post",
                     url: "/getFrontList",
                     data: {
-                        ec1: ec1,
-                        prefix: prefix
+                        ec1: Client.ec1,
+                        prefix: Client.prefix,
+                        startPos: Client.table.currentPage,
+                        numberPerPage: Client.table.numberPerPage
                     },
                     success: function (msg) {
                         var data = msg.data,
+                            count = Number(msg.count),
                             item = null,
                             length = data.length,
                             loop = 0;
@@ -172,43 +239,21 @@
                             $data = "<tr><td><a style='text-decoration: underline;' target='_blank' href='detail.html?locus=" + item.locus + "'>" + item.locus + "</a></td><td>" + item.ec2 + "</td><td>" + item.title + " </td></tr>";
                             tbody.append($data);
                         }
+                        Client.table.recordNumber = count;
+                        Client.table.pageNumber = Math.ceil(count / Client.table.numberPerPage);
+                        $("#recordNumber").text(count);
+                        $("#pageNumber").text(Client.table.pageNumber);
                     },
                     error: function (msg) {
                         Dialog.warn("连接服务器失败！");
                     }
                 })
-            }
-
-            var info = sessionStorage.getItem("info");
-
-            if(!info) {
-                $.ajax({
-                    type: "POST",
-                    url: "",
-                    data: {},
-                    success: function(msg) {
-                        var data = JSON.stringify(msg.data);
-
-                        if(Number(msg.code) === 1) {
-                            sessionStorage.setItem("info", data);
-                            paint(data)
-                        } else {
-                            alert(msg.msg);
-                        }
-                    },
-                    error: function(msg) {
-                        alert("连接服务器失败！");
-                    }
-                })
-            } else {
-                paint(info);
-            }
-
+            },
             /**
              * 渲染页面：将数据填入到页面指定位置
              * @param data 页面数据
              */
-            function paint(data) {
+            paint: function(data) {
                 var param = {},
                     data = JSON.parse(data),
                     item = null,
@@ -222,7 +267,35 @@
 
                 $("#browseTitle").text(param.browseTitle);
                 $("#browseContent").html(param.browseContent);
+            },
+            /**
+             * 跳页操作
+             * @param type 跳页操作类型 1：上一页 2：跳页 3：下一页
+             */
+            skipPage: function(type) {
+                var type = Number(type),
+                    skipPage = Number(Client.table.currentPage),
+                    validator = new Validator(),
+                    inputPage = $("#inputPage");
+
+                switch(Number(type)) {
+                    case 1: { skipPage--; break; }
+                    case 2: { skipPage = inputPage.val(); break; }
+                    case 3: { skipPage++; break; }
+                }
+                // 判断跳往页数是否合法
+                if(validator.pages(skipPage, Client.table.pageNumber)) {
+                    Client.table.currentPage = skipPage;
+                    Client.link();
+                    inputPage.val(skipPage);
+                } else {
+                    alert("请输入正确的页码");
+                    inputPage.val(Client.table.currentPage);
+                }
             }
+        }
+        $(document).ready(function() {
+            Client.init();
         })
     </script>
 </body>

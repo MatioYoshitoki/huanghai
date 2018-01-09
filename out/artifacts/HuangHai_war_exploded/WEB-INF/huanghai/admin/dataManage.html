@@ -556,7 +556,8 @@
                 </form>
             </div>
             <div class="panel-footer">
-                <button @click="request('modify')" class="btn btn-default center-block">修改数据</button>
+                <button v-if="isRoot == true" @click="request('modify')" class="btn btn-default center-block">修改数据</button>
+                <button v-else @click="request('addExamine')" class="btn btn-default center-block">修改数据</button>
             </div>
         </div>
         <div id="panelDelete" class="panel panel-color sr-only panel-custom">
@@ -711,13 +712,25 @@
                         alert("请将必填信息都填写完整");
                         return;
                     }
-                    console.log(data.note);
+                    url = Service.getUrl("modifyData");
+                    successFn = Client.modifyDataCallback;
+                } else if(type === "addExamine") {
+                    data = this.modify;
+                    data.type = $("#selectForType").selectpicker("val");
+                    data.ec2 = $("#selectForEC2").selectpicker("val");
+                    data.deepSea = $("#selectForDeepSea").selectpicker("val");
+                    data.operator = this.user.userName;
+                    if(data.title === "" || data.type === "" || data.ec2 === "" ||
+                        data.locus === "" || data.pdbId === "" || data.date === "") {
+                        alert("请将必填信息都填写完整");
+                        return;
+                    }
                     if(!this.isRoot && data.note === "") {
                         alert("请填写备注，以便审核人员了解修改情况");
                         return;
                     }
-                    url = Service.getUrl("modifyData");
-                    successFn = Client.modifyDataCallback;
+                    url = Service.getUrl("addExamine");
+                    successFn = Client.addExamineCallback;
                 } else if(type === "delete") {
                     item = this.del;
                     url = Service.getUrl("deleteData");
@@ -752,7 +765,7 @@
 
                 for(loop = 0, length = dataList.length; loop < length; loop++) {
                     item = dataList[loop];
-                    if(item.id === id) {
+                    if(item.mmeId === id) {
                         return loop;
                     }
                 }
@@ -813,6 +826,26 @@
                         modifyObj.modifier = this.user.userName;
                         this.dataList[index] = modifyObj;
                         this.dataList.push();
+                    }
+                    Dialog.tip(msg.msg);
+                } else {
+                    Dialog.warn(msg.msg);
+                }
+            },
+            /**
+             * 新增待审核数据回调函数
+             * @param msg 服务器返回的对象
+             */
+            addExamineCallback: function(msg) {
+                var index = null,
+                    modifyObj = this.modify;
+
+                // 若回调函数执行成功，则将相应的数据进行修改
+                if (Number(msg.code) === 1) {
+                    index = this.searchData(modifyObj.mmeId);
+                    console.log(index);
+                    if(index !== -1) {
+                        this.dataList[index].isModified = 1;
                     }
                     Dialog.tip(msg.msg);
                 } else {

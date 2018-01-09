@@ -27,7 +27,7 @@ public class Examine {
 
     private String country;
 
-    private String deepSea;
+    private String deepsea;
 
     private String temperature;
 
@@ -83,9 +83,9 @@ public class Examine {
 
     private String modifydate;
 
-    private String modifier;
-
     private String note;
+
+    private byte[] modifier;
 
     public Integer getId() {
         return id;
@@ -101,6 +101,14 @@ public class Examine {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getEc1() {
+        return ec1;
+    }
+
+    public void setEc1(String ec1) {
+        this.ec1 = ec1;
     }
 
     public String getEc2() {
@@ -133,15 +141,6 @@ public class Examine {
 
     public void setPdbid(String pdbid) {
         this.pdbid = pdbid;
-    }
-
-    public void setEc1(String ec1) {
-        this.ec1 = ec1;
-    }
-
-    public String getEc1() {
-
-        return ec1;
     }
 
     public String getDbsource() {
@@ -192,53 +191,52 @@ public class Examine {
         this.country = country;
     }
 
-    public void setDeepSea(String deepSea) {
-        this.deepSea = deepSea;
+    public String getDeepsea() {
+        return deepsea;
     }
 
-    public void setTemperature(String temperature) {
-        this.temperature = temperature;
-    }
-
-    public void setPh(String ph) {
-        this.ph = ph;
-    }
-
-    public void setZone(String zone) {
-        this.zone = zone;
-    }
-
-    public void setCofactors(String cofactors) {
-        this.cofactors = cofactors;
-    }
-
-    public void setInhibitors(String inhibitors) {
-        this.inhibitors = inhibitors;
-    }
-
-    public String getDeepSea() {
-
-        return deepSea;
+    public void setDeepsea(String deepsea) {
+        this.deepsea = deepsea;
     }
 
     public String getTemperature() {
         return temperature;
     }
 
+    public void setTemperature(String temperature) {
+        this.temperature = temperature;
+    }
+
     public String getPh() {
         return ph;
+    }
+
+    public void setPh(String ph) {
+        this.ph = ph;
     }
 
     public String getZone() {
         return zone;
     }
 
+    public void setZone(String zone) {
+        this.zone = zone;
+    }
+
     public String getCofactors() {
         return cofactors;
     }
 
+    public void setCofactors(String cofactors) {
+        this.cofactors = cofactors;
+    }
+
     public String getInhibitors() {
         return inhibitors;
+    }
+
+    public void setInhibitors(String inhibitors) {
+        this.inhibitors = inhibitors;
     }
 
     public String getOrigin() {
@@ -417,20 +415,19 @@ public class Examine {
         this.modifydate = modifydate;
     }
 
-    public String getModifier() {
-        return modifier;
-    }
-
-    public void setModifier(String modifier) {
-        this.modifier = modifier;
+    public String getNote() {
+        return note;
     }
 
     public void setNote(String note) {
         this.note = note;
     }
 
-    public String getNote() {
+    public byte[] getModifier() {
+        return modifier;
+    }
 
-        return note;
+    public void setModifier(byte[] modifier) {
+        this.modifier = modifier;
     }
 }

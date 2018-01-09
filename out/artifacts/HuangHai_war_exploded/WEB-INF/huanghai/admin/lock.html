@@ -45,6 +45,8 @@
 <script>
     $(document).ready(function() {
         var user = JSON.parse(sessionStorage.getItem("user"));
+        // 消除登录状态
+        sessionStorage.removeItem("isLogin");
 
         if(!user) {
             Dialog.custom(

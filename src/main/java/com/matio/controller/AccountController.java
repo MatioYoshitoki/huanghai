@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -46,30 +47,45 @@ public class AccountController {
             @RequestParam(Keys.PASSWORD) String password
     ) {
 
+
+
         User user = userMapper.selectByAccount(account);
+        System.out.println(password);
 
         JSONObject result ;
         if (user!=null && user.getPassword().equals(MD5Util.encode32(password))){
+            System.out.println("密码一致");
             result = JsonUtil.fromErrors(Errors.SUCCESS);
             result.put(Keys.MSG,"");
             JSONObject data = new JSONObject();
             data.put(Keys.USERACCOUNT,user.getUseraccount());
-            data.put(Keys.USERNAME,user.getUsername());
+            try {
+                data.put(Keys.USERNAME,new String(user.getUsername(),"utf8"));
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
             data.put(Keys.USERGENDER,user.getUsergender());
             data.put(Keys.USERCREATE,user.getUsercreate());
             data.put(Keys.USERMODIFY,user.getUsermodify());
             Role role = roleMapper.selectByPrimaryKey(user.getUserrole());
             if (role != null){
-                data.put(Keys.ROLENAME,role.getRolename());
+                try {
+                    data.put(Keys.ROLENAME,new String(role.getRolename(),"utf8"));
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
                 data.put(Keys.ROLEAUTH,role.getRoleauth());
                 result.put(Keys.DATA,data);
             }else {
+
                 result = JsonUtil.fromErrors(Errors.FAILD);
                 result.put(Keys.MSG,Errors.NO_SUCH_NAME_WRONG_PASSWORD);
                 result.put(Keys.DATA,new JSONObject());
             }
 
         }else {
+            System.out.println("用户不存在");
+            System.out.println("密码不一致("+user.getPassword()+")("+MD5Util.encode32(password)+")");
             result = JsonUtil.fromErrors(Errors.FAILD);
             result.put(Keys.MSG,Errors.NO_SUCH_NAME_WRONG_PASSWORD);
             result.put(Keys.DATA,new JSONObject());
@@ -98,9 +114,13 @@ public class AccountController {
         }
         Date now = new Date();
         User new_user = new User();
-        new_user.setOperator(operator);
+        try {
+            new_user.setOperator(operator.getBytes("utf8"));
+            new_user.setUsername(userName.getBytes("utf8"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
         new_user.setUseraccount(userAccount);
-        new_user.setUsername(userName);
         new_user.setUsergender(userGender);
         new_user.setUserrole(Integer.valueOf(userRole));
 
@@ -135,9 +155,15 @@ public class AccountController {
 
         Date now = new Date();
         User modify_user = new User();
-        modify_user.setOperator(operator);
+
+        try {
+            modify_user.setOperator(operator.getBytes("utf8"));
+            modify_user.setUsername(userName.getBytes("utf8"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
         modify_user.setUseraccount(userAccount);
-        modify_user.setUsername(userName);
         modify_user.setUsergender(userGender);
         modify_user.setUserrole(Integer.valueOf(userRole));
 
@@ -178,17 +204,29 @@ public class AccountController {
         for (User user:users){
             JSONObject every_user = new JSONObject();
             every_user.put(Keys.USERACCOUNT,user.getUseraccount());
-            every_user.put(Keys.USERNAME,user.getUsername());
+            try {
+                every_user.put(Keys.USERNAME,new String(user.getUsername(),"utf8"));
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
             every_user.put(Keys.USERGENDER,user.getUsergender());
             Role role = roleMapper.selectByPrimaryKey(user.getUserrole());
             if (role==null){
                 continue;
             }
             every_user.put(Keys.USERROLE,user.getUserrole());
-            every_user.put(Keys.ROLENAME,role.getRolename());
+            try {
+                every_user.put(Keys.ROLENAME,new String(role.getRolename(),"utf8"));
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
             every_user.put(Keys.USERCREATE,user.getUsercreate());
             every_user.put(Keys.USERMODIFY,user.getUsermodify());
-            every_user.put(Keys.OPERATOR,user.getOperator());
+            try {
+                every_user.put(Keys.OPERATOR,new String(user.getOperator(),"utf8"));
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
             data.add(every_user);
         }
         result.put(Keys.MSG,"");
@@ -213,9 +251,14 @@ public class AccountController {
         Role new_role = new Role();
         Date now = new Date();
 
-        new_role.setOperator(operator);
+
         new_role.setRoleauth(roleAuth);
-        new_role.setRolename(roleName);
+        try {
+            new_role.setOperator(operator.getBytes("utf8"));
+            new_role.setRolename(roleName.getBytes("utf8"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
 
         new_role.setRolecreate(simpleDateFormat.format(now));
         new_role.setRolemodify(simpleDateFormat.format(now));
@@ -243,11 +286,14 @@ public class AccountController {
         }
         Role new_role = new Role();
         Date now = new Date();
-
         new_role.setRoleid(Integer.parseInt(roleId));
-        new_role.setOperator(operator);
         new_role.setRoleauth(roleAuth);
-        new_role.setRolename(roleName);
+        try {
+            new_role.setOperator(operator.getBytes("utf8"));
+            new_role.setRolename(roleName.getBytes("utf8"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
         new_role.setRolemodify(simpleDateFormat.format(now));
         roleMapper.updateByPrimaryKey(new_role);
 
@@ -283,12 +329,20 @@ public class AccountController {
         JSONArray data = new JSONArray();
         for (Role role:roles){
             JSONObject every_role = new JSONObject();
-            every_role.put(Keys.ROLENAME,role.getRolename());
+            try {
+                every_role.put(Keys.ROLENAME,new String(role.getRolename(),"utf8"));
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
             every_role.put(Keys.ROLEAUTH,role.getRoleauth());
             every_role.put(Keys.ROLEID,role.getRoleid());
             every_role.put(Keys.ROLECREATE, role.getRolecreate());
             every_role.put(Keys.ROLEMODIFY,role.getRolemodify());
-            every_role.put(Keys.OPERATOR,role.getOperator());
+            try {
+                every_role.put(Keys.OPERATOR,new String(role.getOperator(),"utf8"));
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
             data.add(every_role);
         }
         result.put(Keys.MSG,"");
@@ -303,7 +357,11 @@ public class AccountController {
         JSONArray data = new JSONArray();
         for (Role role:roles){
             JSONObject every_role = new JSONObject();
-            every_role.put(Keys.ROLENAME,role.getRolename());
+            try {
+                every_role.put(Keys.ROLENAME,new String(role.getRolename(),"utf8"));
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
             every_role.put(Keys.ROLEID,role.getRoleid());
             data.add(every_role);
         }

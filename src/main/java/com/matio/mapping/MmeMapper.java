@@ -10,25 +10,22 @@ public interface MmeMapper {
 
     int insert(Mme record);
 
-    int insertSelective(Mme record);
-
-    List<Mme> selectByCondition(MmeCondition condition);
-
-    List<Mme> selectByFuzzyEC2(MmeCondition condition);
-
     String selectByLocus(String locus);
-
-    int selectCountByCondition(MmeCondition condition);
-
+    Mme selectByFuzzyEC2(MmeCondition mmeCondition);
+    List<Mme> selectByCondition(MmeCondition mmeCondition);
+    int selectCountByCondition(MmeCondition mmeCondition);
     String selectEC1ByEC2(String ec2);
+    int updateIsModified(Mme mme);
+    int updateIsModifiedAll(String isModified);
+
+
+    int insertSelective(Mme record);
 
     Mme selectByPrimaryKey(Integer id);
 
     int updateByPrimaryKeySelective(Mme record);
 
+    int updateByPrimaryKeyWithBLOBs(Mme record);
+
     int updateByPrimaryKey(Mme record);
-
-    int updateIsModified(Mme record);
-
-    int updateIsModifiedAll(String isModified);
 }

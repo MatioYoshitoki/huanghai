@@ -5,15 +5,24 @@ import com.matio.pojo.User;
 import java.util.List;
 
 public interface UserMapper {
-    int deleteByAccount(String account);
+    int deleteByPrimaryKey(String useraccount);
 
     int insert(User record);
 
     int insertSelective(User record);
 
-    List<User> selectAll();
+    User selectByPrimaryKey(String useraccount);
 
-    int updateByAccount(User record);
+    List<User> selectAll();
+    List<User> updateByAccount(User user);
+
+    int deleteByAccount(String account);
 
     User selectByAccount(String account);
+
+    int updateByPrimaryKeySelective(User record);
+
+    int updateByPrimaryKeyWithBLOBs(User record);
+
+    int updateByPrimaryKey(User record);
 }

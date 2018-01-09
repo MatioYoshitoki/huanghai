@@ -27,7 +27,7 @@ public class Mme {
 
     private String country;
 
-    private String deepSea;
+    private String deepsea;
 
     private String temperature;
 
@@ -81,15 +81,15 @@ public class Mme {
 
     private String abstract4;
 
-    private String operator;
-
     private String operatedate;
 
     private String modifydate;
 
-    private String modifier;
+    private String ismodified;
 
-    private String isModified;
+    private byte[] operator;
+
+    private byte[] modifier;
 
     public Integer getId() {
         return id;
@@ -105,6 +105,14 @@ public class Mme {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getEc1() {
+        return ec1;
+    }
+
+    public void setEc1(String ec1) {
+        this.ec1 = ec1;
     }
 
     public String getEc2() {
@@ -137,15 +145,6 @@ public class Mme {
 
     public void setPdbid(String pdbid) {
         this.pdbid = pdbid;
-    }
-
-    public void setEc1(String ec1) {
-        this.ec1 = ec1;
-    }
-
-    public String getEc1() {
-
-        return ec1;
     }
 
     public String getDbsource() {
@@ -196,53 +195,52 @@ public class Mme {
         this.country = country;
     }
 
-    public void setDeepSea(String deepSea) {
-        this.deepSea = deepSea;
+    public String getDeepsea() {
+        return deepsea;
     }
 
-    public void setTemperature(String temperature) {
-        this.temperature = temperature;
-    }
-
-    public void setPh(String ph) {
-        this.ph = ph;
-    }
-
-    public void setZone(String zone) {
-        this.zone = zone;
-    }
-
-    public void setCofactors(String cofactors) {
-        this.cofactors = cofactors;
-    }
-
-    public void setInhibitors(String inhibitors) {
-        this.inhibitors = inhibitors;
-    }
-
-    public String getDeepSea() {
-
-        return deepSea;
+    public void setDeepsea(String deepsea) {
+        this.deepsea = deepsea;
     }
 
     public String getTemperature() {
         return temperature;
     }
 
+    public void setTemperature(String temperature) {
+        this.temperature = temperature;
+    }
+
     public String getPh() {
         return ph;
+    }
+
+    public void setPh(String ph) {
+        this.ph = ph;
     }
 
     public String getZone() {
         return zone;
     }
 
+    public void setZone(String zone) {
+        this.zone = zone;
+    }
+
     public String getCofactors() {
         return cofactors;
     }
 
+    public void setCofactors(String cofactors) {
+        this.cofactors = cofactors;
+    }
+
     public String getInhibitors() {
         return inhibitors;
+    }
+
+    public void setInhibitors(String inhibitors) {
+        this.inhibitors = inhibitors;
     }
 
     public String getOrigin() {
@@ -413,14 +411,6 @@ public class Mme {
         this.abstract4 = abstract4;
     }
 
-    public String getOperator() {
-        return operator;
-    }
-
-    public void setOperator(String operator) {
-        this.operator = operator;
-    }
-
     public String getOperatedate() {
         return operatedate;
     }
@@ -437,19 +427,27 @@ public class Mme {
         this.modifydate = modifydate;
     }
 
-    public String getModifier() {
+    public String getIsmodified() {
+        return ismodified;
+    }
+
+    public void setIsmodified(String ismodified) {
+        this.ismodified = ismodified;
+    }
+
+    public byte[] getOperator() {
+        return operator;
+    }
+
+    public void setOperator(byte[] operator) {
+        this.operator = operator;
+    }
+
+    public byte[] getModifier() {
         return modifier;
     }
 
-    public void setModifier(String modifier) {
+    public void setModifier(byte[] modifier) {
         this.modifier = modifier;
-    }
-
-    public String getIsModified() {
-        return isModified;
-    }
-
-    public void setIsModified(String isModified) {
-        this.isModified = isModified;
     }
 }
