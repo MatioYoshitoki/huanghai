@@ -5,17 +5,15 @@
     <meta http-equiv="x-ua-compatible" content="IE=Edge, Chrome=1">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
     <title>审核管理</title>
-    <link rel="stylesheet" href="vendor/bootstrap-select/bootstrap-select.css">
-    <link rel="stylesheet" href="vendor/bootstrap-datepicker/datepicker.css">
-    <link rel="stylesheet" href="../asset/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/font-awesome.min.css">
-    <link rel="stylesheet" href="css/animate.min.css">
-    <link rel="stylesheet" href="../asset/easyDialog/css/easydialog.css">
-
-    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="../asset/vendor/bootstrap-select/bootstrap-select.css">
+    <link rel="stylesheet" href="../asset/vendor/bootstrap-datepicker/datepicker.css">
+    <link rel="stylesheet" href="../asset/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../asset/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="../asset/vendor/easyDialog/css/easydialog.css">
+    <link rel="stylesheet" href="../asset/css/admin.css">
     <!--[if lt IE 9]>
-        <script src="js/html5shiv.js"></script>
-        <script src="js/respond.min.js"></script>
+    <script src="../asset/js/admin/html5shiv.js"></script>
+    <script src="../asset/js/admin/respond.min.js"></script>
     <![endif]-->
 </head>
 <body>
@@ -24,13 +22,21 @@
     <section class="layout">
         <sidebar :links="sidebarLinks"></sidebar>
         <section class="main-content">
-            <div class="content-wrap">
-                <div class="row mg-b">
-                    <div class="col-xs-12">
-                        <h3 class="no-margin">审核管理</h3>
-                        <small>对待修改的数据进行审核</small>
-                    </div>
+            <header class="header navbar bg-default">
+                <h4 class="navbar-text">审核管理
+                    <small>对待修改的数据进行审核</small>
+                </h4>
+                <div class="btn-group pull-right mg-r-sm">
+                    <button @click="openPanel('panelPassAll')" type="button" class="btn btn-sm btn-success btn-rounded navbar-btn">
+                        <i class="fa fa-download mg-r-xs"></i>全部通过
+                    </button>
+                    <button @click="openPanel('panelNoPassAll')" type="button" class="btn btn-sm btn-danger btn-rounded navbar-btn">
+                        <i class="fa fa-upload mg-r-xs"></i>全部拒绝
+                        <input id="file" type="file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" class="sr-only" />
+                    </button>
                 </div>
+            </header>
+            <div class="content-wrap">
                 <div class="row">
                     <div class="col-md-12">
                         <section class="panel">
@@ -64,8 +70,6 @@
                                             <input type="text" class="form-control" id="endDate" style="width: 100px;">
                                         </div>
                                         <div @click="request('getExamineList')" class="btn btn-info">搜索</div>
-                                        <div @click="openPanel('panelPassAll')" class="btn btn-success">批量通过</div>
-                                        <div @click="openPanel('panelNoPassAll')" class="btn btn-danger">批量拒绝</div>
                                     </div>
                                 </form>
                             </header>
@@ -334,15 +338,14 @@
     </section>
 </div>
 <script src="../asset/js/frame/jquery-1.11.1.min.js"></script>
-<script src="bootstrap/js/bootstrap.js"></script>
+<script src="../asset/vendor/bootstrap/js/bootstrap.js"></script>
+<script src="../asset/vendor/bootstrap-select/bootstrap-select.js"></script>
+<script src="../asset/vendor/bootstrap-datepicker/bootstrap-datepicker.js"></script>
+<script src="../asset/vendor/easyDialog/js/easydialog.min.js"></script>
 <script src="../asset/js/frame/vue.js"></script>
-<script src="vendor/bootstrap-select/bootstrap-select.js"></script>
-<script src="vendor/bootstrap-datepicker/bootstrap-datepicker.js"></script>
-<script src="../asset/easyDialog/js/easydialog.min.js"></script>
-<script src="config/config.js"></script>
-<script src="js/components/header.js"></script>
-<script src="js/components/sidebar.js"></script>
-<script src="js/base.js"></script>
+<script src="../asset/config/config.js"></script>
+<script src="../asset/components/admin.js"></script>
+<script src="../asset/js/admin/base.js"></script>
 <script>
     var Client = new Vue({
         el: "#client",

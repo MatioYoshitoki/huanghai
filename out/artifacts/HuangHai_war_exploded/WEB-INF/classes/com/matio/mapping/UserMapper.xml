@@ -1,36 +1,86 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.matio.mapping.UserMapper">
-  <resultMap id="BaseResultMap" type="com.matio.pojo.User">
+  <resultMap id="BaseResultMap" type="com.matio.pojo.View_user">
     <id column="userAccount" jdbcType="VARCHAR" property="useraccount" />
     <result column="userRole" jdbcType="INTEGER" property="userrole" />
     <result column="password" jdbcType="VARCHAR" property="password" />
     <result column="userGender" jdbcType="CHAR" property="usergender" />
     <result column="userCreate" jdbcType="CHAR" property="usercreate" />
     <result column="userModify" jdbcType="CHAR" property="usermodify" />
+    <result column="roleAuth" jdbcType="VARCHAR" property="roleauth" />
   </resultMap>
-  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.matio.pojo.User">
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.matio.pojo.View_user">
     <result column="userName" jdbcType="BINARY" property="username" />
     <result column="operator" jdbcType="BINARY" property="operator" />
+    <result column="rolename" jdbcType="BINARY" property="rolename" />
   </resultMap>
   <sql id="Base_Column_List">
-    userAccount, userRole, password, userGender, userCreate, userModify
+    userAccount, userRole, password, userGender, userCreate, userModify, roleAuth
   </sql>
   <sql id="Blob_Column_List">
-    userName, operator
+    userName, operator, roleName
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
-    select 
+  <select id="selectByCondition" parameterType="com.matio.pojo.UserCondition" resultMap="BaseResultMap">
+    select
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
-    from user
-    where userAccount = #{useraccount,jdbcType=VARCHAR}
+    from view_user
+    where
+    userAccount != 'manager' AND
+    <if test="userAccount != null">
+      userAccount = #{userAccount} AND
+    </if>
+    <if test="userName != null">
+      userName = #{userName} AND
+    </if>
+    <if test="roleName != null">
+      roleName = #{roleName} AND
+    </if>
+    <if test="startDate_op != null">
+      userCreate &gt; #{startDate_op} AND
+      userCreate &lt; #{endDate_op} AND
+    </if>
+    <if test="startDate_md != null">
+      userModify &gt; #{startDate_md} AND
+      userModify &lt; #{endDate_md} AND
+    </if>
+    1=1 limit #{startSize},#{endSize}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-    delete from user
-    where userAccount = #{useraccount,jdbcType=VARCHAR}
-  </delete>
+  <select id="selectCountByCondition" parameterType="com.matio.pojo.UserCondition" resultType="java.lang.Integer">
+    select
+    count(*)
+    from view_user
+    where
+    userAccount != 'manager' AND
+    <if test="userAccount != null">
+      userAccount = #{userAccount} AND
+    </if>
+    <if test="userName != null">
+      userName = #{userName} AND
+    </if>
+    <if test="roleName != null">
+      roleName = #{roleName} AND
+    </if>
+    <if test="startDate_op != null">
+      userCreate &gt; #{startDate_op} AND
+      userCreate &lt; #{endDate_op} AND
+    </if>
+    <if test="startDate_md != null">
+      userModify &gt; #{startDate_md} AND
+      userModify &lt; #{endDate_md} AND
+    </if>
+    1=1
+  </select>
+  <select id="selectByAccount" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from view_user
+    where userAccount = #{account,jdbcType=VARCHAR}
+  </select>
   <insert id="insert" parameterType="com.matio.pojo.User">
     insert into user (userAccount, userRole, password, 
       userGender, userCreate, userModify, 
@@ -39,127 +89,9 @@
       #{usergender,jdbcType=CHAR}, #{usercreate,jdbcType=CHAR}, #{usermodify,jdbcType=CHAR}, 
       #{username,jdbcType=BINARY}, #{operator,jdbcType=BINARY})
   </insert>
-  <insert id="insertSelective" parameterType="com.matio.pojo.User">
-    insert into user
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="useraccount != null">
-        userAccount,
-      </if>
-      <if test="userrole != null">
-        userRole,
-      </if>
-      <if test="password != null">
-        password,
-      </if>
-      <if test="usergender != null">
-        userGender,
-      </if>
-      <if test="usercreate != null">
-        userCreate,
-      </if>
-      <if test="usermodify != null">
-        userModify,
-      </if>
-      <if test="username != null">
-        userName,
-      </if>
-      <if test="operator != null">
-        operator,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="useraccount != null">
-        #{useraccount,jdbcType=VARCHAR},
-      </if>
-      <if test="userrole != null">
-        #{userrole,jdbcType=INTEGER},
-      </if>
-      <if test="password != null">
-        #{password,jdbcType=VARCHAR},
-      </if>
-      <if test="usergender != null">
-        #{usergender,jdbcType=CHAR},
-      </if>
-      <if test="usercreate != null">
-        #{usercreate,jdbcType=CHAR},
-      </if>
-      <if test="usermodify != null">
-        #{usermodify,jdbcType=CHAR},
-      </if>
-      <if test="username != null">
-        #{username,jdbcType=BINARY},
-      </if>
-      <if test="operator != null">
-        #{operator,jdbcType=BINARY},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.matio.pojo.User">
-    update user
-    <set>
-      <if test="userrole != null">
-        userRole = #{userrole,jdbcType=INTEGER},
-      </if>
-      <if test="password != null">
-        password = #{password,jdbcType=VARCHAR},
-      </if>
-      <if test="usergender != null">
-        userGender = #{usergender,jdbcType=CHAR},
-      </if>
-      <if test="usercreate != null">
-        userCreate = #{usercreate,jdbcType=CHAR},
-      </if>
-      <if test="usermodify != null">
-        userModify = #{usermodify,jdbcType=CHAR},
-      </if>
-      <if test="username != null">
-        userName = #{username,jdbcType=BINARY},
-      </if>
-      <if test="operator != null">
-        operator = #{operator,jdbcType=BINARY},
-      </if>
-    </set>
-    where userAccount = #{useraccount,jdbcType=VARCHAR}
-  </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.matio.pojo.User">
-    update user
-    set userRole = #{userrole,jdbcType=INTEGER},
-      password = #{password,jdbcType=VARCHAR},
-      userGender = #{usergender,jdbcType=CHAR},
-      userCreate = #{usercreate,jdbcType=CHAR},
-      userModify = #{usermodify,jdbcType=CHAR},
-      userName = #{username,jdbcType=BINARY},
-      operator = #{operator,jdbcType=BINARY}
-    where userAccount = #{useraccount,jdbcType=VARCHAR}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.matio.pojo.User">
-    update user
-    set userRole = #{userrole,jdbcType=INTEGER},
-      password = #{password,jdbcType=VARCHAR},
-      userGender = #{usergender,jdbcType=CHAR},
-      userCreate = #{usercreate,jdbcType=CHAR},
-      userModify = #{usermodify,jdbcType=CHAR}
-    where userAccount = #{useraccount,jdbcType=VARCHAR}
-  </update>
-
-
-  <select id="selectAll" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from user
-    where userAccount != 'manager'
-  </select>
-  <select id="selectByAccount" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from user
-    where userAccount = #{account,jdbcType=VARCHAR}
-  </select>
   <delete id="deleteByAccount" parameterType="java.lang.String">
     delete from user
-    where userAccount = #{account,jdbcType=VARCHAR}
+    where userAccount != 'manager' and userAccount = #{account,jdbcType=VARCHAR}
   </delete>
   <update id="updateByAccount" parameterType="com.matio.pojo.User">
     update user

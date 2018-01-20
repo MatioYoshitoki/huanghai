@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.*;
 import java.lang.reflect.Field;
 import java.util.List;
+import java.util.Properties;
 
 /**
  * Created by matioyoshitoki on 2018/1/2.
@@ -27,26 +28,44 @@ public class CrawlerController {
     View_spider_recordMapper view_spider_recordMapper;
 
     @RequestMapping(value = "/getCrawlerNote", method = RequestMethod.POST , produces="text/json;charset=UTF-8")
-    public String getCrawlerNote(){
+    public String getCrawlerNote() throws FileNotFoundException {
         List<View_spider_record> records = view_spider_recordMapper.selectAll();
         JSONObject result ;
+
         if (records==null){
             result = JsonUtil.fromErrors(Errors.FAILD);
             result.put(Keys.DATA,new JSONArray());
-            result.put(Keys.MSG,"");
-            return result.toJSONString();
+        }else {
+            result = JsonUtil.fromErrors(Errors.SUCCESS);
+            int size = records.size() > 10 ? 10 : records.size();
+            JSONArray data = new JSONArray();
+            for (int i = 0; i < size; i++) {
+                JSONObject tmp = new JSONObject();
+                tmp.put(Keys.NUMBER, records.get(i).getNumber());
+                tmp.put(Keys.OPERATEDATE, records.get(i).getOperatedate());
+                data.add(tmp);
+            }
+            result.put(Keys.DATA, data);
         }
-        result = JsonUtil.fromErrors(Errors.SUCCESS);
-        int size = records.size()>10?10:records.size();
-        JSONArray data = new JSONArray();
-        for (int i=0;i<size;i++){
-            JSONObject tmp = new JSONObject();
-            tmp.put(Keys.NUMBER,records.get(i).getNumber());
-            tmp.put(Keys.OPERATEDATE,records.get(i).getOperatedate());
-            data.add(tmp);
+        try {
+            if (Tools.isCrawlerStarted()){
+                result.put(Keys.STATUS,1);
+            }else {
+                result.put(Keys.STATUS,0);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        result.put(Keys.DATA,data);
-        result.put(Keys.MSG,"");
+        File job = new File("/huanghai_catch/job.properties");
+        Properties properties = new Properties();
+        try {
+            properties.load(new FileInputStream(job));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String time = properties.getProperty("AllCatchService.cron");
+        result.put(Keys.TIME,time);
+        result.put(Keys.MSG, "");
         return result.toJSONString();
     }
 
@@ -103,7 +122,7 @@ public class CrawlerController {
         JSONObject result = JsonUtil.fromErrors(Errors.FAILD);
         result.put(Keys.MSG,Errors.SET_CRAWLER_TIME_FAILD);
         result.put(Keys.DATA,new JSONArray());
-        File job = new File("/root/catch/job.properties");
+        File job = new File("/huanghai_catch/job.properties");
         OutputStreamWriter osw = null;
         BufferedWriter bw ;
         try {
@@ -113,14 +132,23 @@ public class CrawlerController {
             e.printStackTrace();
             return result.toJSONString();
         }
+        String cookie_time = "";
+        String[]tmp = time.split(" ");
+        for (int i=0;i<tmp.length;i++){
 
+            if (i==2){
+                cookie_time += (Integer.valueOf(tmp[i])-3)+" ";
+            }else {
+                cookie_time += tmp[i]+" ";
+            }
+        }
         String content ="# every day, 2 o`clock\n"+
                 "AllCatchService.job=com.matio.huanghaicatch.service.AllCatchService\n"+
                 "AllCatchService.cron="+time+"\n"+
                 "AllCatchService.enable=true\n\n"+
                 "# every hour\n"+
                 "CookieCatchService.job=com.matio.huanghaicatch.service.CookieCatchService\n"+
-                "CookieCatchService.cron=0 * * * *\n"+
+                "CookieCatchService.cron="+cookie_time+"\n"+
                 "CookieCatchService.enable=true";
         try {
             bw.write(content);

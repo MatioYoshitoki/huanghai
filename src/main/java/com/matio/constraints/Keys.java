@@ -23,6 +23,7 @@ public class Keys {
     public static final String PREFIX = "prefix";
     public static final String DATA = "data";
     public static final String CODE = "code";
+    public static final String STATUS = "status";
     public static final String USERACCOUNT = "userAccount";
     public static final String ROLENAME = "roleName";
     public static final String ROLEAUTH = "roleAuth";

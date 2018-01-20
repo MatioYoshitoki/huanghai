@@ -5,34 +5,38 @@
     <meta http-equiv="x-ua-compatible" content="IE=Edge, Chrome=1">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
     <title>数据录入</title>
-    <link rel="stylesheet" href="vendor/bootstrap-select/bootstrap-select.css">
-    <link rel="stylesheet" href="vendor/bootstrap-datepicker/datepicker.css">
-    <link rel="stylesheet" href="../asset/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../asset/easyDialog/css/easydialog.css">
-    <link rel="stylesheet" href="css/font-awesome.min.css">
-    <link rel="stylesheet" href="css/animate.min.css">
-
-    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="../asset/vendor/bootstrap-select/bootstrap-select.css">
+    <link rel="stylesheet" href="../asset/vendor/bootstrap-datepicker/datepicker.css">
+    <link rel="stylesheet" href="../asset/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../asset/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="../asset/vendor/easyDialog/css/easydialog.css">
+    <link rel="stylesheet" href="../asset/css/admin.css">
     <!--[if lt IE 9]>
-        <script src="js/html5shiv.js"></script>
-        <script src="js/respond.min.js"></script>
+    <script src="../asset/js/admin/html5shiv.js"></script>
+    <script src="../asset/js/admin/respond.min.js"></script>
     <![endif]-->
 </head>
 <body>
 <div class="app" data-sidebar="locked" id="client">
-    <navbar :user="user" :message="message"></navbar>
+    <navbar :user="user"></navbar>
     <section class="layout">
         <sidebar :links="sidebarLinks"></sidebar>
         <section class="main-content">
-            <div class="content-wrap">
-                <div class="row mg-b">
-                    <div class="col-xs-12">
-                        <h3 class="no-margin">数据录入</h3>
-                        <small>手工往数据库内录入数据</small>
-                        <div @click="inputFile()" class="btn btn-info pull-right">批量导入</div>
+            <header class="header navbar bg-default">
+                <h4 class="navbar-text">数据录入
+                    <small>手动录入数据、或上传Excel文件实现批量导入</small>
+                </h4>
+                <div class="btn-group pull-right mg-r-sm">
+                    <button @click="downFile()" type="button" class="btn btn-sm btn-success btn-rounded navbar-btn">
+                        <i class="fa fa-download mg-r-xs"></i>下载批量导入模板
+                    </button>
+                    <button @click="inputFile()" type="button" class="btn btn-sm btn-primary btn-rounded navbar-btn">
+                        <i class="fa fa-upload mg-r-xs"></i>批量导入
                         <input id="file" type="file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" class="sr-only" />
-                    </div>
+                    </button>
                 </div>
+            </header>
+            <div class="content-wrap">
                 <div class="row">
                     <div class="col-md-12">
                         <section class="panel">
@@ -265,23 +269,19 @@
     </section>
 </div>
 <script src="../asset/js/frame/jquery-1.11.1.min.js"></script>
-<script src="bootstrap/js/bootstrap.js"></script>
+<script src="../asset/vendor/bootstrap/js/bootstrap.js"></script>
+<script src="../asset/vendor/bootstrap-select/bootstrap-select.js"></script>
+<script src="../asset/vendor/bootstrap-datepicker/bootstrap-datepicker.js"></script>
+<script src="../asset/vendor/easyDialog/js/easydialog.min.js"></script>
 <script src="../asset/js/frame/vue.js"></script>
-<script src="vendor/bootstrap-select/bootstrap-select.js"></script>
-<script src="vendor/bootstrap-datepicker/bootstrap-datepicker.js"></script>
-<script src="../asset/easyDialog/js/easydialog.min.js"></script>
-<script src="js/components/header.js"></script>
-<script src="js/components/sidebar.js"></script>
-<script src="js/base.js"></script>
-<script src="config/config.js"></script>
+<script src="../asset/config/config.js"></script>
+<script src="../asset/components/admin.js"></script>
+<script src="../asset/js/admin/base.js"></script>
 <script>
     var Client = new Vue({
         el: "#client",
         data: {
             user: {},
-            message: [
-                { username: "陈煦", operation: "修改了系统管理员身份"}
-            ],
             sidebarLinks: Config.sidebar,
             referLength: 0,
             referShow: [true, false, false, false],
@@ -341,24 +341,27 @@
                             url : Service.getUrl("inputFile"),
                             type : 'POST',
                             data : formData,
-                            // 告诉jQuery不要去处理发送的数据
                             processData : false,
-                            // 告诉jQuery不要去设置Content-Type请求头
                             contentType : false,
                             beforeSend:function(){
                                 Dialog.info("正在进行，请稍候");
                             },
                             success : function(responseStr) {
                                 var msg = JSON.parse(responseStr);
-                                if(responseStr.status===1){
-                                    Dialog.info("所有数据导入成功！");
+                                if(Number(msg.code) === 1){
+                                    if(Number(msg.count) === msg.data.length) {
+                                        Dialog.info("该文件中的数据已经全部导入，无须再次导入");
+                                    } else if(msg.data.length > 0) {
+                                        Dialog.info("批量导入成功，但locus为 " + msg.data.join(",") + " 数据导入失败！");
+                                    } else {
+                                        Dialog.info("所有数据导入成功！");
+                                    }
                                 }else{
-                                    console.log(msg.data.join(","));
-                                    Dialog.warn("locus：" + msg.data.join(",") + " 数据导入失败！");
+                                    Dialog.warn("批量导入失败！");
                                 }
                             },
                             error : function(responseStr) {
-                                console.log("error");
+                                Dialog.warn("系统异常！");
                             }
                         })
                     })
@@ -384,10 +387,12 @@
                     item = null;
 
                 if(type === "getParam") {
+                    // 获取分类和EC2
                     data = {};
                     url = Service.getUrl("getParam");
                     successFn = Client.getParamCallback;
                 } else if(type === "createData") {
+                    // 创建数据
                     data = this.create;
                     data.type = $("#selectForType").selectpicker("val");
                     data.ec2 = $("#selectForEC2").selectpicker("val");
@@ -395,7 +400,7 @@
                     data.operator = this.user.userName;
                     if(data.title === "" || data.type === "" || data.ec2 === "" ||
                         data.locus === "" || data.pdbId === "" || data.date === "") {
-                        Dialog.info("请将带红色星号的必填信息都填写完整");
+                        Dialog.tip("请将带红色星号的必填信息都填写完整");
                         return;
                     }
                     url = Service.getUrl("createData");
@@ -410,6 +415,12 @@
                         errorFn: errorCallback
                     }
                 });
+            },
+            /**
+             * 下载批量导入模板
+             */
+            downFile: function() {
+                location.href = "../asset/download/model.xlsx";
             },
             /**
              * 导入 EXCEL 文件

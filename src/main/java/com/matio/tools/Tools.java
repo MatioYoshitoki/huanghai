@@ -49,19 +49,19 @@ public class Tools {
 
     public static boolean isCrawlerStarted() throws IOException {
         String result = runProcess("jps -l");
-        return result.contains("huanghai_catch");
+        return result.contains("huanghaicatch");
     }
 
     public static void startCrawler() throws IOException {
-        runProcess("/root/catch/startUp.sh");
+        runProcess("/huanghai_catch/startup.sh");
     }
 
     public static boolean stopCrawler() throws IOException {
-        File pid_file = new File("root/catch/pid");
+        File pid_file = new File("/root/catch/pid");
         BufferedReader bufferedReader = new BufferedReader(new FileReader(pid_file));
         String tmp ;
         if ((tmp = bufferedReader.readLine())!=null){
-            runProcess("kill "+tmp);
+            runProcess("kill "+tmp.split(":")[1]);
             return true;
         }else {
             return false;

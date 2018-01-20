@@ -50,7 +50,7 @@ a, a:hover {
       .header .nav .header-title .header-icon {
         width: 40px;
         height: 40px;
-        background: url("../img/detail_logo2.png") center no-repeat;
+        background: url("../img/web/detail_logo2.png") center no-repeat;
         float: left; }
       .header .nav .header-title .header-text {
         line-height: 40px;
@@ -67,7 +67,7 @@ a, a:hover {
 .footer {
   width: 100%;
   height: 300px;
-  background: url("../img/footer.png") center no-repeat;
+  background: url("../img/web/footer.png") center no-repeat;
   position: relative; }
   .footer .footer-con {
     width: 1000px;
@@ -93,7 +93,7 @@ a, a:hover {
 .breadcrumb {
   width: 100%;
   height: 650px;
-  background: url("../img/background.jpg") center no-repeat;
+  background: url("../img/web/background.jpg") center no-repeat;
   border-radius: 0; }
   .breadcrumb .bread-con {
     width: 1000px;
@@ -143,7 +143,7 @@ a, a:hover {
 .banner {
   width: 100%;
   height: 200px;
-  background: url("../img/header_browse.png") center no-repeat;
+  background: url("../img/web/header_browse.png") center no-repeat;
   border-radius: 0; }
 
 .index .intro-con {
@@ -264,7 +264,7 @@ a, a:hover {
         width: 250px;
         height: 346px;
         float: right;
-        background: url("../img/browse_pic.png") center no-repeat; }
+        background: url("../img/web/browse_pic.png") center no-repeat; }
       .browse .tab-content .tab-pane .catalog-con {
         width: 100%;
         height: auto;
@@ -312,7 +312,7 @@ a, a:hover {
       .detail .detail-con .detail-header .header-icon {
         width: 40px;
         height: 40px;
-        background: url("../img/detail_logo.png") center no-repeat; }
+        background: url("../img/web/detail_logo.png") center no-repeat; }
       .detail .detail-con .detail-header .header-title {
         width: 100%;
         height: 105px;
@@ -321,7 +321,7 @@ a, a:hover {
         line-height: 105px;
         color: #fff;
         text-align: center;
-        background: url("../img/header.png") center no-repeat; }
+        background: url("../img/web/header.png") center no-repeat; }
     .detail .detail-con .detail-body {
       width: 100%;
       height: 100%;
@@ -340,27 +340,27 @@ a, a:hover {
             height: 35px; }
           .detail .detail-con .detail-body .tab-list .tab-item .tab1 {
             width: 220px;
-            background: url("../img/tab1_white.png") center no-repeat; }
+            background: url("../img/web/tab1_white.png") center no-repeat; }
           .detail .detail-con .detail-body .tab-list .tab-item .tab2 {
             width: 195px;
-            background: url("../img/tab2_white.png") center no-repeat; }
+            background: url("../img/web/tab2_white.png") center no-repeat; }
           .detail .detail-con .detail-body .tab-list .tab-item .tab3 {
             width: 265px;
-            background: url("../img/tab3_white.png") center no-repeat; }
+            background: url("../img/web/tab3_white.png") center no-repeat; }
           .detail .detail-con .detail-body .tab-list .tab-item .tab4 {
             width: 155px;
-            background: url("../img/tab4_white.png") center no-repeat; }
+            background: url("../img/web/tab4_white.png") center no-repeat; }
         .detail .detail-con .detail-body .tab-list .active .tab1 {
-          background: url("../img/tab1_blue.png") center no-repeat; }
+          background: url("../img/web/tab1_blue.png") center no-repeat; }
         .detail .detail-con .detail-body .tab-list .active .tab2 {
           width: 195px;
-          background: url("../img/tab2_blue.png") center no-repeat; }
+          background: url("../img/web/tab2_blue.png") center no-repeat; }
         .detail .detail-con .detail-body .tab-list .active .tab3 {
           width: 265px;
-          background: url("../img/tab3_blue.png") center no-repeat; }
+          background: url("../img/web/tab3_blue.png") center no-repeat; }
         .detail .detail-con .detail-body .tab-list .active .tab4 {
           width: 155px;
-          background: url("../img/tab4_blue.png") center no-repeat; }
+          background: url("../img/web/tab4_blue.png") center no-repeat; }
       .detail .detail-con .detail-body hr {
         height: 1px;
         margin: 0;
@@ -396,5 +396,23 @@ a, a:hover {
         overflow: hidden; }
       .detail .detail-con .detail-body .active {
         display: block; }
+
+.about {
+  width: 100%;
+  height: auto; }
+  .about .breadcrumb {
+    margin-bottom: 0; }
+    .about .breadcrumb .bread-con {
+      height: auto; }
+  .about .about-con {
+    width: 80%;
+    height: 500px;
+    padding: 20px;
+    margin: 0 auto;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.7);
+    position: relative;
+    top: 50px;
+    overflow: auto; }
 
 /*# sourceMappingURL=style.css.map */

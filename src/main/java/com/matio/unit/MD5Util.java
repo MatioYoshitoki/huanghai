@@ -53,7 +53,7 @@ public class MD5Util {
 	}
 
 	public static void main(String[] args) throws NoSuchAlgorithmException {
-		String aa = encode32("123456");
+		String aa = encode32("2031");
 		System.out.println(aa);
 	}
 }
