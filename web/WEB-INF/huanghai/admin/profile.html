@@ -5,22 +5,18 @@
     <meta http-equiv="x-ua-compatible" content="IE=Edge, Chrome=1">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
     <title>用户信息</title>
-    <link rel="stylesheet" href="vendor/bootstrap-select/bootstrap-select.css">
-    <link rel="stylesheet" href="vendor/bootstrap-datepicker/datepicker.css">
-    <link rel="stylesheet" href="../asset/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/font-awesome.min.css">
-    <link rel="stylesheet" href="css/animate.min.css">
-    <link rel="stylesheet" href="../asset/easyDialog/css/easydialog.css">
-
-    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="../asset/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../asset/vendor/easyDialog/css/easydialog.css">
+    <link rel="stylesheet" href="../asset/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="../asset/css/admin.css">
     <!--[if lt IE 9]>
-        <script src="js/html5shiv.js"></script>
-        <script src="js/respond.min.js"></script>
+    <script src="../asset/js/admin/html5shiv.js"></script>
+    <script src="../asset/js/admin/respond.min.js"></script>
     <![endif]-->
 </head>
 <body>
 <div class="app" id="client">
-    <navbar :user="user" :message="message"></navbar>
+    <navbar :user="user"></navbar>
     <section class="layout">
         <sidebar :links="sidebarLinks"></sidebar>
         <aside class="canvas-right sidebar-300 bg-default">
@@ -29,7 +25,7 @@
                     <div class="row">
                         <div class="col-xs-12 profile-cover">
                             <div class="profile-avatar text-center">
-                                <img src="img/avatar.jpg" class="avatar avatar-lg bordered-avatar img-circle" alt="">
+                                <img src="../asset/img/admin/avatar.png" class="avatar avatar-lg bordered-avatar img-circle" alt="">
                             </div>
                         </div>
                         <div class="col-xs-12 text-center mg-t-md">
@@ -58,249 +54,24 @@
         </aside>
         <section class="main-content">
             <div class="content-wrap">
-                <img src="img/building.jpg" />
-                <!--<div class="row">-->
-                <!--<div class="col-md-6 mg-b-lg">-->
-                <!--<section class="panel no-border overflow-hidden">-->
-                <!--<div class="photobox-heading">-->
-                <!--<span class="fa-stack fa-sm thumb">-->
-                <!--<i class="fa fa-circle fa-stack-2x text-danger"></i>-->
-                <!--<i class="fa fa-thumbs-up fa-stack-1x fa-inverse"></i>-->
-                <!--</span>-->
-                <!--</div>-->
-                <!--<div class="panel-body">-->
-                <!--<a href="javascript:;" class="pull-left mg-r-md">-->
-                <!--<img src="img/avatar.jpg" class="avatar avatar-sm img-circle" alt="">-->
-                <!--</a>-->
-                <!--We cannot solve our problems with the same thinking we used when we created them.-->
-                <!--</div>-->
-                <!--<div class="panel-footer bg-white">-->
-                <!--<div class="row pd-t-xs pd-b-xs">-->
-                <!--<div class="col-xs-4 text-center">-->
-                <!--<a href="javascript:;">-->
-                <!--<i class="fa fa-heart mg-r-xs"></i>Like</a>-->
-                <!--</div>-->
-                <!--<div class="col-xs-4 text-center">-->
-                <!--<a href="javascript:;">-->
-                <!--<i class="fa fa-comment-o mg-r-xs"></i>Chat</a>-->
-                <!--</div>-->
-                <!--<div class="col-xs-4 text-center">-->
-                <!--<a href="javascript:;">-->
-                <!--<i class="fa fa-hand-o-right mg-r-xs"></i>Poke</a>-->
-                <!--</div>-->
-                <!--</div>-->
-                <!--</div>-->
-                <!--</section>-->
-                <!--<section class="panel no-border">-->
-                <!--<form>-->
-                <!--<textarea placeholder="Share something new..." rows="2" class="form-control no-border"></textarea>-->
-                <!--</form>-->
-                <!--<div class="panel-footer">-->
-                <!--<button class="btn btn-danger pull-right">Post</button>-->
-                <!--<ul class="nav nav-pills">-->
-                <!--<li>-->
-                <!--<a href="javascript:;" class="btn btn-xs">-->
-                <!--<i class="fa fa-pencil"></i>-->
-                <!--</a>-->
-                <!--</li>-->
-                <!--<li>-->
-                <!--<a href="javascript:;" class="btn btn-xs">-->
-                <!--<i class="fa fa-link"></i>-->
-                <!--</a>-->
-                <!--</li>-->
-                <!--<li>-->
-                <!--<a href="javascript:;" class="btn btn-xs">-->
-                <!--<i class="fa fa-camera"></i>-->
-                <!--</a>-->
-                <!--</li>-->
-                <!--<li>-->
-                <!--<a href="javascript:;" class="btn btn-xs">-->
-                <!--<i class=" fa fa-film"></i>-->
-                <!--</a>-->
-                <!--</li>-->
-                <!--<li>-->
-                <!--<a href="javascript:;" class="btn btn-xs">-->
-                <!--<i class="fa fa-microphone"></i>-->
-                <!--</a>-->
-                <!--</li>-->
-                <!--</ul>-->
-                <!--</div>-->
-                <!--</section>-->
-                <!--<section class="panel panel-primary">-->
-                <!--<div class="panel-heading">People you may know-->
-                <!--<a href="javascript:;" class="btn btn-primary btn-xs btn-rounded pull-right pd-l-sm pd-r-sm">view more</a>-->
-                <!--</div>-->
-                <!--<ul class="list-group">-->
-                <!--<li class="list-group-item">-->
-                <!--<span class="pull-left mg-t-xs mg-r-md">-->
-                <!--<img src="img/face3.jpg" class="avatar avatar-sm img-circle" alt="">-->
-                <!--</span>-->
-                <!--<div class="show no-margin pd-t-xs">-->
-                <!--Gary Stone-->
-                <!--<small class="pull-right">1,244 Followers</small>-->
-                <!--</div>-->
-                <!--<small class="text-muted">Friends with Kevin Hanson</small>-->
-                <!--</li>-->
-                <!--<li class="list-group-item">-->
-                <!--<span class="pull-left mg-t-xs mg-r-md">-->
-                <!--<img src="img/face5.jpg" class="avatar avatar-sm img-circle" alt="">-->
-                <!--</span>-->
-                <!--<div class="show no-margin pd-t-xs">-->
-                <!--Taylor King-->
-                <!--<small class="pull-right">1,244 Followers</small>-->
-                <!--</div>-->
-                <!--<small class="text-muted">Friends with John Tylor</small>-->
-                <!--</li>-->
-                <!--<li class="list-group-item">-->
-                <!--<span class="pull-left mg-t-xs mg-r-md">-->
-                <!--<img src="img/face1.jpg" class="avatar avatar-sm img-circle" alt="">-->
-                <!--</span>-->
-                <!--<div class="show no-margin pd-t-xs">-->
-                <!--Taylor King-->
-                <!--<small class="pull-right">1,244 Followers</small>-->
-                <!--</div>-->
-                <!--<small class="text-muted">Friends with Jack Beanstalk</small>-->
-                <!--</li>-->
-                <!--</ul>-->
-                <!--</section>-->
-                <!--<section class="panel">-->
-                <!--<div class="panel-body">-->
-                <!--<a href="javascript:;" class="pull-left mg-r-md">-->
-                <!--<img src="img/avatar.jpg" class="avatar avatar-md img-circle" alt="">-->
-                <!--</a>-->
-                <!--<div>Gary Stone-->
-                <!--<small class="pull-right">6,387 Followers</small>-->
-                <!--</div>-->
-                <!--<small>San Francisco, CA</small>-->
-                <!--<p>-->
-                <!--<a href="javascript:;" class="btn btn-primary btn-xs">Send request</a>-->
-                <!--</p>-->
-                <!--</div>-->
-                <!--</section>-->
-                <!--</div>-->
-                <!--<div class="col-md-6">-->
-                <!--<section class="panel no-border">-->
-                <!--<div class="panel-body">-->
-                <!--<a href="javascript:;" class="pull-left mg-r-md">-->
-                <!--<img src="img/avatar.jpg" class="avatar avatar-md img-circle" alt="">-->
-                <!--</a>-->
-                <!--<div>Gary Stone-->
-                <!--<small class="pull-right">Yesterday, 13:48</small>-->
-                <!--</div>-->
-                <!--<small>-->
-                <!--<i class="fa fa-map-marker pd-r-xs"></i>San Francisco, CA</small>-->
-                <!--<p>-->
-                <!--Is thinking of bananas-->
-                <!--</p>-->
-                <!--</div>-->
-                <!--<div class="panel-footer">-->
-                <!--<a href="javascript:;" class="text-muted">-->
-                <!--<i class="fa fa-comments mg-r-xs"></i>Add comment-->
-                <!--</a>-->
-                <!--</div>-->
-                <!--</section>-->
-                <!--<section class="panel panel-success bg-success">-->
-                <!--<div class="panel-body">-->
-                <!--<a href="javascript:;" class="pull-left mg-r-md">-->
-                <!--<img src="img/face4.jpg" class="avatar avatar-md img-circle" alt="">-->
-                <!--</a>-->
-                <!--<div>-->
-                <!--<b>Gary Stone</b>-->
-                <!--<small class="pull-right">Yesterday, 13:48</small>-->
-                <!--</div>-->
-                <!--<small>-->
-                <!--<i class="fa fa-map-marker pd-r-xs"></i>San Francisco, CA</small>-->
-                <!--<div>Is thinking of bananas-->
-                <!--<div class="btn-group pull-right">-->
-                <!--<a class="btn btn-color btn-xs" role="button">Don't Suggest</a>-->
-                <!--<a class="btn btn-danger btn-xs" role="button">Add as friend</a>-->
-                <!--</div>-->
-                <!--</div>-->
-                <!--</div>-->
-                <!--</section>-->
-                <!--<section class="panel panel-primary post bg-primary">-->
-                <!--<div class="panel-heading">-->
-                <!--<i class="fa fa-twitter pd-r-sm"></i>Recent tweets-->
-                <!--</div>-->
-                <!--<ul class="list-group bg-none">-->
-                <!--<li class="list-group-item">-->
-                <!--<small>A person who never made a mistake never tried anything new.-->
-                <!--<a href="javascript:;">@Issac</a>-->
-                <!--</small>-->
-                <!--<small class="center-block">3 minutes ago</small>-->
-                <!--</li>-->
-                <!--<li class="list-group-item">-->
-                <!--<small>The true sign of intelligence is not knowledge but imagination.-->
-                <!--<a href="javascript:;">@Newton</a>-->
-                <!--</small>-->
-                <!--<small class="center-block">12 minutes ago</small>-->
-                <!--</li>-->
-                <!--</ul>-->
-                <!--</section>-->
-                <!--<section class="panel no-border post overflow-hidden bg-none">-->
-                <!--<div class="panel-body">-->
-                <!--<div class="mg-b-sm">-->
-                <!--<a href="javascript:;" class="pull-left mg-r-sm">-->
-                <!--<img src="img/avatar.jpg" class="avatar avatar-sm img-circle" alt="">-->
-                <!--</a>-->
-                <!--<div class="h6 no-margin">-->
-                <!--<b>Gary Stone</b>-->
-                <!--<span class="text-muted pull-right">Yesterday, 13:48</span>-->
-                <!--</div>-->
-                <!--<small class="text-muted">-->
-                <!--<i class="fa fa-map-marker pd-r-xs"></i>San Francisco, CA-->
-                <!--</small>-->
-                <!--<p>Insanity: doing the same thing over and over again and expecting different results.</p>-->
-                <!--</div>-->
-                <!--<small class="text-muted">-->
-                <!--<span class="mg-r-sm">Comment</span>-->
-                <!--<span class="mg-r-sm">Share</span>-->
-                <!--<span class="mg-r-sm">Like</span>-->
-                <!--<span class="mg-r-sm">More</span>-->
-                <!--</small>-->
-                <!--<div class="mg-t-lg pd-l-lg">-->
-                <!--<a href="javascript:;" class="pull-left mg-r-sm">-->
-                <!--<img src="img/face4.jpg" class="avatar avatar-sm img-circle" alt="">-->
-                <!--</a>-->
-                <!--<div class="h6 no-margin">-->
-                <!--<b>Gary Stone</b>-->
-                <!--</div>-->
-                <!--<p>So many-->
-                <!--<a href="javascript:;">#quotes</a>so little time</p>-->
-                <!--<small class="text-muted">-->
-                <!--<span class="mg-r-sm">2 Minutes ago</span>-->
-                <!--<span class="mg-r-sm">Share</span>-->
-                <!--<span class="mg-r-sm">Like</span>-->
-                <!--</small>-->
-                <!--</div>-->
-                <!--<div class="mg-t-lg pd-l-lg">-->
-                <!--<a href="javascript:;" class="pull-left mg-r-sm">-->
-                <!--<img src="img/face3.jpg" class="avatar avatar-sm img-circle" alt="">-->
-                <!--</a>-->
-                <!--<div class="h6 no-margin">-->
-                <!--<b>Gary Stone</b>-->
-                <!--</div>-->
-                <!--<p>Thats what my mother keeps telling me. :) lol</p>-->
-                <!--<small class="text-muted">-->
-                <!--<span class="mg-r-sm">2 Minutes ago</span>-->
-                <!--<span class="mg-r-sm">Share</span>-->
-                <!--<span class="mg-r-sm">Like</span>-->
-                <!--<i class="fa fa-tags" data-toggle="tooltip" data-original-title="View tags"></i>-->
-                <!--</small>-->
-                <!--</div>-->
-                <!--<div class="mg-t-lg pd-l-lg">-->
-                <!--<form role="form" class="form-horizontal">-->
-                <!--<div class="form-group no-margin">-->
-                <!--<div class="col-sm-12 no-padding">-->
-                <!--<input type="text" class="form-control input-sm no-border" placeholder="Join the conversation">-->
-                <!--</div>-->
-                <!--</div>-->
-                <!--</form>-->
-                <!--</div>-->
-                <!--</div>-->
-                <!--</section>-->
-                <!--</div>-->
-                <!--</div>-->
+                <div class="row">
+                    <div class="col-md-12">
+                        <section class="panel panel-primary">
+                            <div class="panel-heading">拥有权限</div>
+                            <ul class="list-group">
+                                <li class="list-group-item" v-for="item in sidebarLinks">
+                                    <span class="pull-left mg-t-xs mg-r-md">
+                                        <i :class="item.icon" class="fa"></i>
+                                    </span>
+                                    <div class="show no-margin pd-t-xs">
+                                        <span v-text="item.name"></span>
+                                    </div>
+                                    <small class="text-muted" v-text="item.intro"></small>
+                                </li>
+                            </ul>
+                        </section>
+                    </div>
+                </div>
             </div>
             <div id="panelModify" class="panel panel-color sr-only panel-custom">
                 <div class="panel-heading">
@@ -339,14 +110,12 @@
     </section>
 </div>
 <script src="../asset/js/frame/jquery-1.11.1.min.js"></script>
-<script src="bootstrap/js/bootstrap.js"></script>
+<script src="../asset/vendor/bootstrap/js/bootstrap.js"></script>
+<script src="../asset/vendor/easyDialog/js/easydialog.min.js"></script>
 <script src="../asset/js/frame/vue.js"></script>
-<script src="vendor/jquery.easing.min.js"></script>
-<script src="../asset/easyDialog/js/easydialog.min.js"></script>
-<script src="config/config.js"></script>
-<script src="js/components/header.js"></script>
-<script src="js/components/sidebar.js"></script>
-<script src="js/base.js"></script>
+<script src="../asset/components/admin.js"></script>
+<script src="../asset/config/config.js"></script>
+<script src="../asset/js/admin/base.js"></script>
 <script>
     var Client = new Vue({
         el: "#client",
@@ -420,6 +189,7 @@
                     }
                     if(!validator.password(item.newPwd) || !validator.password(item.newPwdAgain)) {
                         alert("密码格式不正确");
+                        return;
                     }
                     url = Service.getUrl("modifyPwd");
                     data = {

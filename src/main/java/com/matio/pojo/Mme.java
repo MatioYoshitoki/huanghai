@@ -85,7 +85,7 @@ public class Mme {
 
     private String modifydate;
 
-    private String ismodified;
+    private String isModified;
 
     private byte[] operator;
 
@@ -427,12 +427,12 @@ public class Mme {
         this.modifydate = modifydate;
     }
 
-    public String getIsmodified() {
-        return ismodified;
+    public String getIsModified() {
+        return isModified;
     }
 
-    public void setIsmodified(String ismodified) {
-        this.ismodified = ismodified;
+    public void setIsModified(String isModified) {
+        this.isModified = isModified;
     }
 
     public byte[] getOperator() {

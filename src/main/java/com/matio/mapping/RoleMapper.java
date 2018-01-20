@@ -1,27 +1,21 @@
 package com.matio.mapping;
 
 import com.matio.pojo.Role;
+import com.matio.pojo.UserCondition;
 
 import java.util.List;
 
 public interface RoleMapper {
-    int deleteByPrimaryKey(Integer roleid);
 
-    int insert(Role record);
+    List<Role> selectAll(UserCondition userCondition);
 
-    int insertSelective(Role record);
-
-    List<Role> selectAll();
-
-    Role selectByRoleName(String rolename);
+    int selectCountAll();
 
     List<Role> selectRole();
 
-    Role selectByPrimaryKey(Integer roleid);
-
-    int updateByPrimaryKeySelective(Role record);
-
-    int updateByPrimaryKeyWithBLOBs(Role record);
+    int insert(Role record);
 
     int updateByPrimaryKey(Role record);
+
+    int deleteByPrimaryKey(Integer roleid);
 }

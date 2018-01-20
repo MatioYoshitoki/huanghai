@@ -5,22 +5,20 @@
     <meta http-equiv="x-ua-compatible" content="IE=Edge, Chrome=1">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
     <title>数据管理</title>
-    <link rel="stylesheet" href="vendor/bootstrap-select/bootstrap-select.css">
-    <link rel="stylesheet" href="vendor/bootstrap-datepicker/datepicker.css">
-    <link rel="stylesheet" href="../asset/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/font-awesome.min.css">
-    <link rel="stylesheet" href="css/animate.min.css">
-    <link rel="stylesheet" href="../asset/easyDialog/css/easydialog.css">
-
-    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="../asset/vendor/bootstrap-select/bootstrap-select.css">
+    <link rel="stylesheet" href="../asset/vendor/bootstrap-datepicker/datepicker.css">
+    <link rel="stylesheet" href="../asset/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../asset/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="../asset/vendor/easyDialog/css/easydialog.css">
+    <link rel="stylesheet" href="../asset/css/admin.css">
     <!--[if lt IE 9]>
-        <script src="js/html5shiv.js"></script>
-        <script src="js/respond.min.js"></script>
+    <script src="../asset/js/admin/html5shiv.js"></script>
+    <script src="../asset/js/admin/respond.min.js"></script>
     <![endif]-->
 </head>
 <body>
 <div class="app" data-sidebar="locked" id="client">
-    <navbar :user="user" :message="message"></navbar>
+    <navbar :user="user"></navbar>
     <section class="layout">
         <sidebar :links="sidebarLinks"></sidebar>
         <section class="main-content">
@@ -99,20 +97,29 @@
                                                 <span v-if="item.isModified == 1" class="text-danger">审核中</span>
                                                 <span v-else class="text-success">正常</span>
                                             </td>
-                                            <td v-if="item.isModified == 1">
+                                            <td class="text-center" v-if="isRoot == true || hasExamine == true">
                                                 <button @click="openPanel('panelView', item)" class="btn btn-default">
                                                     <i class="fa fa-adn"></i>查看
                                                 </button>
-                                            </td>
-                                            <td v-else class="text-center">
-                                                <button @click="openPanel('panelView', item)" class="btn btn-default">
-                                                    <i class="fa fa-adn"></i>查看
+                                                <button v-if="item.isModified == 0" @click="openPanel('panelModify', item)" class="btn btn-default mg-l">
+                                                    <i class="fa fa-edit"></i>修改
                                                 </button>
-                                                <button @click="openPanel('panelModify', item)" class="btn btn-default mg-l">
+                                                <button v-else disabled @click="openPanel('panelModify', item)" class="btn btn-default mg-l">
                                                     <i class="fa fa-edit"></i>修改
                                                 </button>
                                                 <button v-if="isRoot == true" @click="openPanel('panelDelete', item)" class="btn btn-default mg-l">
                                                     <i class="fa fa-remove"></i>删除
+                                                </button>
+                                            </td>
+                                            <td class="text-center" v-else>
+                                                <button @click="openPanel('panelView', item)" class="btn btn-default">
+                                                    <i class="fa fa-adn"></i>查看
+                                                </button>
+                                                <button v-if="item.isModified == 0" @click="openPanel('panelModify', item)" class="btn btn-default mg-l">
+                                                    <i class="fa fa-edit"></i>修改
+                                                </button>
+                                                <button v-else disabled @click="openPanel('panelModify', item)" class="btn btn-default mg-l">
+                                                    <i class="fa fa-edit"></i>修改
                                                 </button>
                                             </td>
                                         </tr>
@@ -547,7 +554,7 @@
                             <textarea v-model="modify.origin" class="form-control" rows="5"></textarea>
                         </div>
                     </div>
-                    <div class="form-group" v-if="isRoot == false">
+                    <div class="form-group" v-if="isRoot == false && hasExamine == false">
                         <label class="col-sm-2 control-label"><span class="text-danger">*</span>备注</label>
                         <div class="col-sm-10">
                             <textarea v-model="modify.note" class="form-control" rows="5"></textarea>
@@ -556,7 +563,7 @@
                 </form>
             </div>
             <div class="panel-footer">
-                <button v-if="isRoot == true" @click="request('modify')" class="btn btn-default center-block">修改数据</button>
+                <button v-if="isRoot == true || hasExamine" @click="request('modify')" class="btn btn-default center-block">修改数据</button>
                 <button v-else @click="request('addExamine')" class="btn btn-default center-block">修改数据</button>
             </div>
         </div>
@@ -576,27 +583,24 @@
     </section>
 </div>
 <script src="../asset/js/frame/jquery-1.11.1.min.js"></script>
-<script src="bootstrap/js/bootstrap.js"></script>
+<script src="../asset/vendor/bootstrap/js/bootstrap.js"></script>
+<script src="../asset/vendor/bootstrap-select/bootstrap-select.js"></script>
+<script src="../asset/vendor/bootstrap-datepicker/bootstrap-datepicker.js"></script>
+<script src="../asset/vendor/easyDialog/js/easydialog.min.js"></script>
 <script src="../asset/js/frame/vue.js"></script>
-<script src="vendor/bootstrap-select/bootstrap-select.js"></script>
-<script src="vendor/bootstrap-datepicker/bootstrap-datepicker.js"></script>
-<script src="../asset/easyDialog/js/easydialog.min.js"></script>
-<script src="config/config.js"></script>
-<script src="js/components/header.js"></script>
-<script src="js/components/sidebar.js"></script>
-<script src="js/base.js"></script>
+<script src="../asset/config/config.js"></script>
+<script src="../asset/components/admin.js"></script>
+<script src="../asset/js/admin/base.js"></script>
 <script>
     var Client = new Vue({
         el: "#client",
         data: {
             user: {},
-            message: [
-                { username: "陈煦", operation: "修改了系统管理员身份"}
-            ],
             sidebarLinks: [],
             dataList: [],
             dataListAfterSearch: [],
             isRoot: false,
+            hasExamine: false,
             table: {
                 // 分页部分
                 recordNumber: 0,    // 数据数目
@@ -621,14 +625,19 @@
         mounted: function () {
             this.$nextTick(function () {
                 init(Client, function() {
+                    var auth = Client.user.roleAuth;
                     // 初始化组件，以及获取相应数据
                     $("#startDate").datepicker({"format": "yyyy-mm-dd"});
                     $("#endDate").datepicker({"format": "yyyy-mm-dd"});
                     Client.request("getDataList");
                     Client.request("getParam");
                     // 判断当前用户是否是系统管理员
-                    if(Client.user.roleName === "系统管理员") {
+                    if(Client.user.roleName === "超级管理员") {
                         Client.isRoot = true;
+                    }
+                    // 判断当前用户是否有审核权限
+                    if(auth.indexOf("6") !== -1) {
+                        Client.hasExamine = true;
                     }
                 });
             })
@@ -665,10 +674,10 @@
                     data.origin = origin;
                     this.view = data;
                 } else if(panel === "panelModify") {
-                    this.modify = item;
+                    this.modify = deepCopy(item);
                     this.modify.note = "";
                 } else if(panel === "panelDelete") {
-                    this.del.id = item.mmeId;
+                    this.del = item;
                 }
             },
             /**
@@ -713,19 +722,19 @@
                         return;
                     }
                     url = Service.getUrl("modifyData");
-                    successFn = Client.modifyDataCallback;
+                    successFn = Client.successCallback;
                 } else if(type === "addExamine") {
                     data = this.modify;
                     data.type = $("#selectForType").selectpicker("val");
                     data.ec2 = $("#selectForEC2").selectpicker("val");
                     data.deepSea = $("#selectForDeepSea").selectpicker("val");
-                    data.operator = this.user.userName;
+                    data.modifier = this.user.userName;
                     if(data.title === "" || data.type === "" || data.ec2 === "" ||
                         data.locus === "" || data.pdbId === "" || data.date === "") {
                         alert("请将必填信息都填写完整");
                         return;
                     }
-                    if(!this.isRoot && data.note === "") {
+                    if(!this.isRoot && !this.hasExamine && data.note === "") {
                         alert("请填写备注，以便审核人员了解修改情况");
                         return;
                     }
@@ -735,9 +744,9 @@
                     item = this.del;
                     url = Service.getUrl("deleteData");
                     data = {
-                        id: item.id
+                        id: item.mmeId
                     };
-                    successFn = Client.deleteDataCallback;
+                    successFn = Client.successCallback;
                 } else if(type === "getParam") {
                     data = {};
                     url = Service.getUrl("getParam");
@@ -811,22 +820,12 @@
                 }
             },
             /**
-             * 修改数据回调函数
+             * 修改、删除数据执行成功的回调函数
              * @param msg 服务器返回的对象
              */
-            modifyDataCallback: function(msg) {
-                var index = null,
-                    modifyObj = this.modify;
-
-                // 若回调函数执行成功，则将相应的数据进行修改
+            successCallback: function(msg) {
                 if (Number(msg.code) === 1) {
-                    index = this.searchData(modifyObj.mmeId);
-                    if(index !== -1) {
-                        modifyObj.modifyDate = getDate();
-                        modifyObj.modifier = this.user.userName;
-                        this.dataList[index] = modifyObj;
-                        this.dataList.push();
-                    }
+                    this.request("getDataList");
                     Dialog.tip(msg.msg);
                 } else {
                     Dialog.warn(msg.msg);
@@ -848,26 +847,6 @@
                         this.dataList[index].isModified = 1;
                     }
                     Dialog.tip(msg.msg);
-                } else {
-                    Dialog.warn(msg.msg);
-                }
-            },
-            /**
-             * 删除数据回调函数
-             * @param msg 服务器返回的对象
-             */
-            deleteDataCallback: function(msg) {
-                var index = null,
-                    deleteObj = this.del,
-                    dataList = this.dataList,
-                    length = 0,
-                    loop = 0;
-
-                // 若回调函数执行成功，则将相应的数据从列表中删除
-                if (Number(msg.code) === 1) {
-                    // 重新从后台获取当前页数据
-                    this.request("getDataList");
-                    Dialog.info(msg.msg);
                 } else {
                     Dialog.warn(msg.msg);
                 }
@@ -899,6 +878,18 @@
             }
         }
     });
+
+    var deepCopy = function(obj) {
+        var newO = {};
+        if (obj instanceof Array) {
+            newO = [];
+        }
+        for ( var key in obj) {
+            var val = obj[key];
+            newO[key] = typeof val === 'object' ? arguments.callee(val) : val;
+        }
+        return newO;
+    }
 </script>
 </body>
 </html>

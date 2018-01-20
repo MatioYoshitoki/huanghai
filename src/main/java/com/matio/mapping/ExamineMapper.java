@@ -15,8 +15,6 @@ public interface ExamineMapper {
     int selectCountByCondition(MmeCondition mmeCondition);
     List<Examine> selectByCondition(MmeCondition mmeCondition);
 
-    int insertSelective(Examine record);
-
     Examine selectByPrimaryKey(Integer id);
 
     int updateByPrimaryKeySelective(Examine record);

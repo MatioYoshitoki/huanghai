@@ -5,33 +5,34 @@
     <meta http-equiv="x-ua-compatible" content="IE=Edge, Chrome=1">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
     <title>角色管理</title>
-    <link rel="stylesheet" href="vendor/bootstrap-select/bootstrap-select.css">
-    <link rel="stylesheet" href="vendor/bootstrap-datepicker/datepicker.css">
-    <link rel="stylesheet" href="../asset/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/font-awesome.min.css">
-    <link rel="stylesheet" href="css/animate.min.css">
-    <link rel="stylesheet" href="../asset/easyDialog/css/easydialog.css">
-
-    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="../asset/vendor/bootstrap-select/bootstrap-select.css">
+    <link rel="stylesheet" href="../asset/vendor/bootstrap-datepicker/datepicker.css">
+    <link rel="stylesheet" href="../asset/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../asset/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="../asset/vendor/easyDialog/css/easydialog.css">
+    <link rel="stylesheet" href="../asset/css/admin.css">
     <!--[if lt IE 9]>
-        <script src="js/html5shiv.js"></script>
-        <script src="js/respond.min.js"></script>
+    <script src="../asset/js/admin/html5shiv.js"></script>
+    <script src="../asset/js/admin/respond.min.js"></script>
     <![endif]-->
 </head>
 <body>
 <div class="app" data-sidebar="locked" id="client">
-    <navbar :user="user" :message="message"></navbar>
+    <navbar :user="user"></navbar>
     <section class="layout">
         <sidebar :links="sidebarLinks"></sidebar>
         <section class="main-content">
-            <div class="content-wrap">
-                <div class="row mg-b">
-                    <div class="col-xs-12">
-                        <h3 class="no-margin">角色管理</h3>
-                        <small>创建、删除角色，以及对角色的权限进行修改</small>
-                        <div @click="openPanel('panelCreate')" class="btn btn-info pull-right">新建角色</div>
-                    </div>
+            <header class="header navbar bg-default">
+                <h4 class="navbar-text">角色管理
+                    <small>创建、删除角色，以及对角色的权限进行修改</small>
+                </h4>
+                <div class="btn-group pull-right mg-r-sm">
+                    <button @click="openPanel('panelCreate')" type="button" class="btn btn-sm btn-success btn-rounded navbar-btn">
+                        <i class="fa fa-sitemap mg-r-xs"></i>新建角色
+                    </button>
                 </div>
+            </header>
+            <div class="content-wrap">
                 <div class="row">
                     <div class="col-md-12">
                         <section class="panel">
@@ -48,6 +49,9 @@
                                         </select>
                                         <label class="control-label">页</label>
                                     </div>
+                                    <div class="form-group pull-right">
+                                        <div @click="request('getRoleList')" class="btn btn-info">搜索</div>
+                                    </div>
                                 </form>
                             </header>
                             <div class="panel-body">
@@ -59,15 +63,17 @@
                                             <th class="text-center">拥有权限</th>
                                             <th class="text-center">创建日期</th>
                                             <th class="text-center">修改日期</th>
+                                            <th class="text-center">操作者</th>
                                             <th class="text-center">相关操作</th>
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <tr v-for="item in roleListAfterSearch">
+                                        <tr v-for="item in roleList">
                                             <td v-text="item.roleName"></td>
                                             <td v-text="item.roleAuth"></td>
                                             <td class="text-center" v-text="item.roleCreate"></td>
                                             <td class="text-center" v-text="item.roleModify"></td>
+                                            <td class="text-center" v-text="item.operator"></td>
                                             <td class="text-center">
                                                 <button @click="openPanel('panelView', item)" class="btn btn-default">
                                                     <i class="fa fa-dedent"></i>查看
@@ -125,6 +131,7 @@
                         <label class="col-sm-2 control-label">角色名称</label>
                         <div class="col-sm-10">
                             <input v-model="create.roleName" type="text" class="form-control">
+                            <p class="help-block">角色名称长度不得超过20个中文，且不能重复</p>
                         </div>
                     </div>
                     <div class="form-group">
@@ -184,7 +191,7 @@
                         <label class="col-sm-2 control-label">角色名称</label>
                         <div class="col-sm-10">
                             <input v-model="modify.roleName" type="text" class="form-control">
-                            <!--<p class="help-block">Example block-level help text here.</p>-->
+                            <p class="help-block">角色名称长度不得超过20个中文，且不能重复</p>
                         </div>
                     </div>
                     <div class="form-group">
@@ -214,36 +221,30 @@
             </div>
             <div class="panel-body">
                 确定删除<strong class="text-info" v-text="del.roleName"></strong>该角色吗？
+                <br/>
+                <p class="help-block">注意：删除角色前，请先确保该角色未被分配给用户</p>
                 <button @click="request('delete')" class="btn btn-default center-block">确定删除</button>
             </div>
         </div>
     </section>
 </div>
 <script src="../asset/js/frame/jquery-1.11.1.min.js"></script>
-<script src="bootstrap/js/bootstrap.js"></script>
+<script src="../asset/vendor/bootstrap/js/bootstrap.js"></script>
+<script src="../asset/vendor/bootstrap-select/bootstrap-select.js"></script>
+<script src="../asset/vendor/bootstrap-datepicker/bootstrap-datepicker.js"></script>
+<script src="../asset/vendor/easyDialog/js/easydialog.min.js"></script>
 <script src="../asset/js/frame/vue.js"></script>
-<script src="vendor/bootstrap-select/bootstrap-select.js"></script>
-<script src="vendor/bootstrap-datepicker/bootstrap-datepicker.js"></script>
-<script src="../asset/easyDialog/js/easydialog.min.js"></script>
-<script src="config/config.js"></script>
-<script src="js/components/header.js"></script>
-<script src="js/components/sidebar.js"></script>
-<script src="js/base.js"></script>
+<script src="../asset/config/config.js"></script>
+<script src="../asset/components/admin.js"></script>
+<script src="../asset/js/admin/base.js"></script>
 <script>
     var Client = new Vue({
         el: "#client",
         data: {
-            user: {
-                name: ""
-            },
-            message: [
-                { username: "陈煦", operation: "修改了系统管理员身份"}
-            ],
+            user: {},
             sidebarLinks: [],
             roleList: [],
-            roleListAfterSearch: [],
             table: {
-                // 分页部分
                 recordNumber: 0,    // 数据数目
                 numberPerPage: 10,  // 每页显示数据数
                 pageNumber: 0,      // 总页数
@@ -267,30 +268,6 @@
             del: {
                 roleId: "",
                 roleName: ""
-            }
-        },
-        watch: {
-            "roleList": function() {
-                var table = this.table;
-
-                // 修改总页数和记录数
-                this.table.recordNumber = this.roleList.length;
-                this.table.pageNumber = Math.ceil(this.table.recordNumber / table.numberPerPage);
-                // 判断当前页是否大于总页数，若是则减一
-                if(table.currentPage > this.table.pageNumber) {
-                    this.table.currentPage--;
-                }
-            },
-            "table.numberPerPage": function() {
-                this.paging();
-            },
-            "table.currentPage": function() {
-                var table = this.table,
-                    startPos = table.numberPerPage * (table.currentPage - 1);
-                // 修改页面显示的用户列表
-                this.roleListAfterSearch = this.roleList.slice(startPos, startPos + table.numberPerPage);
-                // 修改输入框页码
-                this.table.inputPage = table.currentPage;
             }
         },
         components: {
@@ -359,12 +336,14 @@
                 var data = null,
                     url = null,
                     successFn = null,
-                    errorFn = null,
                     item = null,
                     validator = null;
 
                 if(type === "getRoleList") {
-                    data = {};
+                    data = {
+                        numberPerPage: this.table.numberPerPage,
+                        startPos: this.table.currentPage
+                    };
                     url = Service.getUrl("getRole");
                     successFn = Client.getRoleCallback;
                 } else if(type === "create") {
@@ -373,7 +352,7 @@
                     url = Service.getUrl("createRole");
                     validator = new Validator();
 
-                    if(!validator.roleName(item.roleName)) {
+                    if(item.roleName === "" || !validator.roleName(item.roleName)) {
                         alert("您输入的角色名称格式有误");
                         return;
                     }
@@ -393,7 +372,7 @@
                     url = Service.getUrl("modifyRole");
                     validator = new Validator();
 
-                    if(!validator.roleName(item.roleName)) {
+                    if(item.roleName === "" || !validator.roleName(item.roleName)) {
                         alert("您输入的角色名称格式有误");
                         return;
                     }
@@ -407,7 +386,7 @@
                         roleAuth: roleAuth.join("|"),
                         operator: this.user.userName
                     };
-                    successFn = this.modifyRoleCallback;
+                    successFn = this.successCallback;
                     this.modify.roleAuth = roleAuth.join("|");
                 } else if(type === "delete") {
                     item = this.del;
@@ -415,7 +394,7 @@
                     data = {
                         id: item.roleId
                     };
-                    successFn = this.deleteRoleCallback;
+                    successFn = this.successCallback;
                 }
                 Links.connect({
                     method: "post",
@@ -428,30 +407,11 @@
                 });
             },
             /**
-             * 根据角色号找到相应数据在列表中的下标
-             * @param roleId 角色号
-             */
-            searchRole: function(roleId) {
-                var roleList = this.roleList,
-                    item = null,
-                    length = 0,
-                    loop = 0;
-
-                for(loop = 0, length = roleList.length; loop < length; loop++) {
-                    item = roleList[loop];
-                    if(item.roleId === roleId) {
-                        return loop;
-                    }
-                }
-                return -1;
-            },
-            /**
              * 跳页操作
              * @param type 跳页操作类型 1：上一页 2：跳页 3：下一页
              */
             skipPage: function(type) {
-                var type = Number(type),
-                    skipPage = Number(this.table.currentPage),
+                var skipPage = Number(this.table.currentPage),
                     validator = new Validator();
 
                 switch(Number(type)) {
@@ -463,22 +423,12 @@
                 if(validator.pages(skipPage, this.table.pageNumber)) {
                     this.table.currentPage = skipPage;
                     this.table.inputPage = skipPage;
+                    this.request("getRoleList");
                 } else {
                     Dialog.tip("请输入正确的页码");
                     this.table.inputPage = this.table.currentPage;
 
                 }
-            },
-            /**
-             * 分页操作
-             */
-            paging: function() {
-                var table = this.table,
-                    startPos = table.numberPerPage * (table.currentPage - 1);
-                // 修改总页数
-                this.table.pageNumber = Math.ceil(table.recordNumber / table.numberPerPage);
-                // 修改页面显示的用户列表
-                this.roleListAfterSearch = this.roleList.slice(startPos, startPos + table.numberPerPage);
             },
             /**
              * 获取角色列表回调函数
@@ -487,7 +437,8 @@
             getRoleCallback: function (msg) {
                 if (Number(msg.code) === 1) {
                     this.roleList = msg.data;
-                    this.roleListAfterSearch = this.roleList;
+                    this.table.recordNumber = msg.count;
+                    this.table.pageNumber = Math.ceil(msg.count / Number(this.table.numberPerPage));
                 } else {
                     Dialog.warn(msg.msg);
                 }
@@ -511,49 +462,12 @@
                 }
             },
             /**
-             * 修改角色回调函数
+             * 修改、删除角色操作成功执行的回调函数
              * @param msg 服务器返回的对象
              */
-            modifyRoleCallback: function(msg) {
-                var index = null,
-                    modifyObj = this.modify;
-
-                // 若回调函数执行成功，则将相应的数据进行修改
+            successCallback: function(msg) {
                 if (Number(msg.code) === 1) {
-                    index = this.searchRole(modifyObj.roleId);
-                    if(index !== -1) {
-                        this.roleList[index].roleName = modifyObj.roleName;
-                        this.roleList[index].roleAuth = modifyObj.roleAuth;
-                        this.roleList[index].roleModify = getDate();
-                        this.roleList.push();
-                    }
-                    Dialog.tip(msg.msg);
-                } else {
-                    Dialog.warn(msg.msg);
-                }
-            },
-            /**
-             * 删除角色回调函数
-             * @param msg 服务器返回的对象
-             */
-            deleteRoleCallback: function(msg) {
-                var index = null,
-                    deleteObj = this.del,
-                    roleList = this.roleList,
-                    length = 0,
-                    loop = 0;
-
-                // 若回调函数执行成功，则将相应的数据从列表中删除
-                if (Number(msg.code) === 1) {
-                    index = this.searchRole(deleteObj.roleId);
-                    if(index !== -1) {
-                        for(loop = index + 1, length = roleList.length; loop < length; loop++) {
-                            roleList[loop - 1] = roleList[loop];
-                        }
-                        roleList.pop();
-                        this.roleList = roleList;
-                        this.paging();
-                    }
+                    this.request("getRoleList");
                     Dialog.tip(msg.msg);
                 } else {
                     Dialog.warn(msg.msg);

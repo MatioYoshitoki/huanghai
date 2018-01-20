@@ -65,7 +65,7 @@ a, a:hover {
       .header-icon {
         width: 40px;
         height: 40px;
-        background: url("../img/detail_logo2.png") center no-repeat;
+        background: url("../img/web/detail_logo2.png") center no-repeat;
         float: left;
       }
       .header-text {
@@ -88,7 +88,7 @@ a, a:hover {
 .footer {
   width: 100%;
   height: 300px;
-  background: url("../img/footer.png") center no-repeat;
+  background: url("../img/web/footer.png") center no-repeat;
   position: relative;
 
   .footer-con {
@@ -122,7 +122,7 @@ a, a:hover {
 .breadcrumb {
   width: 100%;
   height: 650px;
-  background: url("../img/background.jpg") center no-repeat;
+  background: url("../img/web/background.jpg") center no-repeat;
   border-radius: 0;
 
   .bread-con {
@@ -185,7 +185,7 @@ a, a:hover {
 .banner {
   width: 100%;
   height: 200px;
-  background: url("../img/header_browse.png") center no-repeat;
+  background: url("../img/web/header_browse.png") center no-repeat;
   border-radius: 0;
 }
 
@@ -354,7 +354,7 @@ a, a:hover {
         width: 250px;
         height: 346px;
         float: right;
-        background: url("../img/browse_pic.png") center no-repeat;
+        background: url("../img/web/browse_pic.png") center no-repeat;
       }
 
       // panel-2
@@ -424,7 +424,7 @@ a, a:hover {
       .header-icon {
         width: 40px;
         height: 40px;
-        background: url("../img/detail_logo.png") center no-repeat;
+        background: url("../img/web/detail_logo.png") center no-repeat;
       }
       .header-title {
         width: 100%;
@@ -434,7 +434,7 @@ a, a:hover {
         line-height: 105px;
         color: #fff;
         text-align: center;
-        background: url("../img/header.png") center no-repeat;
+        background: url("../img/web/header.png") center no-repeat;
       }
     }
     .detail-body {
@@ -459,36 +459,36 @@ a, a:hover {
           }
           .tab1 {
             width: 220px;
-            background: url("../img/tab1_white.png") center no-repeat;
+            background: url("../img/web/tab1_white.png") center no-repeat;
           }
           .tab2 {
             width: 195px;
-            background: url("../img/tab2_white.png") center no-repeat;
+            background: url("../img/web/tab2_white.png") center no-repeat;
           }
           .tab3 {
             width: 265px;
-            background: url("../img/tab3_white.png") center no-repeat;
+            background: url("../img/web/tab3_white.png") center no-repeat;
           }
           .tab4 {
             width: 155px;
-            background: url("../img/tab4_white.png") center no-repeat;
+            background: url("../img/web/tab4_white.png") center no-repeat;
           }
         }
         .active {
           .tab1 {
-            background: url("../img/tab1_blue.png") center no-repeat;
+            background: url("../img/web/tab1_blue.png") center no-repeat;
           }
           .tab2 {
             width: 195px;
-            background: url("../img/tab2_blue.png") center no-repeat;
+            background: url("../img/web/tab2_blue.png") center no-repeat;
           }
           .tab3 {
             width: 265px;
-            background: url("../img/tab3_blue.png") center no-repeat;
+            background: url("../img/web/tab3_blue.png") center no-repeat;
           }
           .tab4 {
             width: 155px;
-            background: url("../img/tab4_blue.png") center no-repeat;
+            background: url("../img/web/tab4_blue.png") center no-repeat;
           }
         }
       }
@@ -542,5 +542,31 @@ a, a:hover {
         display: block;
       }
     }
+  }
+}
+
+// 关于我们页主体部分样式设置
+.about {
+  width: 100%;
+  height: auto;
+
+  .breadcrumb {
+    margin-bottom: 0;
+
+    .bread-con {
+      height: auto;
+    }
+  }
+
+  .about-con {
+    width: 80%;
+    height: 500px;
+    padding: 20px;
+    margin: 0 auto;
+    border-radius: 20px;
+    background: rgba(255,255,255,0.7);
+    position: relative;
+    top: 50px;
+    overflow: auto;
   }
 }

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="x-ua-compatible" content="IE=Edge, Chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>about Us</title>
+    <link href="asset/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="asset/vendor/easyDialog/css/easydialog.css" rel="stylesheet" type="text/css" />
+    <link href="asset/css/style.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <div class="header">
+        <div class="nav">
+            <div class="logo">
+                <img src="asset/img/web/logo.png" />
+            </div>
+            <ul class="nav-list">
+                <li class="nav-item">
+                    <a href="index.html">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="browse.html">Browse</a>
+                </li>
+                <li class="nav-item">
+                    <a href="about.html">About Us</a>
+                </li>
+            </ul>
+            <div class="header-title clearfix">
+                <div class="header-icon"></div>
+                <div class="header-text">LOGO</div>
+            </div>
+        </div>
+    </div>
+    <div class="about">
+        <div class="breadcrumb">
+            <div class="bread-con">
+                <div class="about-con" id="aboutUs"></div>
+            </div>
+        </div>
+    </div>
+    <script src="asset/js/frame/jquery-1.11.1.min.js"></script>
+    <script src="asset/vendor/easyDialog/js/easydialog.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var info = sessionStorage.getItem("info");
+
+            if (!info) {
+                $.ajax({
+                    type: "POST",
+                    url: "/getConfigList",
+                    data: {},
+                    success: function (msg) {
+                        var data = JSON.stringify(msg.data);
+
+                        if (Number(msg.code) === 1) {
+                            sessionStorage.setItem("info", data);
+                            paint(data)
+                        } else {
+                            alert(msg.msg);
+                        }
+                    },
+                    error: function (msg) {
+                        alert("连接服务器失败！");
+                    }
+                });
+            } else {
+                paint(info);
+            }
+            /**
+             * 渲染页面：将数据填入到页面指定位置
+             * @param data 页面数据
+             */
+            function paint(data) {
+                var param = {},
+                    data = JSON.parse(data),
+                    item = null,
+                    length = 0,
+                    loop = 0;
+
+                for (loop = 0, length = data.length; loop < length; loop++) {
+                    item = data[loop];
+                    param[item.param] = item.value;
+                }
+                $("#aboutUs").text(param.aboutUs);
+            }
+        })
+    </script>
+</body>
+</html>

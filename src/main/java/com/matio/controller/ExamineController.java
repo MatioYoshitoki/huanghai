@@ -52,111 +52,112 @@ public class ExamineController {
             @RequestParam(Keys.STARTPOS) String startPos,
             @RequestParam(Keys.PARAM) String param
     ){
-        MmeCondition condition = new MmeCondition();
-        int startPos_int = Integer.valueOf(startPos);
-        int numberPerPage_int = Integer.valueOf(numberPerPage);
-        int startSize = (startPos_int - 1) * numberPerPage_int;
-        int endSize = (startPos_int) * numberPerPage_int ;
-        condition.setStartSize(startSize);;
-        condition.setEndSize(endSize);
-        switch (type){
-            case "0":
-                break;
-            case "1":
-                condition.setPdbId(param);
-                break;
-            case "2":
-                condition.setType(param);
-                break;
-            case "3":
-                condition.setEc1(param);
-                break;
-            case "4":
-                condition.setEc2(param);
-                break;
-            case "5":
+        JSONObject result;
+        try {
+            MmeCondition condition = new MmeCondition();
+            int startPos_int = Integer.valueOf(startPos);
+            int numberPerPage_int = Integer.valueOf(numberPerPage);
+            int startSize = (startPos_int - 1) * numberPerPage_int;
+            int endSize = (startPos_int) * numberPerPage_int ;
+            condition.setStartSize(startSize);;
+            condition.setEndSize(endSize);
+            switch (type){
+                case "0":
+                    break;
+                case "1":
+                    condition.setPdbId(param);
+                    break;
+                case "2":
+                    condition.setType(param);
+                    break;
+                case "3":
+                    condition.setEc1(param);
+                    break;
+                case "4":
+                    condition.setEc2(param);
+                    break;
+                case "5":
+                    try {
+                        condition.setModifier(param.getBytes("utf8"));
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                case "6":
+                    startDate += " 00:00:00";
+                    endDate += " 23:59:59";
+                    condition.setStartDate_md(startDate);
+                    condition.setEndDate_md(endDate);
+                    break;
+                default:
+                    return "";
+            }
+            List<Examine> examines = examineMapper.selectByCondition(condition);
+            int count = examineMapper.selectCountByCondition(condition);
+            JSONArray data = new JSONArray();
+            for (Examine examine :examines){
+                JSONObject buff = new JSONObject();
+                buff.put(Keys.MMEID, examine.getId());
+                buff.put(Keys.TITLE,examine.getTitle());
+                buff.put(Keys.TITLE1,examine.getTitle1());
+                buff.put(Keys.TITLE2,examine.getTitle2());
+                buff.put(Keys.TITLE3,examine.getTitle3());
+                buff.put(Keys.TITLE4,examine.getTitle4());
+                buff.put(Keys.ABSTRACT1,examine.getAbstract1());
+                buff.put(Keys.ABSTRACT2,examine.getAbstract2());
+                buff.put(Keys.ABSTRACT3,examine.getAbstract3());
+                buff.put(Keys.ABSTRACT4,examine.getAbstract4());
+                buff.put(Keys.AUTHOR1,examine.getAuthor1());
+                buff.put(Keys.AUTHOR2,examine.getAuthor2());
+                buff.put(Keys.AUTHOR3,examine.getAuthor3());
+                buff.put(Keys.AUTHOR4,examine.getAuthor4());
+                buff.put(Keys.JOURNAL1,examine.getJournal1());
+                buff.put(Keys.JOURNAL2,examine.getJournal2());
+                buff.put(Keys.JOURNAL3,examine.getJournal3());
+                buff.put(Keys.JOURNAL4,examine.getJournal4());
+                buff.put(Keys.PUBMED1,examine.getPubmed1());
+                buff.put(Keys.PUBMED2,examine.getPubmed2());
+                buff.put(Keys.PUBMED3,examine.getPubmed3());
+                buff.put(Keys.PUBMED4,examine.getPubmed4());
+
+                buff.put(Keys.COUNTRY,examine.getCountry());
+                buff.put(Keys.LOCUS,examine.getLocus());
+                buff.put(Keys.MICROBE,examine.getMicrobe());
+                buff.put(Keys.EC1,examine.getEc1());
+                buff.put(Keys.EC2,examine.getEc2());
+                buff.put(Keys.SOURCE,examine.getSource());
+                buff.put(Keys.DBSOURCE,examine.getDbsource());
+                buff.put(Keys.DATE,examine.getDate());
+                buff.put(Keys.ORGANISM,examine.getOrganism());
+                buff.put(Keys.DEEPSEA,examine.getDeepsea());
+                buff.put(Keys.TEMPERATURE,examine.getTemperature());
+                buff.put(Keys.PH,examine.getPh());
+                buff.put(Keys.ZONE,examine.getZone());
+                buff.put(Keys.COFACTORS,examine.getCofactors());
+                buff.put(Keys.INHIBITORS,examine.getInhibitors());
+                buff.put(Keys.ORIGIN,examine.getOrigin());
+                buff.put(Keys.MODIFYDATE,examine.getModifydate());
+                buff.put(Keys.PDBID,examine.getPdbid());
+                buff.put(Keys.TYPE,examine.getType());
                 try {
-                    condition.setModifier(param.getBytes("utf8"));
+                    buff.put(Keys.NOTE,new String(examine.getNote(), "utf8"));
+                    buff.put(Keys.MODIFIER,new String(examine.getModifier(),"utf8"));
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
-                break;
-            case "6":
-                startDate += "00:00:00";
-                endDate += "23:59:59";
-                condition.setStartDate_md(startDate);
-                condition.setEndDate_md(endDate);
-                break;
-            default:
-                return "";
-        }
-        List<Examine> examines = examineMapper.selectByCondition(condition);
-        int count = examineMapper.selectCountByCondition(condition);
-        JSONObject result = JsonUtil.fromErrors(Errors.SUCCESS);
-        JSONArray data = new JSONArray();
-        if (examines == null){
+                data.add(buff);
+            }
+            result = JsonUtil.fromErrors(Errors.SUCCESS);
+            result.put(Keys.DATA,data);
+            result.put(Keys.MSG,"");
+            result.put(Keys.COUNT,count);
+            return result.toJSONString();
+        } catch(Exception e) {
             result = JsonUtil.fromErrors(Errors.FAILD);
             result.put(Keys.MSG,Errors.GET_EXAMINE_DATA_FAILD);
             result.put(Keys.DATA,new JSONObject());
             return result.toJSONString();
         }
-        for (Examine examine :examines){
-            JSONObject buff = new JSONObject();
-            buff.put(Keys.MMEID, examine.getId());
-            buff.put(Keys.TITLE,examine.getTitle());
-            buff.put(Keys.TITLE1,examine.getTitle1());
-            buff.put(Keys.TITLE2,examine.getTitle2());
-            buff.put(Keys.TITLE3,examine.getTitle3());
-            buff.put(Keys.TITLE4,examine.getTitle4());
-            buff.put(Keys.ABSTRACT1,examine.getAbstract1());
-            buff.put(Keys.ABSTRACT2,examine.getAbstract2());
-            buff.put(Keys.ABSTRACT3,examine.getAbstract3());
-            buff.put(Keys.ABSTRACT4,examine.getAbstract4());
-            buff.put(Keys.AUTHOR1,examine.getAuthor1());
-            buff.put(Keys.AUTHOR2,examine.getAuthor2());
-            buff.put(Keys.AUTHOR3,examine.getAuthor3());
-            buff.put(Keys.AUTHOR4,examine.getAuthor4());
-            buff.put(Keys.JOURNAL1,examine.getJournal1());
-            buff.put(Keys.JOURNAL2,examine.getJournal2());
-            buff.put(Keys.JOURNAL3,examine.getJournal3());
-            buff.put(Keys.JOURNAL4,examine.getJournal4());
-            buff.put(Keys.PUBMED1,examine.getPubmed1());
-            buff.put(Keys.PUBMED2,examine.getPubmed2());
-            buff.put(Keys.PUBMED3,examine.getPubmed3());
-            buff.put(Keys.PUBMED4,examine.getPubmed4());
-
-            buff.put(Keys.COUNTRY,examine.getCountry());
-            buff.put(Keys.LOCUS,examine.getLocus());
-            buff.put(Keys.MICROBE,examine.getMicrobe());
-            buff.put(Keys.EC1,examine.getEc1());
-            buff.put(Keys.EC2,examine.getEc2());
-            buff.put(Keys.SOURCE,examine.getSource());
-            buff.put(Keys.DBSOURCE,examine.getDbsource());
-            buff.put(Keys.DATE,examine.getDate());
-            buff.put(Keys.ORGANISM,examine.getOrganism());
-            buff.put(Keys.DEEPSEA,examine.getDeepsea());
-            buff.put(Keys.TEMPERATURE,examine.getTemperature());
-            buff.put(Keys.PH,examine.getPh());
-            buff.put(Keys.ZONE,examine.getZone());
-            buff.put(Keys.COFACTORS,examine.getCofactors());
-            buff.put(Keys.INHIBITORS,examine.getInhibitors());
-            buff.put(Keys.ORIGIN,examine.getOrigin());
-            try {
-                buff.put(Keys.MODIFIER,new String(examine.getModifier(),"utf8"));
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
-            buff.put(Keys.MODIFYDATE,examine.getModifydate());
-            buff.put(Keys.PDBID,examine.getPdbid());
-            buff.put(Keys.TYPE,examine.getType());
-            buff.put(Keys.NOTE,examine.getNote());
-            data.add(buff);
-
-        }
-        result.put(Keys.DATA,data);
-        result.put(Keys.MSG,"");
-        result.put(Keys.COUNT,count);
-        return result.toJSONString();
     }
 
     @RequestMapping(value = "/addExamine", method = RequestMethod.POST , produces="text/json;charset=UTF-8")
@@ -202,119 +203,121 @@ public class ExamineController {
             @RequestParam(Keys.NOTE) String note,
             @RequestParam(Keys.MMEID) String id
     ){
-        Examine examine = examineMapper.selectByPrimaryKey(Integer.valueOf(id));
         JSONObject result;
-        if (examine!=null){
+        try {
+            Examine examine = examineMapper.selectByPrimaryKey(Integer.valueOf(id));
+            examine = new Examine();
+            String ec1 = mmeMapper.selectEC1ByEC2(ec2);
+            Date now = new Date();
+            examine.setAbstract1(abstract1);
+            examine.setAbstract2(abstract2);
+            examine.setAbstract3(abstract3);
+            examine.setAbstract4(abstract4);
+            examine.setTitle(title);
+            examine.setTitle1(title1);
+            examine.setTitle2(title2);
+            examine.setTitle3(title3);
+            examine.setTitle4(title4);
+            examine.setJournal1(journal1);
+            examine.setJournal2(journal2);
+            examine.setJournal3(journal3);
+            examine.setJournal4(journal4);
+            examine.setPubmed1(pubmed1);
+            examine.setPubmed2(pubmed2);
+            examine.setPubmed3(pubmed3);
+            examine.setPubmed4(pubmed4);
+            examine.setAuthor1(author1);
+            examine.setAuthor2(author2);
+            examine.setAuthor3(author3);
+            examine.setAuthor4(author4);
+            examine.setLocus(locus);
+            examine.setOrganism(organsim);
+            examine.setOrigin(origin);
+            examine.setPdbid(pdbid);
+            examine.setDate(date);
+            examine.setDbsource(dbsource);
+            examine.setSource(source);
+            examine.setCountry(country);
+            examine.setType(type);
+            examine.setEc1(ec1);
+            examine.setEc2(ec2);
+            examine.setId(Integer.valueOf(id));
+            examine.setDeepsea(deepSea);
+            examine.setTemperature(temperature);
+            examine.setPh(ph);
+            examine.setZone(zone);
+            examine.setCofactors(cofactors);
+            examine.setInhibitors(inhibitors);
+            examine.setModifydate(simpleDateFormat.format(now));
+            try {
+                examine.setNote(note.getBytes("utf8"));
+                examine.setModifier(modifier.getBytes("utf8"));
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            return mmeService.addExamine(examine);
+        } catch(Exception e) {
             result = JsonUtil.fromErrors(Errors.FAILD);
             result.put(Keys.DATA,new JSONObject());
             result.put(Keys.MSG,Errors.ADDEXAMINE_FAILD);
             return result.toJSONString();
         }
-        examine = new Examine();
-        String ec1 = mmeMapper.selectEC1ByEC2(ec2);
-        Date now = new Date();
-        examine.setAbstract1(abstract1);
-        examine.setAbstract2(abstract2);
-        examine.setAbstract3(abstract3);
-        examine.setAbstract4(abstract4);
-        examine.setTitle(title);
-        examine.setTitle1(title1);
-        examine.setTitle2(title2);
-        examine.setTitle3(title3);
-        examine.setTitle4(title4);
-        examine.setJournal1(journal1);
-        examine.setJournal2(journal2);
-        examine.setJournal3(journal3);
-        examine.setJournal4(journal4);
-        examine.setPubmed1(pubmed1);
-        examine.setPubmed2(pubmed2);
-        examine.setPubmed3(pubmed3);
-        examine.setPubmed4(pubmed4);
-        examine.setAuthor1(author1);
-        examine.setAuthor2(author2);
-        examine.setAuthor3(author3);
-        examine.setAuthor4(author4);
-        examine.setLocus(locus);
-        examine.setOrganism(organsim);
-        examine.setOrigin(origin);
-        examine.setPdbid(pdbid);
-        examine.setDate(date);
-        examine.setDbsource(dbsource);
-        examine.setSource(source);
-        examine.setCountry(country);
-        examine.setType(type);
-        examine.setEc1(ec1);
-        examine.setEc2(ec2);
-        examine.setId(Integer.valueOf(id));
-        examine.setDeepsea(deepSea);
-        examine.setTemperature(temperature);
-        examine.setPh(ph);
-        examine.setZone(zone);
-        examine.setCofactors(cofactors);
-        examine.setInhibitors(inhibitors);
-        examine.setNote(note);
-
-        try {
-            examine.setModifier(modifier.getBytes("utf8"));
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        examine.setModifydate(simpleDateFormat.format(now));
-
-        return mmeService.addExamine(examine);
     }
 
     @RequestMapping(value = "/marlboro", method = RequestMethod.POST , produces="text/json;charset=UTF-8")
     public String marlboro(
             @RequestParam(Keys.ID) String id
     ){
-        Examine examine = examineMapper.selectByPrimaryKey(Integer.valueOf(id));
         JSONObject result;
-        if (examine==null){
+        try {
+            Examine examine = examineMapper.selectByPrimaryKey(Integer.valueOf(id));
+            return mmeService.marlboro(examine);
+        } catch(Exception e) {
             result = JsonUtil.fromErrors(Errors.FAILD);
             result.put(Keys.DATA,new JSONObject());
             result.put(Keys.MSG,Errors.MARLBORO_FAILD);
             return result.toJSONString();
         }
-        return mmeService.marlboro(examine);
     }
     @RequestMapping(value = "/marlboro_batch", method = RequestMethod.POST , produces="text/json;charset=UTF-8")
     public String marlboro(){
-        List<Examine> examines = examineMapper.selectAll();
         JSONObject result;
-        if (examines == null){
+        try {
+            List<Examine> examines = examineMapper.selectAll();
+            return mmeService.marlboro_batch(examines);
+        } catch(Exception e) {
             result = JsonUtil.fromErrors(Errors.FAILD);
             result.put(Keys.DATA,new JSONObject());
             result.put(Keys.MSG,Errors.MARLBORO_BATCH_FAILD);
             return result.toJSONString();
         }
-        return mmeService.marlboro_batch(examines);
     }
     @RequestMapping(value = "/refusal_examine", method = RequestMethod.POST , produces="text/json;charset=UTF-8")
     public String refusalExamine(
             @RequestParam(Keys.ID) String id
     ){
-        Examine examine = examineMapper.selectByPrimaryKey(Integer.valueOf(id));
-        JSONObject result = JsonUtil.fromErrors(Errors.SUCCESS);
-        if (examine==null){
+        JSONObject result;
+        try {
+            Examine examine = examineMapper.selectByPrimaryKey(Integer.valueOf(id));
+            return mmeService.refuse(Integer.valueOf(id));
+        } catch(Exception e) {
             result = JsonUtil.fromErrors(Errors.FAILD);
             result.put(Keys.DATA,new JSONObject());
             result.put(Keys.MSG,Errors.REFUSAL_EXAMINE_FAILD);
             return result.toJSONString();
         }
-        return mmeService.refuse(Integer.valueOf(id));
     }
     @RequestMapping(value = "/refusal_examine_batch", method = RequestMethod.POST , produces="text/json;charset=UTF-8")
     public String refusalExamineBatch(){
-
-        JSONObject result = JsonUtil.fromErrors(Errors.SUCCESS);
-        if (examineMapper.selectAll()==null){
+        JSONObject result;
+        try {
+            return mmeService.refuse_batch();
+        } catch(Exception e) {
             result = JsonUtil.fromErrors(Errors.FAILD);
             result.put(Keys.DATA,new JSONObject());
             result.put(Keys.MSG,Errors.REFUSAL_EXAMINE_BATCH_FAILD);
             return result.toJSONString();
         }
-        return mmeService.refuse_batch();
     }
 
 }

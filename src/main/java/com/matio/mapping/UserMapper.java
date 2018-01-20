@@ -1,28 +1,21 @@
 package com.matio.mapping;
 
 import com.matio.pojo.User;
+import com.matio.pojo.UserCondition;
+import com.matio.pojo.View_user;
 
 import java.util.List;
 
 public interface UserMapper {
-    int deleteByPrimaryKey(String useraccount);
+    View_user selectByAccount(String account);
+
+    List<View_user> selectByCondition(UserCondition userCondition);
+
+    int selectCountByCondition(UserCondition userCondition);
 
     int insert(User record);
 
-    int insertSelective(User record);
-
-    User selectByPrimaryKey(String useraccount);
-
-    List<User> selectAll();
-    List<User> updateByAccount(User user);
+    int updateByAccount(User user);
 
     int deleteByAccount(String account);
-
-    User selectByAccount(String account);
-
-    int updateByPrimaryKeySelective(User record);
-
-    int updateByPrimaryKeyWithBLOBs(User record);
-
-    int updateByPrimaryKey(User record);
 }

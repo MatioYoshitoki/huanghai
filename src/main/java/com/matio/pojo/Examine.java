@@ -83,7 +83,7 @@ public class Examine {
 
     private String modifydate;
 
-    private String note;
+    private byte[] note;
 
     private byte[] modifier;
 
@@ -415,11 +415,11 @@ public class Examine {
         this.modifydate = modifydate;
     }
 
-    public String getNote() {
+    public byte[] getNote() {
         return note;
     }
 
-    public void setNote(String note) {
+    public void setNote(byte[] note) {
         this.note = note;
     }
 

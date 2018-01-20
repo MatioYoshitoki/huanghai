@@ -44,9 +44,7 @@ public class ExcelController {
             @RequestParam(Keys.FILE) MultipartFile file,
             @RequestParam(Keys.OPERATOR) String operator
     ) {
-        JSONObject result = JsonUtil.fromErrors(Errors.SUCCESS);
         String file_name = file.getOriginalFilename();
-        System.out.println(file.getOriginalFilename());
         ReadExcelUtils excelReader = null;
         try {
             excelReader = new ReadExcelUtils(file_name,file.getInputStream());
@@ -76,7 +74,6 @@ public class ExcelController {
                 content.add(tmp);
             }
         }
-//        System.out.println(titles);
         for (int index = 0;index<content.size();index++) {
             List<String> tmp = content.get(index);
             Mme mme = new Mme();
@@ -137,10 +134,10 @@ public class ExcelController {
                         mme.setCountry(tmp.get(i));
                         break;
                     case Keys.EC1:
-                        mme.setEc1(tmp.get(i));
+                        mme.setEc1(tmp.get(i).toLowerCase());
                         break;
                     case Keys.EC2:
-                        mme.setEc2(tmp.get(i));
+                        mme.setEc2(tmp.get(i).toLowerCase());
                         break;
                     case Keys.TYPE:
                         mme.setType(tmp.get(i));
@@ -190,9 +187,7 @@ public class ExcelController {
                     default:
                         break;
                 }
-
             }
-            System.out.print(mme.getLocus());
             String locus = mmeService.selectByLocus(mme.getLocus());
             if (locus != null){
                 data.add(mme.getLocus());
@@ -208,11 +203,13 @@ public class ExcelController {
                 e.printStackTrace();
             }
             mme.setModifydate(simpleDateFormat.format(now));
+            mme.setIsModified("0");
             int flag = mmeMapper.insert(mme);
             if (flag <= 0){
                 data.add(mme.getLocus());
             }
         }
+        JSONObject result = JsonUtil.fromErrors(Errors.SUCCESS);
         result.put(Keys.DATA,data);
         result.put(Keys.MSG,"");
         result.put(Keys.COUNT,map.size()-1);

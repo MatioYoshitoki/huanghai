@@ -5,33 +5,34 @@
     <meta http-equiv="x-ua-compatible" content="IE=Edge, Chrome=1">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
     <title>用户管理</title>
-    <link rel="stylesheet" href="vendor/bootstrap-select/bootstrap-select.css">
-    <link rel="stylesheet" href="vendor/bootstrap-datepicker/datepicker.css">
-    <link rel="stylesheet" href="../asset/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/font-awesome.min.css">
-    <link rel="stylesheet" href="css/animate.min.css">
-    <link rel="stylesheet" href="../asset/easyDialog/css/easydialog.css">
-
-    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="../asset/vendor/bootstrap-select/bootstrap-select.css">
+    <link rel="stylesheet" href="../asset/vendor/bootstrap-datepicker/datepicker.css">
+    <link rel="stylesheet" href="../asset/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../asset/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="../asset/vendor/easyDialog/css/easydialog.css">
+    <link rel="stylesheet" href="../asset/css/admin.css">
     <!--[if lt IE 9]>
-        <script src="js/html5shiv.js"></script>
-        <script src="js/respond.min.js"></script>
+    <script src="../asset/js/admin/html5shiv.js"></script>
+    <script src="../asset/js/admin/respond.min.js"></script>
     <![endif]-->
 </head>
 <body>
 <div class="app" data-sidebar="locked" id="client">
-    <navbar :user="user" :message="message"></navbar>
+    <navbar :user="user"></navbar>
     <section class="layout">
         <sidebar :links="sidebarLinks"></sidebar>
         <section class="main-content">
-            <div class="content-wrap">
-                <div class="row mg-b">
-                    <div class="col-xs-12">
-                        <h3 class="no-margin">用户管理</h3>
-                        <small>新增、删除用户，修改用户信息</small>
-                        <div @click="openPanel('panelCreate')" class="btn btn-info pull-right">新建用户</div>
-                    </div>
+            <header class="header navbar bg-default">
+                <h4 class="navbar-text">用户管理
+                    <small>新增、删除用户，修改用户信息</small>
+                </h4>
+                <div class="btn-group pull-right mg-r-sm">
+                    <button @click="openPanel('panelCreate')" type="button" class="btn btn-sm btn-success btn-rounded navbar-btn">
+                        <i class="fa fa-user mg-r-xs"></i>新建用户
+                    </button>
                 </div>
+            </header>
+            <div class="content-wrap">
                 <div class="row">
                     <div class="col-md-12">
                         <section class="panel">
@@ -51,22 +52,19 @@
                                     <div class="form-group pull-right">
                                         <label class="control-label">检索条件：</label>
                                         <select v-model="table.searchType" class="form-control" data-style="btn-primary">
+                                            <option value="0">所有</option>
                                             <option value="1">用户账号</option>
                                             <option value="2">用户姓名</option>
                                             <option value="3">分配角色</option>
                                             <option value="4">创建日期</option>
                                             <option value="5">修改日期</option>
                                         </select>
-                                        <input v-model="table.searchParam" v-show="table.searchType < 4" class="form-control" type="text" />
+                                        <input v-model="table.searchParam" v-show="table.searchType < 4 && table.searchType > 0" class="form-control" type="text" />
                                         <div v-show="table.searchType >= 4" class="input-group input-append date datepicker">
                                             <input v-model="table.startDate" type="text" class="form-control" id="startDate" style="width: 100px;">
                                             <input v-model="table.endDate" type="text" class="form-control" id="endDate" style="width: 100px;">
-                                            <span class="input-group-btn">
-                                                <button @click="searchUserByDate()" class="btn btn-white" type="button">
-                                                    <i class="fa fa-calendar"></i>
-                                                </button>
-                                            </span>
                                         </div>
+                                        <div @click="request('getUserList')" class="btn btn-info">搜索</div>
                                     </div>
                                 </form>
                             </header>
@@ -85,7 +83,7 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <tr v-for="item in userListAfterSearch">
+                                        <tr v-for="item in userList">
                                             <td v-text="item.userAccount"></td>
                                             <td v-text="item.userName"></td>
                                             <td class="text-center">
@@ -149,14 +147,14 @@
                         <label class="col-sm-2 control-label">用户账号</label>
                         <div class="col-sm-10">
                             <input v-model="create.userAccount" type="text" class="form-control">
-                            <p class="help-block">用户账号长度为6-12位英文数字组合</p>
+                            <p class="help-block">用户账号长度为6-12位英文数字组合，且不能重复</p>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">用户姓名</label>
                         <div class="col-sm-10">
                             <input v-model="create.userName" type="text" class="form-control">
-                            <p class="help-block">用户姓名为0-5位中文</p>
+                            <p class="help-block">用户姓名为1-5位中文</p>
                         </div>
                     </div>
                     <div class="form-group">
@@ -236,26 +234,21 @@
     </section>
 </div>
 <script src="../asset/js/frame/jquery-1.11.1.min.js"></script>
-<script src="bootstrap/js/bootstrap.js"></script>
+<script src="../asset/vendor/bootstrap/js/bootstrap.js"></script>
+<script src="../asset/vendor/bootstrap-select/bootstrap-select.js"></script>
+<script src="../asset/vendor/bootstrap-datepicker/bootstrap-datepicker.js"></script>
+<script src="../asset/vendor/easyDialog/js/easydialog.min.js"></script>
 <script src="../asset/js/frame/vue.js"></script>
-<script src="vendor/bootstrap-select/bootstrap-select.js"></script>
-<script src="vendor/bootstrap-datepicker/bootstrap-datepicker.js"></script>
-<script src="../asset/easyDialog/js/easydialog.min.js"></script>
-<script src="config/config.js"></script>
-<script src="js/components/header.js"></script>
-<script src="js/components/sidebar.js"></script>
-<script src="js/base.js"></script>
+<script src="../asset/config/config.js"></script>
+<script src="../asset/components/admin.js"></script>
+<script src="../asset/js/admin/base.js"></script>
 <script>
     var Client = new Vue({
         el: "#client",
         data: {
             user: {},
-            message: [
-                { username: "陈煦", operation: "修改了系统管理员身份"}
-            ],
             sidebarLinks: [],
             userList: [],
-            userListAfterSearch: [],
             table: {
                 // 分页部分
                 recordNumber: 0,    // 数据数目
@@ -264,7 +257,7 @@
                 currentPage: 1,     // 当前页码
                 inputPage: 1,       // 输入框页码
                 // 检索部分
-                searchType : 1,
+                searchType : 0,
                 searchParam: "",
                 startDate: "",
                 endDate: ""
@@ -286,75 +279,6 @@
                 userName: ""
             },
             role: []
-        },
-        watch: {
-            "userList": function() {
-                var table = this.table;
-
-                // 修改总页数和记录数
-                this.table.recordNumber = this.userList.length;
-                this.table.pageNumber = Math.ceil(this.table.recordNumber / table.numberPerPage);
-                // 判断当前页是否大于总页数，若是则减一
-                if(table.currentPage > this.table.pageNumber) {
-                    this.table.currentPage--;
-                }
-            },
-            "table.numberPerPage": function() {
-                var table = this.table,
-                    startPos = table.numberPerPage * (table.currentPage - 1);
-                // 修改总页数
-                this.table.pageNumber = Math.ceil(table.recordNumber / table.numberPerPage);
-                // 修改页面显示的用户列表
-                this.userListAfterSearch = this.userList.slice(startPos, startPos + table.numberPerPage);
-            },
-            "table.currentPage": function() {
-                this.paging();
-            },
-            "table.searchParam": function() {
-                var type = Number(this.table.searchType),
-                    table = this.table,
-                    startPos = table.numberPerPage * (table.currentPage - 1),
-                    userList = this.userList,
-                    afterList = [],
-                    item = null,
-                    search = this.table.searchParam,
-                    length = userList.length,
-                    loop = 0;
-
-                switch(type) {
-                    case 1: {
-                        for(loop = 0; loop < length; loop++) {
-                            item = userList[loop];
-                            if(item.userAccount.indexOf(search) !== -1) {
-                                afterList.push(item);
-                            }
-                        }
-                        break;
-                    }
-                    case 2: {
-                        for(loop = 0; loop < length; loop++) {
-                            item = userList[loop];
-                            if(item.userName.indexOf(search) !== -1) {
-                                afterList.push(item);
-                            }
-                        }
-                        break;
-                    }
-                    case 3: {
-                        for(loop = 0; loop < length; loop++) {
-                            item = userList[loop];
-                            if(item.roleName.indexOf(search) !== -1) {
-                                afterList.push(item);
-                            }
-                        }
-                        break;
-                    }
-                }
-                this.userListAfterSearch = afterList.slice(startPos, startPos + table.numberPerPage);
-                // 修改总页数和总记录数
-                this.table.pageNumber = Math.ceil(afterList.length / table.numberPerPage);
-                this.table.recordNumber = afterList.length;
-            }
         },
         components: {
             "navbar": header,
@@ -386,7 +310,9 @@
                         userAccount: item.userAccount,
                         userName: item.userName,
                         userGender: item.userGender,
-                        userRole: item.userRole
+                        userRole: item.userRole,
+                        roleName: item.roleName,
+                        userCreate: item.userCreate
                     };
                 } else if(panel === "panelDelete") {
                     this.del = item;
@@ -411,24 +337,32 @@
                     validator = null;
 
                 if(type === "getUserList") {
-                    data = {};
+                    data = {
+                        type: this.table.searchType,
+                        param: this.table.searchParam,
+                        startDate: $("#startDate").val(),
+                        endDate: $("#endDate").val(),
+                        numberPerPage: this.table.numberPerPage,
+                        startPos: this.table.currentPage
+                    };
                     url = Service.getUrl("getUser");
                     successFn = Client.getUserCallback;
                 } else if(type === "create") {
+                    var role = $("#createRole").selectpicker("val");
+
                     item = this.create;
                     url = Service.getUrl("createUser");
                     validator = new Validator();
-                    if(item.userAccount === "" || item.userName === "") {
-                        alert("请将用户信息填写完整");
-                        return;
-                    }
-                    if(!validator.account(item.userAccount)) {
+                    if(item.userAccount === "" || !validator.account(item.userAccount)) {
                         alert("您输入的用户账号格式有误");
                         return;
                     }
-                    if(!validator.name(item.userName)) {
+                    if(item.userName === "" || !validator.name(item.userName)) {
                         alert("您输入的用户姓名格式有误");
                         return;
+                    }
+                    if(!role) {
+                        alert("请选择用户权限");
                     }
                     data = {
                         userName: item.userName,
@@ -442,7 +376,7 @@
                     item = this.modify;
                     url = Service.getUrl("modifyUser");
                     validator = new Validator();
-                    if(!validator.name(item.userName)) {
+                    if(item.userName === "" || !validator.name(item.userName)) {
                         alert("您输入的用户姓名格式有误");
                         return;
                     }
@@ -453,14 +387,14 @@
                         userRole: $("#modifyRole").selectpicker("val"),
                         operator: this.user.userName
                     };
-                    successFn = Client.modifyUserCallback;
+                    successFn = Client.successCallback;
                 } else if(type === "delete") {
                     item = this.del;
                     url = Service.getUrl("deleteUser");
                     data = {
                         userAccount: item.userAccount
                     };
-                    successFn = Client.deleteUserCallback;
+                    successFn = Client.successCallback;
                 } else if(type === "getRoleSelect") {
                     url = Service.getUrl("getRoleSelect");
                     data = {};
@@ -476,77 +410,12 @@
                     }
                 });
             },
-            searchUserByDate: function() {
-                var type = Number(this.table.searchType),
-                    startDate = $("#startDate").val(),
-                    endDate = $("#endDate").val(),
-                    table = this.table,
-                    startPos = table.numberPerPage * (table.currentPage - 1),
-                    date = new Date(),
-                    userList = this.userList,
-                    afterList = [],
-                    item = null,
-                    length = userList.length,
-                    loop = 0;
-
-                if(startDate === "") {
-                    startDate = "1970-01-01 00:00:00";
-                } else {
-                    startDate += " 00:00:00";
-                }
-                if(endDate === "") {
-                    endDate = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " 23:59:59";
-                } else {
-                    endDate += " 23:59:59";
-                }
-                console.log(startDate);
-                console.log(endDate);
-                if(type === 4) {
-                    for(loop = 0; loop < length; loop++) {
-                        item = userList[loop];
-                        if(item.userCreate >= startDate && item.userCreate <= endDate) {
-                            afterList.push(item);
-                        }
-                    }
-                } else if(type === 5) {
-                    for(loop = 0; loop < length; loop++) {
-                        item = userList[loop];
-                        if(item.userModify >= startDate && item.userModify <= endDate) {
-                            afterList.push(item);
-                        }
-                    }
-                }
-
-                this.userListAfterSearch = afterList.slice(startPos, startPos + table.numberPerPage);
-                // 修改总页数和总记录数
-                this.table.pageNumber = Math.ceil(afterList.length / table.numberPerPage);
-                this.table.recordNumber = afterList.length;
-            },
-            /**
-             * 根据用户账号找到相应数据在列表中的下标
-             * @param userAccount 用户号
-             */
-            searchUser: function(userAccount) {
-                var userList = this.userList,
-                    item = null,
-                    length = 0,
-                    loop = 0;
-
-                for(loop = 0, length = userList.length; loop < length; loop++) {
-                    item = userList[loop];
-                    if(item.userAccount === userAccount) {
-                        return loop;
-                    }
-                }
-                return -1;
-            },
             /**
              * 跳页操作
              * @param type 跳页操作类型 1：上一页 2：跳页 3：下一页
              */
             skipPage: function(type) {
-                var type = Number(type),
-                    skipPage = Number(this.table.currentPage),
+                var skipPage = Number(this.table.currentPage),
                     validator = new Validator();
 
                 switch(Number(type)) {
@@ -558,21 +427,11 @@
                 if(validator.pages(skipPage, this.table.pageNumber)) {
                     this.table.currentPage = skipPage;
                     this.table.inputPage = skipPage;
+                    this.request("getUserList");
                 } else {
                     Dialog.tip("请输入正确的页码");
                     this.table.inputPage = this.table.currentPage;
                 }
-            },
-            /**
-             * 分页操作
-             */
-            paging: function() {
-                var table = this.table,
-                    startPos = table.numberPerPage * (table.currentPage - 1);
-                // 修改总页数
-                this.table.pageNumber = Math.ceil(table.recordNumber / table.numberPerPage);
-                // 修改页面显示的用户列表
-                this.userListAfterSearch = this.userList.slice(startPos, startPos + table.numberPerPage);
             },
             /**
              * 执行获取用户列表操作的回调函数
@@ -581,7 +440,8 @@
             getUserCallback: function (msg) {
                 if (Number(msg.code) === 1) {
                     this.userList = msg.data;
-                    this.userListAfterSearch = this.userList;
+                    this.table.recordNumber = msg.count;
+                    this.table.pageNumber = Math.ceil(msg.count / Number(this.table.numberPerPage));
                 } else {
                     Dialog.warn(msg.msg);
                 }
@@ -593,7 +453,7 @@
             createUserCallback: function(msg) {
                 // 若回调函数执行成功，则将相应的数据添加到列表中
                 if (Number(msg.code) === 1) {
-                    // 创建日期由后台生成，因此在每次创建用户后需要重新向后台获取数据
+                    this.table.searchType = 0;
                     this.request("getUserList");
                     // 清空上一次输入的内容
                     this.create = {
@@ -601,55 +461,20 @@
                         userName: "",
                         userGender: "0",
                         userRole: ""
-                    }
+                    };
                     Dialog.tip(msg.msg);
                 } else {
                     Dialog.warn(msg.msg);
                 }
             },
             /**
-             * 修改用户回调函数
+             * 修改、删除用户操作成功执行的回调函数
              * @param msg 服务器返回的对象
              */
-            modifyUserCallback: function(msg) {
-                var index = null,
-                    modifyObj = this.modify;
-
-                // 若回调函数执行成功，则将相应的数据进行修改
+            successCallback: function(msg) {
                 if (Number(msg.code) === 1) {
-                    index = this.searchUser(modifyObj.roleId);
-                    if(index !== -1) {
-                        modifyObj.userModify = getDate();
-                        this.userList[index] = modifyObj;
-                        this.userList.push();
-                    }
-                    Dialog.tip(msg.msg);
-                } else {
-                    Dialog.warn(msg.msg);
-                }
-            },
-            /**
-             * 删除用户回调函数
-             * @param msg 服务器返回的对象
-             */
-            deleteUserCallback: function(msg) {
-                var index = null,
-                    deleteObj = this.del,
-                    userList = this.userList,
-                    length = 0,
-                    loop = 0;
-
-                // 若回调函数执行成功，则将相应的数据从列表中删除
-                if (Number(msg.code) === 1) {
-                    index = this.searchUser(deleteObj.userAccount);
-                    if(index !== -1) {
-                        for(loop = index + 1, length = userList.length; loop < length; loop++) {
-                            userList[loop - 1] = userList[loop];
-                        }
-                        userList.pop();
-                        this.userList = userList;
-                        this.paging();
-                    }
+                    this.table.searchType = 0;
+                    this.request("getUserList");
                     Dialog.tip(msg.msg);
                 } else {
                     Dialog.warn(msg.msg);

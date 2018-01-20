@@ -31,11 +31,9 @@ public class MmeService implements IMmeService {
     @Override
     @Transactional(rollbackFor={RuntimeException.class, Exception.class})
     public String addExamine(Examine examine) {
-        JSONObject result = JsonUtil.fromErrors(Errors.SUCCESS);
-
+        JSONObject result;
         // 将新增的待审核数据插入到审核表
-        int roll = examineMapper.insert(examine);
-        if (roll <= 0){
+        if (examineMapper.insert(examine) <= 0){
             result = JsonUtil.fromErrors(Errors.FAILD);
             result.put(Keys.MSG,Errors.ADDEXAMINE_FAILD);
             result.put(Keys.DATA,new JSONObject());
@@ -43,7 +41,7 @@ public class MmeService implements IMmeService {
         }
         // 修改mme相应数据的审核标志为待审核
         Mme mmeSearch = new Mme();
-        mmeSearch.setIsmodified("1");
+        mmeSearch.setIsModified("1");
         mmeSearch.setId(examine.getId());
         if (mmeMapper.updateIsModified(mmeSearch) <= 0){
             result = JsonUtil.fromErrors(Errors.FAILD);
@@ -51,6 +49,7 @@ public class MmeService implements IMmeService {
             result.put(Keys.MSG,Errors.ADDEXAMINE_FAILD);
             return result.toJSONString();
         }
+        result = JsonUtil.fromErrors(Errors.SUCCESS);
         result.put(Keys.MSG,Errors.ADDEXAMINE_SUCCESS);
         result.put(Keys.DATA,new JSONObject());
         return result.toJSONString();
@@ -104,16 +103,9 @@ public class MmeService implements IMmeService {
         mme.setZone(examine.getZone());
         mme.setCofactors(examine.getCofactors());
         mme.setInhibitors(examine.getInhibitors());
-        mme.setIsmodified("0");
+        mme.setIsModified("0");
 
-        int roll = mmeMapper.updateByPrimaryKey(mme);
-        if (roll <= 0){
-            result = JsonUtil.fromErrors(Errors.FAILD);
-            result.put(Keys.DATA,new JSONObject());
-            result.put(Keys.MSG,Errors.MARLBORO_FAILD);
-            return result.toJSONString();
-        }
-        if(mmeMapper.updateIsModified(mme) <= 0) {
+        if (mmeMapper.updateByPrimaryKey(mme) <= 0){
             result = JsonUtil.fromErrors(Errors.FAILD);
             result.put(Keys.DATA,new JSONObject());
             result.put(Keys.MSG,Errors.MARLBORO_FAILD);
@@ -123,7 +115,6 @@ public class MmeService implements IMmeService {
             result = JsonUtil.fromErrors(Errors.FAILD);
             result.put(Keys.DATA,new JSONObject());
             result.put(Keys.MSG,Errors.MARLBORO_FAILD);
-
             return result.toJSONString();
         }
         result.put(Keys.DATA,new JSONObject());
@@ -181,7 +172,7 @@ public class MmeService implements IMmeService {
             mme.setZone(examine.getZone());
             mme.setCofactors(examine.getCofactors());
             mme.setInhibitors(examine.getInhibitors());
-            mme.setIsmodified("0");
+            mme.setIsModified("0");
 
             if (mmeMapper.updateByPrimaryKey(mme)<=0){
                 result = JsonUtil.fromErrors(Errors.FAILD);
@@ -208,24 +199,23 @@ public class MmeService implements IMmeService {
     @Override
     @Transactional(rollbackFor={RuntimeException.class, Exception.class})
     public String refuse(int id) {
-        JSONObject result = JsonUtil.fromErrors(Errors.SUCCESS);
-
-        Mme mmeSearch = new Mme();
-        mmeSearch.setIsmodified("0");
-        mmeSearch.setId(id);
-        int roll = examineMapper.deleteByPrimaryKey(Integer.valueOf(id));
-        if (roll <= 0){
+        JSONObject result;
+        if (examineMapper.deleteByPrimaryKey(Integer.valueOf(id)) <= 0){
             result = JsonUtil.fromErrors(Errors.FAILD);
             result.put(Keys.MSG,Errors.REFUSAL_EXAMINE_FAILD);
             result.put(Keys.DATA,new JSONObject());
             return result.toJSONString();
         }
+        Mme mmeSearch = new Mme();
+        mmeSearch.setIsModified("0");
+        mmeSearch.setId(id);
         if (mmeMapper.updateIsModified(mmeSearch) <= 0){
             result = JsonUtil.fromErrors(Errors.FAILD);
             result.put(Keys.DATA,new JSONObject());
             result.put(Keys.MSG,Errors.REFUSAL_EXAMINE_FAILD);
             return result.toJSONString();
         }
+        result = JsonUtil.fromErrors(Errors.SUCCESS);
         result.put(Keys.DATA,new JSONObject());
         result.put(Keys.MSG,Errors.REFUSAL_EXAMINE_SUCCESS);
         return result.toJSONString();

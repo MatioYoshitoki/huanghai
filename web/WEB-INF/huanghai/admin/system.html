@@ -5,22 +5,21 @@
     <meta http-equiv="x-ua-compatible" content="IE=Edge, Chrome=1">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
     <title>系统管理</title>
-    <link rel="stylesheet" href="vendor/bootstrap-select/bootstrap-select.css">
-    <link rel="stylesheet" href="vendor/bootstrap-datepicker/datepicker.css">
-    <link rel="stylesheet" href="../asset/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/font-awesome.min.css">
-    <link rel="stylesheet" href="css/animate.min.css">
-    <link rel="stylesheet" href="../asset/easyDialog/css/easydialog.css">
-
-    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="../asset/vendor/bootstrap-select/bootstrap-select.css">
+    <link rel="stylesheet" href="../asset/vendor/bootstrap-datepicker/datepicker.css">
+    <link rel="stylesheet" href="../asset/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../asset/vendor/easyDialog/css/easydialog.css">
+    <link rel="stylesheet" href="../asset/vendor/trumbowyg/design/css/trumbowyg.css">
+    <link rel="stylesheet" href="../asset/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="../asset/css/admin.css">
     <!--[if lt IE 9]>
-    <script src="js/html5shiv.js"></script>
-    <script src="js/respond.min.js"></script>
+    <script src="../asset/js/admin/html5shiv.js"></script>
+    <script src="../asset/js/admin/respond.min.js"></script>
     <![endif]-->
 </head>
 <body>
 <div class="app" id="client">
-    <navbar :user="user" :message="message"></navbar>
+    <navbar :user="user"></navbar>
     <section class="layout">
         <sidebar :links="sidebarLinks"></sidebar>
         <section class="main-content">
@@ -43,23 +42,18 @@
                         <div class="tab-content">
                             <!-- 页面配置 -->
                             <div class="tab-pane active" id="setting">
-                                <section>
+                                <section class="clearfix">
                                     <div class="row mg-b">
                                         <div class="col-xs-10">
                                             <h3 class="no-margin pd-b-sm bd-b" style="border-bottom-color: #ccc;">Index
                                                 页面设置</h3>
                                         </div>
                                         <div class="col-xs-1">
-                                            <div v-if="pageConfig.isModify == false" @click="startModify"
-                                                 class="btn btn-info mg-l-lg">进行修改
-                                            </div>
-                                            <div v-else @click="request('modifyPage')" class="btn btn-success mg-l-lg">
-                                                完成修改
-                                            </div>
+                                            <div @click="openPanel('panelModify')" class="btn btn-info mg-l-lg">提交修改</div>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
-                                        <img src="img/model.png"/>
+                                        <img src="../asset/img/admin/model.png"/>
                                     </div>
                                     <div class="col-md-6">
                                         <section class="panel no-border overflow-hidden">
@@ -70,60 +64,51 @@
                                                 <div class="form-group">
                                                     <label class="col-sm-2 control-label">横幅标题</label>
                                                     <div class="col-sm-10">
-                                                        <input disabled v-model="pageConfig.indexBannerTitle"
-                                                               type="text"
-                                                               class="form-control"/>
+                                                        <input v-model="pageConfig.indexBannerTitle" type="text" class="form-control"/>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <label class="col-sm-2 control-label">横幅内容</label>
                                                     <div class="col-sm-10">
-                                                        <textarea disabled v-model="pageConfig.indexBannerContent"
-                                                                  class="form-control" rows="3"></textarea>
+                                                        <div id="indexBannerContent" class="form-control"></div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <label class="col-sm-2 control-label">链接文字</label>
                                                     <div class="col-sm-10">
-                                                        <input disabled v-model="pageConfig.indexLinkText" type="text"
-                                                               class="form-control"/>
+                                                        <input v-model="pageConfig.indexLinkText" type="text" class="form-control"/>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <label class="col-sm-2 control-label">链接地址</label>
                                                     <div class="col-sm-10">
-                                                        <input disabled v-model="pageConfig.indexLinkUrl" type="text"
-                                                               class="form-control"/>
+                                                        <input v-model="pageConfig.indexLinkUrl" type="text" class="form-control"/>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <label class="col-sm-2 control-label">正文标题</label>
                                                     <div class="col-sm-10">
-                                                        <input disabled v-model="pageConfig.indexTitle" type="text"
-                                                               class="form-control"/>
+                                                        <input v-model="pageConfig.indexTitle" type="text" class="form-control"/>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <label class="col-sm-2 control-label">正文内容</label>
                                                     <div class="col-sm-10">
-                                                        <textarea disabled v-model="pageConfig.indexContent"
-                                                                  class="form-control"
-                                                                  rows="5"></textarea>
+                                                        <div id="indexContent" class="form-control"></div>
                                                     </div>
                                                 </div>
                                             </form>
                                         </section>
                                     </div>
                                 </section>
-                                <section>
+                                <section class="mg-t-md clearfix">
                                     <div class="row mg-b">
                                         <div class="col-xs-12">
-                                            <h3 class="no-margin pd-b-sm bd-b" style="border-bottom-color: #ccc;">Browse
-                                                页面设置</h3>
+                                            <h3 class="no-margin pd-b-sm bd-b" style="border-bottom-color: #ccc;">Browse 页面设置</h3>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
-                                        <img src="img/model2.jpg"/>
+                                        <img src="../asset/img/admin/model2.jpg"/>
                                     </div>
                                     <div class="col-md-6">
                                         <section class="panel no-border overflow-hidden">
@@ -134,15 +119,38 @@
                                                 <div class="form-group">
                                                     <label class="col-sm-2 control-label">正文标题</label>
                                                     <div class="col-sm-10">
-                                                        <input disabled v-model="pageConfig.browseTitle" type="text"
-                                                               class="form-control"/>
+                                                        <input v-model="pageConfig.browseTitle" type="text" class="form-control"/>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <label class="col-sm-2 control-label">正文内容</label>
                                                     <div class="col-sm-10">
-                                                        <textarea disabled v-model="pageConfig.browseContent"
-                                                                  class="form-control" rows="5"></textarea>
+                                                        <div id="browseContent" class="form-control"></div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </section>
+                                    </div>
+                                </section>
+                                <section class="mg-t-md clearfix">
+                                    <div class="row mg-b">
+                                        <div class="col-xs-12">
+                                            <h3 class="no-margin pd-b-sm bd-b" style="border-bottom-color: #ccc;">About US 页面设置</h3>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <img src="../asset/img/admin/model3.png"/>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <section class="panel no-border overflow-hidden">
+                                            <div class="bg-info pd-md clearfix">
+                                                <div class="h4 mg-t-xs mg-b-xs text-white">关于我们内容设置</div>
+                                            </div>
+                                            <form class="form-horizontal pd">
+                                                <div class="form-group">
+                                                    <label class="col-sm-2 control-label">正文内容</label>
+                                                    <div class="col-sm-10">
+                                                        <div id="aboutUs" class="form-control"></div>
                                                     </div>
                                                 </div>
                                             </form>
@@ -156,9 +164,13 @@
                                     <div class="panel">
                                         <div class="panel-heading clearfix">
                                             <div class="pull-left">数据分类</div>
-                                            <label @click="dataConfig.isTypeAdd = true"
+                                            <label v-if="dataConfig.isTypeAdd == false" @click="dataConfig.isTypeAdd = true"
                                                    class="btn btn-white btn-sm no-margin pull-right">
                                                 <i class="fa fa-edit mg-r-xs"></i>添加
+                                            </label>
+                                            <label v-else @click="dataConfig.isTypeAdd = false"
+                                                   class="btn btn-white btn-sm no-margin pull-right">
+                                                <i class="fa fa-remove mg-r-xs"></i>取消
                                             </label>
                                         </div>
                                         <div class="panel-body no-padding" style="max-height: 421px; overflow: auto">
@@ -175,7 +187,7 @@
                                                     <th class="text-center" v-text="(index + 1)"></th>
                                                     <td v-text="item.type"></td>
                                                     <td>
-                                                        <label @click="openPanel('panelDeleteForType', item)"
+                                                        <label @click="openPanel('panelDelete', item, 'panelDeleteForType')"
                                                                class="btn btn-white btn-sm no-margin"
                                                                style="padding: 3px 10px;">
                                                             <i class="fa fa-remove mg-r-xs"></i>删除
@@ -196,6 +208,9 @@
                                                 <button @click="request('addType')" class="btn btn-white pull-right">
                                                     确定
                                                 </button>
+                                                <div class="form-group mg-t-sm">
+                                                    <label class="control-label">注意：数据分类不能重复</label>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -204,9 +219,13 @@
                                     <div class="panel">
                                         <div class="panel-heading clearfix">
                                             <div class="pull-left">酶大类</div>
-                                            <label @click="dataConfig.isEC1Add = true"
+                                            <label v-if="dataConfig.isEC1Add == false" @click="dataConfig.isEC1Add = true"
                                                    class="btn btn-white btn-sm no-margin pull-right">
                                                 <i class="fa fa-edit mg-r-xs"></i>添加
+                                            </label>
+                                            <label v-else @click="dataConfig.isEC1Add = false"
+                                                   class="btn btn-white btn-sm no-margin pull-right">
+                                                <i class="fa fa-remove mg-r-xs"></i>取消
                                             </label>
                                         </div>
                                         <div class="panel-body no-padding" style="max-height: 421px; overflow: auto">
@@ -223,7 +242,7 @@
                                                     <th class="text-center" v-text="(index + 1)"></th>
                                                     <td v-text="item.ec1"></td>
                                                     <td>
-                                                        <label @click="openPanel('panelDeleteForEC1', item)"
+                                                        <label @click="openPanel('panelDelete', item, 'panelDeleteForEC1')"
                                                                class="btn btn-white btn-sm no-margin"
                                                                style="padding: 3px 10px;">
                                                             <i class="fa fa-remove mg-r-xs"></i>删除
@@ -244,6 +263,9 @@
                                                 <button @click="request('addEC1')" class="btn btn-white pull-right">
                                                     确定
                                                 </button>
+                                                <div class="form-group mg-t-sm">
+                                                    <label class="control-label">注意：酶大类不能重复</label>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -252,9 +274,13 @@
                                     <div class="panel">
                                         <div class="panel-heading clearfix">
                                             <div class="pull-left">酶种</div>
-                                            <label @click="dataConfig.isEC2Add = true"
+                                            <label v-if="dataConfig.isEC2Add == false" @click="dataConfig.isEC2Add = true"
                                                    class="btn btn-white btn-sm no-margin pull-right">
                                                 <i class="fa fa-edit mg-r-xs"></i>添加
+                                            </label>
+                                            <label v-else @click="dataConfig.isEC2Add = false"
+                                                   class="btn btn-white btn-sm no-margin pull-right">
+                                                <i class="fa fa-remove mg-r-xs"></i>取消
                                             </label>
                                         </div>
                                         <div class="panel-body no-padding" style="max-height: 421px; overflow: auto">
@@ -269,11 +295,11 @@
                                                 </thead>
                                                 <tbody style="height: 195px; overflow: auto;">
                                                 <tr v-for="(item, index) in dataConfig.ec2List">
-                                                    <td class="text-center" v-text="(index + 1)"></td>
+                                                    <td class="text-center" v-text="item.id"></td>
                                                     <td v-text="item.ec1"></td>
                                                     <td v-text="item.ec2"></td>
                                                     <td>
-                                                        <label @click="openPanel('panelDeleteForEC2', item)"
+                                                        <label @click="openPanel('panelDelete', item, 'panelDeleteForEC2')"
                                                                class="btn btn-white btn-sm no-margin"
                                                                style="padding: 3px 10px;">
                                                             <i class="fa fa-remove mg-r-xs"></i>删除
@@ -330,67 +356,35 @@
                             <!-- 爬虫控制 -->
                             <div class="tab-pane " id="spider">
                                 <div class="row">
-                                    <div class="col-md-4">
-                                        <section class="panel no-border profile-panel overflow-hidden">
+                                    <div class="col-md-6">
+                                        <section class="panel no-border profile-panel">
                                             <div class="panel-body bg-warning">
                                                 <div class="watermark fa fa-twitter"></div>
                                                 <div class="mg-b-sm text-center text-white">
                                                     <div class="mg-b-md">
-                                                        <img src="img/pic_spider.png"
+                                                        <img src="../asset/img/admin/pic_spider.png"
                                                              class="avatar bordered-avatar img-circle pic" alt="user"
                                                              title="user">
                                                     </div>
-                                                    <small>手工启动爬虫</small>
+                                                    <small>爬虫一号</small>
                                                 </div>
                                             </div>
-                                            <div class="panel-footer bg-white no-border">
-                                                <ul class="nav nav-pills nav-justified text-center">
-                                                    <li>
-                                                        <button @click="request('startSpider')" class="btn btn-warning">
-                                                            启动爬虫
-                                                        </button>
-                                                    </li>
-                                                    <li>
-                                                        <button @click="request('closeSpider')" class="btn btn-warning">
-                                                            关闭爬虫
-                                                        </button>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </section>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <section class="panel no-border overflow-hidden widget-social">
                                             <div class="panel-body bg-white">
-                                                <a href="javascript:;" class="pull-left mg-r-md">
-                                                    <img src="img/pic_spider.png" class="avatar avatar-md img-circle"
-                                                         alt="">
-                                                </a>
-                                                <div>爬虫1号</div>
                                                 <div v-if="spiderConfig.recordList.length > 0">
-                                                    <small>上一次启动时间：<span
-                                                            v-text="spiderConfig.recordList[0].operateDate"></span></small>
-                                                    <br>
-                                                    <small>上一次抓取数据：<span v-text="spiderConfig.recordList[0].number"></span>
-                                                    </small>
+                                                    <div class="col-md-6">上一次启动时间：
+                                                        <span v-text="spiderConfig.recordList[0].operateDate"></span>
+                                                    </div>
+                                                    <div class="col-md-6">上一次抓取数据：
+                                                        <span v-text="spiderConfig.recordList[0].number"></span>
+                                                    </div>
                                                 </div>
                                                 <div v-else>
-                                                    <small>上一次启动时间：无</small>
-                                                    <br>
-                                                    <small>上一次抓取数据：0</small>
+                                                    <div class="col-md-6">上一次启动时间：无</div>
+                                                    <div class="col-md-6">上一次抓取数据：0</div>
                                                 </div>
                                             </div>
                                             <div class="panel-footer no-padding no-border">
                                                 <div class="row no-margin">
-                                                    <div v-if="spiderConfig.isStart == true"
-                                                         class="col-xs-6 bg-success pd-md text-center">
-                                                        <span>爬虫状态</span><br/>
-                                                        <small>工作中</small>
-                                                    </div>
-                                                    <div v-else class="col-xs-6 bg-warning pd-md text-center">
-                                                        <span>爬虫状态</span><br/>
-                                                        <small>休息中</small>
-                                                    </div>
                                                     <div v-if="spiderConfig.isTiming == true"
                                                          class="col-xs-6 bg-success pd-md text-center">
                                                         <span>是否开启定时</span><br/>
@@ -400,11 +394,15 @@
                                                         <span>是否开启定时</span><br/>
                                                         <small>已经关闭</small>
                                                     </div>
+                                                    <div class="col-xs-6 pd-md bg-warning text-center">
+                                                        <span>定时时间：</span><br/>
+                                                        <small>每周周二02：00</small>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </section>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-6">
                                         <section class="panel no-border overflow-hidden">
                                             <div class="bg-danger pd-md clearfix">
                                                 <div class="h4 mg-t-xs mg-b-xs">爬虫定时设置</div>
@@ -412,8 +410,8 @@
                                             </div>
                                             <form class="form-horizontal pd clearfix">
                                                 <div class="form-group">
-                                                    <label class="col-sm-4 control-label">执行频度：</label>
-                                                    <div class="col-sm-8">
+                                                    <label class="col-sm-3 control-label">执行频度：</label>
+                                                    <div class="col-sm-9">
                                                         <select id="spiderFrequence" class="form-control selectpicker">
                                                             <option value="1">每年</option>
                                                             <option value="2">每月</option>
@@ -422,8 +420,8 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label class="col-sm-4 control-label">执行日期：</label>
-                                                    <div class="col-sm-8">
+                                                    <label class="col-sm-3 control-label">执行日期：</label>
+                                                    <div class="col-sm-9">
                                                         <select id="spiderDate" class="form-control selectpicker">
                                                             <option value="2">周一</option>
                                                             <option value="3">周二</option>
@@ -436,8 +434,8 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label class="col-sm-4 control-label">具体时间：</label>
-                                                    <div class="col-sm-8">
+                                                    <label class="col-sm-3 control-label">具体时间：</label>
+                                                    <div class="col-sm-9">
                                                         <input id="spiderTime" type="text" class="form-control"
                                                                placeholder="格式：19:15"/>
                                                     </div>
@@ -466,7 +464,9 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div id="chart" class="pd" style="width: 100%; height: 400px;"></div>
+                                    <div class="col-md-12">
+                                        <div id="chart" class="pd" style="width: 100%; height: 400px;"></div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -474,6 +474,20 @@
                 </div>
             </div>
         </section>
+        <div id="panelModify" class="panel panel-color sr-only panel-custom" style="width: 450px;">
+            <div class="panel-heading">
+                修改页面配置
+                <small class="pull-right text-white">
+                    <a class="fa fa-chevron-down panel-collapsible pd-r-xs" href="javascript:;"
+                       @click="hidePanelBody($event)"></a>
+                    <a class="fa fa-times panel-remove" href="javascript:easyDialog.close();"></a>
+                </small>
+            </div>
+            <div class="panel-body">
+                确定提交修改内容吗？
+                <button @click="request('modifyPage')" class="btn btn-default center-block">确定提交</button>
+            </div>
+        </div>
         <div id="panelDelete" class="panel panel-color sr-only panel-custom" style="width: 450px;">
             <div class="panel-heading">
                 删除面板
@@ -491,38 +505,30 @@
     </section>
 </div>
 <script src="../asset/js/frame/jquery-1.11.1.min.js"></script>
-<script src="bootstrap/js/bootstrap.js"></script>
-<script src="../asset/js/frame/echarts.js"></script>
+<script src="../asset/vendor/bootstrap/js/bootstrap.js"></script>
+<script src="../asset/vendor/bootstrap-select/bootstrap-select.js"></script>
+<script src="../asset/vendor/bootstrap-datepicker/bootstrap-datepicker.js"></script>
+<script src="../asset/vendor/easyDialog/js/easydialog.min.js"></script>
+<script src="../asset/vendor/trumbowyg/trumbowyg.min.js"></script>
 <script src="../asset/js/frame/vue.js"></script>
-<script src="vendor/bootstrap-select/bootstrap-select.js"></script>
-<script src="vendor/bootstrap-datepicker/bootstrap-datepicker.js"></script>
-<script src="../asset/easyDialog/js/easydialog.min.js"></script>
-<script src="config/config.js"></script>
-<script src="js/components/header.js"></script>
-<script src="js/components/sidebar.js"></script>
-<script src="js/base.js"></script>
+<script src="../asset/js/frame/echarts.js"></script>
+<script src="../asset/config/config.js"></script>
+<script src="../asset/components/admin.js"></script>
+<script src="../asset/js/admin/base.js"></script>
 <script>
     var Client = new Vue({
         el: "#client",
         data: {
             // 默认内容
             user: {},
-            message: [
-                {username: "陈煦", operation: "修改了系统管理员身份"}
-            ],
             sidebarLinks: [],
             // 页面配置信息
             pageConfig: {
                 indexBannerTitle: "",
-                indexBannerContent: "",
                 indexLinkText: "",
                 indexLinkUrl: "",
                 indexTitle: "",
-                indexContent: "",
                 browseTitle: "",
-                browseContent: "",
-                // 保存 disabled 输入框
-                inputDisabled: null,
                 isModify: false
             },
             // 数据配置信息
@@ -564,7 +570,12 @@
                     Client.request("getPageConfig");
                     Client.request("getDataConfig");
                     Client.request("getEC2List");
-//                    Client.request("getSpiderRecord");
+                    Client.request("getSpiderRecord");
+                    $("#chart").css("width", ($(document).width() - 300) + "px");
+                    $("#indexBannerContent").trumbowyg();
+                    $("#indexContent").trumbowyg();
+                    $("#browseContent").trumbowyg();
+                    $("#aboutUs").trumbowyg();
                 });
             })
         },
@@ -574,31 +585,27 @@
              * @param panel 弹窗（面板）的 ID
              * @param item  传递给弹窗（面板）的数据
              */
-            openPanel: function (panel, item) {
+            openPanel: function (panel, item, type) {
                 // 默认打开删除面板
-                $("#panelDelete").removeClass("sr-only");
+                $("#" + panel).removeClass("sr-only");
                 easyDialog.open({
-                    "container": "panelDelete"
+                    "container": panel
                 });
                 if (panel === "panelView") {
                     this.view = item;
-                } else if (panel === "panelModify") {
-                    this.modify = item;
-//                    $("#selectForType").selectpicker("val", item.type);
-//                    $("#selectForEC2").selectpicker("val", item.ec2);
-                } else if (panel === "panelDeleteForType") {
+                } else if (type === "panelDeleteForType") {
                     this.del = {
                         text: item.type,
                         url: "deleteType",
                         id: item.id
                     }
-                } else if(panel === "panelDeleteForEC1") {
+                } else if(type === "panelDeleteForEC1") {
                     this.del = {
                         text: item.ec1,
                         url: "deleteEC1",
                         id: item.id
                     }
-                } else if(panel === "panelDeleteForEC2") {
+                } else if(type === "panelDeleteForEC2") {
                     this.del = {
                         text: item.ec2,
                         url: "deleteEC2",
@@ -633,13 +640,14 @@
                     item = this.pageConfig;
                     data = {
                         indexTitle: item.indexTitle,
-                        indexContent: item.indexContent,
+                        indexContent: $("#indexContent").html(),
                         indexBannerTitle: item.indexBannerTitle,
-                        indexBannerContent: item.indexBannerContent,
+                        indexBannerContent: $("#indexBannerContent").html(),
                         indexLinkText: item.indexLinkText,
                         indexLinkUrl: item.indexLinkUrl,
                         browseTitle: item.browseTitle,
-                        browseContent: item.browseContent
+                        browseContent: $("#browseContent").html(),
+                        aboutUs: $("#aboutUs").html()
                     };
                     url = Service.getUrl("modifyPage");
                     successFn = Client.modifyPageCallback;
@@ -650,6 +658,10 @@
                     successFn = Client.getDataConfigCallback;
                 } else if (type === "addType") {
                     // 新增分类
+                    if(this.dataConfig.addContentType === "") {
+                        Dialog.warn("请输入要添加的数据分类！");
+                        return;
+                    }
                     data = { type: this.dataConfig.addContentType };
                     url = Service.getUrl("addType");
                     successFn = Client.addTypeCallback;
@@ -661,6 +673,10 @@
                     successFn = Client.deleteTypeCallback;
                 } else if (type === "addEC1") {
                     // 新增酶大类
+                    if(this.dataConfig.addContentEC1 === "") {
+                        Dialog.warn("请输入要添加的酶大类！");
+                        return;
+                    }
                     data = { ec1: this.dataConfig.addContentEC1 };
                     url = Service.getUrl("addEC1");
                     successFn = Client.addEC1Callback;
@@ -680,6 +696,10 @@
                     successFn = Client.getEC2ListCallback;
                 } else if (type === "addEC2") {
                     // 新增酶种
+                    if(this.dataConfig.addContentEC2 === "") {
+                        Dialog.warn("请输入要添加的酶种！");
+                        return;
+                    }
                     data = {
                         ec1Id: $("#selectForEC1").selectpicker("val"),
                         ec2: this.dataConfig.addContentEC2
@@ -697,16 +717,6 @@
                     data = {};
                     url = Service.getUrl("getSpiderRecord");
                     successFn = Client.getSpiderRecordCallback;
-                } else if (type === "startSpider") {
-                    // 手工启动爬虫
-                    data = {};
-                    url = Service.getUrl("startSpider");
-                    successFn = successCallback;
-                } else if (type === "closeSpider") {
-                    // 手工关闭爬虫
-                    data = {};
-                    url = Service.getUrl("closeSpider");
-                    successFn = successCallback;
                 } else if (type === "startSpiderTiming") {
                     // 启动定时爬虫
                     data = {};
@@ -734,16 +744,6 @@
                         errorFn: errorCallback
                     }
                 });
-            },
-            /**
-             * 进行修改
-             */
-            startModify: function () {
-                var disableds = $(":disabled");
-                // 将所有不可编辑输入框的状态修改为可编辑
-                disableds.attr("disabled", false);
-                this.pageConfig.inputDisabled = disableds;
-                this.pageConfig.isModify = true;
             },
             /**
              * 根据指定检索条件找到相应数据在某检索列表中的下标
@@ -787,8 +787,7 @@
              * @param type 跳页操作类型 1：上一页 2：跳页 3：下一页
              */
             skipPage: function(type) {
-                var type = Number(type),
-                    skipPage = Number(this.dataConfig.currentPage),
+                var skipPage = Number(this.dataConfig.currentPage),
                     validator = new Validator();
 
                 switch(Number(type)) {
@@ -822,7 +821,7 @@
                     Dialog.warn("具体时间格式不正确！");
                     throw new Error("具体时间格式不正确！");
                 }
-                if(hour > 24) {
+                if(hour > 23) {
                     Dialog.warn("具体时间格式不正确！");
                     throw new Error("具体时间格式不正确！");
                 }
@@ -862,16 +861,16 @@
                     }
                     pageConfig = {
                         indexBannerTitle: param.indexBannerTitle,
-                        indexBannerContent: param.indexBannerContent,
                         indexLinkText: param.indexLinkText,
                         indexLinkUrl: param.indexLinkUrl,
                         indexTitle: param.indexTitle,
-                        indexContent: param.indexContent,
                         browseTitle: param.browseTitle,
-                        browseContent: param.browseContent,
                         inputDisabled: null,
                         isModify: false
                     };
+                    $("#indexBannerContent").html(param.indexBannerContent);
+                    $("#indexContent").html(param.indexContent);
+                    $("#browseContent").html(param.browseContent);
                     this.pageConfig = pageConfig;
                     this.spiderConfig.isStart = param.isStart;
                     this.spiderConfig.isTiming = param.isTiming;
@@ -885,9 +884,6 @@
              */
             modifyPageCallback: function (msg) {
                 if (Number(msg.code) === 1) {
-                    // 修改输入框的编辑状态：不可编辑
-                    this.pageConfig.inputDisabled.attr("disabled", true);
-                    this.pageConfig.isModify = false;
                     Dialog.info(msg.msg);
                 } else {
                     Dialog.warn(msg.msg);
@@ -1062,13 +1058,20 @@
                     data = [],
                     length = 0,
                     loop = 0,
-                    option = null;
+                    option = null,
+                    list = [];
+
                 if (Number(msg.code) === 1) {
                     record = msg.data;
                     for (loop = 0, length = record.length; loop < length; loop++) {
-                        xaixs.push(record[loop].operateDate);
+                        xaixs.push(new Date(record[loop].operateDate).format());
                         data.push(record[loop].number);
+                        list.push({
+                            number: record[loop].number,
+                            operateDate: new Date(record[loop].operateDate).format()
+                        })
                     }
+                    this.spiderConfig.recordList = list;
                     xaixs.reverse();
                     data.reverse();
                     option = {
@@ -1127,6 +1130,24 @@
             }
         }
     });
+    Date.prototype.format=function (){
+        var s = "",
+            month = "",
+            day = "";
+
+        month = this.getMonth() + 1;
+        if(month < 10) {
+            month = "0" + month;
+        }
+        day = this.getDate();
+        if(day < 10) {
+            day = "0" + day;
+        }
+        s += this.getFullYear() + '-';
+        s += month + "-";
+        s += day;
+        return(s);                          // 返回日期。
+    };
 </script>
 </body>
 </html>

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 /**
@@ -34,25 +35,26 @@ public class ConfigController {
 
     @RequestMapping(value = "/getConfigList", method = RequestMethod.POST , produces="text/json;charset=UTF-8")
     public String getConfigList(){
-        List<Config> configs = configMapper.selectAll();
-        JSONObject result = JsonUtil.fromErrors(Errors.SUCCESS);
-        if (configs == null){
+        JSONObject result;
+        try {
+            List<Config> configs = configMapper.selectAll();
+            JSONArray data = new JSONArray();
+            for (Config config:configs) {
+                JSONObject every_config = new JSONObject();
+                every_config.put(Keys.PARAM,config.getParam());
+                every_config.put(Keys.VALUE,new String(config.getValue(), "utf8"));
+                data.add(every_config);
+            }
+            result = JsonUtil.fromErrors(Errors.SUCCESS);
+            result.put(Keys.MSG,"");
+            result.put(Keys.DATA,data);
+            return result.toJSONString();
+        } catch(Exception e) {
             result = JsonUtil.fromErrors(Errors.FAILD);
             result.put(Keys.MSG,Errors.GET_CONFIG_FAILD);
             result.put(Keys.DATA,new JSONObject());
             return result.toJSONString();
         }
-
-        JSONArray data = new JSONArray();
-        for (Config config:configs) {
-            JSONObject every_config = new JSONObject();
-            every_config.put(Keys.PARAM,config.getParam());
-            every_config.put(Keys.VALUE,config.getValue());
-            data.add(every_config);
-        }
-        result.put(Keys.MSG,"");
-        result.put(Keys.DATA,data);
-        return result.toJSONString();
     }
 
     @RequestMapping(value = "/modifyConfig", method = RequestMethod.POST , produces="text/json;charset=UTF-8")
@@ -64,48 +66,52 @@ public class ConfigController {
         @RequestParam(Keys.INDEX_LINK_TEXT) String index_link_text,
         @RequestParam(Keys.INDEX_LINK_URL) String index_link_url,
         @RequestParam(Keys.BROWSE_TITLE) String browse_title,
-        @RequestParam(Keys.BROWSE_CONTENT) String browse_content
+        @RequestParam(Keys.BROWSE_CONTENT) String browse_content,
+        @RequestParam(Keys.ABOUTUS) String aboutUs
     ){
         Config update = new Config();
-
         JSONObject result = JsonUtil.fromErrors(Errors.SUCCESS);
-
         int back = 0;
+        try {
+            update.setParam(Keys.INDEX_TITLE);
+            update.setValue(index_title.getBytes("utf8"));
+            back += configMapper.updateByPrimaryKey(update);
 
-        update.setParam(Keys.INDEX_TITLE);
-        update.setValue(index_title);
-        back += configMapper.updateByPrimaryKey(update);
+            update.setParam(Keys.INDEX_CONTENT);
+            update.setValue(index_content.getBytes("utf8"));
+            back += configMapper.updateByPrimaryKey(update);
 
+            update.setParam(Keys.INDEX_BANNER_TITLE);
+            update.setValue(index_banner_title.getBytes("utf8"));
+            back += configMapper.updateByPrimaryKey(update);
 
-        update.setParam(Keys.INDEX_CONTENT);
-        update.setValue(index_content);
-        back += configMapper.updateByPrimaryKey(update);
+            update.setParam(Keys.INDEX_BANNER_CONTENT);
+            update.setValue(index_banner_content.getBytes("utf8"));
+            back += configMapper.updateByPrimaryKey(update);
 
-        update.setParam(Keys.INDEX_BANNER_TITLE);
-        update.setValue(index_banner_title);
-        back += configMapper.updateByPrimaryKey(update);
+            update.setParam(Keys.INDEX_LINK_TEXT);
+            update.setValue(index_link_text.getBytes("utf8"));
+            back += configMapper.updateByPrimaryKey(update);
 
-        update.setParam(Keys.INDEX_BANNER_CONTENT);
-        update.setValue(index_banner_content);
-        back += configMapper.updateByPrimaryKey(update);
+            update.setParam(Keys.INDEX_LINK_URL);
+            update.setValue(index_link_url.getBytes("utf8"));
+            back += configMapper.updateByPrimaryKey(update);
 
-        update.setParam(Keys.INDEX_LINK_TEXT);
-        update.setValue(index_link_text);
-        back += configMapper.updateByPrimaryKey(update);
+            update.setParam(Keys.BROWSE_TITLE);
+            update.setValue(browse_title.getBytes("utf8"));
+            back += configMapper.updateByPrimaryKey(update);
 
-        update.setParam(Keys.INDEX_LINK_URL);
-        update.setValue(index_link_url);
-        back += configMapper.updateByPrimaryKey(update);
+            update.setParam(Keys.BROWSE_CONTENT);
+            update.setValue(browse_content.getBytes("utf8"));
+            back += configMapper.updateByPrimaryKey(update);
 
-        update.setParam(Keys.BROWSE_TITLE);
-        update.setValue(browse_title);
-        back += configMapper.updateByPrimaryKey(update);
-
-        update.setParam(Keys.BROWSE_CONTENT);
-        update.setValue(browse_content);
-        back += configMapper.updateByPrimaryKey(update);
-
-        if (back < 6){
+            update.setParam(Keys.ABOUTUS);
+            update.setValue(aboutUs.getBytes("utf8"));
+            back += configMapper.updateByPrimaryKey(update);
+        } catch(UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        if (back < 7){
             result = JsonUtil.fromErrors(Errors.FAILD);
             result.put(Keys.MSG,Errors.MODIFY_CONFIG_FAILD);
             result.put(Keys.DATA,new JSONObject());

@@ -20,6 +20,7 @@ public class Errors {
 
 	//modify_user
 	public static final String CHANGE_PASSWORD_FAILD = "密码修改失败！";
+	public static final String CHANGE_PASSWORD_NOMATCH = "原密码输入不正确！";
 	public static final String CHANGE_PASSWORD_SUCCESS = "密码修改成功！";
 
 	//role
@@ -28,6 +29,7 @@ public class Errors {
 	public static final String MODIFY_ROLE_FAILD = "修改角色失败！";
 	public static final String MODIFY_ROLE_SUCCESS = "修改角色成功！";
 	public static final String DELETE_ROLE_FAILD = "删除角色失败！";
+	public static final String DELETE_ROLE_FOREIGN = "请保证当前角色未分配给任何用户后再删除！";
 	public static final String DELETE_ROLE_SUCCESS = "删除角色成功！";
 
 	//data
@@ -54,7 +56,7 @@ public class Errors {
 	public static final String SESSION_DEAD = "登录过期";
 
 	//config
-	public static final String GET_CONFIG_FAILD = "获取数据配置信息失败！";
+	public static final String GET_CONFIG_FAILD = "获取页面配置信息失败！";
 	public static final String MODIFY_CONFIG_FAILD = "修改页面配置信息失败！";
 	public static final String MODIFY_CONFIG_SUCCESS = "修改页面配置信息成功！";
 
@@ -70,6 +72,7 @@ public class Errors {
 	//ec2
 	public static final String ADD_EC2_SUCCESS = "新增酶种成功！";
 	public static final String ADD_EC2_FAILD = "新增酶种失败！";
+	public static final String ADD_EC2_EXISTS = "该酶种已经存在于该酶大类下，无需重复添加！";
 	public static final String DELETE_EC2_SUCCESS = "删除酶种成功！";
 	public static final String DELETE_EC2_FAILD = "删除酶种失败！";
 
@@ -94,6 +97,7 @@ public class Errors {
 	public static final String SET_CRAWLER_TIME_SUCCESS = "设置定时爬虫成功！";
 	public static final String SET_CRAWLER_TIME_FAILD = "设置定时爬虫失败！";
 
+	public static final String SYSTEM_ERROR = "系统异常！";
 	public static final String SUCCESS = "success";
 	public static final String FAILD = "faild";
 }

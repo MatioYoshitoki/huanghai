@@ -58,6 +58,70 @@
   <sql id="Blob_Column_List">
     modifier
   </sql>
+  <select id="selectAll" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM
+    examine
+  </select>
+  <select id="selectByCondition" parameterType="com.matio.pojo.MmeCondition" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from examine
+    where
+    <if test="pdbId != null">
+      pdbId = #{pdbId} AND
+    </if>
+    <if test="type != null">
+      type = #{type} AND
+    </if>
+    <if test="ec1 != null">
+      ec1 = #{ec1} AND
+    </if>
+    <if test="ec2 != null">
+      ec2 = #{ec2} AND
+    </if>
+    <if test="modifier != null">
+      modifier = #{modifier} AND
+    </if>
+    <if test="startDate_md != null">
+      modifyDate &gt; #{startDate_md} AND
+      modifyDate &lt; #{endDate_md} AND
+    </if>
+    1=1 limit #{startSize},#{endSize}
+  </select>
+  <select id="selectCountByCondition" parameterType="com.matio.pojo.MmeCondition" resultType="java.lang.Integer">
+    select
+    count(*)
+    from examine
+    <where>
+      <if test="pdbId != null">
+        pdbId = #{pdbId} AND
+      </if>
+      <if test="type != null">
+        type = #{type} AND
+      </if>
+      <if test="ec2 != null">
+        ec2 = #{ec2} AND
+      </if>
+      <if test="operator != null">
+        operator = #{operator} AND
+      </if>
+      <if test="modifier != null">
+        modifier = #{modifier} AND
+      </if>
+      <if test="startDate_op != null">
+        operateDate &gt; #{startDate_op} AND
+        operateDate &lt; #{endDate_op} AND
+      </if>
+      <if test="startDate_md != null">
+        modifyDate &gt; #{startDate_md} AND
+        modifyDate &lt; #{endDate_md} AND
+      </if>
+    </where>
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
     select 
     <include refid="Base_Column_List" />
@@ -101,271 +165,6 @@
       #{title4,jdbcType=VARCHAR}, #{journal4,jdbcType=VARCHAR}, #{pubmed4,jdbcType=VARCHAR}, 
       #{abstract4,jdbcType=VARCHAR}, #{modifydate,jdbcType=CHAR}, #{note,jdbcType=VARCHAR}, 
       #{modifier,jdbcType=BINARY})
-  </insert>
-  <insert id="insertSelective" parameterType="com.matio.pojo.Examine">
-    insert into examine
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
-      <if test="type != null">
-        type,
-      </if>
-      <if test="ec1 != null">
-        ec1,
-      </if>
-      <if test="ec2 != null">
-        ec2,
-      </if>
-      <if test="title != null">
-        title,
-      </if>
-      <if test="locus != null">
-        locus,
-      </if>
-      <if test="pdbid != null">
-        pdbId,
-      </if>
-      <if test="dbsource != null">
-        dbsource,
-      </if>
-      <if test="microbe != null">
-        microbe,
-      </if>
-      <if test="source != null">
-        source,
-      </if>
-      <if test="organism != null">
-        organism,
-      </if>
-      <if test="date != null">
-        date,
-      </if>
-      <if test="country != null">
-        country,
-      </if>
-      <if test="deepsea != null">
-        deepSea,
-      </if>
-      <if test="temperature != null">
-        temperature,
-      </if>
-      <if test="ph != null">
-        ph,
-      </if>
-      <if test="zone != null">
-        zone,
-      </if>
-      <if test="cofactors != null">
-        cofactors,
-      </if>
-      <if test="inhibitors != null">
-        inhibitors,
-      </if>
-      <if test="origin != null">
-        origin,
-      </if>
-      <if test="author1 != null">
-        author1,
-      </if>
-      <if test="title1 != null">
-        title1,
-      </if>
-      <if test="journal1 != null">
-        journal1,
-      </if>
-      <if test="pubmed1 != null">
-        pubmed1,
-      </if>
-      <if test="abstract1 != null">
-        abstract1,
-      </if>
-      <if test="author2 != null">
-        author2,
-      </if>
-      <if test="title2 != null">
-        title2,
-      </if>
-      <if test="journal2 != null">
-        journal2,
-      </if>
-      <if test="pubmed2 != null">
-        pubmed2,
-      </if>
-      <if test="abstract2 != null">
-        abstract2,
-      </if>
-      <if test="author3 != null">
-        author3,
-      </if>
-      <if test="title3 != null">
-        title3,
-      </if>
-      <if test="journal3 != null">
-        journal3,
-      </if>
-      <if test="pubmed3 != null">
-        pubmed3,
-      </if>
-      <if test="abstract3 != null">
-        abstract3,
-      </if>
-      <if test="author4 != null">
-        author4,
-      </if>
-      <if test="title4 != null">
-        title4,
-      </if>
-      <if test="journal4 != null">
-        journal4,
-      </if>
-      <if test="pubmed4 != null">
-        pubmed4,
-      </if>
-      <if test="abstract4 != null">
-        abstract4,
-      </if>
-      <if test="modifydate != null">
-        modifyDate,
-      </if>
-      <if test="note != null">
-        note,
-      </if>
-      <if test="modifier != null">
-        modifier,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="type != null">
-        #{type,jdbcType=VARCHAR},
-      </if>
-      <if test="ec1 != null">
-        #{ec1,jdbcType=VARCHAR},
-      </if>
-      <if test="ec2 != null">
-        #{ec2,jdbcType=VARCHAR},
-      </if>
-      <if test="title != null">
-        #{title,jdbcType=VARCHAR},
-      </if>
-      <if test="locus != null">
-        #{locus,jdbcType=VARCHAR},
-      </if>
-      <if test="pdbid != null">
-        #{pdbid,jdbcType=CHAR},
-      </if>
-      <if test="dbsource != null">
-        #{dbsource,jdbcType=VARCHAR},
-      </if>
-      <if test="microbe != null">
-        #{microbe,jdbcType=VARCHAR},
-      </if>
-      <if test="source != null">
-        #{source,jdbcType=VARCHAR},
-      </if>
-      <if test="organism != null">
-        #{organism,jdbcType=VARCHAR},
-      </if>
-      <if test="date != null">
-        #{date,jdbcType=CHAR},
-      </if>
-      <if test="country != null">
-        #{country,jdbcType=VARCHAR},
-      </if>
-      <if test="deepsea != null">
-        #{deepsea,jdbcType=CHAR},
-      </if>
-      <if test="temperature != null">
-        #{temperature,jdbcType=VARCHAR},
-      </if>
-      <if test="ph != null">
-        #{ph,jdbcType=VARCHAR},
-      </if>
-      <if test="zone != null">
-        #{zone,jdbcType=VARCHAR},
-      </if>
-      <if test="cofactors != null">
-        #{cofactors,jdbcType=VARCHAR},
-      </if>
-      <if test="inhibitors != null">
-        #{inhibitors,jdbcType=VARCHAR},
-      </if>
-      <if test="origin != null">
-        #{origin,jdbcType=VARCHAR},
-      </if>
-      <if test="author1 != null">
-        #{author1,jdbcType=VARCHAR},
-      </if>
-      <if test="title1 != null">
-        #{title1,jdbcType=VARCHAR},
-      </if>
-      <if test="journal1 != null">
-        #{journal1,jdbcType=VARCHAR},
-      </if>
-      <if test="pubmed1 != null">
-        #{pubmed1,jdbcType=VARCHAR},
-      </if>
-      <if test="abstract1 != null">
-        #{abstract1,jdbcType=VARCHAR},
-      </if>
-      <if test="author2 != null">
-        #{author2,jdbcType=VARCHAR},
-      </if>
-      <if test="title2 != null">
-        #{title2,jdbcType=VARCHAR},
-      </if>
-      <if test="journal2 != null">
-        #{journal2,jdbcType=VARCHAR},
-      </if>
-      <if test="pubmed2 != null">
-        #{pubmed2,jdbcType=VARCHAR},
-      </if>
-      <if test="abstract2 != null">
-        #{abstract2,jdbcType=VARCHAR},
-      </if>
-      <if test="author3 != null">
-        #{author3,jdbcType=VARCHAR},
-      </if>
-      <if test="title3 != null">
-        #{title3,jdbcType=VARCHAR},
-      </if>
-      <if test="journal3 != null">
-        #{journal3,jdbcType=VARCHAR},
-      </if>
-      <if test="pubmed3 != null">
-        #{pubmed3,jdbcType=VARCHAR},
-      </if>
-      <if test="abstract3 != null">
-        #{abstract3,jdbcType=VARCHAR},
-      </if>
-      <if test="author4 != null">
-        #{author4,jdbcType=VARCHAR},
-      </if>
-      <if test="title4 != null">
-        #{title4,jdbcType=VARCHAR},
-      </if>
-      <if test="journal4 != null">
-        #{journal4,jdbcType=VARCHAR},
-      </if>
-      <if test="pubmed4 != null">
-        #{pubmed4,jdbcType=VARCHAR},
-      </if>
-      <if test="abstract4 != null">
-        #{abstract4,jdbcType=VARCHAR},
-      </if>
-      <if test="modifydate != null">
-        #{modifydate,jdbcType=CHAR},
-      </if>
-      <if test="note != null">
-        #{note,jdbcType=VARCHAR},
-      </if>
-      <if test="modifier != null">
-        #{modifier,jdbcType=BINARY},
-      </if>
-    </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.matio.pojo.Examine">
     update examine
@@ -590,69 +389,6 @@
       note = #{note,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-
-  <select id="selectAll" resultMap="BaseResultMap">
-    SELECT
-    <include refid="Base_Column_List" />
-    FROM
-    examine
-  </select>
-  <select id="selectByCondition" parameterType="com.matio.pojo.MmeCondition" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from examine
-    where
-    <if test="pdbId != null">
-      pdbId = #{pdbId} AND
-    </if>
-    <if test="type != null">
-      type = #{type} AND
-    </if>
-    <if test="ec1 != null">
-      ec1 = #{ec1} AND
-    </if>
-    <if test="ec2 != null">
-      ec2 = #{ec2} AND
-    </if>
-    <if test="modifier != null">
-      modifier = #{modifier} AND
-    </if>
-    <if test="startDate_md != null">
-      modifyDate &gt; #{startDate_md} AND
-      modifyDate &lt; #{endDate_md} AND
-    </if>
-    1=1 limit #{startSize},#{endSize}
-  </select>
-  <select id="selectCountByCondition" parameterType="com.matio.pojo.MmeCondition" resultType="java.lang.Integer">
-    select
-    count(*)
-    from examine
-    <where>
-      <if test="pdbId != null">
-        pdbId = #{pdbId} AND
-      </if>
-      <if test="type != null">
-        type = #{type} AND
-      </if>
-      <if test="ec2 != null">
-        ec2 = #{ec2} AND
-      </if>
-      <if test="operator != null">
-        operator = #{operator} AND
-      </if>
-      <if test="modifier != null">
-        modifier = #{modifier} AND
-      </if>
-      <if test="startDate_op != null">
-        operateDate &gt; #{startDate_op} AND
-        operateDate &lt; #{endDate_op} AND
-      </if>
-      <if test="startDate_md != null">
-        modifyDate &gt; #{startDate_md} AND
-        modifyDate &lt; #{endDate_md} AND
-      </if>
-    </where>
-  </select>
   <delete id="deleteAll">
     delete from examine
   </delete>

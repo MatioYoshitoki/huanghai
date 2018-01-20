@@ -5,21 +5,20 @@
     <meta http-equiv="x-ua-compatible" content="IE=Edge, Chrome=1">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
     <title>锁屏页面</title>
-    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/font-awesome.min.css">
-    <link rel="stylesheet" href="../asset/easyDialog/css/easydialog.css">
-
-    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="../asset/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../asset/vendor/easyDialog/css/easydialog.css">
+    <link rel="stylesheet" href="../asset/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="../asset/css/admin.css">
     <!--[if lt IE 9]>
-        <script src="js/html5shiv.js"></script>
-        <script src="js/respond.min.js"></script>
+    <script src="../asset/js/admin/html5shiv.js"></script>
+    <script src="../asset/js/admin/respond.min.js"></script>
     <![endif]-->
 </head>
 <body class="bg-primary center-wrapper">
     <div class="center-content">
         <div class="user-container">
             <div class="text-center">
-                <img class="img-circle bd-b bd-r" src="img/avatar.jpg" alt="user">
+                <img class="img-circle bd-b bd-r" src="../asset/img/admin/avatar.png" alt="user">
                 <span id="userName" class="center-block pd-t-md"></span>
                 <small id="userRoleName"></small>
             </div>
@@ -39,9 +38,9 @@
     </div>
 </body>
 <script src="../asset/js/frame/jquery-1.11.1.min.js"></script>
-<script src="../asset/easyDialog/js/easydialog.min.js"></script>
-<script src="config/config.js"></script>
-<script src="js/base.js"></script>
+<script src="../asset/vendor/easyDialog/js/easydialog.min.js"></script>
+<script src="../asset/config/config.js"></script>
+<script src="../asset/js/admin/base.js"></script>
 <script>
     $(document).ready(function() {
         var user = JSON.parse(sessionStorage.getItem("user"));
@@ -62,14 +61,17 @@
             // 绑定回车键
             $(document).on("keydown", function(e) {
                 if(Number(e.keyCode) === 13) {
-                    relogin();
+                    reLogin();
                 }
             });
             // 绑定登录按钮
-            $("#reloginBtn").on("click", relogin);
+            $("#reloginBtn").on("click", reLogin);
         }
 
-        function relogin() {
+        /**
+         * 重新登录
+         */
+        function reLogin() {
             var account = user.userAccount,
                 password = $("#password").val();
 
@@ -85,7 +87,7 @@
                         account: account,
                         password: password
                     },
-                    successFn: reloginCallback,
+                    successFn: reLoginCallback,
                     errorFn: errorCallback
                 }
             });
@@ -95,7 +97,7 @@
          * 重新登录回调函数
          * @param msg 服务器返回对象
          */
-        function reloginCallback(msg) {
+        function reLoginCallback(msg) {
             var data = JSON.stringify(msg.data);
 
             if(Number(msg.code) === 1) {

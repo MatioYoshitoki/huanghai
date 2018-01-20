@@ -78,65 +78,73 @@ public class DataController {
             @RequestParam(Keys.INHIBITORS) String inhibitors
     ){
         JSONObject result;
-        String ec1 = mmeMapper.selectEC1ByEC2(ec2);
-        Date now = new Date();
-        Mme mme = new Mme();
-        mme.setAbstract1(abstract1);
-        mme.setAbstract2(abstract2);
-        mme.setAbstract3(abstract3);
-        mme.setAbstract4(abstract4);
-        mme.setTitle(title);
-        mme.setTitle1(title1);
-        mme.setTitle2(title2);
-        mme.setTitle3(title3);
-        mme.setTitle4(title4);
-        mme.setJournal1(journal1);
-        mme.setJournal2(journal2);
-        mme.setJournal3(journal3);
-        mme.setJournal4(journal4);
-        mme.setPubmed1(pubmed1);
-        mme.setPubmed2(pubmed2);
-        mme.setPubmed3(pubmed3);
-        mme.setPubmed4(pubmed4);
-        mme.setAuthor1(author1);
-        mme.setAuthor2(author2);
-        mme.setAuthor3(author3);
-        mme.setAuthor4(author4);
-        mme.setLocus(locus);
-        mme.setOrganism(organsim);
-        mme.setOrigin(origin);
-        mme.setPdbid(pdbid);
-        mme.setDate(date);
-        mme.setDbsource(dbsource);
-        mme.setSource(source);
-        mme.setCountry(country);
-        mme.setType(type);
-        mme.setEc1(ec1);
-        mme.setEc2(ec2);
-        mme.setDeepsea(deepSea);
-        mme.setTemperature(temperature);
-        mme.setPh(ph);
-        mme.setZone(zone);
-        mme.setCofactors(cofactors);
-        mme.setInhibitors(inhibitors);
-
         try {
-            mme.setOperator(operator.getBytes("utf8"));
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        mme.setOperatedate(simpleDateFormat.format(now));
-        mme.setModifydate(simpleDateFormat.format(now));
-        if (mmeMapper.insert(mme) > 0){
-            result = JsonUtil.fromErrors(Errors.SUCCESS);
-            result.put(Keys.MSG,Errors.MIFSUCCESS);
-            result.put(Keys.DATA,new JSONObject());
-        }else {
+            String ec1 = mmeMapper.selectEC1ByEC2(ec2);
+            Date now = new Date();
+            Mme mme = new Mme();
+            mme.setAbstract1(abstract1);
+            mme.setAbstract2(abstract2);
+            mme.setAbstract3(abstract3);
+            mme.setAbstract4(abstract4);
+            mme.setTitle(title);
+            mme.setTitle1(title1);
+            mme.setTitle2(title2);
+            mme.setTitle3(title3);
+            mme.setTitle4(title4);
+            mme.setJournal1(journal1);
+            mme.setJournal2(journal2);
+            mme.setJournal3(journal3);
+            mme.setJournal4(journal4);
+            mme.setPubmed1(pubmed1);
+            mme.setPubmed2(pubmed2);
+            mme.setPubmed3(pubmed3);
+            mme.setPubmed4(pubmed4);
+            mme.setAuthor1(author1);
+            mme.setAuthor2(author2);
+            mme.setAuthor3(author3);
+            mme.setAuthor4(author4);
+            mme.setLocus(locus);
+            mme.setOrganism(organsim);
+            mme.setOrigin(origin);
+            mme.setPdbid(pdbid);
+            mme.setDate(date);
+            mme.setDbsource(dbsource);
+            mme.setSource(source);
+            mme.setCountry(country);
+            mme.setType(type);
+            mme.setEc1(ec1);
+            mme.setEc2(ec2);
+            mme.setDeepsea(deepSea);
+            mme.setTemperature(temperature);
+            mme.setPh(ph);
+            mme.setZone(zone);
+            mme.setCofactors(cofactors);
+            mme.setInhibitors(inhibitors);
+            mme.setOperatedate(simpleDateFormat.format(now));
+            mme.setModifydate(simpleDateFormat.format(now));
+            mme.setIsModified("0");
+            try {
+                mme.setOperator(operator.getBytes("utf8"));
+                mme.setModifier(operator.getBytes("utf8"));
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            if (mmeMapper.insert(mme) > 0){
+                result = JsonUtil.fromErrors(Errors.SUCCESS);
+                result.put(Keys.MSG,Errors.MIFSUCCESS);
+                result.put(Keys.DATA,new JSONObject());
+            }else {
+                result = JsonUtil.fromErrors(Errors.FAILD);
+                result.put(Keys.MSG,Errors.MIFAILD);
+                result.put(Keys.DATA,new JSONObject());
+            }
+            return result.toJSONString();
+        } catch(Exception e) {
             result = JsonUtil.fromErrors(Errors.FAILD);
-            result.put(Keys.MSG,Errors.MIFAILD);
+            result.put(Keys.MSG,Errors.SYSTEM_ERROR);
             result.put(Keys.DATA,new JSONObject());
+            return result.toJSONString();
         }
-        return result.toJSONString();
     }
 
     @RequestMapping(value = "/getData", method = RequestMethod.POST , produces="text/json;charset=UTF-8")
@@ -148,146 +156,148 @@ public class DataController {
             @RequestParam(Keys.STARTPOS) String startPos,
             @RequestParam(Keys.PARAM) String param
     ){
-        MmeCondition condition = new MmeCondition();
-        int startPos_int = Integer.valueOf(startPos);
-        int numberPerPage_int = Integer.valueOf(numberPerPage);
-        int startSize = (startPos_int - 1) * numberPerPage_int;
-        int endSize = (startPos_int) * numberPerPage_int ;
-        condition.setStartSize(startSize);;
-        condition.setEndSize(endSize);
-        switch (type){
-            case "0":
-                break;
-            case "1":
-                condition.setPdbId(param);
-                break;
-            case "2":
-                condition.setType(param);
-                break;
-            case "3":
-                condition.setEc2(param);
-                break;
-            case "4":
+        JSONObject result;
+        try {
+            MmeCondition condition = new MmeCondition();
+            int startPos_int = Integer.valueOf(startPos);
+            int numberPerPage_int = Integer.valueOf(numberPerPage);
+            int startSize = (startPos_int - 1) * numberPerPage_int;
+            int endSize = (startPos_int) * numberPerPage_int ;
+            condition.setStartSize(startSize);;
+            condition.setEndSize(endSize);
+            switch (type){
+                case "0":
+                    break;
+                case "1":
+                    condition.setPdbId(param);
+                    break;
+                case "2":
+                    condition.setType(param);
+                    break;
+                case "3":
+                    condition.setEc2(param);
+                    break;
+                case "4":
+                    try {
+                        condition.setOperator(param.getBytes("utf8"));
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                case "5":
+                    try {
+                        condition.setModifier(param.getBytes("utf8"));
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                case "6":
+                    startDate += " 00:00:00";
+                    endDate += " 23:59:59";
+                    condition.setStartDate_op(startDate);
+                    condition.setEndDate_op(endDate);
+                    break;
+                case "7":
+                    startDate += " 00:00:00";
+                    endDate += " 23:59:59";
+                    condition.setStartDate_md(startDate);
+                    condition.setEndDate_md(endDate);
+                    break;
+                default:
+                    return "";
+            }
+            List<Mme> mmes = mmeMapper.selectByCondition(condition);
+            JSONArray data = new JSONArray();
+            for (Mme mme:mmes){
+                JSONObject buff = new JSONObject();
+                buff.put(Keys.MMEID, mme.getId());
+                buff.put(Keys.TITLE,mme.getTitle());
+                buff.put(Keys.TITLE1,mme.getTitle1());
+                buff.put(Keys.TITLE2,mme.getTitle2());
+                buff.put(Keys.TITLE3,mme.getTitle3());
+                buff.put(Keys.TITLE4,mme.getTitle4());
+                buff.put(Keys.ABSTRACT1,mme.getAbstract1());
+                buff.put(Keys.ABSTRACT2,mme.getAbstract2());
+                buff.put(Keys.ABSTRACT3,mme.getAbstract3());
+                buff.put(Keys.ABSTRACT4,mme.getAbstract4());
+                buff.put(Keys.AUTHOR1,mme.getAuthor1());
+                buff.put(Keys.AUTHOR2,mme.getAuthor2());
+                buff.put(Keys.AUTHOR3,mme.getAuthor3());
+                buff.put(Keys.AUTHOR4,mme.getAuthor4());
+                buff.put(Keys.JOURNAL1,mme.getJournal1());
+                buff.put(Keys.JOURNAL2,mme.getJournal2());
+                buff.put(Keys.JOURNAL3,mme.getJournal3());
+                buff.put(Keys.JOURNAL4,mme.getJournal4());
+                buff.put(Keys.PUBMED1,mme.getPubmed1());
+                buff.put(Keys.PUBMED2,mme.getPubmed2());
+                buff.put(Keys.PUBMED3,mme.getPubmed3());
+                buff.put(Keys.PUBMED4,mme.getPubmed4());
+
+                buff.put(Keys.COUNTRY,mme.getCountry());
+                buff.put(Keys.LOCUS,mme.getLocus());
+                buff.put(Keys.MICROBE,mme.getMicrobe());
+                buff.put(Keys.EC1,mme.getEc1());
+                buff.put(Keys.EC2,mme.getEc2());
+                buff.put(Keys.SOURCE,mme.getSource());
+                buff.put(Keys.DBSOURCE,mme.getDbsource());
+                buff.put(Keys.DATE,mme.getDate());
+                buff.put(Keys.ORGANISM,mme.getOrganism());
+                buff.put(Keys.DEEPSEA,mme.getDeepsea());
+                buff.put(Keys.TEMPERATURE,mme.getTemperature());
+                buff.put(Keys.PH,mme.getPh());
+                buff.put(Keys.ZONE,mme.getZone());
+                buff.put(Keys.COFACTORS,mme.getCofactors());
+                buff.put(Keys.INHIBITORS,mme.getInhibitors());
+                buff.put(Keys.ORIGIN,mme.getOrigin());
+                buff.put(Keys.OPERATEDATE,mme.getOperatedate());
+                buff.put(Keys.MODIFYDATE,mme.getModifydate());
+                buff.put(Keys.PDBID,mme.getPdbid());
+                buff.put(Keys.TYPE,mme.getType());
+                buff.put(Keys.ISMODIFIED,mme.getIsModified());
                 try {
-                    condition.setOperator(param.getBytes("utf8"));
+                    buff.put(Keys.OPERATOR,new String(mme.getOperator(),"utf8"));
+                    buff.put(Keys.MODIFIER,new String(mme.getModifier(),"utf8"));
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
-                break;
-            case "5":
-                try {
-                    condition.setModifier(param.getBytes("utf8"));
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
-                break;
-            case "6":
-                startDate += "00:00:00";
-                endDate += "23:59:59";
-                condition.setEndDate_op(startDate);
-                condition.setEndDate_op(endDate);
-                break;
-            case "7":
-                startDate += "00:00:00";
-                endDate += "23:59:59";
-                condition.setStartDate_md(startDate);
-                condition.setEndDate_md(endDate);
-                break;
-            default:
-                return "";
-        }
-        List<Mme> mmes = mmeMapper.selectByCondition(condition);
-        JSONObject result = JsonUtil.fromErrors(Errors.SUCCESS);
-        JSONArray data = new JSONArray();
-        if (mmes == null){
+                data.add(buff);
+            }
+            int size = mmeMapper.selectCountByCondition(condition);
+            result = JsonUtil.fromErrors(Errors.SUCCESS);
+            result.put(Keys.DATA,data);
+            result.put(Keys.MSG,"");
+            result.put(Keys.COUNT,size);
+            return result.toJSONString();
+        } catch(Exception e) {
             result = JsonUtil.fromErrors(Errors.FAILD);
-            result.put(Keys.MSG,Errors.GETDATEFAILD);
+            result.put(Keys.MSG,Errors.SYSTEM_ERROR);
             result.put(Keys.DATA,new JSONObject());
             return result.toJSONString();
         }
-        for (Mme mme:mmes){
-            JSONObject buff = new JSONObject();
-            buff.put(Keys.MMEID, mme.getId());
-            buff.put(Keys.TITLE,mme.getTitle());
-            buff.put(Keys.TITLE1,mme.getTitle1());
-            buff.put(Keys.TITLE2,mme.getTitle2());
-            buff.put(Keys.TITLE3,mme.getTitle3());
-            buff.put(Keys.TITLE4,mme.getTitle4());
-            buff.put(Keys.ABSTRACT1,mme.getAbstract1());
-            buff.put(Keys.ABSTRACT2,mme.getAbstract2());
-            buff.put(Keys.ABSTRACT3,mme.getAbstract3());
-            buff.put(Keys.ABSTRACT4,mme.getAbstract4());
-            buff.put(Keys.AUTHOR1,mme.getAuthor1());
-            buff.put(Keys.AUTHOR2,mme.getAuthor2());
-            buff.put(Keys.AUTHOR3,mme.getAuthor3());
-            buff.put(Keys.AUTHOR4,mme.getAuthor4());
-            buff.put(Keys.JOURNAL1,mme.getJournal1());
-            buff.put(Keys.JOURNAL2,mme.getJournal2());
-            buff.put(Keys.JOURNAL3,mme.getJournal3());
-            buff.put(Keys.JOURNAL4,mme.getJournal4());
-            buff.put(Keys.PUBMED1,mme.getPubmed1());
-            buff.put(Keys.PUBMED2,mme.getPubmed2());
-            buff.put(Keys.PUBMED3,mme.getPubmed3());
-            buff.put(Keys.PUBMED4,mme.getPubmed4());
-
-            buff.put(Keys.COUNTRY,mme.getCountry());
-            buff.put(Keys.LOCUS,mme.getLocus());
-            buff.put(Keys.MICROBE,mme.getMicrobe());
-            buff.put(Keys.EC1,mme.getEc1());
-            buff.put(Keys.EC2,mme.getEc2());
-            buff.put(Keys.SOURCE,mme.getSource());
-            buff.put(Keys.DBSOURCE,mme.getDbsource());
-            buff.put(Keys.DATE,mme.getDate());
-            buff.put(Keys.ORGANISM,mme.getOrganism());
-            buff.put(Keys.DEEPSEA,mme.getDeepsea());
-            buff.put(Keys.TEMPERATURE,mme.getTemperature());
-            buff.put(Keys.PH,mme.getPh());
-            buff.put(Keys.ZONE,mme.getZone());
-            buff.put(Keys.COFACTORS,mme.getCofactors());
-            buff.put(Keys.INHIBITORS,mme.getInhibitors());
-            buff.put(Keys.ORIGIN,mme.getOrigin());
-            try {
-                buff.put(Keys.OPERATOR,new String(mme.getOperator(),"utf8"));
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
-            try {
-                buff.put(Keys.MODIFIER,new String(mme.getModifier(),"utf8"));
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
-            buff.put(Keys.OPERATEDATE,mme.getOperatedate());
-            buff.put(Keys.MODIFYDATE,mme.getModifydate());
-            buff.put(Keys.PDBID,mme.getPdbid());
-            buff.put(Keys.TYPE,mme.getType());
-            buff.put(Keys.ISMODIFIED,mme.getIsmodified());
-            data.add(buff);
-
-        }
-        int size = mmeMapper.selectCountByCondition(condition);
-        result.put(Keys.DATA,data);
-        result.put(Keys.MSG,"");
-        result.put(Keys.COUNT,size);
-        return result.toJSONString();
     }
 
     @RequestMapping(value = "/deleteData", method = RequestMethod.POST , produces="text/json;charset=UTF-8")
     public String deleteData(
             @RequestParam(Keys.ID) String id
     ){
-        Mme mme = mmeMapper.selectByPrimaryKey(Integer.valueOf(id));
         JSONObject result ;
-        if (mme == null){
+        try {
+            if(mmeMapper.deleteByPrimaryKey(Integer.valueOf(id)) <= 0) {
+                result = JsonUtil.fromErrors(Errors.FAILD);
+                result.put(Keys.MSG,Errors.DELETEDATA_FAILD);
+                result.put(Keys.DATA,new JSONObject());
+                return result.toJSONString();
+            }
+            result = JsonUtil.fromErrors(Errors.SUCCESS);
+            result.put(Keys.MSG,Errors.DELETEDATA_SUCCESS);
+            result.put(Keys.DATA,new JSONObject());
+            return result.toJSONString();
+        } catch(Exception e) {
             result = JsonUtil.fromErrors(Errors.FAILD);
-            result.put(Keys.MSG,Errors.DELETEDATA_FAILD);
+            result.put(Keys.MSG,Errors.SYSTEM_ERROR);
             result.put(Keys.DATA,new JSONObject());
             return result.toJSONString();
         }
-        mmeMapper.deleteByPrimaryKey(Integer.valueOf(id));
-        result = JsonUtil.fromErrors(Errors.SUCCESS);
-        result.put(Keys.MSG,Errors.DELETEDATA_SUCCESS);
-        result.put(Keys.DATA,new JSONObject());
-        return result.toJSONString();
     }
 
     @RequestMapping(value = "/modifyInput", method = RequestMethod.POST , produces="text/json;charset=UTF-8")
@@ -333,67 +343,72 @@ public class DataController {
             @RequestParam(Keys.INHIBITORS) String inhibitors
     ) {
         JSONObject result;
-        String ec1 = mmeMapper.selectEC1ByEC2(ec2);
-        Date now = new Date();
-        Mme mme = new Mme();
-        mme.setId(Integer.valueOf(mmeId));
-        mme.setAbstract1(abstract1);
-        mme.setAbstract2(abstract2);
-        mme.setAbstract3(abstract3);
-        mme.setAbstract4(abstract4);
-        mme.setTitle(title);
-        mme.setTitle1(title1);
-        mme.setTitle2(title2);
-        mme.setTitle3(title3);
-        mme.setTitle4(title4);
-        mme.setJournal1(journal1);
-        mme.setJournal2(journal2);
-        mme.setJournal3(journal3);
-        mme.setJournal4(journal4);
-        mme.setPubmed1(pubmed1);
-        mme.setPubmed2(pubmed2);
-        mme.setPubmed3(pubmed3);
-        mme.setPubmed4(pubmed4);
-        mme.setAuthor1(author1);
-        mme.setAuthor2(author2);
-        mme.setAuthor3(author3);
-        mme.setAuthor4(author4);
-        mme.setLocus(locus);
-        mme.setOrganism(organsim);
-        mme.setOrigin(origin);
-        mme.setPdbid(pdbid);
-        mme.setDate(date);
-        mme.setDbsource(dbsource);
-        mme.setSource(source);
-        mme.setCountry(country);
-        mme.setType(type);
-        mme.setEc1(ec1);
-        mme.setEc2(ec2);
-        mme.setDeepsea(deepSea);
-        mme.setTemperature(temperature);
-        mme.setPh(ph);
-        mme.setZone(zone);
-        mme.setCofactors(cofactors);
-        mme.setInhibitors(inhibitors);
-
         try {
-            mme.setModifier(operator.getBytes("utf8"));
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        mme.setModifydate(simpleDateFormat.format(now));
-
-        if (mmeMapper.updateByPrimaryKey(mme) > 0){
-            result = JsonUtil.fromErrors(Errors.SUCCESS);
-            result.put(Keys.MSG,Errors.MODIFY_DATA_SUCCESS);
-            result.put(Keys.DATA,new JSONObject());
-        }else {
+            String ec1 = mmeMapper.selectEC1ByEC2(ec2);
+            Date now = new Date();
+            Mme mme = new Mme();
+            mme.setId(Integer.valueOf(mmeId));
+            mme.setAbstract1(abstract1);
+            mme.setAbstract2(abstract2);
+            mme.setAbstract3(abstract3);
+            mme.setAbstract4(abstract4);
+            mme.setTitle(title);
+            mme.setTitle1(title1);
+            mme.setTitle2(title2);
+            mme.setTitle3(title3);
+            mme.setTitle4(title4);
+            mme.setJournal1(journal1);
+            mme.setJournal2(journal2);
+            mme.setJournal3(journal3);
+            mme.setJournal4(journal4);
+            mme.setPubmed1(pubmed1);
+            mme.setPubmed2(pubmed2);
+            mme.setPubmed3(pubmed3);
+            mme.setPubmed4(pubmed4);
+            mme.setAuthor1(author1);
+            mme.setAuthor2(author2);
+            mme.setAuthor3(author3);
+            mme.setAuthor4(author4);
+            mme.setLocus(locus);
+            mme.setOrganism(organsim);
+            mme.setOrigin(origin);
+            mme.setPdbid(pdbid);
+            mme.setDate(date);
+            mme.setDbsource(dbsource);
+            mme.setSource(source);
+            mme.setCountry(country);
+            mme.setType(type);
+            mme.setEc1(ec1);
+            mme.setEc2(ec2);
+            mme.setDeepsea(deepSea);
+            mme.setTemperature(temperature);
+            mme.setPh(ph);
+            mme.setZone(zone);
+            mme.setCofactors(cofactors);
+            mme.setInhibitors(inhibitors);
+            mme.setModifydate(simpleDateFormat.format(now));
+            mme.setIsModified("0");
+            try {
+                mme.setModifier(operator.getBytes("utf8"));
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            if (mmeMapper.updateByPrimaryKeyWithBLOBs(mme) > 0){
+                result = JsonUtil.fromErrors(Errors.SUCCESS);
+                result.put(Keys.MSG,Errors.MODIFY_DATA_SUCCESS);
+                result.put(Keys.DATA,new JSONObject());
+            }else {
+                result = JsonUtil.fromErrors(Errors.FAILD);
+                result.put(Keys.MSG,Errors.MODIFY_DATA_FAILD);
+                result.put(Keys.DATA,new JSONObject());
+            }
+            return result.toJSONString();
+        } catch(Exception e) {
             result = JsonUtil.fromErrors(Errors.FAILD);
-            result.put(Keys.MSG,Errors.MODIFY_DATA_FAILD);
+            result.put(Keys.MSG,Errors.SYSTEM_ERROR);
             result.put(Keys.DATA,new JSONObject());
+            return result.toJSONString();
         }
-
-        return result.toJSONString();
     }
 
     @RequestMapping(value = "/getFrontList", method = RequestMethod.POST , produces="text/json;charset=UTF-8")

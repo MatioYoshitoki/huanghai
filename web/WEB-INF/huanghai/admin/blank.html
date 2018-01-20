@@ -7,15 +7,16 @@
     <title>用户管理</title>
     <link rel="stylesheet" href="vendor/bootstrap-select/bootstrap-select.css">
     <link rel="stylesheet" href="vendor/bootstrap-datepicker/datepicker.css">
+    <link rel="stylesheet" href="vendor/medium/medium-editor.css">
     <link rel="stylesheet" href="../asset/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="fonts/font-awesome.min.css">
     <link rel="stylesheet" href="css/animate.min.css">
     <link rel="stylesheet" href="../asset/easyDialog/css/easydialog.css">
 
-    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="../asset/css/admin.css">
     <!--[if lt IE 9]>
-        <script src="js/html5shiv.js"></script>
-        <script src="js/respond.min.js"></script>
+    <script src="../asset/js/admin/html5shiv.js"></script>
+    <script src="../asset/js/admin/respond.min.js"></script>
     <![endif]-->
 </head>
 <body>
@@ -24,20 +25,19 @@
     <section class="layout">
         <sidebar :links="sidebarLinks"></sidebar>
         <section class="main-content">
-            <div class="content-wrap">
-                <img src="img/building.jpg" />
-            </div>
+            <div class="editable" contenteditable="true" style="width: 1000px; height: 300px;"></div>
         </section>
     </section>
 </div>
 <script src="../asset/js/frame/jquery-1.11.1.min.js"></script>
+<script src="vendor/medium/medium-editor.min.js"></script>
 <script src="bootstrap/js/bootstrap.js"></script>
 <script src="../asset/js/frame/vue.js"></script>
 <script src="../asset/easyDialog/js/easydialog.min.js"></script>
 <script src="config/config.js"></script>
 <script src="js/components/header.js"></script>
 <script src="js/components/sidebar.js"></script>
-<script src="js/base.js"></script>
+<script src="../asset/js/admin/base.js"></script>
 <script>
     var Client = new Vue({
         el: "#client",
@@ -54,11 +54,35 @@
         },
         mounted: function () {
             this.$nextTick(function () {
-                init(Client, function() {});
+                init(Client, function() {
+                    var editor = new MediumEditor(".editable");
+                });
             })
         },
         methods: {}
     });
+    var test = {
+        code: 1,
+        msg: "",
+        data: [
+            { type: "marine", count: 1 },
+            { type: "sea", count: 2 }
+        ]
+    }
+    var e = {
+        ec1: 'Hydrolases',
+        prefix: 'A',
+        startPos: 1,
+        numberPerPage: 10
+    }
+    var e2 = {
+        type: "1",
+        param: '3u1r',
+        startDate: "",
+        endDate: "",
+        numberPerPage: 1,
+        startPos: 1
+    }
 </script>
 </body>
 </html>

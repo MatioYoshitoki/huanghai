@@ -3,7 +3,7 @@ package com.matio.pojo;
 public class Config {
     private String param;
 
-    private String value;
+    private byte[] value;
 
     public String getParam() {
         return param;
@@ -13,11 +13,11 @@ public class Config {
         this.param = param;
     }
 
-    public String getValue() {
+    public byte[] getValue() {
         return value;
     }
 
-    public void setValue(String value) {
+    public void setValue(byte[] value) {
         this.value = value;
     }
 }

@@ -59,7 +59,7 @@ public class CrawlerController {
             boolean is_started = Tools.isCrawlerStarted();
             if (is_started){
                 return result.toJSONString();
-            }else {
+            } else {
                 result = JsonUtil.fromErrors(Errors.SUCCESS);
                 result.put(Keys.MSG,Errors.START_CRAWLER_SUCCESS);
                 result.put(Keys.DATA,new JSONArray());
@@ -82,7 +82,6 @@ public class CrawlerController {
             if (!is_started){
                 return result.toJSONString();
             }else {
-
                 boolean success = Tools.stopCrawler();
                 if (success){
                     result = JsonUtil.fromErrors(Errors.SUCCESS);
