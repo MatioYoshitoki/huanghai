@@ -162,9 +162,8 @@ public class DataController {
             int startPos_int = Integer.valueOf(startPos);
             int numberPerPage_int = Integer.valueOf(numberPerPage);
             int startSize = (startPos_int - 1) * numberPerPage_int;
-            int endSize = (startPos_int) * numberPerPage_int ;
             condition.setStartSize(startSize);;
-            condition.setEndSize(endSize);
+            condition.setEndSize(numberPerPage_int);
             switch (type){
                 case "0":
                     break;
@@ -422,9 +421,8 @@ public class DataController {
         int startPos_int = Integer.valueOf(startPos);
         int numberPerPage_int = Integer.valueOf(numberPerPage);
         int startSize = (startPos_int - 1) * numberPerPage_int;
-        int endSize = (startPos_int) * numberPerPage_int ;
         mmeCondition.setStartSize(startSize);
-        mmeCondition.setEndSize(endSize);
+        mmeCondition.setEndSize(numberPerPage_int);
         mmeCondition.setEc2(prefix.toLowerCase());
         mmeCondition.setEc1(ec1);
         List<View_front> view_fronts = view_frontMapper.selectByFuzzyEC2(mmeCondition);
@@ -440,6 +438,7 @@ public class DataController {
         }
         for (View_front view_front:view_fronts){
             JSONObject buff = new JSONObject();
+            buff.put(Keys.ID,view_front.getId());
             buff.put(Keys.TITLE,view_front.getTitle());
             buff.put(Keys.EC2,view_front.getEc2());
             buff.put(Keys.LOCUS,view_front.getLocus());
@@ -449,5 +448,127 @@ public class DataController {
         result.put(Keys.MSG,"");
         result.put(Keys.COUNT, count);
         return result.toJSONString();
+    }
+
+    @RequestMapping(value = "/searchList", method = RequestMethod.POST , produces="text/json;charset=UTF-8")
+    public String searchList(
+            @RequestParam(Keys.PARAM) String param,
+            @RequestParam(Keys.STARTPOS) String startPos,
+            @RequestParam(Keys.NUMBERPERPAGE) String numberPerPage
+    ){
+        int startPos_int = Integer.valueOf(startPos);
+        int numberPerPage_int = Integer.valueOf(numberPerPage);
+        int startSize = (startPos_int - 1) * numberPerPage_int;
+        String listParam = "select id, locus, ec2, title from mme where " + param + " limit " + startSize + "," + numberPerPage_int;
+        String countParam = "select count(*) from mme where " + param;
+        List<Mme> list = mmeMapper.selectByFront(listParam);
+        int count = mmeMapper.selectCountByFront(countParam);
+
+        JSONObject result = JsonUtil.fromErrors(Errors.SUCCESS);
+        JSONArray data = new JSONArray();
+        if (list == null){
+            result = JsonUtil.fromErrors(Errors.FAILD);
+            result.put(Keys.MSG,Errors.GETDATEFAILD);
+            result.put(Keys.DATA,new JSONObject());
+            return result.toJSONString();
+        }
+        for (Mme mme:list){
+            JSONObject buff = new JSONObject();
+            buff.put(Keys.ID,mme.getId());
+            buff.put(Keys.TITLE,mme.getTitle());
+            buff.put(Keys.EC2,mme.getEc2());
+            buff.put(Keys.LOCUS,mme.getLocus());
+            data.add(buff);
+        }
+        result.put(Keys.DATA,data);
+        result.put(Keys.MSG,"");
+        result.put(Keys.COUNT, count);
+        return result.toJSONString();
+    }
+
+    @RequestMapping(value = "/getFrontData", method = RequestMethod.POST , produces="text/json;charset=UTF-8")
+    public String getFrontData(
+            @RequestParam(Keys.ID) String id,
+            @RequestParam(Keys.NUMBERPERPAGE) String numberPerPage,
+            @RequestParam(Keys.STARTPOS) String startPos
+    ){
+        JSONObject result;
+        try {
+            MmeCondition condition = new MmeCondition();
+            int startPos_int = Integer.valueOf(startPos);
+            int numberPerPage_int = Integer.valueOf(numberPerPage);
+            int startSize = (startPos_int - 1) * numberPerPage_int;
+            condition.setStartSize(startSize);
+            condition.setEndSize(numberPerPage_int);
+            condition.setId(id);
+
+            List<Mme> mmes = mmeMapper.selectByCondition(condition);
+            JSONArray data = new JSONArray();
+            for (Mme mme:mmes){
+                JSONObject buff = new JSONObject();
+                buff.put(Keys.MMEID, mme.getId());
+                buff.put(Keys.TITLE,mme.getTitle());
+                buff.put(Keys.TITLE1,mme.getTitle1());
+                buff.put(Keys.TITLE2,mme.getTitle2());
+                buff.put(Keys.TITLE3,mme.getTitle3());
+                buff.put(Keys.TITLE4,mme.getTitle4());
+                buff.put(Keys.ABSTRACT1,mme.getAbstract1());
+                buff.put(Keys.ABSTRACT2,mme.getAbstract2());
+                buff.put(Keys.ABSTRACT3,mme.getAbstract3());
+                buff.put(Keys.ABSTRACT4,mme.getAbstract4());
+                buff.put(Keys.AUTHOR1,mme.getAuthor1());
+                buff.put(Keys.AUTHOR2,mme.getAuthor2());
+                buff.put(Keys.AUTHOR3,mme.getAuthor3());
+                buff.put(Keys.AUTHOR4,mme.getAuthor4());
+                buff.put(Keys.JOURNAL1,mme.getJournal1());
+                buff.put(Keys.JOURNAL2,mme.getJournal2());
+                buff.put(Keys.JOURNAL3,mme.getJournal3());
+                buff.put(Keys.JOURNAL4,mme.getJournal4());
+                buff.put(Keys.PUBMED1,mme.getPubmed1());
+                buff.put(Keys.PUBMED2,mme.getPubmed2());
+                buff.put(Keys.PUBMED3,mme.getPubmed3());
+                buff.put(Keys.PUBMED4,mme.getPubmed4());
+
+                buff.put(Keys.COUNTRY,mme.getCountry());
+                buff.put(Keys.LOCUS,mme.getLocus());
+                buff.put(Keys.MICROBE,mme.getMicrobe());
+                buff.put(Keys.EC1,mme.getEc1());
+                buff.put(Keys.EC2,mme.getEc2());
+                buff.put(Keys.SOURCE,mme.getSource());
+                buff.put(Keys.DBSOURCE,mme.getDbsource());
+                buff.put(Keys.DATE,mme.getDate());
+                buff.put(Keys.ORGANISM,mme.getOrganism());
+                buff.put(Keys.DEEPSEA,mme.getDeepsea());
+                buff.put(Keys.TEMPERATURE,mme.getTemperature());
+                buff.put(Keys.PH,mme.getPh());
+                buff.put(Keys.ZONE,mme.getZone());
+                buff.put(Keys.COFACTORS,mme.getCofactors());
+                buff.put(Keys.INHIBITORS,mme.getInhibitors());
+                buff.put(Keys.ORIGIN,mme.getOrigin());
+                buff.put(Keys.OPERATEDATE,mme.getOperatedate());
+                buff.put(Keys.MODIFYDATE,mme.getModifydate());
+                buff.put(Keys.PDBID,mme.getPdbid());
+                buff.put(Keys.TYPE,mme.getType());
+                buff.put(Keys.ISMODIFIED,mme.getIsModified());
+                try {
+                    buff.put(Keys.OPERATOR,new String(mme.getOperator(),"utf8"));
+                    buff.put(Keys.MODIFIER,new String(mme.getModifier(),"utf8"));
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+                data.add(buff);
+            }
+            int size = mmeMapper.selectCountByCondition(condition);
+            result = JsonUtil.fromErrors(Errors.SUCCESS);
+            result.put(Keys.DATA,data);
+            result.put(Keys.MSG,"");
+            result.put(Keys.COUNT,size);
+            return result.toJSONString();
+        } catch(Exception e) {
+            result = JsonUtil.fromErrors(Errors.FAILD);
+            result.put(Keys.MSG,Errors.SYSTEM_ERROR);
+            result.put(Keys.DATA,new JSONObject());
+            return result.toJSONString();
+        }
     }
 }

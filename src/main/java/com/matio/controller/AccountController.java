@@ -33,8 +33,6 @@ public class AccountController {
     UserMapper userMapper;
     @Autowired
     RoleMapper roleMapper;
-    @Autowired
-    MmeMapper mmeMapper;
 
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
@@ -201,9 +199,8 @@ public class AccountController {
             int startPos_int = Integer.valueOf(startPos);
             int numberPerPage_int = Integer.valueOf(numberPerPage);
             int startSize = (startPos_int - 1) * numberPerPage_int;
-            int endSize = (startPos_int) * numberPerPage_int ;
             condition.setStartSize(startSize);;
-            condition.setEndSize(endSize);
+            condition.setEndSize(numberPerPage_int);
             switch (type){
                 case "0":
                     break;
@@ -378,9 +375,8 @@ public class AccountController {
         int startPos_int = Integer.valueOf(startPos);
         int numberPerPage_int = Integer.valueOf(numberPerPage);
         int startSize = (startPos_int - 1) * numberPerPage_int;
-        int endSize = (startPos_int) * numberPerPage_int;
         userCondition.setStartSize(startSize);
-        userCondition.setEndSize(endSize);
+        userCondition.setEndSize(numberPerPage_int);
         JSONObject result;
         JSONArray data = new JSONArray();
         int count = 0;

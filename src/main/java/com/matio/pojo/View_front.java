@@ -1,6 +1,8 @@
 package com.matio.pojo;
 
 public class View_front {
+    private String id;
+
     private String ec1;
 
     private String ec2;
@@ -8,6 +10,14 @@ public class View_front {
     private String title;
 
     private String locus;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getEc1() {
         return ec1;

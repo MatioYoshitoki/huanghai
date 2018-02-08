@@ -385,8 +385,7 @@
                                             </div>
                                             <div class="panel-footer no-padding no-border">
                                                 <div class="row no-margin">
-                                                    <div v-if="spiderConfig.isTiming == true"
-                                                         class="col-xs-6 bg-success pd-md text-center">
+                                                    <div v-if="spiderConfig.isStart == true" class="col-xs-6 bg-success pd-md text-center">
                                                         <span>是否开启定时</span><br/>
                                                         <small>已经开启</small>
                                                     </div>
@@ -394,9 +393,9 @@
                                                         <span>是否开启定时</span><br/>
                                                         <small>已经关闭</small>
                                                     </div>
-                                                    <div class="col-xs-6 pd-md bg-warning text-center">
+                                                    <div class="col-xs-6 pd-md bg-info text-center">
                                                         <span>定时时间：</span><br/>
-                                                        <small>每周周二02：00</small>
+                                                        <small v-text="spiderConfig.time"></small>
                                                     </div>
                                                 </div>
                                             </div>
@@ -415,7 +414,7 @@
                                                         <select id="spiderFrequence" class="form-control selectpicker">
                                                             <option value="1">每年</option>
                                                             <option value="2">每月</option>
-                                                            <option value="3">每周</option>
+                                                            <option value="3" selected>每周</option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -437,24 +436,31 @@
                                                     <label class="col-sm-3 control-label">具体时间：</label>
                                                     <div class="col-sm-9">
                                                         <input id="spiderTime" type="text" class="form-control"
-                                                               placeholder="格式：19:15"/>
+                                                               placeholder="格式：XX:XX 时间范围：03:00 - 23:59"/>
                                                     </div>
+                                                </div>
+                                                <div class="form-group no-mg-b">
+                                                    <label class="col-sm-3 control-label">注意事项：</label>
+                                                    <label class="col-sm-9 control-label" style="text-align: left !important;">必须先关闭定时爬虫，再设置定时时间</label>
                                                 </div>
                                             </form>
                                             <div class="panel-footer bg-white no-border">
                                                 <ul class="nav nav-pills nav-justified text-center">
                                                     <li>
-                                                        <button @click="request('startSpiderTiming')"
+                                                        <button :disabled="spiderConfig.isStart == 1"
+                                                                @click="request('startSpiderTiming')"
                                                                 class="btn btn-danger">启动定时
                                                         </button>
                                                     </li>
                                                     <li>
-                                                        <button @click="request('closeSpiderTiming')"
+                                                        <button :disabled="spiderConfig.isStart == 0"
+                                                                @click="request('closeSpiderTiming')"
                                                                 class="btn btn-danger">关闭定时
                                                         </button>
                                                     </li>
                                                     <li>
-                                                        <button @click="request('setSpiderTiming')"
+                                                        <button :disabled="spiderConfig.isStart == 1"
+                                                                @click="request('setSpiderTiming')"
                                                                 class="btn btn-danger">设置定时
                                                         </button>
                                                     </li>
@@ -528,8 +534,7 @@
                 indexLinkText: "",
                 indexLinkUrl: "",
                 indexTitle: "",
-                browseTitle: "",
-                isModify: false
+                browseTitle: ""
             },
             // 数据配置信息
             dataConfig: {
@@ -552,7 +557,7 @@
             // 爬虫控制信息
             spiderConfig: {
                 isStart: false,
-                isTiming: false,
+                time: "",
                 recordList: []
             },
             // 删除面板内容
@@ -821,7 +826,7 @@
                     Dialog.warn("具体时间格式不正确！");
                     throw new Error("具体时间格式不正确！");
                 }
-                if(hour > 23) {
+                if(hour > 23 || hour < 4) {
                     Dialog.warn("具体时间格式不正确！");
                     throw new Error("具体时间格式不正确！");
                 }
@@ -840,6 +845,35 @@
                     }
                 }
                 return timing;
+            },
+            /**
+             * 将 cron 形式转换为中文形式
+             * @param time cron 形式的时间
+             */
+            reserveCron: function(time) {
+                var times = time.split(" "),
+                    length = times.length,
+                    dateStr = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'],
+                    frequence = "",
+                    date = "",
+                    hour = "",
+                    minute = "";
+
+                // 如果长度等于 6 说明是以每周作为启动周期
+                if(length === 6) {
+                    frequence = "每周";
+                } else {
+                    // 以每年作为启动周期
+                    if(times[4] === "?") {
+                        frequence = "每年";
+                    } else {
+                        frequence = "每月";
+                    }
+                }
+                date = dateStr[times[5]];
+                hour = times[2];
+                minute = times[1];
+                return frequence + date + " " + hour + ":" + minute;
             },
             /**
              * 执行获取页面配置信息回调函数
@@ -864,16 +898,12 @@
                         indexLinkText: param.indexLinkText,
                         indexLinkUrl: param.indexLinkUrl,
                         indexTitle: param.indexTitle,
-                        browseTitle: param.browseTitle,
-                        inputDisabled: null,
-                        isModify: false
+                        browseTitle: param.browseTitle
                     };
                     $("#indexBannerContent").html(param.indexBannerContent);
                     $("#indexContent").html(param.indexContent);
                     $("#browseContent").html(param.browseContent);
                     this.pageConfig = pageConfig;
-                    this.spiderConfig.isStart = param.isStart;
-                    this.spiderConfig.isTiming = param.isTiming;
                 } else {
                     Dialog.warn(msg.msg);
                 }
@@ -1124,6 +1154,8 @@
                         ]
                     };
                     chart.setOption(option);
+                    this.spiderConfig.isStart = Number(msg.status);
+                    this.spiderConfig.time = this.reserveCron(msg.time);
                 } else {
                     Dialog.warn(msg.msg);
                 }

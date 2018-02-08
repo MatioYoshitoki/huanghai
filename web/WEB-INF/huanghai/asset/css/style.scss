@@ -6,7 +6,6 @@ a, a:hover {
   text-decoration: none;
 }
 
-// 通用头部样式设置
 .header {
   width: 100%;
   height: 90px;
@@ -77,14 +76,14 @@ a, a:hover {
     }
   }
 }
-// 通用主体部分样式设置
+
 .body {
   width: 1000px;
   height: 100%;
   margin: 0 auto;
   overflow: hidden;
 }
-// 通用页面底部样式
+
 .footer {
   width: 100%;
   height: 300px;
@@ -118,7 +117,7 @@ a, a:hover {
   }
 }
 
-// 巨幕样式设置
+
 .breadcrumb {
   width: 100%;
   height: 650px;
@@ -189,7 +188,6 @@ a, a:hover {
   border-radius: 0;
 }
 
-// 首页主体部分样式设置
 .index {
   .intro-con {
     width: 100%;
@@ -284,7 +282,7 @@ a, a:hover {
   }
 }
 
-// 浏览页主体部分样式设置
+
 .browse {
   margin: 50px auto;
 
@@ -318,6 +316,9 @@ a, a:hover {
     .nav-item-bottom {
       border-bottom-left-radius: 0;
       border-bottom-right-radius: 0;
+    }
+    .nav-item-selected {
+      background-color: rgba(34, 66, 255, 0.99);
     }
   }
   .tab-content {
@@ -386,6 +387,10 @@ a, a:hover {
             text-decoration: underline;
             cursor: pointer;
           }
+          .catalog-selected {
+            color: #ff4d72;
+            font-size: 20px;
+          }
         }
         .catalog-table {
           margin-top: 20px;
@@ -401,11 +406,10 @@ a, a:hover {
         }
       }
     }
-
   }
 }
 
-// 详情页主体部分样式设置
+
 .detail {
   // 消除 body 1000px
   width: 100%;
@@ -545,7 +549,7 @@ a, a:hover {
   }
 }
 
-// 关于我们页主体部分样式设置
+
 .about {
   width: 100%;
   height: auto;
@@ -569,4 +573,112 @@ a, a:hover {
     top: 50px;
     overflow: auto;
   }
+}
+
+.search {
+
+  .search-container {
+    padding: 20px;
+
+    h2 {
+      color: #985735;
+      font-size: 24px;
+      line-height: 1.125;
+      margin: 20px 10px;
+    }
+    .search-box {
+      width: 750px;
+      height: auto;
+      margin: 30px auto 0;
+
+      h4 {
+        margin-bottom: 15px;
+        color: #724128;
+      }
+      .search-line {
+        margin: 20px 0;
+
+        .search-op,
+        .search-param {
+          height: 26px;
+          margin-right: 10px;
+        }
+        .search-input {
+          width: 480px;
+        }
+        .search-btn {
+          display: inline-block;
+          width: 26px;
+          height: 26px;
+          margin-left: 10px;
+          line-height: 26px;
+          text-align: center;
+          border-radius: 13px;
+          background-color: #ccc;
+          color: #fff;
+          cursor: pointer;
+        }
+      }
+      .search-button {
+        width: 80px;
+        height: 30px;
+        margin: 20px auto;
+        line-height: 30px;
+        text-align: center;
+        color: #fff;
+        text-shadow: 1px 1px 1px #301b04;
+        border-color: #642f15;
+        border-radius: 6px;
+        background: #985735;
+        background: -moz-linear-gradient(top,#985735 0,#783b1d 100%);
+        background: -webkit-gradient(linear,left top,left bottom,color-stop(0,#985735),color-stop(100%,#783b1d));
+        cursor: pointer;
+      }
+      .search-button:hover {
+        background: -webkit-gradient(linear,left top,left bottom,color-stop(0,#834220),color-stop(100%,#6b2f10));
+      }
+    }
+  }
+  .result-container {
+    margin: 50px 0;
+    padding: 20px;
+
+    h2 {
+      color: #985735;
+      font-size: 24px;
+      line-height: 1.125;
+      margin: 20px 10px;
+    }
+    .catalog {
+      width: 100%;
+      height: auto;
+      padding: 20px;
+      background-color: #fff8ef;
+
+      .catalog-title {
+        width: 100%;
+        height: 40px;
+        margin-top: 0;
+        line-height: 40px;
+        font-weight: bold;
+        text-align: center;
+        color: #00b9ef;
+      }
+      .catalog-table {
+        margin-top: 20px;
+
+        th {
+          text-align: center;
+          background-color: #ccccef;
+        }
+        th, td {
+          color: #5eb9ef !important;
+          border: 1px solid #b7b9ef !important;
+        }
+      }
+    }
+  }
+}
+.no-visibility {
+  visibility: hidden;
 }
