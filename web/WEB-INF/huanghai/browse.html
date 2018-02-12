@@ -23,6 +23,9 @@
                     <a href="browse.html">Browse</a>
                 </li>
                 <li class="nav-item">
+                    <a href="search.html">Search</a>
+                </li>
+                <li class="nav-item">
                     <a href="about.html">About Us</a>
                 </li>
             </ul>
@@ -54,39 +57,40 @@
                 <div class="catalog-con">
                     <h1 class="catalog-title">Index of Marie Enzyme</h1>
                     <div class="catalog-index" id="catalog">
-                        <span class="catalog-links">A</span>
-                        <span class="catalog-links">B</span>
-                        <span class="catalog-links">C</span>
-                        <span class="catalog-links">D</span>
-                        <span class="catalog-links">E</span>
-                        <span class="catalog-links">F</span>
-                        <span class="catalog-links">G</span>
-                        <span class="catalog-links">H</span>
-                        <span class="catalog-links">I</span>
-                        <span class="catalog-links">J</span>
-                        <span class="catalog-links">K</span>
-                        <span class="catalog-links">L</span>
-                        <span class="catalog-links">M</span>
-                        <span class="catalog-links">N</span>
-                        <span class="catalog-links">O</span>
-                        <span class="catalog-links">P</span>
-                        <span class="catalog-links">Q</span>
-                        <span class="catalog-links">R</span>
-                        <span class="catalog-links">S</span>
-                        <span class="catalog-links">T</span>
-                        <span class="catalog-links">U</span>
-                        <span class="catalog-links">V</span>
-                        <span class="catalog-links">W</span>
-                        <span class="catalog-links">X</span>
-                        <span class="catalog-links">Y</span>
-                        <span class="catalog-links">Z</span>
+                        <span class="catalog-links catalog-selected" data-param="" style="width: 35px;">All</span>
+                        <span class="catalog-links" data-param="A">A</span>
+                        <span class="catalog-links" data-param="B">B</span>
+                        <span class="catalog-links" data-param="C">C</span>
+                        <span class="catalog-links" data-param="D">D</span>
+                        <span class="catalog-links" data-param="E">E</span>
+                        <span class="catalog-links" data-param="F">F</span>
+                        <span class="catalog-links" data-param="G">G</span>
+                        <span class="catalog-links" data-param="H">H</span>
+                        <span class="catalog-links" data-param="I">I</span>
+                        <span class="catalog-links" data-param="J">J</span>
+                        <span class="catalog-links" data-param="K">K</span>
+                        <span class="catalog-links" data-param="L">L</span>
+                        <span class="catalog-links" data-param="M">M</span>
+                        <span class="catalog-links" data-param="N">N</span>
+                        <span class="catalog-links" data-param="O">O</span>
+                        <span class="catalog-links" data-param="P">P</span>
+                        <span class="catalog-links" data-param="Q">Q</span>
+                        <span class="catalog-links" data-param="R">R</span>
+                        <span class="catalog-links" data-param="S">S</span>
+                        <span class="catalog-links" data-param="T">T</span>
+                        <span class="catalog-links" data-param="U">U</span>
+                        <span class="catalog-links" data-param="V">V</span>
+                        <span class="catalog-links" data-param="W">W</span>
+                        <span class="catalog-links" data-param="X">X</span>
+                        <span class="catalog-links" data-param="Y">Y</span>
+                        <span class="catalog-links" data-param="Z">Z</span>
                     </div>
                     <table class="catalog-table table table-bordered">
                         <thead>
                         <tr>
                             <th style="min-width: 140px;">LOCUS</th>
                             <th style="min-width: 200px;">EC2</th>
-                            <th style="min-width: 405px;">TITLE</th>
+                            <th style="min-width: 365px;">TITLE</th>
                         </tr>
                         </thead>
                         <tbody id="tbody"></tbody>
@@ -135,7 +139,7 @@
     <script>
         var Client = {
             ec1: "",
-            prefix: "A",
+            prefix: "",
             table: {
                 // 当前页码
                 currentPage: 1,
@@ -164,7 +168,7 @@
                 if(!info) {
                     $.ajax({
                         type: "POST",
-                        url: "",
+                        url: "/getConfigList",
                         data: {},
                         success: function(msg) {
                             var data = JSON.stringify(msg.data);
@@ -186,15 +190,27 @@
             },
             listen: function() {
                 $("#navbar").find(".nav-item").on("click", function(e) {
-                    Client.ec1 = $(e.target).text();
+                    var target = $(e.target);
+
+                    Client.ec1 = target.text();
+                    target.siblings().removeClass("nav-item-selected")
+                        .end().addClass("nav-item-selected");
+                    Client.prefix = "";
+                    $(".catalog-links").removeClass("catalog-selected")
+                        .eq(0).addClass("catalog-selected");
                     Client.link();
 
                     // 切换到目录Tab
-                    $(".tab-pane").eq(0).removeClass("active").end().eq(1).addClass("active");
+                    $(".tab-pane").eq(0).removeClass("active")
+                        .end().eq(1).addClass("active");
                 });
 
                 $("#catalog").find(".catalog-links").on("click", function(e) {
-                    Client.prefix = $(e.target).text();
+                    var target = $(e.target);
+
+                    Client.prefix = target.data("param");
+                    target.siblings().removeClass("catalog-selected")
+                        .end().addClass("catalog-selected");
                     // 初始化输入页码
                     $("#inputPage").val(Client.table.currentPage);
                     Client.table.currentPage = 1;
@@ -236,7 +252,7 @@
 
                         for (loop = 0; loop < length; loop++) {
                             item = data[loop];
-                            $data = "<tr><td><a style='text-decoration: underline;' target='_blank' href='detail.html?locus=" + item.locus + "'>" + item.locus + "</a></td><td>" + item.ec2 + "</td><td>" + item.title + " </td></tr>";
+                            $data = "<tr><td><a style='text-decoration: underline;' target='_blank' href='detail.html?locus=" + item.id + "'>" + item.locus + "</a></td><td>" + item.ec2 + "</td><td>" + item.title + " </td></tr>";
                             tbody.append($data);
                         }
                         Client.table.recordNumber = count;
@@ -273,8 +289,7 @@
              * @param type 跳页操作类型 1：上一页 2：跳页 3：下一页
              */
             skipPage: function(type) {
-                var type = Number(type),
-                    skipPage = Number(Client.table.currentPage),
+                var skipPage = Number(Client.table.currentPage),
                     validator = new Validator(),
                     inputPage = $("#inputPage");
 
@@ -293,7 +308,7 @@
                     inputPage.val(Client.table.currentPage);
                 }
             }
-        }
+        };
         $(document).ready(function() {
             Client.init();
         })

@@ -58,9 +58,8 @@ public class ExamineController {
             int startPos_int = Integer.valueOf(startPos);
             int numberPerPage_int = Integer.valueOf(numberPerPage);
             int startSize = (startPos_int - 1) * numberPerPage_int;
-            int endSize = (startPos_int) * numberPerPage_int ;
             condition.setStartSize(startSize);;
-            condition.setEndSize(endSize);
+            condition.setEndSize(numberPerPage_int);
             switch (type){
                 case "0":
                     break;
@@ -279,6 +278,7 @@ public class ExamineController {
             return result.toJSONString();
         }
     }
+
     @RequestMapping(value = "/marlboro_batch", method = RequestMethod.POST , produces="text/json;charset=UTF-8")
     public String marlboro(){
         JSONObject result;
@@ -292,6 +292,7 @@ public class ExamineController {
             return result.toJSONString();
         }
     }
+
     @RequestMapping(value = "/refusal_examine", method = RequestMethod.POST , produces="text/json;charset=UTF-8")
     public String refusalExamine(
             @RequestParam(Keys.ID) String id
@@ -307,6 +308,7 @@ public class ExamineController {
             return result.toJSONString();
         }
     }
+
     @RequestMapping(value = "/refusal_examine_batch", method = RequestMethod.POST , produces="text/json;charset=UTF-8")
     public String refusalExamineBatch(){
         JSONObject result;

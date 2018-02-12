@@ -4,6 +4,7 @@ package com.matio.pojo;
  * Created by matioyoshitoki on 2017/11/20.
  */
 public class MmeCondition {
+    private String id;
     private String startDate_op ;
     private String endDate_op ;
     private String startDate_md ;
@@ -16,6 +17,14 @@ public class MmeCondition {
     private byte[] operator ;
     private byte[] modifier ;
     private String ec1 ;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public void setEc1(String ec1) {
         this.ec1 = ec1;

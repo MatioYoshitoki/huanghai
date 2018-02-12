@@ -68,6 +68,12 @@
     from mme
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="selectByFront" parameterType="java.lang.String" resultType="com.matio.pojo.Mme">
+    ${list}
+  </select>
+  <select id="selectCountByFront" parameterType="java.lang.String" resultType="java.lang.Integer">
+    ${search}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from mme
     where id = #{id,jdbcType=INTEGER}
@@ -197,7 +203,6 @@
       isModified = #{isModified,jdbcType=CHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-
   <select id="selectByLocus" parameterType="java.lang.String" resultType="java.lang.String">
     SELECT
     locus
@@ -212,6 +217,9 @@
     <include refid="Blob_Column_List" />
     from mme
     where
+    <if test="id != null">
+      id = #{id} AND
+    </if>
     <if test="pdbId != null">
       pdbId = #{pdbId} AND
     </if>

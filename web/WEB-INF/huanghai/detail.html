@@ -23,6 +23,9 @@
                 <a href="browse.html">Browse</a>
             </li>
             <li class="nav-item">
+                <a href="search.html">Search</a>
+            </li>
+            <li class="nav-item">
                 <a href="about.html">About Us</a>
             </li>
         </ul>
@@ -243,8 +246,7 @@
     <script>
         $(document).ready(function() {
             var search = location.search,
-                locus = search.split("=")[1],
-                pdbId = locus.slice(0, 4);
+                id = search.split("=")[1];
 
             request();
             $(".tab-item").on("click", function() {
@@ -257,12 +259,9 @@
             function request() {
                 $.ajax({
                     type: "post",
-                    url: "/getData",
+                    url: "/getFrontData",
                     data: {
-                        type: "1",
-                        param: pdbId,
-                        startDate: "",
-                        endDate: "",
+                        id: id,
                         numberPerPage: 1,
                         startPos: 1
                     },

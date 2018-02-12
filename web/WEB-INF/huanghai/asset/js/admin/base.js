@@ -208,15 +208,7 @@ var Validator = function() {
         var length = name.length,
             loop = 0;
 
-        if(length > 5) {
-            return false;
-        }
-        for(loop = 0; loop < length; loop++) {
-            if(name.charCodeAt(loop) < 255) {
-                return false;
-            }
-        }
-        return true;
+        return length <= 20;
     };
     this.roleName = function(roleName) {
         var length = roleName.length,

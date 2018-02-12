@@ -2,6 +2,7 @@ package com.matio.mapping;
 
 import com.matio.pojo.Mme;
 import com.matio.pojo.MmeCondition;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -11,7 +12,11 @@ public interface MmeMapper {
 
     String selectEC1ByEC2(String ec2);
 
+    List<Mme> selectByFront(@Param("list") String list);
+
     List<Mme> selectByCondition(MmeCondition mmeCondition);
+
+    int selectCountByFront(@Param("search") String search);
 
     int selectCountByCondition(MmeCondition mmeCondition);
 
