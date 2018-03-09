@@ -36,7 +36,7 @@
             </div>
         </div>
     </div>
-    <div class="search body">
+    <div class="search body" style="min-height: 300px;">
         <div class="search-container">
             <h2>Advanced Search Builder</h2>
             <div class="search-box">
@@ -169,14 +169,27 @@
                 $("#searchBtn").on("click", function() {
                     var params = $(".search-param"),
                         inputs = $(".search-input"),
+                        item = null,
                         ops = $(".search-op"),
                         query = "",
                         length = 0,
                         loop = 0;
 
-                    query += params.get(0).value + " like '%" + inputs.get(0).value + "%'";
+                    item = inputs.get(0);
+                    if(item.value.toLowerCase() === "no") {
+                        item.value = "0";
+                    } else if(item.value.toLowerCase() === "yes") {
+                        item.value = "1";
+                    }
+                    query += params.get(0).value + " like '%" + item.value + "%'";
                     for(loop = 1, length = params.length; loop < length; loop++) {
-                        query += ops.get(loop).value + " " + params.get(loop).value + " like '%" + inputs.get(loop).value + "%' ";
+                        item = inputs.get(loop);
+                        if(item.value.toLowerCase() === "no") {
+                            item.value = "0";
+                        } else if(item.value.toLowerCase() === "yes") {
+                            item.value = "1";
+                        }
+                        query += ops.get(loop).value + " " + params.get(loop).value + " like '%" + item.value + "%' ";
                     }
                     Client.query = query;
                     Client.link();

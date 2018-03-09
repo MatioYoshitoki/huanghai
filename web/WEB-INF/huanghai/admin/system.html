@@ -898,11 +898,13 @@
                         indexLinkText: param.indexLinkText,
                         indexLinkUrl: param.indexLinkUrl,
                         indexTitle: param.indexTitle,
-                        browseTitle: param.browseTitle
+                        browseTitle: param.browseTitle,
+                        aboutUs: param.aboutUs
                     };
                     $("#indexBannerContent").html(param.indexBannerContent);
                     $("#indexContent").html(param.indexContent);
                     $("#browseContent").html(param.browseContent);
+                    $("#aboutUs").html(param.aboutUs);
                     this.pageConfig = pageConfig;
                 } else {
                     Dialog.warn(msg.msg);

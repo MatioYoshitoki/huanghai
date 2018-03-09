@@ -107,7 +107,10 @@
                                                 <button v-else disabled @click="openPanel('panelModify', item)" class="btn btn-default mg-l">
                                                     <i class="fa fa-edit"></i>修改
                                                 </button>
-                                                <button v-if="isRoot == true" @click="openPanel('panelDelete', item)" class="btn btn-default mg-l">
+                                                <button v-if="isRoot == true && item.isModified == 0" @click="openPanel('panelDelete', item)" class="btn btn-default mg-l">
+                                                    <i class="fa fa-remove"></i>删除
+                                                </button>
+                                                <button v-else disabled @click="openPanel('panelDelete', item)" class="btn btn-default mg-l">
                                                     <i class="fa fa-remove"></i>删除
                                                 </button>
                                             </td>

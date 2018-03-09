@@ -423,7 +423,7 @@ public class DataController {
         int startSize = (startPos_int - 1) * numberPerPage_int;
         mmeCondition.setStartSize(startSize);
         mmeCondition.setEndSize(numberPerPage_int);
-        mmeCondition.setEc2(prefix.toLowerCase());
+        mmeCondition.setEc2(prefix);
         mmeCondition.setEc1(ec1);
         List<View_front> view_fronts = view_frontMapper.selectByFuzzyEC2(mmeCondition);
         int count = view_frontMapper.selectCountByFuzzyEC2(mmeCondition);

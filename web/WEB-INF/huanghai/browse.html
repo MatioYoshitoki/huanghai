@@ -88,8 +88,8 @@
                     <table class="catalog-table table table-bordered">
                         <thead>
                         <tr>
-                            <th style="min-width: 140px;">LOCUS</th>
-                            <th style="min-width: 200px;">EC2</th>
+                            <th style="min-width: 180px;">LOCUS</th>
+                            <th style="min-width: 160px;">EC2</th>
                             <th style="min-width: 365px;">TITLE</th>
                         </tr>
                         </thead>
@@ -238,8 +238,8 @@
                     type: "post",
                     url: "/getFrontList",
                     data: {
-                        ec1: Client.ec1.toLowerCase(),
-                        prefix: Client.prefix,
+                        ec1: Client.ec1,
+                        prefix: Client.prefix.toLowerCase(),
                         startPos: Client.table.currentPage,
                         numberPerPage: Client.table.numberPerPage
                     },
