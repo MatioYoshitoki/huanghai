@@ -412,23 +412,16 @@
                                                     <label class="col-sm-3 control-label">执行频度：</label>
                                                     <div class="col-sm-9">
                                                         <select id="spiderFrequence" class="form-control selectpicker">
-                                                            <option value="1">每年</option>
-                                                            <option value="2">每月</option>
-                                                            <option value="3" selected>每周</option>
+                                                            <option value="1">每月</option>
+                                                            <option value="2" selected>每周</option>
                                                         </select>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <label class="col-sm-3 control-label">执行日期：</label>
                                                     <div class="col-sm-9">
-                                                        <select id="spiderDate" class="form-control selectpicker">
-                                                            <option value="2">周一</option>
-                                                            <option value="3">周二</option>
-                                                            <option value="4">周三</option>
-                                                            <option value="5">周四</option>
-                                                            <option value="6">周五</option>
-                                                            <option value="7">周六</option>
-                                                            <option value="1">周日</option>
+                                                        <select id="spiderDate" class="form-control">
+                                                            <option v-for="item in spiderConfig.spiderDate" v-text="item.name" :value="item.value"></option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -522,6 +515,15 @@
 <script src="../asset/components/admin.js"></script>
 <script src="../asset/js/admin/base.js"></script>
 <script>
+    var sDate = [
+        { name: '周一', value: 1 },
+        { name: '周二', value: 2 },
+        { name: '周三', value: 3 },
+        { name: '周四', value: 4 },
+        { name: '周五', value: 5 },
+        { name: '周六', value: 6 },
+        { name: '周日', value: 0 }
+    ];
     var Client = new Vue({
         el: "#client",
         data: {
@@ -558,7 +560,8 @@
             spiderConfig: {
                 isStart: false,
                 time: "",
-                recordList: []
+                recordList: [],
+                spiderDate: sDate
             },
             // 删除面板内容
             del: {}
@@ -581,6 +584,20 @@
                     $("#indexContent").trumbowyg();
                     $("#browseContent").trumbowyg();
                     $("#aboutUs").trumbowyg();
+                    $("#spiderFrequence").on("change", function() {
+                        if(Number($(this).val()) === 1) {
+                            var loop = 0, length = 28, dates = [];
+                            for(loop = 0; loop < length; loop++) {
+                                dates.push({
+                                    name: (loop + 1) + " 号",
+                                    value: loop + 1
+                                });
+                            }
+                            Client.spiderConfig.spiderDate = dates;
+                        } else {
+                            Client.spiderConfig.spiderDate = sDate;
+                        }
+                    });
                 });
             })
         },
@@ -815,7 +832,7 @@
              */
             calTiming: function () {
                 var frequence = Number($("#spiderFrequence").selectpicker("val")),
-                    date = $("#spiderDate").selectpicker("val"),
+                    date = $("#spiderDate").val(),
                     time = $("#spiderTime").val(),
                     timeSplit = time.split(":"),
                     hour = Number(timeSplit[0]),
@@ -832,15 +849,11 @@
                 }
                 switch (frequence) {
                     case 1: {
-                        timing = "0 " + minute + " " + hour + " ? ? " + date + " *";
+                        timing = minute + " " + hour + " " + date + " * *";
                         break;
                     }
                     case 2: {
-                        timing = "0 " + minute + " " + hour + " ? 1/1 1#" + date;
-                        break;
-                    }
-                    case 3: {
-                        timing = "0 " + minute + " " + hour + " ? ? " + date;
+                        timing = minute + " " + hour + " * * " + date;
                         break;
                     }
                 }
@@ -850,29 +863,30 @@
              * 将 cron 形式转换为中文形式
              * @param time cron 形式的时间
              */
-            reserveCron: function(time) {
+            reverseCron: function(time) {
                 var times = time.split(" "),
-                    length = times.length,
                     dateStr = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'],
                     frequence = "",
                     date = "",
                     hour = "",
                     minute = "";
 
-                // 如果长度等于 6 说明是以每周作为启动周期
-                if(length === 6) {
-                    frequence = "每周";
+                if(times[2] !== "*") {
+                    // 说明是每月
+                    frequence = "每月 ";
+                    date = times[2] + " 号";
                 } else {
-                    // 以每年作为启动周期
-                    if(times[4] === "?") {
-                        frequence = "每年";
-                    } else {
-                        frequence = "每月";
-                    }
+                    frequence = "每周 ";
+                    date = dateStr[times[4]];
                 }
-                date = dateStr[times[5]];
-                hour = times[2];
-                minute = times[1];
+                hour = times[1];
+                minute = times[0];
+                if(hour < 10) {
+                    hour = "0" + hour;
+                }
+                if(minute < 10) {
+                    minute = "0" + minute;
+                }
                 return frequence + date + " " + hour + ":" + minute;
             },
             /**
@@ -1157,7 +1171,7 @@
                     };
                     chart.setOption(option);
                     this.spiderConfig.isStart = Number(msg.status);
-                    this.spiderConfig.time = this.reserveCron(msg.time);
+                    this.spiderConfig.time = this.reverseCron(msg.time);
                 } else {
                     Dialog.warn(msg.msg);
                 }
